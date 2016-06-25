@@ -1,0 +1,12 @@
+.post {
+  h2, h3, h4, h5, h6 {
+    font-variant: small-caps;
+    text-transform: lowercase;
+  }
+
+  hr {
+    border: none;
+    border-top: solid gray 1px;
+    margin: 20px auto;
+  }
+}
