@@ -1,0 +1,46 @@
+$shadow-box-dark-color: #dfdfdf;
+$shadow-box-light-color: lighten($shadow-box-dark-color, 5%);
+
+.aside {
+  background-color: $shadow-box-dark-color;
+  cursor: pointer;
+}
+
+.figure {
+  background-color: $shadow-box-light-color;
+}
+
+.aside, .figure {
+  display: block;
+  margin-bottom: 20px;
+  padding: 20px;
+  box-shadow: 0px 1px 1px #000;
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.aside-header, .aside-checkbox:before {
+  display: inline;
+  font-variant: small-caps;
+  font-weight: 700;
+  text-transform: lowercase;
+  text-shadow: 0px 1px 1px #fff;
+}
+
+.aside-checkbox {
+  & + .aside-contents {
+    display: none;
+  }
+
+  &:checked + .aside-contents {
+    display: block;
+  }
+}
+
+@media print {
+  .aside-checkbox {
+    display: none;
+  }
+}
