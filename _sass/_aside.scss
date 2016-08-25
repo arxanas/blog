@@ -3,7 +3,6 @@ $shadow-box-light-color: lighten($shadow-box-dark-color, 5%);
 
 .aside {
   background-color: $shadow-box-dark-color;
-  cursor: pointer;
 }
 
 .figure {
@@ -21,26 +20,29 @@ $shadow-box-light-color: lighten($shadow-box-dark-color, 5%);
   }
 }
 
-.aside-header, .aside-checkbox:before {
+.aside-header {
   display: inline;
-  font-variant: small-caps;
   font-weight: 700;
-  text-transform: lowercase;
   text-shadow: 0px 1px 1px #fff;
+
+  &:before {
+    content: 'aside: ';
+    font-variant: small-caps;
+    text-transform: lowercase;
+  }
+
+  a:after {
+    top: -5px;
+    content: '\25BC';
+    font-size: 10px;
+    margin-left: 5px;
+  }
 }
 
-.aside-checkbox {
-  & + .aside-contents {
-    display: none;
-  }
-
-  &:checked + .aside-contents {
-    display: block;
-  }
+.aside-contents {
+  display: none;
 }
 
-@media print {
-  .aside-checkbox {
-    display: none;
-  }
+.aside:target .aside-contents {
+  display: block;
 }

@@ -15,19 +15,17 @@ module Jekyll
       def render(context)
         contents = hacky_render(context, super)
 
+        # http://stackoverflow.com/a/4308399/344643
+        slug = @title.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
+        slug = xml_escape(slug)
+        slug = slug[0...25]
+
         title = xml_escape(@title)
+
         html = <<-HTML
-        <aside>
-          <label>
-            <div class="aside">
-              <header class="aside-header">#{title}</header>
-              <input
-                  class="aside-checkbox"
-                  type="checkbox"
-              >
-              <div class="aside-contents">#{contents}</div>
-            </div>
-          </label>
+        <aside class="aside" id="#{slug}">
+          <header class="aside-header"><a href="##{slug}">#{title}</a></header>
+          <div class="aside-contents">#{contents}</div>
         </aside>
         HTML
         html.strip
