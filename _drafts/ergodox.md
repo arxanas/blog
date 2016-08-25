@@ -92,15 +92,17 @@ TODO: link to the Wikipedia page on stenotype machines.
 
 {% aside How do the phonetics work? %}
 
-For example, the word "consideration" can be typed in one stroke: "KRAEUGS" on
-the keyboard below. The "k" and "r" are pronounced normally. The "aeu"
-corresponds to the long "a" sound in English (the a in "consider-a-tion"). The
-"GS" is the "shun" sound that is at the end of many English words. So the
-overall stroke is kind of like typing a word pronounced "crayshun".
+For example, the word "stretches" can be typed in one stroke: `STREFPS` on the
+keyboard below. Most of the letters are pronounced normally, but some
+combinations will produce different sounds. For example, the 'n' sound is formed
+with `TPH`. In "stretches", the `FP` combination forms the 'ch' sound.
 
-{% image kraeugs.png
-         "The steno keyboard layout, typing the word \"consideration\"."
-         "The steno keyboard layout, typing the word \"consideration\". Adapted from
+Roughly, the letters are pronounced from left to right. The S on the left spans
+two keys; one can press either of them.
+
+{% image stretches.gif
+         "The steno keyboard layout, typing the word \"stretches\"."
+         "The steno keyboard layout, typing the word \"stretches\". Adapted from
           [qwertysteno.com](http://qwertysteno.com/Basics/Introduction.php)" %}
 
 Essentially this is an elaborate macro system that uses chording and a
