@@ -259,6 +259,27 @@ that doubles as a regular keyboard.
          "The Ergodox EZ keyboard. Notice the thumb clusters."
          "The Ergodox&nbsp;EZ keyboard [on somebody else's desk](https://twitter.com/ergodoxez/status/681630158512500736). Notice the thumb clusters." %}
 
+### Before you buy
+
+If you're going to buy an {{ ergodox-ez }}, here's a couple of things that I
+discovered only after joining the Plover chat room:
+
+  * The blank keycap and non-blank keycap versions are actually shaped
+    differently! The blank version is more arched, which could potentially
+    cause problems trying to hit adjacent keys at once, although I haven't tried it.
+
+  * The keyswitches control how much force you need to use to press a key.
+    Steno machines typically require on the order of 15g to actuate. I got the
+    Gateron Brown switches, which are recommended as general-purpose switches,
+    but they have a 55g actuation force. (Stenography is anything but
+    general-purpose.)
+
+    The lightest switches available for the {{ ergodox-ez }} are the Gateron
+    Whites, at 35g. If you intend to steno a lot on the {{ ergodox-ez }} (that
+    is, you don't intend to get a student or professional steno machine after
+    using the {{ ergodox-ez }} as a learning device), then you probably ought
+    to get those instead.
+
 ## Firmware features
 
 Besides the silly-looking keyboard structure, the {{ ergodox-ez }}'s other
