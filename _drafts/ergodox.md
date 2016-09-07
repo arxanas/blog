@@ -310,8 +310,9 @@ multiple active layers, each providing a different set of keys.
 Below is the default layout:
 
 {% image ergodox-keymap.png
-         "The default Ergodox EZ layout. TODO: Maybe
-attribute with link. If so, add an explicit alt text.
+         "The default Ergodox EZ layout.
+          Notice that one can press a key to activate layers."
+         "The [default Ergodox EZ layout](https://ergodox-ez.com/pages/our-firmware).
           Notice that one can press a key to activate layers." %}
 
 ## Installing the firmware
@@ -346,11 +347,13 @@ reset button. (I used several mechanical pencil leads and much patience.)
 
 {% aside How to rapidly hack on the firmware, without fiddling with the reset button %}
 
-Pressing the physical reset button every time is a pain. One can bind a key on
-the {{ ergodox-ez }} itself to enter reset mode (a so-called "Teensy key"),
-(TODO: link to the article that coined the term "teensy key"?) rather than
-manually fiddle with the reset button. Use the TODO: what key? I have this bound
-on a non-topmost-layer so that I don't accidentally hit it.
+Pressing the physical reset button every time is a pain. One can [bind a key on
+the {{ ergodox-ez }} itself to enter reset mode (a so-called "Teensy
+key")][teensy-key], rather than manually fiddle with the reset button. Use the
+`RESET` keycode. I have mine bound on a non-topmost-layer so that I don't
+accidentally hit it.
+
+  [teensy-key]: https://github.com/jackhumbert/qmk_firmware/issues/112
 
 If you make changes to the firmware and recompile it, Teensy will respect the
 `.hex` file changing on disk, and would flash the new version of the firmware if
@@ -433,7 +436,7 @@ that the Plover layout has a few problems. You can read on to see how I fixed
 it, or just build off of [my firmware][arxanas-plover]. (It is likely not a good
 idea to use it exactly as it is, since the default layer is set to Dvorak.)
 
-  [arxanas-plover]: TODO. This should link directly to the directory!
+  [arxanas-plover]: https://github.com/arxanas/qmk_firmware/tree/fixed-plover/keyboards/ergodox_ez/keymaps/plover-arxanas
 
 While I was writing this, somebody else came out with [firmware that pretends to
 be a steno machine][serial-firmware] instead of using macros to toggle Plover.
@@ -626,9 +629,7 @@ switch (layer) {
 }
 ```
 
-And it works!
-
-TODO: Insert picture of blue LED
+And it worked!
 
 ### Adding a toggle key
 
@@ -661,9 +662,7 @@ layers, I find the keymap for Plover mode:
 ```
 
 The `KC_NO` key in the first column seems to line up with where the Plover
-toggle key is ordinarily, so I change it to `TG(3)` and it works!
-
-TODO: Video?
+toggle key is ordinarily, so I change it to `TG(3)` and it worked!
 
 {% aside The original author was closer to the mark than I initially realized %}
 
@@ -701,13 +700,14 @@ software itself needs to know whether you are typing normally or
 stenographically, to decide whether it should be translating your keystrokes or
 not.
 
-The most straightforward way to go about this is to define a Plover stroke that
-enables and disables Plover. Before getting the {{ ergodox-ez }}, I would switch
-in and out by typing the strokes PHROPB and PHROF (phonetically translating to
-Pl-On and Pl-Off, short for Plover-On and Plover-Off). But this is annoying to
-do manually and sometimes I get confused about which mode I'm in.
+The most straightforward way to go about this is to [define a Plover stroke
+that enables and disables Plover][plon-plof]. Before getting the {{ ergodox-ez
+}}, I would switch in and out by typing the strokes PHROPB and PHROF
+(phonetically translating to Pl-On and Pl-Off, short for Plover-On and
+Plover-Off). But this is annoying to do manually and sometimes I get confused
+about which mode I'm in.
 
-TODO: Link to the article explaining this command.
+  [plon-plof]: https://sites.google.com/site/ploverdoc/appendix-the-dictionary-format#TOC-Resume
 
 Since the firmware supports macros, it would be nice if it could also send these
 keystrokes for me when toggling in and out of Plover mode. After some spelunking
@@ -810,8 +810,6 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
     return MACRO_NONE;
 };
 ```
-
-TODO: Video?
 
 ## "So after all that, how is steno going?"
 
