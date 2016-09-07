@@ -363,8 +363,8 @@ it using the button in the upper-left corner.
          "You can drag the file onto the Teensy loader on OS X." %}
 
 Now, to flash the keyboard, you must put it into *reset mode*. You can do this
-by putting a very thin rod down the hole in the back of the keyboard to tap the
-reset button. (I used several mechanical pencil leads and much patience.)
+by putting a very thin rod down the hole on the front of the keyboard to tap
+the reset button. (I used several mechanical pencil leads and much patience.)
 
 {% aside How to rapidly hack on the firmware, without fiddling with the reset button %}
 
@@ -397,8 +397,7 @@ tell when it has restarted.
 {% image teensy-program.png
          "Click the outlined button to program the keyboard."
          "Click the outlined button to program it. Ignore the picture of the
-          button on a circuit board: you will not easily find it in hardware or
-          software for the Ergodox&nbsp;EZ, so do not spend time looking for it.
+          button on a circuit board: it does not have any software function."
           
 Ha-ha, who would spend time trying to click a picture of a button, and get
           confused when it didn't work? Not me, that's for sure." %}
