@@ -85,10 +85,10 @@ the dust fairly quickly. How do court reporters do it?
 
 Their stenography system is designed so that they press multiple keys at once to
 stroke an entire syllable or word. They have special keyboards (called
-"stenotype machines") that are designed to accommodate English phonetic
-patterns.
+["stenotype machines"][stenotype]) that are designed to accommodate English
+phonetic patterns.
 
-TODO: link to the Wikipedia page on stenotype machines.
+  [stenotype]: https://en.wikipedia.org/wiki/Stenotype
 
 {% aside How do the phonetics work? %}
 
@@ -98,14 +98,26 @@ combinations will produce different sounds. For example, the 'n' sound is formed
 with `TPH`. In "stretches", the `FP` combination forms the 'ch' sound.
 
 Roughly, the letters are pronounced from left to right. The S on the left spans
-two keys; one can press either of them.
+two keys; either works.
 
 {% image stretches.gif
          "The steno keyboard layout, typing the word \"stretches\"."
          "The steno keyboard layout, typing the word \"stretches\". Adapted from
           [qwertysteno.com](http://qwertysteno.com/Basics/Introduction.php)" %}
 
-Essentially this is an elaborate macro system that uses chording and a
+Sometimes, the operator has to type two keys with one finger. The word
+"different" can be stroked as `TKEUFRPBT`, which involves four sets of keys that
+need two fingers to strike: `TK`, `EU`, `FR`, and `PB`.
+
+The phonetic translations are as follows:
+
+  * `TK` is the 'd' sound.
+  * `EU` is the short 'i' sound.
+  * `F` and `R` are just 'f' and 'r'.
+  * `PB` is the 'n' sound.
+  * `T` is just the 't' sound.
+
+Essentially, this is an elaborate macro system that uses chording and a
 mnemonically laid-out keyboard.
 
 {% endaside %}
@@ -114,12 +126,11 @@ Not only are they faster than conventional typists, but they type on the order
 of five times fewer keystrokes as well, reducing muscle strain dramatically. The
 downsides are that one requires specialized hardware (ameliorated by Plover, as
 I discuss below) and must invest the time to learn this system. Mirabai Knight,
-founder of the Open Steno Project, has [a comprehensive list of
+founder of the [Open Steno Project], has [a comprehensive list of
 reasons][plover-reasons] why you might want to use Plover.
 
+  [Open Steno Project]: http://www.openstenoproject.org/
   [plover-reasons]: http://plover.stenoknight.com/2010/03/how-to-speak-with-your-fingers.html
-
-TODO: link to the Open Steno Project
 
 ## What does Plover do?
 
