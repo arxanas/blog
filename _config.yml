@@ -9,7 +9,7 @@
 title: Occasionally I write code and ramble about it
 real_name: Waleed Khan
 email: me@waleedkhan.name
-baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "/blog" # the subpath of your site, e.g. /blog
 url: "http://waleedkhan.name" # the base hostname & protocol for your site
 github_username: arxanas
 
