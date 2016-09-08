@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Stenography adventures with Plover and the Ergodox EZ, part 2"
+permalink: steno-adventures-part-2
 tags:
   - C
   - steno
@@ -14,7 +15,7 @@ tags:
 This is part 2 of my exploits with Plover and the {{ ergodox-ez }}. [Click here
 for part 1][part-1].
 
-  [part-1]: {% post_url 2016-09-06-adventures-in-stenography-part-1 %}
+  [part-1]: {% permalink steno-adventures-part-1 %}
 
 ## Firmware features
 

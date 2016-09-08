@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Stenography adventures with Plover and the Ergodox EZ, part 1"
+permalink: steno-adventures-part-1
 tags:
   - C
   - steno
@@ -31,7 +32,7 @@ motivations, the stenography system, and the {{ ergodox-ez }} itself. [Part
 2][part-2] details the process of installing and modifying the firmware to be
 useful for stenography.
 
-  [part-2]: {% post_url 2016-09-06-adventures-in-stenography-part-2 %}
+  [part-2]: {% permalink steno-adventures-part-2 %}
 
 ## Ergonomics is important
 
