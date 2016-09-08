@@ -6,6 +6,10 @@ readonly SOURCE='_site/'
 
 readonly DEST='waleedkhan.name:home/blog'
 
+# For Google Analytics.
+# https://michaelsoolee.com/google-analytics-jekyll/
+export JEKYLL_ENV='production'
+
 main() {
     # In case I want a friend to preview one of my drafts, I can just build the
     # website with the drafts and have them look at it. Since realistically, no
