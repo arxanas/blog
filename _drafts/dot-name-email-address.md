@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Is having a '.name' email address a good idea?"
-permalink: dot-name-email-address
+permalink: dot-name-email-address/
 tags:
   - tooling
 ---
