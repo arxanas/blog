@@ -3,7 +3,7 @@ module Jekyll
     class PermalinkTag < Liquid::Tag
       def initialize(tag_name, markup, tokens)
         super
-        @post_permalink = markup.strip
+        @post_permalink = "#{markup.strip}/"
       end
 
       def render(context)

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Stenography adventures with Plover and the Ergodox EZ, part 2"
-permalink: steno-adventures-part-2
+permalink: steno-adventures-part-2/
 tags:
   - C
   - steno
