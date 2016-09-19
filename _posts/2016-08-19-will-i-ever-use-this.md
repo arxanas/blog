@@ -49,7 +49,7 @@ compilers course, so I recall that the algorithm was used in the HotSpot JVM
 with good performance. This surprises me, as no one mentioned that we ran our
 front-end Javascript on the JVM.
 
-[linear-scan]: [http://web.cs.ucla.edu/~palsberg/course/cs132/linearscan.pdf]
+[linear-scan]: http://web.cs.ucla.edu/~palsberg/course/cs132/linearscan.pdf
 
 I look up his internal employee profile to confirm that he is, in fact, a
 front-end engineer. Is he working on something for one of the compiler teams? I
