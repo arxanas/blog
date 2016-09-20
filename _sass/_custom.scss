@@ -10,3 +10,15 @@
     text-align: center;
   }
 }
+
+.hacker-news:before {
+  background-color: #FF6600;
+  color: white;
+  content: 'Y';
+  display: inline-block;
+  font-size: $base-font-size;
+  height: $base-line-height * $base-font-size;
+  margin-right: 5px;
+  text-align: center;
+  width: $base-line-height * $base-font-size;
+}

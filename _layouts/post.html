@@ -14,4 +14,8 @@ layout: default
 
 </article>
 
+{% if page.hn %}
+<span class="hacker-news"><a href="{{ page.hn }} ">Discussion on Hacker News</a></span>
+{% endif %}
+
 {% include comments.html %}
