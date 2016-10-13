@@ -44,7 +44,7 @@ to actually analyze all of my instant messages.
 
 Facebook has an option to let you [download all of your Facebook data][download
 facebook data]. (Note: it takes a while to prepare the archive, so if you plan
-to download your data, start the process before you intend to get started.)
+to download your data, start the process beforehand.)
 
   [download facebook data]: https://www.facebook.com/help/212802592074644?helpref=faq_content
 
@@ -56,8 +56,8 @@ out of Firefox when trying to open it.
          "All my personal data, held hostage by the tyranny of web standards." %}
 
 Somebody has already written [a script to extract the message data][facebook
-data parser], so I just ran the script and got an 80 MB JSON file containing all
-of my messages. Below is an excerpt from the beginning of the JSON file:
+data parser], so I just ran the script and got an 80 MB JSON file containing
+all of my messages. Below is an excerpt from the beginning of the JSON file:
 
   [facebook data parser]: https://github.com/CopOnTheRun/FB-Message-Parser
 
@@ -150,7 +150,7 @@ average = sum(ngrams.values()) / len(ngrams)
 print("Average: {}\n".format(average))
 most_frequent_ngrams = sorted(ngrams.items(), key=lambda x: x[1], reverse=True)
 for ngram, count in most_frequent_ngrams:
-    if count >= average:
+    if count >= 5:
         print("{}: {}".format(count, " ".join(ngram)))
 ```
 
@@ -165,9 +165,9 @@ Here are the top few results for n = 3. I've also annotated which of these were
 already in my dictionary.
 
 Note that the entries with "<3" and "tsk" were part of very large copy-pasted
-messages. (That is, there was one very large message with many "<3"s that skews
-the counts.) They also appear as top 10-grams, but they're not really
-representative of my messages.
+messages. (That is, there was one very large message with many "<3"s or "tsks"
+that skewed the counts.) They also appear as top 10-grams, but they're not
+really representative of my messages.
 
 ```txt
 Average: 1.3638674842177816
@@ -203,9 +203,10 @@ Average: 1.3638674842177816
 160: I'm pretty sure
 ```
 
-Some of these already appear in the dictionary in a lesser form. For example, "I
-have", "have to", "love you", "you want", and "I want". By being 2-grams, they
-can be a little bit more flexible than if they were part of a 3-gram.
+Some of these already appear in the dictionary in a lesser form. For example,
+"I have", "have to", "love you", "you want", and "I want". By being 2-grams,
+they can be a little bit more flexible than if they were part of a 3-gram. Then
+I can also say that "I want food" in addition to "I want to get food".
 
 I had long suspected that "to go to" and variations were part of my most
 frequently used phrases. It turns out that "going to" already has entries in
