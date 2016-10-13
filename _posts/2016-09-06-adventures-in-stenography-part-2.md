@@ -3,7 +3,7 @@ layout: post
 title: "Stenography adventures with Plover and the Ergodox EZ, part 2"
 permalink: steno-adventures-part-2/
 tags:
-  - C
+  - c
   - steno
 ---
 
@@ -135,7 +135,7 @@ tell when it has restarted.
          "Click the outlined button to program the keyboard."
          "Click the outlined button to program it. Ignore the picture of the
           button on a circuit board: it does not have any software function.
-          
+
 Ha-ha, who would spend time trying to click a picture of a button, and get
           confused when it didn't work? Not me, that's for sure." %}
 
@@ -229,7 +229,7 @@ WARNING:
  git submodule update --init --recursive
 
  You can ignore this warning if you are not compiling any ChibiOS keyboards,
- or if you have modified the ChibiOS libraries yourself. 
+ or if you have modified the ChibiOS libraries yourself.
 
 Compiling: ./keyboards/ergodox_ez/twimaster.c                                                      Compiling: keyboards/ergodox_ez/ergodox_ez.c                                                       Compiling: ./keyboards/ergodox_ez/matrix.c                                                         Compiling: keyboards/ergodox_ez/keymaps/plover/keymap.c                                            Compiling: quantum/quantum.c                                                                        [OK]
 Compiling: quantum/keymap_common.c                                                                  [OK]
@@ -510,7 +510,7 @@ shortcut). I just add these entries to my keymap:
 // right hand
          KC_TRNS,  KC_NO,  KC_NO,
 /* -> */ M_PLOF,   KC_6,   KC_7,
-                   KC_Y,   KC_U 
+                   KC_Y,   KC_U
 ```
 
 Finally, I have to write the actual code that handles the macro. I add the
@@ -531,7 +531,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
             // Send the PHROPB stroke to enable Plover.
             // (Note that you must have this command in your dictionary for it
             // to actually do anything.)
-            // 
+            //
             // 'D' means 'down' and 'U' means up, referring to pressing and
             // releasing keystrokes.
             //

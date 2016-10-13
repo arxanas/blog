@@ -3,8 +3,8 @@ layout: post
 title: Integrating Qt Designer with PyQt
 permalink: pyqt-designer/
 tags:
-  - Python
-  - Qt
+  - python
+  - qt
 ---
 
 * toc
