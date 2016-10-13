@@ -10,7 +10,7 @@ tags:
 * toc
 {:toc}
 
-# Introduction
+## Introduction
 
 There are several options to develop GUI apps in Python. One of these is with
 the [Qt cross-platform framework][qt], and the [PyQt bindings]. One can find a
@@ -68,7 +68,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 {% endaside %}
 
-# About .ui files
+## About .ui files
 
 Qt Designer uses `.ui` files to represent the GUI. These files are just XML
 files with information about the window layout. We'd like to be able to somehow
@@ -130,7 +130,7 @@ $ tree
 2 directories, 5 files
 ```
 
-# Setting up pyqt-distutils
+## Setting up pyqt-distutils
 
 First, install the package:
 
@@ -225,7 +225,7 @@ $ tree
 As you can see, it generated the `mainwindow_ui.py` file. Since this is
 generated code, you may want to add it to your `.gitignore` or similar.
 
-# Launching the app
+## Launching the app
 
 Once the `.ui `files are built, you need to import the created classes into your
 own code to use them. Put this content into `myapp/__main__.py`:
@@ -268,7 +268,7 @@ $ python -m myapp
 {% image working-qt-app.png
          "The working, wholly featureless Qt app." %}
 
-# Using Qt Designer
+## Using Qt Designer
 
 Once all this is set up, we just need to use Qt Designer to modify the `.ui`
 file for us, so that we can rebuild it and have it appear in our app.
