@@ -238,7 +238,10 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 from .gui.mainwindow_ui import Ui_MainWindow
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-    pass
+    def __init__(self):
+        super(MainWindow, self).__init__()
+        self.setupUi(self)
+
 
 def main():
     app = QApplication(sys.argv)
