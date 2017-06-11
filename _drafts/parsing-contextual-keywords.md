@@ -9,6 +9,8 @@ tags:
 * toc
 {:toc}
 
+*Thanks to Lucian Wischik for reviewing this article.*
+
 ## What's the problem with contextual keywords?
 
 Ordinarily in a programming language, a keyword isn't usable as an identifier.
@@ -143,7 +145,7 @@ another language where the identifier in question is not a keyword. Depending
 on your needs, this may be sufficient, and will obviate reworking the grammar
 of your language.
 
-### Parsing `async` syntactically with arbitrary lookahead
+### Parsing `async` syntactically using arbitrary lookahead
 
 C# and [Flow], probably among others, use a purely-syntactic approach to
 disambiguate the `async` token from an identifier named "async". The idea is to
