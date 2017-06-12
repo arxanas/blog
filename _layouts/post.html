@@ -9,6 +9,13 @@ layout: default
   </header>
 
   <div class="post-content" itemprop="articleBody">
+    {% if page.use_mathjax %}
+      <noscript>
+        <p><i>This article requires Javascript for MathJax typesetting. Please
+          enable Javascript in your browser to read this article. Sorry for the
+          inconvenience!</i></p>
+      </noscript>
+    {% endif %}
     {{ content }}
   </div>
 
@@ -16,6 +23,10 @@ layout: default
 
 {% if page.hn %}
 <span class="hacker-news"><a href="{{ page.hn }} ">Discussion on Hacker News</a></span>
+{% endif %}
+
+{% if page.use_mathjax %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 {% endif %}
 
 {% include comments.html %}

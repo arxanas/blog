@@ -12,6 +12,9 @@ main() {
     for i in $assets; do
         local asset_name
         asset_name=$(basename "$i")
+        if [[ "$asset_name" == 'mathjax.js' ]]; then
+          continue
+        fi
         if ! grep -Rq "$asset_name" "$DRAFTS_DIR" && \
            ! grep -Rq "$asset_name" "$POSTS_DIR"; then
             echo "unused asset: $i"
