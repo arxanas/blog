@@ -280,7 +280,7 @@ found. Then there may be some ambiguity in a case like this:
 const key: string = getKey();
 const map: Map<string, null | int> = getMap();
 
-// Returns `null | null | string`, which is the same as `null | string`.
+// Returns `null | null | int`, which is the same as `null | int`.
 const value: null | int = map.get(key);
 
 if (value === null) {
