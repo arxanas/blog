@@ -143,15 +143,15 @@ Ha-ha, who would spend time trying to click a picture of a button, and get
 
   [configurator]: https://keyboard-configurator.massdrop.com/ext/ergodox
 
-As it turns out, the QMK firmware is already bundled [with a Plover
-layout][plover-layout]! The vowel keys for Plover are ordinarily struck with the
-thumbs; this keymap assigns the vowel keys to the thumb clusters and moves the
-rest of the keys closer. Below is the ASCII art comment included in the layout
-code. You'll notice that the rows of the Qwerty keyboard are shifted down one
-position, and most of the bottom row is missing, only including the four keys in
-the thumb clusters.
+As it turns out, the QMK firmware is already bundled [with a Plover layout
+(permalink)][plover-layout]! The vowel keys for Plover are ordinarily struck
+with the thumbs; this keymap assigns the vowel keys to the thumb clusters and
+moves the rest of the keys closer. Below is the ASCII art comment included in
+the layout code. You'll notice that the rows of the Qwerty keyboard are shifted
+down one position, and most of the bottom row is missing, only including the
+four keys in the thumb clusters.
 
-  [plover-layout]: https://github.com/jackhumbert/qmk_firmware/blob/master/keyboards/ergodox_ez/keymaps/plover/keymap.c
+  [plover-layout]: https://github.com/qmk/qmk_firmware/blob/86656690f12e98f7aa6c2faddbcef3b9bcdad35b/keyboards/ergodox/keymaps/plover/keymap.c
 
 ```
 ,--------------------------------------------------.           ,--------------------------------------------------.
@@ -196,12 +196,11 @@ idea to use it exactly as it is, since the default layer is set to Dvorak.)
   [arxanas-plover]: https://github.com/arxanas/qmk_firmware/tree/fixed-plover/keyboards/ergodox_ez/keymaps/plover-arxanas
 
 While I was writing this, somebody else came out with [firmware that pretends to
-be a steno machine][serial-firmware] instead of using macros to toggle Plover.
-This is probably superior to my firmware, because then the keyboard and Plover's
-status can never get out of sync. I can't vouch for it personally, but you
-should consider trying it out.
+be a steno machine (permalink)][serial-firmware] instead of using macros to
+toggle Plover.  This is superior to the firmware I outline below, because then
+the state of the keyboard and Plover can never get out of sync.
 
-  [serial-firmware]: https://groups.google.com/forum/#!topic/ploversteno/4RCOL_HhKw0
+  [serial-firmware]: https://github.com/qmk/qmk_firmware/tree/a4ff8b91f74df9fb1d87f52c0ded23935344d2eb/keyboards/ergodox_ez/keymaps/steno
 
 For either of these, you will probably want to modify the keymaps to your liking
 for the non-Plover parts.
