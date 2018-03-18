@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Trailing slash means to rename this folder, not move it into 'blog/'.
-readonly SOURCE='_site/'  
+readonly SOURCE='_site/'
 
 readonly DEST='waleedkhan.name:home/blog'
 
@@ -22,10 +22,10 @@ main() {
     local mode="$1"
     case "$mode" in
         'drafts')
-            jekyll build --drafts
+            bundle exec jekyll build --drafts
             ;;
         'posts')
-            jekyll build
+            bundle exec jekyll build
             ;;
         *)
             echo "Invalid mode $mode"
