@@ -17,3 +17,10 @@ permalink: none
 
 # Build settings
 markdown: kramdown
+
+plugins:
+  - jekyll-katex
+
+katex:
+  rendering_options:
+    throw_error: true                       # throwOnError - set to false if you want rendering to output error as text rather than a build error
