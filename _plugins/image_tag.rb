@@ -17,6 +17,9 @@ module Jekyll
     def render(context)
       asset_url = super
 
+      if @alt_text.nil?
+        raise "No alt text for image #{asset_url}"
+      end
       title_text = @alt_text.gsub(/[ \t\n]+/, ' ')
       title_text = xml_escape(title_text)
 
