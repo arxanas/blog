@@ -200,7 +200,8 @@ A + B = \left(\left\{l_A\right\} \times A\right)
 where {% katex %}\times{% endkatex %} denotes [Cartesian product].
 
 This overall operation is called [disjoint union]. Basically, it can be
-summarized as "a union, but each element remembers what set it came from".
+summarized as "a union, but each element remembers what set it came from". Sum
+types are also called "tagged unions" or "discriminated unions".
 
   [cartesian product]: https://en.wikipedia.org/wiki/Cartesian_product
   [disjoint union]: https://en.wikipedia.org/wiki/Disjoint_union
