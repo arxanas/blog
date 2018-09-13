@@ -33,6 +33,7 @@ GEM
       jekyll (~> 3.8)
     jekyll-sass-converter (1.5.2)
       sass (~> 3.4)
+    jekyll-twitter-plugin (2.0.0)
     jekyll-watch (2.0.0)
       listen (~> 3.0)
     kramdown (1.17.0)
@@ -63,6 +64,7 @@ PLATFORMS
 DEPENDENCIES
   jekyll
   jekyll-katex
+  jekyll-twitter-plugin
 
 BUNDLED WITH
    1.16.1

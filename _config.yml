@@ -20,6 +20,7 @@ markdown: kramdown
 
 plugins:
   - jekyll-katex
+  - jekyll-twitter-plugin
 
 katex:
   rendering_options:
