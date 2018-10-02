@@ -171,7 +171,7 @@ briefing. Some examples:
 
 * `WRAO*IS` = "revise", `WRIGS` = "revision"
   * Note that I use `*S` for the trailing 'z' sound.
-* `WRERT` = "revert", `WRERS` = "reverse", `WRERT` = "reversion"
+* `WRERT` = "revert", `WRERS` = "reverse", `WRERGS` = "reversion"
 * `WRAOU` = "review"
 
 ### `SK*` for ex-, exc-
