@@ -7,6 +7,10 @@
 
 # Site settings
 title: Stenography and programming languages
+description: |-
+  This is a personal blog. Unless otherwise stated, the opinions
+  expressed here are my own, and not those of my past or present
+  employers.
 real_name: Waleed Khan
 email: me@waleedkhan.name
 baseurl: "/blog" # the subpath of your site, e.g. /blog
