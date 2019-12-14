@@ -2,9 +2,30 @@
 layout: post
 title: 'Login.gov neutered the security of 2FA'
 permalink: login-gov-2fa/
+hidden: true
 tags:
   - security
+hn: https://news.ycombinator.com/item?id=21785524
 ---
+
+### Update
+
+This is fortunately not true, [as the folks on Hacker News informed me](https://news.ycombinator.com/item?id=21785524). I misunderstood what the dialog was
+trying to tell me.
+
+A personal key appears to be used only for *recovering a password*, not for
+regular 2FA login. The wording is strange because it's not replacing a 2FA
+method with another 2FA method for regular authentication, but instead updating
+the method used for recovering a password.
+
+I almost certainly got the personal key and threw it away, which is what I
+normally do.
+
+From a UI perspective, it would be nice if it mentioned that an authentication
+app was already in use. Ironically, having already secured my account caused me
+to think that I was making it less secure.
+
+### Original post
 
 Today, I was trying to authenticate to a government website via
 [login.gov](https://login.gov), which is a centralized service for logging into
