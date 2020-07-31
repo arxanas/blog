@@ -1,19 +1,12 @@
 $shadow-box-dark-color: #dfdfdf;
 $shadow-box-light-color: lighten($shadow-box-dark-color, 5%);
 
-.aside {
-  background-color: $shadow-box-dark-color;
-}
-
-.figure {
-  background-color: $shadow-box-light-color;
-}
-
 .aside, .figure {
+  background-color: $shadow-box-light-color;
+  border-radius: 5px;
   display: block;
   margin-bottom: 20px;
   padding: 20px;
-  box-shadow: 0px 1px 1px #000;
 
   p:last-child {
     margin-bottom: 0;
@@ -23,19 +16,17 @@ $shadow-box-light-color: lighten($shadow-box-dark-color, 5%);
 .aside-header {
   display: inline;
   font-weight: 700;
-  text-shadow: 0px 1px 1px #fff;
 
   &:before {
-    content: 'aside: ';
-    font-variant: small-caps;
-    text-transform: lowercase;
+    content: 'Aside: ';
   }
 
   a:after {
-    top: -5px;
-    content: '\25BC';
-    font-size: 10px;
+    content: '\25BC'; /* arrow pointing down. */
+    font-size: 14px;
     margin-left: 5px;
+    position: relative;
+    top: -1px;
   }
 }
 
