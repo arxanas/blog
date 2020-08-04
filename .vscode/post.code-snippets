@@ -1,0 +1,21 @@
+{
+	"New post": {
+		"scope": "markdown",
+		"prefix": "post",
+		"body": [
+			"---",
+			"layout: post",
+			"title: $1",
+			"permalink: $2/",
+			"tags:",
+			"  - $3",
+			"---",
+			"",
+			" * toc",
+			"{:toc}",
+			"",
+			"$0"
+		],
+		"description": "Create a new post from template"
+	}
+}
