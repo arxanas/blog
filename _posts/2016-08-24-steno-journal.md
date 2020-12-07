@@ -3,7 +3,7 @@ layout: post
 title: "Steno Journal: Weeks 1-12"
 permalink: steno-journal/
 tags:
-  - steno
+  - stenography
 ---
 
   * toc

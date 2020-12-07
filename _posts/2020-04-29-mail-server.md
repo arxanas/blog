@@ -3,7 +3,7 @@ layout: post
 title: I used to run my own mail server
 permalink: mail-server/
 tags:
-  - software engineering
+  - software-engineering
 ---
 
 I used to run my own mail server on this domain. That's because I receive email at this domain, and being a student at the time, I didn't want to pay an additional cost for an email service on top of the domain and hosting costs.

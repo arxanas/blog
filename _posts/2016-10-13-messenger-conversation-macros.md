@@ -4,7 +4,7 @@ title: Analyzing all of my Messenger conversations to create conversational macr
 permalink: messenger-conversation-macros/
 tags:
   - python
-  - steno
+  - stenography
 ---
 
  * toc

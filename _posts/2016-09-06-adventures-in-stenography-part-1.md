@@ -4,7 +4,7 @@ title: "Stenography adventures with Plover and the Ergodox EZ, part 1"
 permalink: steno-adventures-part-1/
 tags:
   - c
-  - steno
+  - stenography
 ---
 
  * toc

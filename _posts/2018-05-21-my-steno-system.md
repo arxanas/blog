@@ -3,7 +3,7 @@ layout: post
 title: "My steno system"
 permalink: my-steno-system/
 tags:
-  - steno
+  - stenography
 ---
 
   * toc

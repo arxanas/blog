@@ -3,7 +3,8 @@ layout: post
 title: '"Will I ever use this in the real world?"'
 permalink: will-i-ever-use-this/
 tags:
-  - cs education
+  - cs-education
+  - software-engineering
 ---
 
 Sometimes people argue on the internet about whether a formal CS education is
