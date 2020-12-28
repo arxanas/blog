@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>A LAN adapter isn&#39;t everything</title>
+  <meta name="description" content="">
+
+  <link rel="stylesheet" href="/blog/css/main.css">
+  <link rel="canonical" href="https://waleedkhan.name/blog/lan-adapter/">
+  <link rel="alternate" type="application/rss+xml" title="Stenography and programming languages" href="https://waleedkhan.name/blog/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/blog/">Stenography and programming languages</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/blog/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">A LAN adapter isn't everything</h1>
+    <p class="post-meta"><time datetime="2020-07-30T00:00:00-05:00" itemprop="datePublished">Jul 30, 2020</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    
+    <ul id="markdown-toc">
+  <li><a href="#on-online-mode" id="markdown-toc-on-online-mode">On online mode</a></li>
+  <li><a href="#playing-on-wi-fi" id="markdown-toc-playing-on-wi-fi">Playing on Wi-Fi</a></li>
+</ul>
+
+<h2 id="on-online-mode">On online mode</h2>
+
+<p>I’ve been getting into <em>Super Smash Bros. Ultimate</em>, and I want to play competitively once COVID-19 is over.</p>
+
+<p>The best I can do for now is to play online. However, <em>Ultimate</em>’s online play is notoriously bad:</p>
+
+<ul>
+  <li><a href="https://www.polygon.com/2018/12/14/18140814/super-smash-bros-ultimate-input-lag-latency-feel">The input lag is around 98 ms (~6 frames)</a>, which is on the high end for a fighting game (<a href="http://shoryuken.com/2018/10/19/soulcalibur-vi-input-lag-tested-and-its-comparable-to-street-fighter-v/">the highest listed in this article</a> is <em>Samurai Showdown</em> with 94ms input lag).</li>
+  <li>The game uses delay-based netcode instead of rollback-based netcode, which means that inputs are delayed until all participants have acknowledged them, rather than speculatively executed.</li>
+  <li>The game uses peer-to-peer connections rather than centralized servers, which means that all parties are punished for a single party’s lag. This is a problem in both one-on-one play and in the Battle Arena format, where many participants may join, and the quality of the game is determined by the worst internet connection. (NB: a peer-to-peer connection can also have theoretically better performance if the route between players is shorter than a given player’s route to the server.)</li>
+</ul>
+
+<h2 id="playing-on-wi-fi">Playing on Wi-Fi</h2>
+
+<p>There’s two main arrangements recommended to combat lag:</p>
+
+<ul>
+  <li>Use a LAN adapter for the Nintendo Switch, rather than relying on Wi-Fi.</li>
+  <li>Use a low-latency display (particularly one set to “Game Mode”, if available).</li>
+</ul>
+
+<p>I used to play with a LAN adapter on my living room TV, under the assumption that having a wired connection was more important than having a low-latency display. Then I tried playing with my Switch on a small monitor at my work setup over Wi-Fi. What I discovered is that the opposite was true in my case: <strong>having a low-latency display produced better gameplay than having a wired internet connection</strong>.</p>
+
+<p>Wi-Fi can be deployed in one or both of two bands: 2.4 GHz and 5 GHz. <a href="https://blog.parsecgaming.com/how-your-wifi-band-impacts-low-latency-connections-9f1e538a63dd">In this article by Parsec</a>, they demonstrate that 5 GHz actually has quite low latency:</p>
+
+<figure class="figure">
+        <a href="/blog/assets/posts/lan-adapter/wifi-latency.jpeg"><img class="center-image" src="/blog/assets/posts/lan-adapter/wifi-latency.jpeg" alt="Graph comparing latencies of 2.4 GHz Wi-Fi, 5 GHz Wi-Fi, and wired connection." title="Graph comparing latencies of 2.4 GHz Wi-Fi, 5 GHz Wi-Fi, and wired connection." /></a>
+        <figcaption class="caption">
+</figcaption>
+      </figure>
+
+<p>This diagram indicates the following:</p>
+
+<ul>
+  <li>As a baseline, a wired connection has around 1 ms latency.</li>
+  <li>2.4 GHz Wi-Fi can have huge spikes in latency, routinely hitting 30 ms in their testing.</li>
+  <li>5 GHz reliably stays at around 5 ms latency, and in the worst case, only hits</li>
+  <li>about 8 ms latency.</li>
+</ul>
+
+<p>So 5 GHz Wi-Fi is definitely worse than a wired connection, but not by much. For context, 8 ms is about half a frame, so it would be barely noticeable in practice.</p>
+
+<p>The display you use also can make a big difference. <a href="https://www.rtings.com/monitor/tests/inputs/input-lag">Gaming monitors might have on the order of 10 ms lag</a>. My living room TV is an awful 70-inch Samsung smart TV, and I have nothing but bad things to say about it. Besides smart TVs being inherently bad, this particular TV was not marketed as a gaming display, and it seems to have a huge amount of latency, even with Game Mode enabled.</p>
+
+<p>The difference became noticeable only now that I’m playing at a higher level than before. <a href="https://www.elitegsp.com/">elitegsp.com</a> currently estimates me at the 98th percentile of online players. (My guess is that this would be around the 40th or 50th percentile for in-person players).</p>
+
+<p>After switching to a better monitor, I find I can suddenly react to things I was unable to before. I can catch ledge get-up options more reliably; I’ve started being able to jump over to Samus’s fully-charged charge shots, etc., on reaction, which has never happened before; some of my tight combos even seem more reliable.</p>
+
+<p>So Wi-Fi online play needn’t be that bad!</p>
+
+  </div>
+
+</article>
+
+
+
+
+
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = "https://waleedkhan.name/blog/lan-adapter/";
+    this.page.identifier = "lan-adapter/";
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//waleedkhan-name.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Stenography and programming languages</h2>
+    <p class="rss-subscribe">subscribe <a href="/blog/feed.xml">via RSS</a></p>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>Waleed Khan</li>
+          <li><a href="mailto:me@waleedkhan.name">me@waleedkhan.name</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/arxanas"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">arxanas</span></a>
+
+          </li>
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>This is a personal blog. Unless otherwise stated, the opinions
+expressed here are my own, and not those of my past or present
+employers.</p>
+      </div>
+    </div>
+
+  </div>
+
+  
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-53066274-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+</footer>
+
+
+  </body>
+
+</html>

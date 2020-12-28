@@ -1,0 +1,1909 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Stenography and programming languages</title>
+    <description>This is a personal blog. Unless otherwise stated, the opinions
+expressed here are my own, and not those of my past or present
+employers.</description>
+    <link>https://waleedkhan.name/blog/</link>
+    <atom:link href="https://waleedkhan.name/blog/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Mon, 28 Dec 2020 16:26:22 -0600</pubDate>
+    <lastBuildDate>Mon, 28 Dec 2020 16:26:22 -0600</lastBuildDate>
+    <generator>Jekyll v3.8.4</generator>
+    
+      <item>
+        <title>Smash Training retrospective</title>
+        <description>&lt;p&gt;&lt;a href=&quot;https://ssb.fit&quot;&gt;&lt;em&gt;Smash Training&lt;/em&gt;&lt;/a&gt; is a spaced-repetition training web-app I created to help my progression with &lt;em&gt;Super Smash Bros. Ultimate&lt;/em&gt;. I released it on May 16, 2020 &lt;a href=&quot;https://www.reddit.com/r/CrazyHand/comments/gkybpe/trying_to_get_into_elite_smash_this_quarantine/?utm_source=share&amp;amp;utm_medium=web2x&amp;amp;context=3&quot;&gt;on Reddit&lt;/a&gt; to warm reception. As of December 2020, it receives 150-200 monthly users. I’d rank it as my most successful project!&lt;/p&gt;
+
+&lt;p&gt;In this article, I discuss the choices I made for this project. The source code is available at &lt;a href=&quot;https://github.com/arxanas/smashtraining&quot;&gt;https://github.com/arxanas/smashtraining&lt;/a&gt;.&lt;/p&gt;
+
+&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#project-requirements&quot; id=&quot;markdown-toc-project-requirements&quot;&gt;Project requirements&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#domain-name&quot; id=&quot;markdown-toc-domain-name&quot;&gt;Domain name&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#user-studies-and-ui&quot; id=&quot;markdown-toc-user-studies-and-ui&quot;&gt;User studies and UI&lt;/a&gt;    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#ui&quot; id=&quot;markdown-toc-ui&quot;&gt;UI&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#documentation&quot; id=&quot;markdown-toc-documentation&quot;&gt;Documentation&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#tech-stack&quot; id=&quot;markdown-toc-tech-stack&quot;&gt;Tech stack&lt;/a&gt;    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#build-system&quot; id=&quot;markdown-toc-build-system&quot;&gt;Build system&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#typescript&quot; id=&quot;markdown-toc-typescript&quot;&gt;TypeScript&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#vue&quot; id=&quot;markdown-toc-vue&quot;&gt;Vue&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#vuetify&quot; id=&quot;markdown-toc-vuetify&quot;&gt;Vuetify&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#netlify-for-hosting&quot; id=&quot;markdown-toc-netlify-for-hosting&quot;&gt;Netlify for hosting&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#custom-database&quot; id=&quot;markdown-toc-custom-database&quot;&gt;Custom database&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#github-as-a-static-data-store&quot; id=&quot;markdown-toc-github-as-a-static-data-store&quot;&gt;Github as a static data-store&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#conclusions&quot; id=&quot;markdown-toc-conclusions&quot;&gt;Conclusions&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;project-requirements&quot;&gt;Project requirements&lt;/h2&gt;
+
+&lt;p&gt;I decided that I wanted to build a spaced-repetition training app, rather than reuse a general-purpose spaced-repetition flash-card system such as Anki, because the project would benefit from domain-specific knowledge. For example:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Exercises have large numbers of variants, such as “short-hop” vs “full-hop”, or “facing left” vs “facing right”, which should be tracked separately.&lt;/li&gt;
+  &lt;li&gt;Many of the exercises have natural dependencies on others: they shouldn’t be attempted unless a certain underlying fundamental skill has been mastered.&lt;/li&gt;
+  &lt;li&gt;Exercises to train one character don’t necessarily confer the same skill for other characters. Some exercises may only be applicable to some characters.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I decided to make an app to automate the spaced repetition regimen I was attempting to follow by hand, which I could then share with others.&lt;/p&gt;
+
+&lt;p&gt;Here were my engineering requirements:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Should be mobile-first, but preferably also available on desktop.&lt;/li&gt;
+  &lt;li&gt;Should be local-first, or at least not require creating an account to use.&lt;/li&gt;
+  &lt;li&gt;Should be architected to support sync between devices, although the sync itself was not a requirement for the first iteration.&lt;/li&gt;
+  &lt;li&gt;Should have approximately zero hosting costs.&lt;/li&gt;
+  &lt;li&gt;Should be hosted on of a stable platform which doesn’t require monitoring (e.g. not my home computer).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;domain-name&quot;&gt;Domain name&lt;/h2&gt;
+
+&lt;p&gt;I wanted to choose between a permutation like the following for the domain name:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;smashtraining.com&lt;/li&gt;
+  &lt;li&gt;ssbtraining.com&lt;/li&gt;
+  &lt;li&gt;smash.training&lt;/li&gt;
+  &lt;li&gt;ssb.training&lt;/li&gt;
+  &lt;li&gt;smash.fit&lt;/li&gt;
+  &lt;li&gt;ssb.fit&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In the end, I used &lt;code class=&quot;highlighter-rouge&quot;&gt;ssb.fit&lt;/code&gt; because 1) &lt;code class=&quot;highlighter-rouge&quot;&gt;smash.training&lt;/code&gt; got taken (!) and 2) I wanted to optimize for typing it in on a mobile device, even though the name is less memorable. This lack of memorability unfortunately manifested in &lt;a href=&quot;https://www.reddit.com/r/CrazyHand/comments/gp9sem/wtf_was_that_smash_training_website_called/frkscwe/?context=3&quot;&gt;this Reddit thread titled “WTF was that smash training website called?”&lt;/a&gt;. However, another commenter writes “ssb.fit is better, short for mobile”, perhaps vindicating the original choice.&lt;/p&gt;
+
+&lt;p&gt;It’s unfortunate that the domain name and the website title don’t exactly match up. Many people seemed to address it as “ssb.fit” hence, so maybe that’s what the project should have been called too (rather than “Smash Training”).&lt;/p&gt;
+
+&lt;h2 id=&quot;user-studies-and-ui&quot;&gt;User studies and UI&lt;/h2&gt;
+
+&lt;p&gt;I conducted several user studies with friends and family, including some people who had played Smash before and some who hadn’t.&lt;/p&gt;
+
+&lt;h3 id=&quot;ui&quot;&gt;UI&lt;/h3&gt;
+
+&lt;p&gt;The first main thing I iterated on was the design of the exercise tracker widget. I originally based it off of the &lt;em&gt;Stronglifts&lt;/em&gt; app:&lt;/p&gt;
+
+&lt;figure class=&quot;figure&quot;&gt;
+        &lt;a href=&quot;/blog/assets/posts/smash-training-retrospective/stronglifts.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/blog/assets/posts/smash-training-retrospective/stronglifts.png&quot; alt=&quot;Advertisement screenshot of the Stronglifts workout app.&quot; title=&quot;Advertisement screenshot of the Stronglifts workout app.&quot; /&gt;&lt;/a&gt;
+        &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;Advertisement screenshot of the Stronglifts workout app.&lt;/p&gt;
+&lt;/figcaption&gt;
+      &lt;/figure&gt;
+
+&lt;p&gt;&lt;em&gt;Stronglifts&lt;/em&gt; has you note down how many repetitions of the exercise you succeeded at (out of five). However, the &lt;em&gt;Smash Training&lt;/em&gt; paradigm is different, and has you repeat the exercise for a length of time and rate your accuracy.&lt;/p&gt;
+
+&lt;p&gt;I experimented with a “smiley-face” UI rather than a rep-count UI, as in Stronglifts, along with a few other options. After a lot of feedback from friends, I arrived at a slider-based widget like this:&lt;/p&gt;
+
+&lt;figure class=&quot;figure&quot;&gt;
+        &lt;a href=&quot;/blog/assets/posts/smash-training-retrospective/smash-training-exercise-widget.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/blog/assets/posts/smash-training-retrospective/smash-training-exercise-widget.png&quot; alt=&quot;Screenshot of the Smash Training exercise widget.&quot; title=&quot;Screenshot of the Smash Training exercise widget.&quot; /&gt;&lt;/a&gt;
+        &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;Screenshot of the Smash Training exercise widget.&lt;/p&gt;
+&lt;/figcaption&gt;
+      &lt;/figure&gt;
+
+&lt;p&gt;This uses a slider approach (with five possible notches), and renders a description of what each notch corresponds to, i.e. “all or nearly all reps correct”.&lt;/p&gt;
+
+&lt;h3 id=&quot;documentation&quot;&gt;Documentation&lt;/h3&gt;
+
+&lt;p&gt;The second main thing was the ordering of the elements in the “Learn exercise” page. Each exercise has a step-by-step description of how to do the exercise, what controller inputs must be performed, background on the technique and its importance, a video tutorial, etc.&lt;/p&gt;
+
+&lt;p&gt;My assumption was that most people would read very little of it, so I should put the most important items first. However, various users disagreed on which item was the most important. There was no strong consensus, but the end result was this ordering:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Step-by-step exercise description.&lt;/li&gt;
+  &lt;li&gt;Controller inputs.&lt;/li&gt;
+  &lt;li&gt;Technique overview.&lt;/li&gt;
+  &lt;li&gt;The rest of the documentation elements (not as important).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;There were also hints on these steps such as how to enter the Training Stage to perform the exercises. Some users missed these steps altogether, and were left confused on how to perform the exercise. Unfortunately, I was unable to design a UI that mitigated this problem.&lt;/p&gt;
+
+&lt;h2 id=&quot;tech-stack&quot;&gt;Tech stack&lt;/h2&gt;
+
+&lt;p&gt;I chose to write a web-app, since they are cross-platform and I already had some familiarity with the area. In particular, I didn’t want to spend money on an iOS developer license, but I also didn’t want to exclude iOS users. (Post-hoc analytics indicate that the ratio of Android-to-iOS users is about 2:1, which consitutes a significant cohort for iOS.)&lt;/p&gt;
+
+&lt;h3 id=&quot;build-system&quot;&gt;Build system&lt;/h3&gt;
+
+&lt;p&gt;All Javascript web-app bundling solutions are fundamentally terrible, and Webpack is no exception. But it works.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/arxanas/smashtraining/commit/f621f02af95da697435cb720563b590d57f38b87&quot;&gt;I encountered one mysterious bug in Babel during development&lt;/a&gt;, which I was unable to isolate. I worked around it by targeting only newer browsers, after which the problem disappeared.&lt;/p&gt;
+
+&lt;p&gt;I used &lt;code class=&quot;highlighter-rouge&quot;&gt;vue-cli-service&lt;/code&gt; as a wrapper around the build, test, and lint actions, as recommended by Vue. But I found it hard to configure and debug. When I had an issue with tests not properly compiling an imported module, &lt;a href=&quot;https://github.com/arxanas/smashtraining/blame/d0c31a33ab880e8c58824c0f58247c8bd8f38485/src/utils.ts#L38-L44&quot;&gt;I gave up and reimplemented the function I needed myself&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;typescript&quot;&gt;TypeScript&lt;/h3&gt;
+
+&lt;p&gt;I also used &lt;a href=&quot;https://www.typescriptlang.org/&quot;&gt;TypeScript&lt;/a&gt;, since I find its static typing system useful for maintenance purposes.&lt;/p&gt;
+
+&lt;p&gt;TypeScript support for Vue was not ideal. Many Vue patterns are not easy to express in TypeScript. Libraries like &lt;a href=&quot;https://github.com/istrib/vuex-typescript&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;vuex-typescript&lt;/code&gt;&lt;/a&gt; exist, but require a lot of boilerplate in order to get static typing support. The &lt;a href=&quot;https://github.com/paroi-tech/direct-vuex&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;direct-vuex&lt;/code&gt;&lt;/a&gt; library had less boilerplate, but &lt;a href=&quot;https://github.com/arxanas/smashtraining/commit/9a8c0c0baf05d048a564b11f62afdfafc9f66a62&quot;&gt;I couldn’t figure out how to test it&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;TypeScript was generally pleasant to work with, although in the project, I pushed it to its extremes and it was unable to keep pace. In my case, it was unable to track associated/mapped types adequately. It’s perhaps exemplified by this &lt;code class=&quot;highlighter-rouge&quot;&gt;@ts-ignore&lt;/code&gt; comment:&lt;/p&gt;
+
+&lt;div class=&quot;language-ts highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;TechVariantOf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;T&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;TechId&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// @ts-ignore &quot;Type 'x' cannot be used to index type 'AllTechVariants'.&quot;&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// Strangely, the correct type is calculated here anyways, and can be used for&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// exhaustiveness-checking later.&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;keyof&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;AllTechMetadata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;variants&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;AllTechVariants&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;I also ran into &lt;a href=&quot;https://github.com/microsoft/TypeScript/issues/13215#issuecomment-531632919&quot;&gt;this issue&lt;/a&gt; when working on the same thing.&lt;/p&gt;
+
+&lt;p&gt;Given that this is reasonably advanced type-level hackery, I was generally happy with TypeScript’s ability to describe the data domain.&lt;/p&gt;
+
+&lt;h3 id=&quot;vue&quot;&gt;Vue&lt;/h3&gt;
+
+&lt;p&gt;I chose to use &lt;a href=&quot;https://vuejs.org/&quot;&gt;Vue&lt;/a&gt; as the front-end web framework, since I had heard good things about it from &lt;a href=&quot;https://news.ycombinator.com/&quot;&gt;Hacker News&lt;/a&gt;. In particular, I wanted an opinionated framework, so as to spend less time configuring things myself.&lt;/p&gt;
+
+&lt;p&gt;When I used it, Vue promoted the &lt;a href=&quot;https://vuejs.org/v2/guide/single-file-components.html&quot;&gt;“single-file component”&lt;/a&gt; system, in which HTML, CSS, and Javascript are mixed into the same file. It was not a great experience:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;This complicates the build process, as something has to convert these single-file components into assets consumable by the browser.&lt;/li&gt;
+  &lt;li&gt;The mental model is an extra layer of indirection, as these single-file components are themselves compiled into Javascript classes, but also contain Javascript classes in the script portion of the file.&lt;/li&gt;
+  &lt;li&gt;The tooling support was poor. For example, go-to-definition doesn’t work on the HTML components, despite the fact that they’re ultimately backed by Javascript classes.&lt;/li&gt;
+  &lt;li&gt;TypeScript does not check the HTML components.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I would have preferred to use a &lt;a href=&quot;https://www.typescriptlang.org/docs/handbook/jsx.html&quot;&gt;JSX&lt;/a&gt; solution, as it removes some of the indirection and has better tooling support.&lt;/p&gt;
+
+&lt;p&gt;I wish Vue had fewer ways to do things. For example, attributes on HTML elements can be set with the normal &lt;code class=&quot;highlighter-rouge&quot;&gt;=&lt;/code&gt; syntax, but also with a leading &lt;code class=&quot;highlighter-rouge&quot;&gt;:&lt;/code&gt; (expression evaluation) or a leading &lt;code class=&quot;highlighter-rouge&quot;&gt;@&lt;/code&gt; (callback) for brevity. In comparison, React with JSX only has &lt;code class=&quot;highlighter-rouge&quot;&gt;=&lt;/code&gt; for all of these situations.&lt;/p&gt;
+
+&lt;h3 id=&quot;vuetify&quot;&gt;Vuetify&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://vuetifyjs.com/&quot;&gt;Vuetify&lt;/a&gt; is a library to provide Material Design UI for Vue. The presence of a solid, all-in-one Material Design library was one other reason why I chose to use Vue. The library and documentation are both very good, and I was able to prototype my app (from a UI perspective) effectively. I would strongly recommend it if you’re using Vue.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/vuetifyjs/vuetify/pull/8877&quot;&gt;I opened one pull request&lt;/a&gt; for the documentation, which was merged promptly, &lt;a href=&quot;https://github.com/vuetifyjs/vuetify/issues/10140&quot;&gt;and +1’d one documentation issue&lt;/a&gt;, which has a workaround but unfortunately remains unresolved.&lt;/p&gt;
+
+&lt;h3 id=&quot;netlify-for-hosting&quot;&gt;Netlify for hosting&lt;/h3&gt;
+
+&lt;p&gt;I used &lt;a href=&quot;https://www.netlify.com/&quot;&gt;Netlify&lt;/a&gt; to host the front-end of the website using its free tier, and stored data locally for the user. This worked well, as Netlify knew how to build and deploy my Vue project, and had good Github integrations.&lt;/p&gt;
+
+&lt;p&gt;Another option would have been Github Pages, which would have made the project dependent on fewer underlying services, but also would have required me to write a build step of my own.&lt;/p&gt;
+
+&lt;h3 id=&quot;custom-database&quot;&gt;Custom database&lt;/h3&gt;
+
+&lt;p&gt;I stored data locally on the client using the &lt;a href=&quot;https://developer.mozilla.org/docs/Web/API/Window/localStorage&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;localStorage&lt;/code&gt; APIs&lt;/a&gt;. I was careful to design the data schema such that it was append-only and such that each record had a unique ID, the idea being to make it easy to merge changes from multiple clients. However, this alone makes it difficult to delete records without some more thought.&lt;/p&gt;
+
+&lt;p&gt;I later discovered &lt;a href=&quot;https://couchdb.apache.org/&quot;&gt;CouchDB&lt;/a&gt; as a distributed document-store in exactly the manner I had already architected my application, but including sync and delete capabilities. I also discovered the &lt;a href=&quot;https://pouchdb.com/&quot;&gt;PouchDB&lt;/a&gt; library, which exposes a CouchDB interface and allows you to store your data locally or sync it remotely. It also supports more backends than just &lt;code class=&quot;highlighter-rouge&quot;&gt;localStorage&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;I wish I had used PouchDB from the beginning! Now I’m stuck with an inefficient, feature-lacking implementation of it, which would require some migration effort to move onto PouchDB.&lt;/p&gt;
+
+&lt;h3 id=&quot;github-as-a-static-data-store&quot;&gt;Github as a static data-store&lt;/h3&gt;
+
+&lt;p&gt;I scraped a public service called &lt;a href=&quot;https://www.elitegsp.com/&quot;&gt;Elite GSP&lt;/a&gt; to accumulate historical ranking data (called “Global Smash Power” or GSP), so that the user could track their ranking progress over time compared to others.&lt;/p&gt;
+
+&lt;p&gt;To avoid having to host a database somewhere, I decided to check in the records directly into source control, which would then be distributed by Netlify. I set up a job on my personal webserver to do so. In the worst case, if the webserver goes down and stops updating the Git repository, the stale data would still be reasonably useful, and the job could be started again at any time. Currently, the job runs once a day.&lt;/p&gt;
+
+&lt;p&gt;I wish I had known that it were possible to commit to the repo in question using Github Actions, as described in the post &lt;a href=&quot;https://simonwillison.net/2020/Oct/9/git-scraping/&quot;&gt;&lt;em&gt;Git scraping: track changes over time by scraping to a Git repository&lt;/em&gt;&lt;/a&gt;. I definitely would have done so rather than rely on my own webserver’s availability to do so.&lt;/p&gt;
+
+&lt;p&gt;All these automated commits caused the commit history to become rather polluted. I then made the choice to amend the most recent commit if it was a database-update commit, rather than make a new one.&lt;/p&gt;
+
+&lt;p&gt;This is rewriting public history and technically frowned upon, as it requires all downstream developers to rebase their changes onto master if the scraping job has run recently. But the rebases are typically conflict-free, as the rewritten commit only changes a machine-generated file, so this wasn’t a problem in practice.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusions&quot;&gt;Conclusions&lt;/h2&gt;
+
+&lt;p&gt;The zero-hosting web-app is pretty feasible for local-first web applications. I imagine it would be harder if your app required users to be able to interact with each other, and therefore support authentication/authorization for data access.&lt;/p&gt;
+
+&lt;p&gt;Most of my friction was around attempting to describe things statically:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Vue didn’t have good support for TypeScript.&lt;/li&gt;
+  &lt;li&gt;A couple pieces of Vuetify documentation were missing important information.&lt;/li&gt;
+  &lt;li&gt;Using automated hooks to run deployment services instead of my own webserver is a much more convenient and declarative approach, in that I don’t have to manage any machines myself.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;User studies proved invaluable. Thanks to all my friends who participated.&lt;/p&gt;
+
+&lt;p&gt;This project was a success for me, because 1) I solved a problem I had; 2) I solved a problem that others had; and 3) I reduced my maintenance burden to the absolute minimum — I haven’t had any deployment issues since launching it.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 06 Dec 2020 00:00:00 -0600</pubDate>
+        <link>https://waleedkhan.name/blog/smash-training-retrospective/</link>
+        <guid isPermaLink="true">https://waleedkhan.name/blog/smash-training-retrospective/</guid>
+        
+        <category>smash-bros</category>
+        
+        <category>software-engineering</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Smash Bros: the parabola rule</title>
+        <description>&lt;p&gt;This is a simple mistake that I used to make as a beginner. It took surprisingly long to realize the precise nature of the mistake, so I’m posting about it here.&lt;/p&gt;
+
+&lt;p&gt;Suppose you’re landing and trying to avoid an opponent. You want to avoid their “threat bubble” while landing: the maximum range that their attacks can reach in the time it takes you to land.&lt;/p&gt;
+
+&lt;figure class=&quot;figure&quot;&gt;
+        &lt;a href=&quot;/blog/assets/posts/smash-bros-the-parabola-rule/1-threat-bubble.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/blog/assets/posts/smash-bros-the-parabola-rule/1-threat-bubble.png&quot; alt=&quot;The red player is in the air, while the blue player is on the ground, projecting a threat bubble.&quot; title=&quot;The red player is in the air, while the blue player is on the ground, projecting a threat bubble.&quot; /&gt;&lt;/a&gt;
+        &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;The red player is in the air, while the blue player is on the ground, projecting a threat bubble.&lt;/p&gt;
+&lt;/figcaption&gt;
+      &lt;/figure&gt;
+
+&lt;p&gt;So naturally, you drift to the side to avoid their threat bubble.&lt;/p&gt;
+
+&lt;figure class=&quot;figure&quot;&gt;
+        &lt;a href=&quot;/blog/assets/posts/smash-bros-the-parabola-rule/2-landing-arc.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/blog/assets/posts/smash-bros-the-parabola-rule/2-landing-arc.png&quot; alt=&quot;Red player's planned trajectory, drifting to the side to avoid the blue player.&quot; title=&quot;Red player's planned trajectory, drifting to the side to avoid the blue player.&quot; /&gt;&lt;/a&gt;
+        &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;Red player&amp;#8217;s planned trajectory, drifting to the side to avoid the blue player.&lt;/p&gt;
+&lt;/figcaption&gt;
+      &lt;/figure&gt;
+
+&lt;p&gt;The ideal landing position would be as close to center stage as possible, while still staying outside of their threat bubble.&lt;/p&gt;
+
+&lt;figure class=&quot;figure&quot;&gt;
+        &lt;a href=&quot;/blog/assets/posts/smash-bros-the-parabola-rule/3-threat-bubble-and-circular-arc.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/blog/assets/posts/smash-bros-the-parabola-rule/3-threat-bubble-and-circular-arc.png&quot; alt=&quot;The red player's expected trajectory is tangent to the blue player's threat bubble. The trajectory does not pass through the threat bubble, meaning that it's a safe landing: the blue player cannot reach the red player and hit them as they land.&quot; title=&quot;The red player's expected trajectory is tangent to the blue player's threat bubble. The trajectory does not pass through the threat bubble, meaning that it's a safe landing: the blue player cannot reach the red player and hit them as they land.&quot; /&gt;&lt;/a&gt;
+        &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;The red player&amp;#8217;s expected trajectory is tangent to the blue player&amp;#8217;s threat bubble. The trajectory does not pass through the threat bubble, meaning that it&amp;#8217;s a safe landing: the blue player cannot reach the red player and hit them as they land.&lt;/p&gt;
+&lt;/figcaption&gt;
+      &lt;/figure&gt;
+
+&lt;p&gt;So what’s wrong with this image? It’s hard to tell, but the problem is that it depicts a &lt;strong&gt;circular landing arc&lt;/strong&gt;. But characters in &lt;em&gt;Smash Bros.&lt;/em&gt; don’t typically travel in circular arcs. At the top of the arc, your velocity will be close to zero horizontally, and you’ll be increasing it as gravity pulls you downward. With a circle, your velocity stays the same, but your direction changes the entire way down.&lt;/p&gt;
+
+&lt;p&gt;The actual trajectory of the player is closer to a parabola. Let’s look at what a parabolic arc might look like.&lt;/p&gt;
+
+&lt;figure class=&quot;figure&quot;&gt;
+        &lt;a href=&quot;/blog/assets/posts/smash-bros-the-parabola-rule/4-threat-bubble-and-parabolic-arc.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/blog/assets/posts/smash-bros-the-parabola-rule/4-threat-bubble-and-parabolic-arc.png&quot; alt=&quot;The red player's *actual* trajectory is a wider arc. Notice that the landing position is farther away from the blue player than in the previous diagram.&quot; title=&quot;The red player's *actual* trajectory is a wider arc. Notice that the landing position is farther away from the blue player than in the previous diagram.&quot; /&gt;&lt;/a&gt;
+        &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;The red player&amp;#8217;s &lt;em&gt;actual&lt;/em&gt; trajectory is a wider arc. Notice that the landing position is farther away from the blue player than in the previous diagram.&lt;/p&gt;
+&lt;/figcaption&gt;
+      &lt;/figure&gt;
+
+&lt;p&gt;There’s a constant downward force provided by gravity, accelerating you to a maximum downward velocity. However, your horizontal velocity increases as you go farther down. Furthermore, as you pass the point where your trajectory intersects the threat bubble, you’ll want to reverse your acceleration to be &lt;em&gt;towards&lt;/em&gt; center stage, so that you give up as little space as possible to the opponent.&lt;/p&gt;
+
+&lt;p&gt;If we thought that our trajectory was circular, not parabolic, and tried to aim towards the same “safe” spot on the ground as in the previous circular arc diagram, we would actually slightly enter the opponent’s threat bubble:&lt;/p&gt;
+
+&lt;figure class=&quot;figure&quot;&gt;
+        &lt;a href=&quot;/blog/assets/posts/smash-bros-the-parabola-rule/5-threat-bubble-and-real-circular-arc.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/blog/assets/posts/smash-bros-the-parabola-rule/5-threat-bubble-and-real-circular-arc.png&quot; alt=&quot;If the red player aims towards the circular arc's landing position, but actually has a parabolic arc, then they'll slightly pass through the blue player's threat bubble.&quot; title=&quot;If the red player aims towards the circular arc's landing position, but actually has a parabolic arc, then they'll slightly pass through the blue player's threat bubble.&quot; /&gt;&lt;/a&gt;
+        &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;If the red player aims towards the circular arc&amp;#8217;s landing position, but actually has a parabolic arc, then they&amp;#8217;ll slightly pass through the blue player&amp;#8217;s threat bubble.&lt;/p&gt;
+&lt;/figcaption&gt;
+      &lt;/figure&gt;
+
+&lt;p&gt;This difference is so minute, it’s easy to not realize what’s going on with your player’s trajectory, and get hit while landing.&lt;/p&gt;
+
+&lt;p&gt;To fix this problem, we need to apply &lt;strong&gt;the parabola rule&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Aim for a spot farther away on the ground than you think is appropriate (until you’ve internalized how far away is actually appropriate).&lt;/li&gt;
+  &lt;li&gt;DI outwards all the way down, until you reach the tangent point between your arc and your opponent’s threat bubble. Then you are free to start DI-ing inwards.&lt;/li&gt;
+  &lt;li&gt;Do not fast-fall until you’ve cleared the tangent point! Otherwise, you may accidentally fall through the threat bubble earlier than expected.
+    &lt;ul&gt;
+      &lt;li&gt;This issue is something I’m still working on. Fast-falling gets you to the ground faster, so it intuitively feels safer (particularly considering that I main a fast-falling character). But it can actually be a worse choice than drifting as far as possible away from the opponent, and not fast-falling at all.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Tue, 04 Aug 2020 00:00:00 -0500</pubDate>
+        <link>https://waleedkhan.name/blog/smash-bros-parabola-rule/</link>
+        <guid isPermaLink="true">https://waleedkhan.name/blog/smash-bros-parabola-rule/</guid>
+        
+        <category>smash-bros</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>A LAN adapter isn't everything</title>
+        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#on-online-mode&quot; id=&quot;markdown-toc-on-online-mode&quot;&gt;On online mode&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#playing-on-wi-fi&quot; id=&quot;markdown-toc-playing-on-wi-fi&quot;&gt;Playing on Wi-Fi&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;on-online-mode&quot;&gt;On online mode&lt;/h2&gt;
+
+&lt;p&gt;I’ve been getting into &lt;em&gt;Super Smash Bros. Ultimate&lt;/em&gt;, and I want to play competitively once COVID-19 is over.&lt;/p&gt;
+
+&lt;p&gt;The best I can do for now is to play online. However, &lt;em&gt;Ultimate&lt;/em&gt;’s online play is notoriously bad:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.polygon.com/2018/12/14/18140814/super-smash-bros-ultimate-input-lag-latency-feel&quot;&gt;The input lag is around 98 ms (~6 frames)&lt;/a&gt;, which is on the high end for a fighting game (&lt;a href=&quot;http://shoryuken.com/2018/10/19/soulcalibur-vi-input-lag-tested-and-its-comparable-to-street-fighter-v/&quot;&gt;the highest listed in this article&lt;/a&gt; is &lt;em&gt;Samurai Showdown&lt;/em&gt; with 94ms input lag).&lt;/li&gt;
+  &lt;li&gt;The game uses delay-based netcode instead of rollback-based netcode, which means that inputs are delayed until all participants have acknowledged them, rather than speculatively executed.&lt;/li&gt;
+  &lt;li&gt;The game uses peer-to-peer connections rather than centralized servers, which means that all parties are punished for a single party’s lag. This is a problem in both one-on-one play and in the Battle Arena format, where many participants may join, and the quality of the game is determined by the worst internet connection. (NB: a peer-to-peer connection can also have theoretically better performance if the route between players is shorter than a given player’s route to the server.)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;playing-on-wi-fi&quot;&gt;Playing on Wi-Fi&lt;/h2&gt;
+
+&lt;p&gt;There’s two main arrangements recommended to combat lag:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Use a LAN adapter for the Nintendo Switch, rather than relying on Wi-Fi.&lt;/li&gt;
+  &lt;li&gt;Use a low-latency display (particularly one set to “Game Mode”, if available).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I used to play with a LAN adapter on my living room TV, under the assumption that having a wired connection was more important than having a low-latency display. Then I tried playing with my Switch on a small monitor at my work setup over Wi-Fi. What I discovered is that the opposite was true in my case: &lt;strong&gt;having a low-latency display produced better gameplay than having a wired internet connection&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Wi-Fi can be deployed in one or both of two bands: 2.4 GHz and 5 GHz. &lt;a href=&quot;https://blog.parsecgaming.com/how-your-wifi-band-impacts-low-latency-connections-9f1e538a63dd&quot;&gt;In this article by Parsec&lt;/a&gt;, they demonstrate that 5 GHz actually has quite low latency:&lt;/p&gt;
+
+&lt;figure class=&quot;figure&quot;&gt;
+        &lt;a href=&quot;/blog/assets/posts/lan-adapter/wifi-latency.jpeg&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/blog/assets/posts/lan-adapter/wifi-latency.jpeg&quot; alt=&quot;Graph comparing latencies of 2.4 GHz Wi-Fi, 5 GHz Wi-Fi, and wired connection.&quot; title=&quot;Graph comparing latencies of 2.4 GHz Wi-Fi, 5 GHz Wi-Fi, and wired connection.&quot; /&gt;&lt;/a&gt;
+        &lt;figcaption class=&quot;caption&quot;&gt;
+&lt;/figcaption&gt;
+      &lt;/figure&gt;
+
+&lt;p&gt;This diagram indicates the following:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;As a baseline, a wired connection has around 1 ms latency.&lt;/li&gt;
+  &lt;li&gt;2.4 GHz Wi-Fi can have huge spikes in latency, routinely hitting 30 ms in their testing.&lt;/li&gt;
+  &lt;li&gt;5 GHz reliably stays at around 5 ms latency, and in the worst case, only hits&lt;/li&gt;
+  &lt;li&gt;about 8 ms latency.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So 5 GHz Wi-Fi is definitely worse than a wired connection, but not by much. For context, 8 ms is about half a frame, so it would be barely noticeable in practice.&lt;/p&gt;
+
+&lt;p&gt;The display you use also can make a big difference. &lt;a href=&quot;https://www.rtings.com/monitor/tests/inputs/input-lag&quot;&gt;Gaming monitors might have on the order of 10 ms lag&lt;/a&gt;. My living room TV is an awful 70-inch Samsung smart TV, and I have nothing but bad things to say about it. Besides smart TVs being inherently bad, this particular TV was not marketed as a gaming display, and it seems to have a huge amount of latency, even with Game Mode enabled.&lt;/p&gt;
+
+&lt;p&gt;The difference became noticeable only now that I’m playing at a higher level than before. &lt;a href=&quot;https://www.elitegsp.com/&quot;&gt;elitegsp.com&lt;/a&gt; currently estimates me at the 98th percentile of online players. (My guess is that this would be around the 40th or 50th percentile for in-person players).&lt;/p&gt;
+
+&lt;p&gt;After switching to a better monitor, I find I can suddenly react to things I was unable to before. I can catch ledge get-up options more reliably; I’ve started being able to jump over to Samus’s fully-charged charge shots, etc., on reaction, which has never happened before; some of my tight combos even seem more reliable.&lt;/p&gt;
+
+&lt;p&gt;So Wi-Fi online play needn’t be that bad!&lt;/p&gt;
+</description>
+        <pubDate>Thu, 30 Jul 2020 00:00:00 -0500</pubDate>
+        <link>https://waleedkhan.name/blog/lan-adapter/</link>
+        <guid isPermaLink="true">https://waleedkhan.name/blog/lan-adapter/</guid>
+        
+        <category>smash-bros</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>I used to run my own mail server</title>
+        <description>&lt;p&gt;I used to run my own mail server on this domain. That’s because I receive email at this domain, and being a student at the time, I didn’t want to pay an additional cost for an email service on top of the domain and hosting costs.&lt;/p&gt;
+
+&lt;p&gt;It was surprisingly complex. After a lot of frustrating debugging, I installed and configured Postfix and Dovecot. Looking back at it now, maybe I can understand a little of the awful mail situation that the authors of &lt;a href=&quot;https://web.mit.edu/~simsong/www/ugh.pdf&quot;&gt;The UNIX-HATERS Handbook&lt;/a&gt; lamented.&lt;/p&gt;
+
+&lt;p&gt;I also had Logwatch configured on my server, which sends daily log digests to my personal Gmail address. One day, I got a much larger email than usual, with about 500 entries of this form:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=100, msgid=&amp;lt;1916378978.228657.1422669964925.JavaMail.s605113@s605113nj3cu23.uspswy6.savv..., size=3846: 1 Time(s)
+dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=101, msgid=&amp;lt;1249814308.228946.1422670382174.JavaMail.s605113@s605113nj3cu23.uspswy6.savv..., size=5784: 1 Time(s)
+dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=102, msgid=&amp;lt;601365427.63734562.1422671000015.JavaMail.jobnotification@noreply.jobs2web.com&amp;gt;, size=3576: 1 Time(s)
+dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=103, msgid=&amp;lt;87573488.39381.1422671386061.JavaMail.rcc@127.0.0.1&amp;gt;, size=8427: 1 Time(s)
+dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=104, msgid=&amp;lt;1193028303.63734619.1422671449632.JavaMail.jobnotification@noreply.jobs2web...., size=8061: 1 Time(s)
+dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=105, msgid=&amp;lt;1643814520.773962.1422671831522.JavaMail.app@ltx1-app10243.prod&amp;gt;, size=28350: 1 Time(s)
+dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=106, msgid=&amp;lt;30128166.20150131023820.54cc401cc8ef84.75123093@mail149.wdc04.mandrillapp.com&amp;gt;, size=25278: 1 Time(s)
+dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=107, msgid=&amp;lt;d33d663bb8154e91ad366791d6415e4c@verona-exch-2.epic.com&amp;gt;, size=8389: 1 Time(s)
+dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=108, msgid=&amp;lt;201502030243.t132hp8Q025750@goon4.epic.com&amp;gt;, size=2416: 1 Time(s)
+dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=109, msgid=&amp;lt;20150203183535.BD0B2AF0001@prod-batch01.recsolu.com&amp;gt;, size=11568: 1 Time(s)
+dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=110, msgid=&amp;lt;1968774189.2003704.1422991430758.JavaMail.app@lva1-app3310.prod&amp;gt;, size=27061: 1 Time(s)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;I didn’t really know what “expunge” means in technical terms, except that it sounds like deletion, and I certainly didn’t know what triggered 500 of them. (I still don’t.) When I feverishly logged into my email account, I found that a huge chunk of mail indeed seemed to be missing. I wasn’t able to recover them from my server’s disk. I thought I had backups, but I discovered that day that I had apparently failed to enable DigitalOcean’s backup service for my server.&lt;/p&gt;
+
+&lt;p&gt;At the time, I was interviewing for internships. In fact, I lost the offer letter I had intended to accept, and had to ask the recruiter to re-send it. I imagine it wasn’t a very professional look!&lt;/p&gt;
+
+&lt;p&gt;I tried to be a responsible system administrator, but clearly I didn’t have the time or attention to do so effectively. Now I happily pay $5 a month for a professional service to manage my email — reliably.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 29 Apr 2020 00:00:00 -0500</pubDate>
+        <link>https://waleedkhan.name/blog/mail-server/</link>
+        <guid isPermaLink="true">https://waleedkhan.name/blog/mail-server/</guid>
+        
+        <category>software-engineering</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Monotonicity is a halfway point between mutability and immutability</title>
+        <description>&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;Immutable values are easy to reason about in complex systems, because they never change. Many functional languages strongly encourage the developer to use immutable values. For example, Clojure has a strong emphasis on using immutable values, so that multithreading can be made easy and safe.&lt;/p&gt;
+
+&lt;p&gt;However, making everything immutable can be impractical, especially in established codebases with poor language-level support for immutability-by-default. Some modern languages with good support for immutable values still let you opt into mutable data when needed (such as Rust with the &lt;code class=&quot;highlighter-rouge&quot;&gt;mut&lt;/code&gt; keyword).&lt;/p&gt;
+
+&lt;p&gt;In this article, I describe a property called &lt;em&gt;monotonicity&lt;/em&gt;, which is a halfway point between mutable and immutable values. Structuring your code around monotonicity can make it easier to reason about values without having to make them immutable, even in languages with good support for immutable values.&lt;/p&gt;
+
+&lt;p&gt;The concepts in this article are probably obvious to anyone who took a databases course in college, but I didn’t!&lt;/p&gt;
+
+&lt;h2 id=&quot;what-is-monotonicity&quot;&gt;What is monotonicity?&lt;/h2&gt;
+
+&lt;p&gt;A “monotonic” value is a value for which information is always added, never removed. You could consider it a sort of “append-only” data structure. It rests between mutability and immutability in that you can still change it by adding information (which may change the meaning of the data), but data is never lost.&lt;/p&gt;
+
+&lt;h2 id=&quot;simple-values&quot;&gt;Simple values&lt;/h2&gt;
+
+&lt;p&gt;Suppose that we’re modeling a user. We could store the user’s name as a single field in a structure:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dataclass&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;When we want to update the name, we can modify it in-place:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dataclass&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;update_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;new_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;new_name&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This &lt;strong&gt;loses data&lt;/strong&gt;, specifically the old version of the name. In enterprise systems, you can imagine wanting an “audit log” that would let you examine changes that occurred to the system. We can use a monotonic value to accomplish this. Instead of storing a single name, we’ll store &lt;em&gt;all&lt;/em&gt; the names that the user has ever had, and return the last one as the user’s canonical name:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dataclass&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;names&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+    &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;property&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;names&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;update_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;new_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;names&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now an administrator can view all of the historical names for a user. (In a real system, we would also store the person who did the action, the time, etc.).&lt;/p&gt;
+
+&lt;p&gt;This is also useful for non-enterprise-systems. If a user loses data somehow (either due to the user’s accident or due to a bug in the code), then an administrator can manually reconstruct the data by looking at the history of the value.&lt;/p&gt;
+
+&lt;h2 id=&quot;memoized-values&quot;&gt;Memoized values&lt;/h2&gt;
+
+&lt;p&gt;Memoized (“lazy”) values are another common use-case for monotonicity. Sometimes, computation might be deferred until you need it, and once it’s completed, it can be re-used for future requests:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dataclass&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;profile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Optional&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Profile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;read_profile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Profile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;profile&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;profile&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;profile&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;load_profile_from_disk&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;profile&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;profile&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;profile&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Mutable state can be difficult to reason about at times, but in the case of a memoized value, it’s hardly considered mutable at all. Once the value is loaded, it’s never changed.&lt;/p&gt;
+
+&lt;p&gt;This makes it easier for someone to debug the system. When they see a value for &lt;code class=&quot;highlighter-rouge&quot;&gt;profile&lt;/code&gt;, it implies something about the &lt;em&gt;history&lt;/em&gt; for that value. If it is &lt;code class=&quot;highlighter-rouge&quot;&gt;None&lt;/code&gt;, then it has never been computed in the past, and if it is a &lt;code class=&quot;highlighter-rouge&quot;&gt;Profile&lt;/code&gt;, then it was computed exactly once and updated. There’s no concern that &lt;code class=&quot;highlighter-rouge&quot;&gt;profile&lt;/code&gt; was updated multiple times in the past with a value you can no longer access, or that different callers may have seen different values.&lt;/p&gt;
+
+&lt;h2 id=&quot;state-machines&quot;&gt;State machines&lt;/h2&gt;
+
+&lt;p&gt;A memoized value is a special case of a &lt;a href=&quot;https://en.wikipedia.org/wiki/Finite-state_machine&quot;&gt;state machine&lt;/a&gt;. The value in the previous example transitions from the &lt;code class=&quot;highlighter-rouge&quot;&gt;None&lt;/code&gt; state to the &lt;code class=&quot;highlighter-rouge&quot;&gt;Profile&lt;/code&gt; state.&lt;/p&gt;
+
+&lt;p&gt;A &lt;em&gt;monotonic state machine&lt;/em&gt; is a state machine that never revisits a previous state. For example, we may transition a user through multiple states of verification when they sign up for a service:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ContactDataState&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Enum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;NONE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;UNVERIFIED&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;VERIFIED&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;REVOKED&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;
+
+
+&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dataclass&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;email_state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ContactDataState&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;phone_number_state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ContactDataState&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;phone_number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;add_email&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;email_state&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ContactDataState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NONE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;email_state&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ContactDataState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;UNVERIFIED&lt;/span&gt;
+            &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;email&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;email&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;raise&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;RuntimeError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Cannot set email for a user who already has an email&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;verify_email&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;email_state&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ContactDataState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NONE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;raise&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;RuntimeError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;No current email set&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;elif&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;email_state&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ContactDataState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;UNVERIFIED&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;email&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+                &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;email_state&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ContactDataState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;VERIFIED&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;raise&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;RuntimeError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Could not validate email&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;elif&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;email_state&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ContactDataState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;VERIFIED&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;raise&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;RuntimeError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Email already verified&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;raise&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;AssertionError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Invalid state&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;revoke_email&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;email_state&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ContactDataState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;REVOKED&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;# Similar for `phone_number`...
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This example represents a monotonic state machine, since the only transitions are from &lt;code class=&quot;highlighter-rouge&quot;&gt;NONE&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;UNVERIFIED&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;UNVERIFIED&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;VERIFIED&lt;/code&gt;, or from any state to &lt;code class=&quot;highlighter-rouge&quot;&gt;REVOKED&lt;/code&gt;. No state is ever re-visited. This means that the developer never has to worry about the question “was this email ever valid in the past?”. Instead, an email becomes revoked, which is a different status.&lt;/p&gt;
+
+&lt;p&gt;Of course, if the user wants to set up a new email, this pattern won’t work. Then we can combine it with the “simple value” pattern above and store lists of email-plus-email-state. The current status of the user’s email would be the most recent email-plus-email-state entry.&lt;/p&gt;
+
+&lt;p&gt;In practice, many pieces of data benefit from the monotonic state machine approach, and don’t actually require the ability to return to an initial state. Then the state machine by itself is enough. In my experience, including a separate state denoting the invalidation of data rather than reusing a state becomes a very helpful way of treating data for reasoning about code and for debugging purposes.&lt;/p&gt;
+
+&lt;h2 id=&quot;in-distributed-contexts&quot;&gt;In distributed contexts&lt;/h2&gt;
+
+&lt;p&gt;Monotonic data structures are extremely useful for orchestrating data updates across multiple machines (or across multiple workers on the same machine). This is because of the append-only nature; it’s easier to emit a stream of updates and combine them than it is to emit full data structures and combine them. In a monotonic data structure, the update approach is simply to union together the all the updates.&lt;/p&gt;
+
+&lt;h3 id=&quot;case-study-a-workout-tracking-app&quot;&gt;Case study: a workout tracking app&lt;/h3&gt;
+
+&lt;p&gt;Suppose you have a fitness tracker bracelet and a corresponding companion app. The fitness tracker bracelet automatically detect workouts based on the wearer’s physical activity, and the wearer can manually enter a workout into the app. How do we synchronize the two event streams?&lt;/p&gt;
+
+&lt;p&gt;One option is to queue up workouts on the fitness tracker bracelet for syncing with the app. Its state might look like this:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dataclass&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Workout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;WorkoutKind&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;duration&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dataclass&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;WorkoutDatabase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;queued_workouts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Workout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;add_workout_to_queue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;workout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Workout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;queued_workouts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;add_workout_to_queue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get_queued_workouts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Workout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]:&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;queued_workouts&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;clear_queued_workouts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;queued_workouts&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The app wants to call &lt;code class=&quot;highlighter-rouge&quot;&gt;get_queued_workouts&lt;/code&gt; to get the queued up workouts, and then &lt;code class=&quot;highlighter-rouge&quot;&gt;clear_queued_workouts&lt;/code&gt; so that they’re not returned and double-counted the next time it asks for them. If the connection between the fitness tracker and the app dies in between &lt;code class=&quot;highlighter-rouge&quot;&gt;get_queued_workouts&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;clear_queued_workouts&lt;/code&gt;, then we may return the workouts again in the next &lt;code class=&quot;highlighter-rouge&quot;&gt;get_queued_workouts&lt;/code&gt; call.&lt;/p&gt;
+
+&lt;p&gt;(There is another approach where &lt;code class=&quot;highlighter-rouge&quot;&gt;get_queued_workouts&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;clear_queued_workouts&lt;/code&gt; are combined into the same call. This also has a flaw: if the app received the workouts and then crashes before it can process them, then the workouts are lost forever.)&lt;/p&gt;
+
+&lt;p&gt;The core problem is that this data structure is not monotonic: data can be lost. A simple fix is to retain all the data and use a monotonically-increasing integer to synchronize the two systems:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dataclass&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Workout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;WorkoutKind&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;duration&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dataclass&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;WorkoutDatabase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;next_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;queued_workouts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Tuple&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Workout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;add_workout_to_queue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;workout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Workout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;queued_workouts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;next_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;workout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;next_id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get_queued_workouts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;since_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tuple&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Workout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;workout&lt;/span&gt;
+                  &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;workout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;queued_workouts&lt;/span&gt;
+                  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;since_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;# The caller can use the `next_id` we return for their next call to
+&lt;/span&gt;        &lt;span class=&quot;c1&quot;&gt;# `get_queued_workouts`. If they crashed and didn't process the
+&lt;/span&gt;        &lt;span class=&quot;c1&quot;&gt;# previous workouts we sent them, then they can try again with their
+&lt;/span&gt;        &lt;span class=&quot;c1&quot;&gt;# previous value for the ID.
+&lt;/span&gt;        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;next_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The app can essentially filter out workouts it’s already seen. This ensures that the bracelet and the app can always sync and get correct data, even if one party breaks the connection in the middle of the protocol. The technical term for the kind of ID that enables this is a &lt;a href=&quot;https://en.wikipedia.org/wiki/Cursor_(databases)&quot;&gt;“cursor”&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;If we really want to delete entries and reclaim space (likely for an embedded system), the monotonic rewriting makes it clearer what changes need to be made to safely delete data:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dataclass&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Workout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;WorkoutKind&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;duration&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dataclass&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;WorkoutDatabase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;next_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;queued_workouts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Tuple&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Workout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;add_workout_to_queue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;workout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Workout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;queued_workouts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;next_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;workout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;next_id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get_queued_workouts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;since_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tuple&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Workout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;workout&lt;/span&gt;
+                  &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;workout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;queued_workouts&lt;/span&gt;
+                  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;since_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;# The caller can use the `next_id` we return for their next call to
+&lt;/span&gt;        &lt;span class=&quot;c1&quot;&gt;# `get_queued_workouts`. If they crashed and didn't process the
+&lt;/span&gt;        &lt;span class=&quot;c1&quot;&gt;# previous workouts we sent them, then they can try again with their
+&lt;/span&gt;        &lt;span class=&quot;c1&quot;&gt;# previous value for the ID.
+&lt;/span&gt;        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;next_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;clear_queued_workouts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;since_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;# Delete any workouts that occurred before `since_id`, since they've
+&lt;/span&gt;        &lt;span class=&quot;c1&quot;&gt;# been acknowledged by the caller.
+&lt;/span&gt;        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;queued_workouts&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;workout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+                                &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;workout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;queued_workouts&lt;/span&gt;
+                                &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;since_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If there are multiple consumers of the workout data from the fitness bracelet, then the safe-to-delete data of the whole system is the intersection of safe-to-delete data for each individual consumer.&lt;/p&gt;
+
+&lt;h2 id=&quot;invalidating-data&quot;&gt;Invalidating data&lt;/h2&gt;
+
+&lt;p&gt;Sometimes, we want to remove a piece of data. Rather than literally deleting it (which may not be audit-log friendly), one can simply commit a new marker piece of data associated with the old piece of data that marks it as deleted.&lt;/p&gt;
+
+&lt;p&gt;If you have a database of records, then you can assign each record an ID, and use that to invalidate the record later. For example:&lt;/p&gt;
+
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;type&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;create&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;data&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;foo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;type&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;delete&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;entity_id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then a record is only valid if there is no deletion record for that same record. (A database engine should be able to configure a schema to query for this quickly.)&lt;/p&gt;
+
+&lt;p&gt;This is the same as transitioning the data to a new state called &lt;code class=&quot;highlighter-rouge&quot;&gt;DELETED&lt;/code&gt;, except that it’s doable in a distributed context. Multiple parties can synchronize data, and the deletion will be properly synchronized between them — without having to modify any data in-place. The technical term for this kind of marker is a &lt;a href=&quot;https://en.wikipedia.org/wiki/Tombstone_(data_store)&quot;&gt;“tombstone”&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;compaction&quot;&gt;Compaction&lt;/h2&gt;
+
+&lt;p&gt;In a monotonic data structure, there may be many updates to the same logical object (including deletions). To speed up queries, it might be prudent to periodically “compact” the state of the monotonic data structure.&lt;/p&gt;
+
+&lt;p&gt;To compact the data structure, one simply iterates over all the update records in the data structure and constructs new aggregate records for each of the entities described therein, with all of the updates/deletions applied. For example, the input of such a procedure might be as follows:&lt;/p&gt;
+
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;type&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;create&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;data&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;foo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;type&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;create&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;data&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;bar&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;type&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;create&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;data&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;baz&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;type&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;set&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;entity_id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;data&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;status&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;qux&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;type&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;delete&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;entity_id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And the output:&lt;/p&gt;
+
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;type&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;create&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;data&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;foo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;status&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;qux&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;type&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;create&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;data&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;baz&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;To carry out this compaction procedure may require an exclusive lock or some other kind of synchronization, but it can reduce the performance overhead of a monotonic approach.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 20 Apr 2020 00:00:00 -0500</pubDate>
+        <link>https://waleedkhan.name/blog/monotonicity/</link>
+        <guid isPermaLink="true">https://waleedkhan.name/blog/monotonicity/</guid>
+        
+        <category>software-engineering</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Login.gov neutered the security of 2FA</title>
+        <description>&lt;h3 id=&quot;update&quot;&gt;Update&lt;/h3&gt;
+
+&lt;p&gt;This is fortunately not true, &lt;a href=&quot;https://news.ycombinator.com/item?id=21785524&quot;&gt;as the folks on Hacker News informed me&lt;/a&gt;. I misunderstood what the dialog was
+trying to tell me.&lt;/p&gt;
+
+&lt;p&gt;A personal key appears to be used only for &lt;em&gt;recovering a password&lt;/em&gt;, not for
+regular 2FA login. The wording is strange because it’s not replacing a 2FA
+method with another 2FA method for regular authentication, but instead updating
+the method used for recovering a password.&lt;/p&gt;
+
+&lt;p&gt;I almost certainly got the personal key and threw it away, which is what I
+normally do.&lt;/p&gt;
+
+&lt;p&gt;From a UI perspective, it would be nice if it mentioned that an authentication
+app was already in use. Ironically, having already secured my account caused me
+to think that I was making it less secure.&lt;/p&gt;
+
+&lt;h3 id=&quot;original-post&quot;&gt;Original post&lt;/h3&gt;
+
+&lt;p&gt;Today, I was trying to authenticate to a government website via
+&lt;a href=&quot;https://login.gov&quot;&gt;login.gov&lt;/a&gt;, which is a centralized service for logging into
+US government websites.&lt;/p&gt;
+
+&lt;p&gt;Naturally, logging into government services is a matter of utmost security. As a
+result, login.gov features &lt;a href=&quot;https://en.wikipedia.org/wiki/Multi-factor_authentication&quot;&gt;two-factor authentication (2FA)&lt;/a&gt;. This lets you
+use a second factor for logins, such as a code-generating device that you have.
+I had previously set up a code-generation app on my phone to increase the
+security of my account.&lt;/p&gt;
+
+&lt;p&gt;I got this message today indicating that I could no longer use this app:&lt;/p&gt;
+
+&lt;figure class=&quot;figure&quot;&gt;
+        &lt;a href=&quot;/blog/assets/posts/login-gov-2fa/login-gov-2fa-new-options.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/blog/assets/posts/login-gov-2fa/login-gov-2fa-new-options.png&quot; alt=&quot;Required upgrade to a new 2FA option. They are: 1) SMS, 2) physical security key, 3) government security key, 4) none of the above and they'll give you 10 codes.&quot; title=&quot;Required upgrade to a new 2FA option. They are: 1) SMS, 2) physical security key, 3) government security key, 4) none of the above and they'll give you 10 codes.&quot; /&gt;&lt;/a&gt;
+        &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;Required upgrade to a new 2FA option.&lt;/p&gt;
+&lt;/figcaption&gt;
+      &lt;/figure&gt;
+
+&lt;p&gt;What a disappointment! I don’t have a dedicated physical security key or
+government security key, and I certainly don’t want to keep track of physical
+codes. The only option for me is SMS… which is phone-based, and the very thing
+they’re claiming is bad.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.pindrop.com/blog/nist-explains-proposed-ban-on-sms-for-2fa/&quot;&gt;SMS has problems&lt;/a&gt; as an authentication factor. The main one is that
+many services let you gain access to your account using &lt;em&gt;only&lt;/em&gt; the SMS option,
+which means your account really has an extra single-factor authentication method
+attached to it, instead of a single dual-factor authentication method.&lt;/p&gt;
+
+&lt;p&gt;But let’s suppose that login.gov isn’t vulnerable to this. &lt;a href=&quot;https://www.jwz.org/blog/2018/07/two-factor-auth-and-sms-hijacking/&quot;&gt;It’s still fairly
+easy to hijack SMS messages via social engineering&lt;/a&gt;. Besides that, a
+dedicated attacker could also attempt to physically intercept SMS messages with
+special hardware.&lt;/p&gt;
+
+&lt;p&gt;My phone was a great authentication mechanism. To access the authentication app,
+you have to physically have the phone, then enter my 10-digit phone passcode
+(not reused anywhere else) to log in, then scan my fingerprint to access my
+authentication app. That’s three factors right there: &lt;a href=&quot;https://blog.gemalto.com/security/2011/09/05/three-factor-authentication-something-you-know-something-you-have-something-you-are/&quot;&gt;something I have,
+something I know, and something I am&lt;/a&gt;. Beyond that, you also need to know
+my login.gov password (also not reused anywhere else).&lt;/p&gt;
+
+&lt;p&gt;The SMS-based approach is an unfortunate step backwards for security when it’s
+most important.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 13 Dec 2019 00:00:00 -0600</pubDate>
+        <link>https://waleedkhan.name/blog/login-gov-2fa/</link>
+        <guid isPermaLink="true">https://waleedkhan.name/blog/login-gov-2fa/</guid>
+        
+        <category>security</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>OCaml file extensions</title>
+        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#bytecode-vs-native&quot; id=&quot;markdown-toc-bytecode-vs-native&quot;&gt;Bytecode vs native&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#file-extensions&quot; id=&quot;markdown-toc-file-extensions&quot;&gt;File extensions&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;OCaml has a similar compilation model to C or C++. (Indeed, the OCaml compiler
+will let you link the two together.) However, it’s complicated by the fact that
+it can target both bytecode and native code. As a result, there are a lot of
+possible file extensions, and it’s not obvious what they mean.&lt;/p&gt;
+
+&lt;p&gt;There are a lot of pages on the internet that specify &lt;em&gt;some&lt;/em&gt; of the extensions
+that I’ve encountered in practice, but no single page documents all of them.
+I’m documenting here what I’ve found about each of them.&lt;/p&gt;
+
+&lt;h2 id=&quot;bytecode-vs-native&quot;&gt;Bytecode vs native&lt;/h2&gt;
+
+&lt;p&gt;OCaml can be compiled to bytecode or native code. See &lt;a href=&quot;https://v1.realworldocaml.org/v1/en/html/the-compiler-backend-byte-code-and-native-code.html&quot;&gt;Real World OCaml, Chapter
+23&lt;/a&gt; for more detail.&lt;/p&gt;
+
+&lt;p&gt;Bytecode:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Portable, as long as the runtime exists on the target system.&lt;/li&gt;
+  &lt;li&gt;Probably faster to compile.&lt;/li&gt;
+  &lt;li&gt;Slower to execute.&lt;/li&gt;
+  &lt;li&gt;Can be used in conjunction with &lt;code class=&quot;highlighter-rouge&quot;&gt;ocamldebug&lt;/code&gt; (e.g. to support time-traveling
+debugging).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Native code:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Non-portable.&lt;/li&gt;
+  &lt;li&gt;Probably slower to compile.&lt;/li&gt;
+  &lt;li&gt;Faster to execute.&lt;/li&gt;
+  &lt;li&gt;Can’t be used with &lt;code class=&quot;highlighter-rouge&quot;&gt;ocamldebug&lt;/code&gt;.
+    &lt;ul&gt;
+      &lt;li&gt;Note that a traditional debugger like &lt;code class=&quot;highlighter-rouge&quot;&gt;gdb&lt;/code&gt; will still work.&lt;/li&gt;
+      &lt;li&gt;You can choose to compile OCaml to native code with debugging symbols using
+the &lt;a href=&quot;https://caml.inria.fr/pub/docs/manual-ocaml/native.html&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-g&lt;/code&gt; flag to &lt;code class=&quot;highlighter-rouge&quot;&gt;ocamlopt&lt;/code&gt;&lt;/a&gt;. This is required to preserve stack
+traces.&lt;/li&gt;
+    &lt;/ul&gt;
+
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;file-extensions&quot;&gt;File extensions&lt;/h2&gt;
+
+&lt;p&gt;Source files:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;.ml&lt;/code&gt;: Implementation file.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;.mli&lt;/code&gt;: Interface file.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Compiled module interface:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;.cmi&lt;/code&gt; (both bytecode and native).&lt;/li&gt;
+  &lt;li&gt;This appears to be used to describe the signature of a module, but not contain
+its implementation. The analog in C or C++ might be a precompiled header.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Compiled module object code:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Bytecode: &lt;code class=&quot;highlighter-rouge&quot;&gt;.cmo&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Native: &lt;code class=&quot;highlighter-rouge&quot;&gt;.cmx&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Analogous to &lt;code class=&quot;highlighter-rouge&quot;&gt;.o&lt;/code&gt; files in C or C++.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Compiled module archive:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Bytecode: &lt;code class=&quot;highlighter-rouge&quot;&gt;.cma&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Native: &lt;code class=&quot;highlighter-rouge&quot;&gt;.cmxa&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Analogous to &lt;code class=&quot;highlighter-rouge&quot;&gt;.a&lt;/code&gt; files in C or C++.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Dynamically-linkable library:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Native: &lt;code class=&quot;highlighter-rouge&quot;&gt;.cmxs&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;No obvious counterpart for bytecode.&lt;/li&gt;
+  &lt;li&gt;Can be used with the &lt;a href=&quot;https://caml.inria.fr/pub/docs/manual-ocaml/libdynlink.html&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Dynlink&lt;/code&gt; library&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Analogous to &lt;code class=&quot;highlighter-rouge&quot;&gt;.so&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;.dll&lt;/code&gt; files in C or C++.&lt;/p&gt;
+
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Documentation file:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Documentation for source file: &lt;code class=&quot;highlighter-rouge&quot;&gt;.cmt&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;Documentation for interface file: &lt;code class=&quot;highlighter-rouge&quot;&gt;.cmti&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;These extensions seem to be specific to tooling, and are not used to generate
+code.&lt;/li&gt;
+  &lt;li&gt;It’s unclear which tools make use of these. My guesses:
+    &lt;ul&gt;
+      &lt;li&gt;Yes: &lt;code class=&quot;highlighter-rouge&quot;&gt;odoc&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;codoc&lt;/code&gt;.&lt;/li&gt;
+      &lt;li&gt;No: &lt;code class=&quot;highlighter-rouge&quot;&gt;ocamldoc&lt;/code&gt;.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Thu, 20 Dec 2018 00:00:00 -0600</pubDate>
+        <link>https://waleedkhan.name/blog/ocaml-file-extensions/</link>
+        <guid isPermaLink="true">https://waleedkhan.name/blog/ocaml-file-extensions/</guid>
+        
+        <category>ocaml</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>How to get a job in programming languages</title>
+        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#introduction&quot; id=&quot;markdown-toc-introduction&quot;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#academia&quot; id=&quot;markdown-toc-academia&quot;&gt;Academia&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#large-tech-companies&quot; id=&quot;markdown-toc-large-tech-companies&quot;&gt;Large tech companies&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#financial-institutions&quot; id=&quot;markdown-toc-financial-institutions&quot;&gt;Financial institutions&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#companies-with-developer-facing-products&quot; id=&quot;markdown-toc-companies-with-developer-facing-products&quot;&gt;Companies with developer-facing products&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#how-did-i-do-it&quot; id=&quot;markdown-toc-how-did-i-do-it&quot;&gt;How did I do it?&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;I recently saw this posted to Twitter:&lt;/p&gt;
+
+&lt;div class=&quot;jekyll-twitter-plugin&quot;&gt;&lt;blockquote class=&quot;twitter-tweet&quot;&gt;&lt;p lang=&quot;en&quot; dir=&quot;ltr&quot;&gt;For people considering it: working in compilers / developer tools is a great career. The programs are deterministic and have testsuites, the problems to solve are intellectually engaging and high-impact, the colleagues are friendly and reasonable, and the hours and pay are good. &lt;a href=&quot;https://t.co/d759G6g1fg&quot;&gt;https://t.co/d759G6g1fg&lt;/a&gt;&lt;/p&gt;&amp;mdash; Graydon Hoare (@graydon_pub) &lt;a href=&quot;https://twitter.com/graydon_pub/status/1039597413936160768?ref_src=twsrc%5Etfw&quot;&gt;September 11, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async=&quot;&quot; src=&quot;https://platform.twitter.com/widgets.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
+&lt;/div&gt;
+
+&lt;p&gt;It’s true! Developer tooling is a great space to be in, since you’re in the
+target audience for the products you’re building, so it’s easy to feel invested
+in your work. And the deterministic testing is great.&lt;/p&gt;
+
+&lt;p&gt;But how do you actually &lt;em&gt;get&lt;/em&gt; a job in programming languages specifically? The
+sad truth is that there are not a lot of opportunities to work in programming
+languages professionally: it has to be your institution’s core competency, or
+your institution has to be so large that it’s economical for them to spend
+multiple developer-years on a programming language project.&lt;/p&gt;
+
+&lt;p&gt;I had figured out after having taken my compilers course in college that I
+wanted to go into programming languages as a full-time profession. This article
+is the guide I wish I had when I was searching for jobs.&lt;/p&gt;
+
+&lt;h2 id=&quot;academia&quot;&gt;Academia&lt;/h2&gt;
+
+&lt;p&gt;The simplest way (but I won’t claim it’s the easiest way) to get into
+programming languages is to pursue a position in academia. You get to choose
+your institution and advisor to make sure that you find a position where you’ll
+be able to work on programming languages full-time. The downside is that you’re
+not compensated very well, relatively-speaking.&lt;/p&gt;
+
+&lt;p&gt;At my alma mater, the University of Michigan, we had no programming language
+faculty whatsoever. Apparently Carnegie Mellon University had taken them all.
+The state of programming language research seems to be a bit better in Europe
+than in the US, with institutions like Cambridge and INRIA. Many of my
+formally-trained coworkers reside in our London office.&lt;/p&gt;
+
+&lt;h2 id=&quot;large-tech-companies&quot;&gt;Large tech companies&lt;/h2&gt;
+
+&lt;p&gt;Large tech companies have so many developers that it starts to make sense to
+build tooling specifically for those developers. One minute saved per developer
+across 10,000 developers per day would pay for your yearly salary a few times
+over.&lt;/p&gt;
+
+&lt;p&gt;Some large tech companies with programming language teams:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Microsoft (C++, C♯, VB, TypeScript, Chakra).&lt;/li&gt;
+  &lt;li&gt;Google (Go, Dart, V8).&lt;/li&gt;
+  &lt;li&gt;Facebook (Hack, Flow, Pyre).&lt;/li&gt;
+  &lt;li&gt;Apple (Swift, LLVM).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The good news is that you’re well-compensated for working at these companies.
+The bad news is that it’s hard to get such a job.&lt;/p&gt;
+
+&lt;h2 id=&quot;financial-institutions&quot;&gt;Financial institutions&lt;/h2&gt;
+
+&lt;p&gt;It surprised me when I was looking for jobs how many financial institutions had
+their feet wet in programming languages. This is mostly for two reasons:
+reliability by means of safer programming languages, and performance for
+handling massive data streams.&lt;/p&gt;
+
+&lt;p&gt;Some examples of banks with programming language projects:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Morgan Stanley (Hobbes).&lt;/li&gt;
+  &lt;li&gt;Goldman Sachs (Slang).&lt;/li&gt;
+  &lt;li&gt;Standard Chartered. I had a coworker once who talked about their eager
+spreadsheet-based variant of Haskell designed for parallel computing.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Some examples of trading firms with programming language projects:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Jane Street (OCaml).&lt;/li&gt;
+  &lt;li&gt;Jump Trading. One of my classmates joined there full-time out of college and
+mentioned that they had people working on eking out performance from their C++
+compiler. They also sponsored his H1B, so trading firms could be a good fit
+for international candidates.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;companies-with-developer-facing-products&quot;&gt;Companies with developer-facing products&lt;/h2&gt;
+
+&lt;p&gt;The only other way a company can afford to spend time on a programming language
+is if it’s one of its core competencies. JetBrains makes the Kotlin language as
+well as excellent developer tooling. (It also has the advantage of being
+headquartered in Saint Petersburg, where presumably the developer salaries are
+lower than in the US). Mozilla develops Rust in the course of improving Firefox.
+(They are in a bit of a unique situation given how their income works.)&lt;/p&gt;
+
+&lt;h2 id=&quot;how-did-i-do-it&quot;&gt;How did I do it?&lt;/h2&gt;
+
+&lt;p&gt;I received a Bachelor’s degree in computer science from the University of
+Michigan. Once there, I heavily optimized towards getting a job at a large tech
+company. I got a job as an undergraduate teaching assistant, then interned at
+Amazon, and then interned again at Facebook, and ultimately joined Facebook
+full-time in Seattle out of college working on the Hack programming language.&lt;/p&gt;
+
+&lt;aside class=&quot;aside&quot; id=&quot;two-internships&quot;&gt;
+          &lt;header class=&quot;aside-header&quot;&gt;&lt;a href=&quot;#two-internships&quot;&gt;Two internships?&lt;/a&gt;&lt;/header&gt;
+          &lt;div class=&quot;aside-contents&quot;&gt;&lt;p&gt;One internship, usually in the summer between one’s junior and senior years is
+typical. I had two internships instead of one because I originally intended to
+return to university for my Master’s degree and to do an internship in between,
+a common practice for Master’s students. I decided halfway through my internship
+that I want to go into industry instead, and got my return internship offer
+converted into a return full-time offer.&lt;/p&gt;
+
+&lt;p&gt;The effects of getting a second internship were profound. The internship
+interview process is substantially easier than the full-time interview process,
+and the compensation package turned out to be very competitive, even compared to
+non-internship-return offers for Facebook new grad hires. (If you want to know
+the details of the compensation package I got, you can email me or leave a
+comment.)&lt;/p&gt;
+
+&lt;p&gt;And overall it was much easier to get the second internship offer at all because
+I had the first internship on my résumé!&lt;/p&gt;
+
+&lt;p&gt;If you have the resources to do so, it may make sense to apply for a Master’s
+degree somewhere or even delay graduation by a semester to arrange for this sort
+of double-internship.&lt;/p&gt;
+
+&lt;p&gt;I actually had two friends who, like me, were undergraduate teaching assistants,
+completed first internships at various places, then second internships at
+Amazon, and then got and accepted full-time offers from Google and Microsoft,
+respectively. So there is a cohort of people who do this sort of thing with
+excellent results. If you are set on working at a large tech company, it’s best
+to start grinding this route as soon as possible.&lt;/p&gt;
+&lt;/div&gt;
+        &lt;/aside&gt;
+
+&lt;p&gt;New hires at Facebook go through a 6-week “bootcamp” process where you browse
+teams and try to find one that’s a good fit for you. Even though I interned at
+Facebook, I foolishly didn’t take the time to get a good sense of what teams
+were hiring. Nonetheless, I took a gamble and joined Facebook anyways out of
+college and did find a spot on the Hack programming language team, which had
+just started expanding in its Seattle office. (Fun fact: for a couple of weeks,
+my only coworker in the Seattle office was Eric Lippert, known for his work on
+C♯ at Microsoft.)&lt;/p&gt;
+
+&lt;p&gt;I didn’t consider academia at all when I was in college, thinking that I wasn’t
+cut out for it. I should have at least considered it given that I wanted to go
+into programming languages, possibly by participating in research as an
+undergrad.&lt;/p&gt;
+
+&lt;p&gt;I seriously looked at Microsoft and Google, both of which have top-notch
+programming language teams. While I was interviewing at Microsoft, I asked a
+hiring manager if it would be a problem for someone with only a Bachelor’s
+degree would be able to to get into programming languages. He reassured me that
+programming language teams needed entry-level developers just like most other
+teams, and that, indeed, PhD hires oftentimes just wanted to continue their PhD
+work, which only aligned with the company’s business needs perhaps three months
+out of the year.&lt;/p&gt;
+
+&lt;p&gt;I didn’t accept an offer with Microsoft because the pay was less and because I
+liked the culture at Facebook, although they did guarantee me a position
+somewhere in their developer division. I didn’t accept an offer with Google
+because they only got back to me about my interview results one week after the
+deadline of my Facebook full-time offer elapsed (!).&lt;/p&gt;
+
+&lt;aside class=&quot;aside&quot; id=&quot;the-rsum-black-hole&quot;&gt;
+          &lt;header class=&quot;aside-header&quot;&gt;&lt;a href=&quot;#the-rsum-black-hole&quot;&gt;The résumé black hole&lt;/a&gt;&lt;/header&gt;
+          &lt;div class=&quot;aside-contents&quot;&gt;&lt;p&gt;Big tech companies have a “résumé black hole”: you can submit your résumé to an
+online portal, but it’s unlikely that they’ll even set you up for a phone screen
+unless you have some impressive experience. But how do you get the impressive
+experience necessary if you can’t get an interview at a big tech company? And
+even if you do have the experience, the technical interviews have a reputation
+for being grueling and overly focused on computer science rather than software
+engineering.&lt;/p&gt;
+
+&lt;p&gt;I first managed to secure an undergraduate teaching assistant position for our
+Data Structures and Algorithms class, which looked great on my résumé. This
+position was available because the University of Michigan has large enough class
+sizes in the computer science department that they have no choice but to hire
+some number of undergraduate teaching assistants to handle the load. I did well
+in the course and made an impression on the professor teaching it by answering a
+lot of questions on the class forum, and then cold-emailed them asking for a
+job. (I did have to send them a couple of reminder emails throughout the
+semester since I didn’t get a response… professors are busy people.)&lt;/p&gt;
+
+&lt;p&gt;I submitted my improved résumé into the black hole for various large tech
+companies. The only one I heard back from was Amazon. They had an easy interview
+pipeline in that they just made me do a single online coding assessment and then
+extended me an internship offer — no need to get an actual human to spend time
+on me!&lt;/p&gt;
+
+&lt;p&gt;Amazon was a stepping-stone to getting interviews at large tech companies, such
+as Google, Facebook, and Microsoft. For example, right after my Amazon
+internship ended, I submitted my updated résumé to the Google résumé black hole,
+and got a response back from a recruiter within a week. My experience teaching
+data structures and algorithms for many semesters in a row then prepared me for
+the ensuing technical interviews.&lt;/p&gt;
+
+&lt;p&gt;If you don’t have the requisite experience on your résumé, the other thing you
+can do is to get someone who works at the company to refer you, which is how a
+large percentage of their openings end up filled.&lt;/p&gt;
+
+&lt;p&gt;Both of these routes are pretty awful on the whole, but it’s hard to do anything
+other than play by the large tech companies’ rules.&lt;/p&gt;
+&lt;/div&gt;
+        &lt;/aside&gt;
+
+&lt;p&gt;I’ll admit: I had a privileged upbringing which afforded me the resources and
+the confidence to jump through the set of hoops necessary to secure my current
+position. Frankly, the technical hiring process for these large companies is
+ridiculous, and not everyone has the resources to spend years aiming for one.&lt;/p&gt;
+
+&lt;p&gt;I’m writing about my experience because I believe putting the information out
+there is better than not putting it out there. Regardless of your situation, I
+hope that this article helps you make a concrete plan about how to get your
+desired job in programming languages as well.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 12 Sep 2018 00:00:00 -0500</pubDate>
+        <link>https://waleedkhan.name/blog/getting-a-job-in-pl/</link>
+        <guid isPermaLink="true">https://waleedkhan.name/blog/getting-a-job-in-pl/</guid>
+        
+        <category>programming-languages</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>My steno system</title>
+        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#introduction&quot; id=&quot;markdown-toc-introduction&quot;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#basic-phonology&quot; id=&quot;markdown-toc-basic-phonology&quot;&gt;Basic phonology&lt;/a&gt;    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#-z-for-plurals-and-the-present-tense&quot; id=&quot;markdown-toc--z-for-plurals-and-the-present-tense&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-Z&lt;/code&gt; for plurals and the present tense&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#s-for-the-final-z-sound&quot; id=&quot;markdown-toc-s-for-the-final-z-sound&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;*S&lt;/code&gt; for the final ‘z’ sound&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#f-for-the-v-sound&quot; id=&quot;markdown-toc-f-for-the-v-sound&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;*F&lt;/code&gt; for the ‘v’ sound&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#n-for-kn-&quot; id=&quot;markdown-toc-n-for-kn-&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;N*&lt;/code&gt; for kn-&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#prefer-explicit-long-vowels-ai-over-a-aoe-over-e&quot; id=&quot;markdown-toc-prefer-explicit-long-vowels-ai-over-a-aoe-over-e&quot;&gt;Prefer explicit long vowels: &lt;code class=&quot;highlighter-rouge&quot;&gt;AI&lt;/code&gt; over &lt;code class=&quot;highlighter-rouge&quot;&gt;A&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;AOE&lt;/code&gt; over &lt;code class=&quot;highlighter-rouge&quot;&gt;E&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#prefer--bgs-for-x-and-bgs-for-kshun-in-the-event-of-conflicts&quot; id=&quot;markdown-toc-prefer--bgs-for-x-and-bgs-for-kshun-in-the-event-of-conflicts&quot;&gt;Prefer &lt;code class=&quot;highlighter-rouge&quot;&gt;-BGS&lt;/code&gt; for ‘x’ and &lt;code class=&quot;highlighter-rouge&quot;&gt;*BGS&lt;/code&gt; for ‘kshun’ in the event of conflicts&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#tucking&quot; id=&quot;markdown-toc-tucking&quot;&gt;Tucking&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#additional-phonology&quot; id=&quot;markdown-toc-additional-phonology&quot;&gt;Additional phonology&lt;/a&gt;    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#sn--for-ins--inst-&quot; id=&quot;markdown-toc-sn--for-ins--inst-&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SN-&lt;/code&gt; for ins-, inst-&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#wr--for-rev-&quot; id=&quot;markdown-toc-wr--for-rev-&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;WR-&lt;/code&gt; for rev-&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#sk-for-ex--exc-&quot; id=&quot;markdown-toc-sk-for-ex--exc-&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SK*&lt;/code&gt; for ex-, exc-&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#kp--for-acc-&quot; id=&quot;markdown-toc-kp--for-acc-&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;KP-&lt;/code&gt; for acc-&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#spw--for-int--ent--inc--enc-&quot; id=&quot;markdown-toc-spw--for-int--ent--inc--enc-&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SPW-&lt;/code&gt; for int-, ent-, inc-, enc-&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#kpw--for-imp--emp--imb--emb-&quot; id=&quot;markdown-toc-kpw--for-imp--emp--imb--emb-&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;KPW-&lt;/code&gt; for imp-, emp- imb-, emb-&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#stw--for-inv--env--inf--enf-&quot; id=&quot;markdown-toc-stw--for-inv--env--inf--enf-&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;STW-&lt;/code&gt; for inv-, env-, inf-, enf-&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#-fr-for-the-m-sound&quot; id=&quot;markdown-toc--fr-for-the-m-sound&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-FR&lt;/code&gt; for the ‘m’ sound&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#-f-for-various--ive-endings&quot; id=&quot;markdown-toc--f-for-various--ive-endings&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-F&lt;/code&gt; for various -ive endings&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#ik-for--ic&quot; id=&quot;markdown-toc-ik-for--ic&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;*IK&lt;/code&gt; for -ic&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#aub-for-ob-&quot; id=&quot;markdown-toc-aub-for-ob-&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;AUB&lt;/code&gt; for ob-&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#-efk-for--estic-and--ifk-for--istic&quot; id=&quot;markdown-toc--efk-for--estic-and--ifk-for--istic&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-EFK&lt;/code&gt; for -estic and &lt;code class=&quot;highlighter-rouge&quot;&gt;-IFK&lt;/code&gt; for -istic&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#orthography&quot; id=&quot;markdown-toc-orthography&quot;&gt;Orthography&lt;/a&gt;    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#use-asterisks-for-apostrophes-in-contractions&quot; id=&quot;markdown-toc-use-asterisks-for-apostrophes-in-contractions&quot;&gt;Use asterisks for apostrophes in contractions&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#duplicate-strokes-to-expand-abbreviations&quot; id=&quot;markdown-toc-duplicate-strokes-to-expand-abbreviations&quot;&gt;Duplicate strokes to expand abbreviations&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#single-stroke-proper-nouns-use-asterisks&quot; id=&quot;markdown-toc-single-stroke-proper-nouns-use-asterisks&quot;&gt;Single-stroke proper nouns use asterisks&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#short-vowels-for-foreign-names-and-loan-words&quot; id=&quot;markdown-toc-short-vowels-for-foreign-names-and-loan-words&quot;&gt;Short vowels for foreign names and loan-words&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#asterisks-for-suffixes-and-compound-words&quot; id=&quot;markdown-toc-asterisks-for-suffixes-and-compound-words&quot;&gt;Asterisks for suffixes and compound words&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#briefing&quot; id=&quot;markdown-toc-briefing&quot;&gt;Briefing&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#my-brief-system&quot; id=&quot;markdown-toc-my-brief-system&quot;&gt;My brief system&lt;/a&gt;    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#installation&quot; id=&quot;markdown-toc-installation&quot;&gt;Installation&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#the-subjects&quot; id=&quot;markdown-toc-the-subjects&quot;&gt;The subjects&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#the-right-hand-phrase-enders&quot; id=&quot;markdown-toc-the-right-hand-phrase-enders&quot;&gt;The right-hand phrase enders&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#the-left-hand-phrase-beginners&quot; id=&quot;markdown-toc-the-left-hand-phrase-beginners&quot;&gt;The left-hand phrase beginners&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#putting-it-together&quot; id=&quot;markdown-toc-putting-it-together&quot;&gt;Putting it together&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;The machine stenography system generally in use in the US is based off of &lt;a href=&quot;https://en.wikipedia.org/wiki/Stenotype#Chords&quot;&gt;Ward
+Ireland’s original stenographic
+theory&lt;/a&gt;. Each stenographer
+customizes their own system. In my case, I learned the &lt;a href=&quot;https://www.gitbook.com/book/morinted/plover-theory/details&quot;&gt;Plover
+theory&lt;/a&gt; and
+customized it from there to produce my own personal theory. This post details
+the changes I’ve made to the Plover theory to suit my own use; it may be useful
+to other stenographers looking for additions to their theory.&lt;/p&gt;
+
+&lt;p&gt;Generally I use a theory heavy on tucking and briefs. I try to make sure that my
+rules are consistent. Common words that are not consistent with my rules are
+usually relegated to less convenient strokes, such as &lt;code class=&quot;highlighter-rouge&quot;&gt;WAO*EF&lt;/code&gt; = “we’ve” and
+“WA*EF” = “weave”, or &lt;code class=&quot;highlighter-rouge&quot;&gt;KOU&lt;/code&gt; = “could you” and &lt;code class=&quot;highlighter-rouge&quot;&gt;KO*U&lt;/code&gt; = “cow”.&lt;/p&gt;
+
+&lt;h2 id=&quot;basic-phonology&quot;&gt;Basic phonology&lt;/h2&gt;
+
+&lt;h3 id=&quot;-z-for-plurals-and-the-present-tense&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-Z&lt;/code&gt; for plurals and the present tense&lt;/h3&gt;
+
+&lt;p&gt;Always use &lt;code class=&quot;highlighter-rouge&quot;&gt;-Z&lt;/code&gt; and never &lt;code class=&quot;highlighter-rouge&quot;&gt;-S&lt;/code&gt; to pluralize words, or to turn them into the
+present tense. With the default dictionary, I’ve found that I can’t reliably
+tuck &lt;code class=&quot;highlighter-rouge&quot;&gt;-S&lt;/code&gt; into words to add the -s ending; for example, “days” versus
+“daze” or “gross” versus “grows” cause issues frequently.&lt;/p&gt;
+
+&lt;p&gt;The exception is for words that end with &lt;code class=&quot;highlighter-rouge&quot;&gt;-T&lt;/code&gt;. In those cases, I still use &lt;code class=&quot;highlighter-rouge&quot;&gt;-S&lt;/code&gt;
+to pluralize them, since &lt;code class=&quot;highlighter-rouge&quot;&gt;-TZ&lt;/code&gt; is impossible to stroke in some cases, and &lt;code class=&quot;highlighter-rouge&quot;&gt;-TS&lt;/code&gt;
+is unlikely to conflict with other words.&lt;/p&gt;
+
+&lt;p&gt;For words ending in &lt;code class=&quot;highlighter-rouge&quot;&gt;-aze&lt;/code&gt; I sometimes use the &lt;code class=&quot;highlighter-rouge&quot;&gt;AEZ&lt;/code&gt; ending, which allows me to
+use &lt;code class=&quot;highlighter-rouge&quot;&gt;A*EZ&lt;/code&gt; for the &lt;code class=&quot;highlighter-rouge&quot;&gt;-azy&lt;/code&gt; variant. For example, &lt;code class=&quot;highlighter-rouge&quot;&gt;LAEZ&lt;/code&gt; = “laze” and &lt;code class=&quot;highlighter-rouge&quot;&gt;LA*EZ&lt;/code&gt; =
+“lazy” or &lt;code class=&quot;highlighter-rouge&quot;&gt;HAEZ&lt;/code&gt; = “haze” and &lt;code class=&quot;highlighter-rouge&quot;&gt;HA*EZ&lt;/code&gt; = “hazy”.&lt;/p&gt;
+
+&lt;p&gt;Implementing this change in the default dictionary takes a decent amount of
+effort, but I’ve found the addition in consistency has made it well worth it.&lt;/p&gt;
+
+&lt;p&gt;I typically use &lt;code class=&quot;highlighter-rouge&quot;&gt;-SZ&lt;/code&gt; for the plural of words ending in the -s sound, such as
+“races”, and don’t use &lt;code class=&quot;highlighter-rouge&quot;&gt;-FZ&lt;/code&gt; for that purpose.&lt;/p&gt;
+
+&lt;h3 id=&quot;s-for-the-final-z-sound&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;*S&lt;/code&gt; for the final ‘z’ sound&lt;/h3&gt;
+
+&lt;p&gt;Some word pairs require disambiguation between the -s and -z variants, which I
+didn’t find adequately addressed in default dictionary. This also helps with
+pluralizing words that end with the ‘z’ sound. Some examples:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;race, races, raise, raises, raze, razes, rays&lt;/li&gt;
+  &lt;li&gt;cease, sees, seas, seize&lt;/li&gt;
+  &lt;li&gt;rice, rices, rise, rises, ryes&lt;/li&gt;
+  &lt;li&gt;rose, roses, rows&lt;/li&gt;
+  &lt;li&gt;sighs, size&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I use &lt;code class=&quot;highlighter-rouge&quot;&gt;*S&lt;/code&gt; for the -s variants and &lt;code class=&quot;highlighter-rouge&quot;&gt;-Z&lt;/code&gt; for the plural variants, keeping in mind
+steno order for the plural versions:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;RAIS&lt;/code&gt; = “race”, &lt;code class=&quot;highlighter-rouge&quot;&gt;RAISZ&lt;/code&gt; = “races”, &lt;code class=&quot;highlighter-rouge&quot;&gt;RA*IS&lt;/code&gt; = “raise”, &lt;code class=&quot;highlighter-rouge&quot;&gt;RA*ISZ&lt;/code&gt; = “raises”,
+&lt;code class=&quot;highlighter-rouge&quot;&gt;RAEZ&lt;/code&gt; = “raze” (as per the previous section), &lt;code class=&quot;highlighter-rouge&quot;&gt;RAEZ/-Z&lt;/code&gt; = “razes”, &lt;code class=&quot;highlighter-rouge&quot;&gt;RAIZ&lt;/code&gt; =
+“rays”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SAOES&lt;/code&gt; = “cease”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SAOEZ&lt;/code&gt; = “sees”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SAEZ&lt;/code&gt; = “seas”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SAO*ES&lt;/code&gt; = “seize”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;RAOIS&lt;/code&gt; = “rice”, &lt;code class=&quot;highlighter-rouge&quot;&gt;RAOISZ&lt;/code&gt; = “rices”, &lt;code class=&quot;highlighter-rouge&quot;&gt;RAO*IS&lt;/code&gt; = “rise”, &lt;code class=&quot;highlighter-rouge&quot;&gt;RAO*ISZ&lt;/code&gt; = “rises”,
+&lt;code class=&quot;highlighter-rouge&quot;&gt;RAOIZ&lt;/code&gt; = “ryes”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;RO*ES&lt;/code&gt; = “rose”, &lt;code class=&quot;highlighter-rouge&quot;&gt;RO*ESZ&lt;/code&gt; = “roses”, &lt;code class=&quot;highlighter-rouge&quot;&gt;ROEZ&lt;/code&gt; = “rows”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SAOIZ&lt;/code&gt; = “sighs”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SAO*IS&lt;/code&gt; = “size”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;f-for-the-v-sound&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;*F&lt;/code&gt; for the ‘v’ sound&lt;/h3&gt;
+
+&lt;p&gt;I always use &lt;code class=&quot;highlighter-rouge&quot;&gt;*F&lt;/code&gt; for the ‘v’ sound to avoid having to figure out when &lt;code class=&quot;highlighter-rouge&quot;&gt;-F&lt;/code&gt;
+works, and when I need to use &lt;code class=&quot;highlighter-rouge&quot;&gt;*F&lt;/code&gt; to disambiguate it.&lt;/p&gt;
+
+&lt;h3 id=&quot;n-for-kn-&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;N*&lt;/code&gt; for kn-&lt;/h3&gt;
+
+&lt;p&gt;Disambiguating “knows” from “nose” from “nos” or “new” versus “knew” is a pain,
+and I don’t like how the default Plover dictionary uses &lt;code class=&quot;highlighter-rouge&quot;&gt;O&lt;/code&gt; for one and &lt;code class=&quot;highlighter-rouge&quot;&gt;OE&lt;/code&gt; for
+other, because I would prefer to use the long vowel sound explicitly, as per the
+next section. Instead, I use &lt;code class=&quot;highlighter-rouge&quot;&gt;N*&lt;/code&gt; to indicate that there’s a silent letter:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;NOE&lt;/code&gt; = “no”, &lt;code class=&quot;highlighter-rouge&quot;&gt;N*OE&lt;/code&gt; = “know”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;NIT&lt;/code&gt; = “nit”, &lt;code class=&quot;highlighter-rouge&quot;&gt;N*IT&lt;/code&gt; = “knit”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;NAO*IF&lt;/code&gt; = “knife”, &lt;code class=&quot;highlighter-rouge&quot;&gt;NAO*IFS&lt;/code&gt; = “knifes”, &lt;code class=&quot;highlighter-rouge&quot;&gt;NAO*IFZ&lt;/code&gt; = “knives”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;prefer-explicit-long-vowels-ai-over-a-aoe-over-e&quot;&gt;Prefer explicit long vowels: &lt;code class=&quot;highlighter-rouge&quot;&gt;AI&lt;/code&gt; over &lt;code class=&quot;highlighter-rouge&quot;&gt;A&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;AOE&lt;/code&gt; over &lt;code class=&quot;highlighter-rouge&quot;&gt;E&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;The Plover theory sometimes uses lone vowels over long vowels. I usually prefer
+to use the long vowels, even though they require more keys.&lt;/p&gt;
+
+&lt;p&gt;Some examples:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;HAOE&lt;/code&gt; = “he”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SHAOE&lt;/code&gt; = “she”, and &lt;code class=&quot;highlighter-rouge&quot;&gt;WAOE&lt;/code&gt; = “we”
+    &lt;ul&gt;
+      &lt;li&gt;Note that &lt;code class=&quot;highlighter-rouge&quot;&gt;HAOE*L&lt;/code&gt; = “he’ll” and &lt;code class=&quot;highlighter-rouge&quot;&gt;HAOEL&lt;/code&gt; = “heel”, according to the
+apostrophe rule below.&lt;/li&gt;
+      &lt;li&gt;Note that &lt;code class=&quot;highlighter-rouge&quot;&gt;WAOE*F&lt;/code&gt; = “we’ve” according to the apostrophe rule, and
+consequently &lt;code class=&quot;highlighter-rouge&quot;&gt;WAOEF&lt;/code&gt; = “weave”. This isn’t ideal, but I don’t write “weave”
+very often.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SAIF&lt;/code&gt; = “safe” and &lt;code class=&quot;highlighter-rouge&quot;&gt;SA*IF&lt;/code&gt; = “save” (instead of &lt;code class=&quot;highlighter-rouge&quot;&gt;SAIF&lt;/code&gt; = “safe” and &lt;code class=&quot;highlighter-rouge&quot;&gt;SAF&lt;/code&gt; =
+“save”)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;WA*IF&lt;/code&gt; = “wave” (instead of &lt;code class=&quot;highlighter-rouge&quot;&gt;WAF&lt;/code&gt; = “wave” or &lt;code class=&quot;highlighter-rouge&quot;&gt;WA*F&lt;/code&gt; = “wave”)
+    &lt;ul&gt;
+      &lt;li&gt;Since “wave” is used much more frequently than “waive”, I’ve relegated
+&lt;code class=&quot;highlighter-rouge&quot;&gt;WAIF&lt;/code&gt; = “waive”.&lt;/li&gt;
+      &lt;li&gt;I’ve removed “waif” from my dictionary since I’ve never used it. &lt;a href=&quot;http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=222111&amp;amp;type=card&quot;&gt;Reckless? Maybe.&lt;/a&gt;
+*&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;One exception is for prefix strokes: I still use &lt;code class=&quot;highlighter-rouge&quot;&gt;RE-&lt;/code&gt; = “{re^}” and &lt;code class=&quot;highlighter-rouge&quot;&gt;PRO-&lt;/code&gt; =
+“{pro^}”, for example. This helps to disambiguate between the prefix and the
+full form, such as &lt;code class=&quot;highlighter-rouge&quot;&gt;PRO-&lt;/code&gt; = “{pro^}” versus &lt;code class=&quot;highlighter-rouge&quot;&gt;PROE&lt;/code&gt; = “pro”, and I also don’t
+want to go change all the existing entries in the dictionary.&lt;/p&gt;
+
+&lt;h3 id=&quot;prefer--bgs-for-x-and-bgs-for-kshun-in-the-event-of-conflicts&quot;&gt;Prefer &lt;code class=&quot;highlighter-rouge&quot;&gt;-BGS&lt;/code&gt; for ‘x’ and &lt;code class=&quot;highlighter-rouge&quot;&gt;*BGS&lt;/code&gt; for ‘kshun’ in the event of conflicts&lt;/h3&gt;
+
+&lt;p&gt;For word pairs like “reflex” and “reflection”or “fax” and “faction”, I
+disambiguate them using &lt;code class=&quot;highlighter-rouge&quot;&gt;-BGS&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;*BGS&lt;/code&gt; correspondingly; for example,
+&lt;code class=&quot;highlighter-rouge&quot;&gt;RE/FLEBGS&lt;/code&gt; = “reflex” and &lt;code class=&quot;highlighter-rouge&quot;&gt;RE/FL*BGS&lt;/code&gt; = “reflection”. When there is no
+conflict, I write &lt;code class=&quot;highlighter-rouge&quot;&gt;-BGS&lt;/code&gt; for “kshun”.&lt;/p&gt;
+
+&lt;p&gt;Since I pluralize all my words with &lt;code class=&quot;highlighter-rouge&quot;&gt;-Z&lt;/code&gt;, I don’t have conflicts for word pairs
+like “traction” and “tracks” or “suction” and “sucks”, since I write
+&lt;code class=&quot;highlighter-rouge&quot;&gt;TRABGS&lt;/code&gt; = “traction” and &lt;code class=&quot;highlighter-rouge&quot;&gt;TRABGZ&lt;/code&gt; = “tracks”.&lt;/p&gt;
+
+&lt;h2 id=&quot;tucking&quot;&gt;Tucking&lt;/h2&gt;
+
+&lt;p&gt;I usually &lt;em&gt;tuck&lt;/em&gt; letters into my words to add affixes when it’s possible to do
+so in one stroke. Plover will handle most of these affixes use the orthographic
+rules, which means that I don’t have to have a special entry for the affixed
+form. For example, you can add &lt;code class=&quot;highlighter-rouge&quot;&gt;-G&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;TPAO&lt;/code&gt; = “foo” and get “fooing”, even
+though “fooing” isn’t an explicit word in the dictionary.&lt;/p&gt;
+
+&lt;p&gt;I tuck these whenever possible:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-G&lt;/code&gt; = “{^ing}”.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-D&lt;/code&gt; = “{^ed}”. This includes in words that end with &lt;code class=&quot;highlighter-rouge&quot;&gt;-T&lt;/code&gt;, such as &lt;code class=&quot;highlighter-rouge&quot;&gt;PLANTD&lt;/code&gt; =
+“planted”. It took a while to get used to writing &lt;code class=&quot;highlighter-rouge&quot;&gt;-TD&lt;/code&gt; but it’s second nature
+now. I don’t usually use the so-called “Philly shift”, in which I shift over
+my right hand, to write out words ending in &lt;code class=&quot;highlighter-rouge&quot;&gt;-SD&lt;/code&gt; (such as &lt;code class=&quot;highlighter-rouge&quot;&gt;SPO*ESD&lt;/code&gt; =
+“supposed”) in one stroke.&lt;/li&gt;
+  &lt;li&gt;I use &lt;code class=&quot;highlighter-rouge&quot;&gt;-Z&lt;/code&gt; to add -s and -es, as discussed in depth previously.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-L&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;L-&lt;/code&gt; for -al, -ly or -ally. This is not an orthographic rule in the
+Plover dictionary, which means that I have to add it for each individual word.
+It largely depends on which one feels more comfortable to determine which I
+add to a word. Examples:
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;BAIFK&lt;/code&gt; = “basic”, &lt;code class=&quot;highlighter-rouge&quot;&gt;BLAIFK&lt;/code&gt; = “basically”&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;FUNGS&lt;/code&gt; = “function”, &lt;code class=&quot;highlighter-rouge&quot;&gt;FUNLGS&lt;/code&gt; = “functional”, &lt;code class=&quot;highlighter-rouge&quot;&gt;FLUNLGS&lt;/code&gt; = “functionally”&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;F*UL&lt;/code&gt; = “fundamental” (brief), &lt;code class=&quot;highlighter-rouge&quot;&gt;FL*UL&lt;/code&gt; = “fundamentally”&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SKES&lt;/code&gt; = “success”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SKEFL&lt;/code&gt; = “successful”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SKLEFL&lt;/code&gt; = “successfully”&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;additional-phonology&quot;&gt;Additional phonology&lt;/h2&gt;
+
+&lt;h3 id=&quot;sn--for-ins--inst-&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SN-&lt;/code&gt; for ins-, inst-&lt;/h3&gt;
+
+&lt;p&gt;There are a few examples in the default Plover dictionary already, but it’s not
+a consistent theme. Some examples:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SNERT&lt;/code&gt; = “insert”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SNERGS&lt;/code&gt; = “insertion”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SNANT&lt;/code&gt; = “instant”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SNANS&lt;/code&gt; = “instance”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SNANGS&lt;/code&gt; = “instantiation”
+(programming term), &lt;code class=&quot;highlighter-rouge&quot;&gt;SNAINS&lt;/code&gt; = “instantaneous”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SNAINLS&lt;/code&gt; = “instantaneously”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SNRUMT&lt;/code&gt; = “instrument”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SNRUL&lt;/code&gt; = “instrumental”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SNRUKT&lt;/code&gt; = “instruct”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SNRUGS&lt;/code&gt; = “instruction”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;wr--for-rev-&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;WR-&lt;/code&gt; for rev-&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;WR-&lt;/code&gt; isn’t used for many words ordinarily, so it’s a good candidate for use in
+briefing. Some examples:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;WRAO*IS&lt;/code&gt; = “revise”, &lt;code class=&quot;highlighter-rouge&quot;&gt;WRIGS&lt;/code&gt; = “revision”
+    &lt;ul&gt;
+      &lt;li&gt;Note that I use &lt;code class=&quot;highlighter-rouge&quot;&gt;*S&lt;/code&gt; for the trailing ‘z’ sound.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;WRERT&lt;/code&gt; = “revert”, &lt;code class=&quot;highlighter-rouge&quot;&gt;WRERS&lt;/code&gt; = “reverse”, &lt;code class=&quot;highlighter-rouge&quot;&gt;WRERGS&lt;/code&gt; = “reversion”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;WRAOU&lt;/code&gt; = “review”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;sk-for-ex--exc-&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SK*&lt;/code&gt; for ex-, exc-&lt;/h3&gt;
+
+&lt;p&gt;The default dictionary uses &lt;code class=&quot;highlighter-rouge&quot;&gt;KP-&lt;/code&gt; for some uses of ex-, but I didn’t like that
+it conflicted, such as “exact” versus “compact”.&lt;/p&gt;
+
+&lt;p&gt;The other commonly-used prefix is &lt;code class=&quot;highlighter-rouge&quot;&gt;SKP-&lt;/code&gt; for ex-. I was a bit worried about
+whether it would conflict with my brief system, since &lt;code class=&quot;highlighter-rouge&quot;&gt;SKP-&lt;/code&gt; is the
+phrase-beginner for “and”. I don’t know if it does conflict, but &lt;code class=&quot;highlighter-rouge&quot;&gt;SK*&lt;/code&gt; works for
+me, so I haven’t tried it the other way.&lt;/p&gt;
+
+&lt;p&gt;For &lt;code class=&quot;highlighter-rouge&quot;&gt;ext-&lt;/code&gt; endings, I use &lt;code class=&quot;highlighter-rouge&quot;&gt;STK*&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Some examples:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SKA*FRPL&lt;/code&gt; = “example”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SK*AKT&lt;/code&gt; = “exact”
+    &lt;ul&gt;
+      &lt;li&gt;I actually still use &lt;code class=&quot;highlighter-rouge&quot;&gt;ELG&lt;/code&gt; = “exactly”, but &lt;code class=&quot;highlighter-rouge&quot;&gt;SKL*AKT&lt;/code&gt; = “exactly” would be
+reasonable too.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SK*ES&lt;/code&gt; = “excess”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SK*EF&lt;/code&gt; = “excessive”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SK*EFL&lt;/code&gt; = “excessively”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SK*EPT&lt;/code&gt; = “except”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SK*EPGS&lt;/code&gt; = “exception”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SKP*EKT&lt;/code&gt; = “expect”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SKP*EBGS&lt;/code&gt; = “expectation”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SKLAO*UD&lt;/code&gt; = “exclude”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SKLAO*UGS&lt;/code&gt; = “exclusion”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SKLAO*UF&lt;/code&gt; = “exclusive”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SKPR*ES&lt;/code&gt; = “express”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SKPR*EGS&lt;/code&gt; = “expression”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SKPR*EBL&lt;/code&gt; = “expressible”,
+&lt;code class=&quot;highlighter-rouge&quot;&gt;SKPR*EF&lt;/code&gt; = “expressive”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SKPR*EFT&lt;/code&gt; = “expressivity”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SKPR*EFNS&lt;/code&gt; =
+“expressiveness”
+    &lt;ul&gt;
+      &lt;li&gt;All of these terms come up frequently when discussing programming languages.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SKPO*ENT&lt;/code&gt; = “exponent”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SKPO*ENLT&lt;/code&gt;/&lt;code class=&quot;highlighter-rouge&quot;&gt;SKP*ENL&lt;/code&gt; = “exponential”,
+&lt;code class=&quot;highlighter-rouge&quot;&gt;SKPLO*ENLT&lt;/code&gt;/&lt;code class=&quot;highlighter-rouge&quot;&gt;SKPL*ENL&lt;/code&gt; = “exponentially”
+    &lt;ul&gt;
+      &lt;li&gt;You could say it’s exponentially easier than writing out “exponentially” in
+five strokes!&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;STK*ENT&lt;/code&gt; = “extent”, &lt;code class=&quot;highlighter-rouge&quot;&gt;STK*END&lt;/code&gt; = &lt;code class=&quot;highlighter-rouge&quot;&gt;extend&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;STK*EF&lt;/code&gt; = “extensive”, &lt;code class=&quot;highlighter-rouge&quot;&gt;STK*EFL&lt;/code&gt;
+= “extensively”, &lt;code class=&quot;highlighter-rouge&quot;&gt;STK*ENL&lt;/code&gt; = “extensible”, &lt;code class=&quot;highlighter-rouge&quot;&gt;STK*ENLT&lt;/code&gt; = “extensibility”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;kp--for-acc-&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;KP-&lt;/code&gt; for acc-&lt;/h3&gt;
+
+&lt;p&gt;To distinguish ex- from acc-, I use KP- for the latter instead.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;KPEPT&lt;/code&gt; = “accept”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;KPENT&lt;/code&gt; = “accent”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;KPEBL&lt;/code&gt; = “accessible”, &lt;code class=&quot;highlighter-rouge&quot;&gt;KPEBLT&lt;/code&gt; = “accessibility”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;spw--for-int--ent--inc--enc-&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SPW-&lt;/code&gt; for int-, ent-, inc-, enc-&lt;/h3&gt;
+
+&lt;p&gt;Magnum uses &lt;code class=&quot;highlighter-rouge&quot;&gt;SPW&lt;/code&gt; for int- and ent-. It also uses it for ind- and end-; however,
+I use it for inc- and enc- instead. I haven’t found any significant conflicts
+(the worst being “entrust” versus “encrust”). Some examples:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SPW-&lt;/code&gt; = “int” (programming term: abbreviation of “integer”), &lt;code class=&quot;highlighter-rouge&quot;&gt;SPWERJ&lt;/code&gt; =
+“integer”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SPWUPGS&lt;/code&gt; = “interruption”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SPWRAL&lt;/code&gt; = “integral”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SPWRAIT&lt;/code&gt; = “integrate”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SPWRAIGS&lt;/code&gt; = “integration”
+    &lt;ul&gt;
+      &lt;li&gt;This one is a bit of a stretch but I haven’t found any conflicts.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SPWERT&lt;/code&gt; = “interpret”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SPWRERT&lt;/code&gt; = “interpreter”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SPWERPGS&lt;/code&gt; =
+“interpretation”
+    &lt;ul&gt;
+      &lt;li&gt;In “interpreter”, I tuck an &lt;code class=&quot;highlighter-rouge&quot;&gt;R-&lt;/code&gt; in for the -er ending. This entry could
+also be &lt;code class=&quot;highlighter-rouge&quot;&gt;SPWRET&lt;/code&gt;/&lt;code class=&quot;highlighter-rouge&quot;&gt;SPWRERT&lt;/code&gt;/&lt;code class=&quot;highlighter-rouge&quot;&gt;SPWRAIGS&lt;/code&gt; without issue, I think.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SPWLEKT&lt;/code&gt; = “intellect”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SPWRAIMT&lt;/code&gt; = “entertainment”
+    &lt;ul&gt;
+      &lt;li&gt;There is also the word “entrainment”, but I’ve never used it.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SPWREMT&lt;/code&gt; = “increment”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SPWREL&lt;/code&gt; = “incremental”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SPWLEL&lt;/code&gt; = “incrementally”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SPWLEMT&lt;/code&gt; = “inclement”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SPWRIPTD&lt;/code&gt; = “encrypted”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SPWLO*ES&lt;/code&gt; = “enclose”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SPWLO*URS&lt;/code&gt; = “enclosure”
+    &lt;ul&gt;
+      &lt;li&gt;Note that I use &lt;code class=&quot;highlighter-rouge&quot;&gt;*S&lt;/code&gt; for the trailing ‘z’ sound.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;kpw--for-imp--emp--imb--emb-&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;KPW-&lt;/code&gt; for imp-, emp- imb-, emb-&lt;/h3&gt;
+
+&lt;p&gt;Some examples:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;KPWLEMT&lt;/code&gt; = “implement”, &lt;code class=&quot;highlighter-rouge&quot;&gt;KPWLEMGS&lt;/code&gt; = “implementation”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;KPWAIR&lt;/code&gt; = “impair”, &lt;code class=&quot;highlighter-rouge&quot;&gt;KPWAIRMT&lt;/code&gt; = “impairment”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;KPWOI&lt;/code&gt; = “employ”, &lt;code class=&quot;highlighter-rouge&quot;&gt;KPWO*I&lt;/code&gt; = “employee”, &lt;code class=&quot;highlighter-rouge&quot;&gt;KPWOIMT&lt;/code&gt; = “employment”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;KPWAOU&lt;/code&gt; = “imbue”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;KPWARS&lt;/code&gt; = “embarrass”, &lt;code class=&quot;highlighter-rouge&quot;&gt;KPWARMT&lt;/code&gt; = “embarrassment”
+    &lt;ul&gt;
+      &lt;li&gt;Ordinarily I would use &lt;code class=&quot;highlighter-rouge&quot;&gt;AI&lt;/code&gt; for the long ‘a’ sound, but then “embarrassment”
+would conflict with “impairment”. I had already learned &lt;code class=&quot;highlighter-rouge&quot;&gt;EM/BARS&lt;/code&gt; =
+“embarrass” from the default dictionary, so &lt;code class=&quot;highlighter-rouge&quot;&gt;KPWARS&lt;/code&gt; stuck.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;KPWED&lt;/code&gt; = “embed”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;KPWLEM&lt;/code&gt; = “emblem”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;stw--for-inv--env--inf--enf-&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;STW-&lt;/code&gt; for inv-, env-, inf-, enf-&lt;/h3&gt;
+
+&lt;p&gt;Some examples:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;STWERT&lt;/code&gt; = “invert”, &lt;code class=&quot;highlighter-rouge&quot;&gt;STWERGS&lt;/code&gt; = “inversion”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;STWAOIT&lt;/code&gt; = “invite”, &lt;code class=&quot;highlighter-rouge&quot;&gt;STWI/TAIGS&lt;/code&gt; = “invitation”
+    &lt;ul&gt;
+      &lt;li&gt;Note that “invitation” has to avoid conflicting with &lt;code class=&quot;highlighter-rouge&quot;&gt;STWIGS&lt;/code&gt; = “envision”
+and &lt;code class=&quot;highlighter-rouge&quot;&gt;STWAIGS&lt;/code&gt; = “invasion”.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;STW-&lt;/code&gt; = “env” (programming term: abbreviation of “environment”), &lt;code class=&quot;highlighter-rouge&quot;&gt;STWAOIRMT&lt;/code&gt;
+= “environment”, &lt;code class=&quot;highlighter-rouge&quot;&gt;STWAOIRL&lt;/code&gt; = “environmental”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;STWAIRNT&lt;/code&gt; = “invariant”, &lt;code class=&quot;highlighter-rouge&quot;&gt;STWAIRNS&lt;/code&gt; = “invariance” (programming term)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;STWORS&lt;/code&gt; = “enforce”, &lt;code class=&quot;highlighter-rouge&quot;&gt;STWORMT&lt;/code&gt; = “enforcement”, &lt;code class=&quot;highlighter-rouge&quot;&gt;STWO*RMT&lt;/code&gt; = “informant”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;-fr-for-the-m-sound&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-FR&lt;/code&gt; for the ‘m’ sound&lt;/h3&gt;
+
+&lt;p&gt;There are a few sounds like -mp (“clamp”, “dump”, etc.) or -mb (“bomb”, “climb”)
+which don’t have direct equivalents in the Plover theory. Usually &lt;code class=&quot;highlighter-rouge&quot;&gt;*M&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;-M&lt;/code&gt;
+are written instead. However, this prevents attaching additional letters,
+specifically &lt;code class=&quot;highlighter-rouge&quot;&gt;-L&lt;/code&gt;, to the stroke. In these cases, I use &lt;code class=&quot;highlighter-rouge&quot;&gt;-FR&lt;/code&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;KLAFRP&lt;/code&gt; = “clamp”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SIFRPL&lt;/code&gt; = “simple”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;BOFRB&lt;/code&gt; = “bomb”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;RUFRBL&lt;/code&gt; = “rumble”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;-f-for-various--ive-endings&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-F&lt;/code&gt; for various -ive endings&lt;/h3&gt;
+
+&lt;p&gt;This convention exists to some degree in the default Plover dictionary, so I’ve
+extended it.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SKES&lt;/code&gt; = “success”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SKEF&lt;/code&gt; = “successive”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SPWRAKT&lt;/code&gt; = “interact”, &lt;code class=&quot;highlighter-rouge&quot;&gt;SPWRAF&lt;/code&gt; = “interactive”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;STK*END&lt;/code&gt; = “extend”, &lt;code class=&quot;highlighter-rouge&quot;&gt;STK*EF&lt;/code&gt; = “extensive”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;ik-for--ic&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;*IK&lt;/code&gt; for -ic&lt;/h3&gt;
+
+&lt;p&gt;In line with my suffixes-use-asterisks rule below, and to avoid conflict with
+&lt;code class=&quot;highlighter-rouge&quot;&gt;IK&lt;/code&gt; = “I can” in my brief system, I use &lt;code class=&quot;highlighter-rouge&quot;&gt;*IK&lt;/code&gt; instead:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;MAJ/*IK&lt;/code&gt; = “magic”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;LOJ/*IK&lt;/code&gt; = “logic”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;aub-for-ob-&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;AUB&lt;/code&gt; for ob-&lt;/h3&gt;
+
+&lt;p&gt;Similar to &lt;code class=&quot;highlighter-rouge&quot;&gt;AUP&lt;/code&gt; for up-, I use &lt;code class=&quot;highlighter-rouge&quot;&gt;AUB&lt;/code&gt; for words starting with &lt;code class=&quot;highlighter-rouge&quot;&gt;ob-&lt;/code&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;AUB/STRUKT&lt;/code&gt; = “obstruct”, &lt;code class=&quot;highlighter-rouge&quot;&gt;AUB/STRUBGS&lt;/code&gt; = “obstruction”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;AUB/LAOEK&lt;/code&gt; = “oblique”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;AUB/LONG&lt;/code&gt; = “oblong”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;AUB/TRAOUD&lt;/code&gt; = “obtrude”, &lt;code class=&quot;highlighter-rouge&quot;&gt;AUB/TRAOUF&lt;/code&gt; = “obtrusive”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;-efk-for--estic-and--ifk-for--istic&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-EFK&lt;/code&gt; for -estic and &lt;code class=&quot;highlighter-rouge&quot;&gt;-IFK&lt;/code&gt; for -istic&lt;/h3&gt;
+
+&lt;p&gt;For words that end in -stic, I usually manage to skip using &lt;code class=&quot;highlighter-rouge&quot;&gt;ST-K&lt;/code&gt; = “{^istic}”
+or &lt;code class=&quot;highlighter-rouge&quot;&gt;*IK&lt;/code&gt; = “{^ic}” by adding &lt;code class=&quot;highlighter-rouge&quot;&gt;-EFK&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;-IFK&lt;/code&gt; to the last syllable. For example&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;MA/JEFK&lt;/code&gt; = “majestic”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;OPT/MIFK&lt;/code&gt; = “optimistic”, &lt;code class=&quot;highlighter-rouge&quot;&gt;PES/MIFK&lt;/code&gt; = “pessimistic”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;orthography&quot;&gt;Orthography&lt;/h2&gt;
+
+&lt;h3 id=&quot;use-asterisks-for-apostrophes-in-contractions&quot;&gt;Use asterisks for apostrophes in contractions&lt;/h3&gt;
+
+&lt;p&gt;I always add &lt;code class=&quot;highlighter-rouge&quot;&gt;*&lt;/code&gt; to strokes for words that have apostrophes. For example:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;LETS&lt;/code&gt; = “lets”, &lt;code class=&quot;highlighter-rouge&quot;&gt;L*ETS&lt;/code&gt; = “let’s”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;DO*ENT&lt;/code&gt; = “don’t”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;D*INT&lt;/code&gt; = “didn’t”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;THA*L&lt;/code&gt; = “that’ll”
+    &lt;ul&gt;
+      &lt;li&gt;Note that &lt;code class=&quot;highlighter-rouge&quot;&gt;THAL&lt;/code&gt; = “that will”.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;WAO*EF&lt;/code&gt; = “we’ve”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;HAOE*L&lt;/code&gt; = “he’ll”
+    &lt;ul&gt;
+      &lt;li&gt;Note that &lt;code class=&quot;highlighter-rouge&quot;&gt;HAOEL&lt;/code&gt; = “heel”.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This interacts well with my brief system, described later.&lt;/p&gt;
+
+&lt;h3 id=&quot;duplicate-strokes-to-expand-abbreviations&quot;&gt;Duplicate strokes to expand abbreviations&lt;/h3&gt;
+
+&lt;p&gt;For abbreviations and acronyms, I write the stroke once to indicate the
+abbreviated form, and then again to indicate the full form. For example, &lt;code class=&quot;highlighter-rouge&quot;&gt;U*S&lt;/code&gt; =
+“US” and &lt;code class=&quot;highlighter-rouge&quot;&gt;U*S/U*S&lt;/code&gt; = “United States” or &lt;code class=&quot;highlighter-rouge&quot;&gt;GATD&lt;/code&gt; = “GADT” and &lt;code class=&quot;highlighter-rouge&quot;&gt;GATD/GATD&lt;/code&gt; =
+“generalized algebraic data type”.&lt;/p&gt;
+
+&lt;h3 id=&quot;single-stroke-proper-nouns-use-asterisks&quot;&gt;Single-stroke proper nouns use asterisks&lt;/h3&gt;
+
+&lt;p&gt;Usually, proper nouns use asterisks, such as &lt;code class=&quot;highlighter-rouge&quot;&gt;JO*N&lt;/code&gt; = “John”. When this can’t be
+done, I duplicate the stroke, such as &lt;code class=&quot;highlighter-rouge&quot;&gt;MAT/MAT&lt;/code&gt; = “Matt” (since &lt;code class=&quot;highlighter-rouge&quot;&gt;MA*T&lt;/code&gt; =
+“math”). Usually neither of these are necessary for proper nouns that are more
+than one stroke, such as &lt;code class=&quot;highlighter-rouge&quot;&gt;KA*T/RIN&lt;/code&gt; = “Catherine”.&lt;/p&gt;
+
+&lt;h3 id=&quot;short-vowels-for-foreign-names-and-loan-words&quot;&gt;Short vowels for foreign names and loan-words&lt;/h3&gt;
+
+&lt;p&gt;Foreign words don’t usually follow the phonological patterns of English, so it
+can be hard to remember what rules I apply for briefing them.&lt;/p&gt;
+
+&lt;p&gt;In addition to any briefed forms, I introduce a canonical form that follows the
+orthography of the original word so that I always know one valid way to spell
+it. Usually each of these syllables is consonant-vowel when possible, or
+consonant-vowel-consonant otherwise. For example:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;HI/KA/RU NA/KA/MU/RA&lt;/code&gt; = “Hikaru Nakamura”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;GAR/RI KAS/PA/RO*F&lt;/code&gt; = “Garry Kasparov” (rather than &lt;code class=&quot;highlighter-rouge&quot;&gt;KAS/PAR/O*F&lt;/code&gt; = “Kasparov”)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;KI/MO/NO&lt;/code&gt; = “kimono”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SU/SHI&lt;/code&gt; = “sushi”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;PAT/S*ER&lt;/code&gt; = “patzer” (rather than &lt;code class=&quot;highlighter-rouge&quot;&gt;PA*TS/*ER&lt;/code&gt; = “patzer”)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;asterisks-for-suffixes-and-compound-words&quot;&gt;Asterisks for suffixes and compound words&lt;/h3&gt;
+
+&lt;p&gt;I always like to use an asterisk whenever I’m attaching a segment to what is
+already a valid word, in order to avoid word boundary issues. For example:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;WA*I&lt;/code&gt; = “{^way}”, such as in &lt;code class=&quot;highlighter-rouge&quot;&gt;HAOI/WA*I&lt;/code&gt; = “highway”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;TAO*IM&lt;/code&gt; = “{^time}”, such as in &lt;code class=&quot;highlighter-rouge&quot;&gt;RAEL/TAO*IM&lt;/code&gt; = “realtime”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;TRAID/MA*RK&lt;/code&gt; = “trademark”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For suffixes, I prefer not to include a hyphen in the definition (that is,
+prefer “{^time}” over “{^-time}”), and either add a hyphen when I need it, or
+special-case certain words that expect the hyphen.&lt;/p&gt;
+
+&lt;h2 id=&quot;briefing&quot;&gt;Briefing&lt;/h2&gt;
+
+&lt;p&gt;In general, I never use a stroke as a brief when that stroke itself represents a
+word, no matter how uncommon. For example, the Plover default dictionary defines
+a few briefs:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;NUM&lt;/code&gt; = “number”, &lt;code class=&quot;highlighter-rouge&quot;&gt;NU*M&lt;/code&gt; = “numb”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;FIG&lt;/code&gt; = “figure”, &lt;code class=&quot;highlighter-rouge&quot;&gt;F*IG&lt;/code&gt; = “fig”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;MED&lt;/code&gt; = “medicine”, &lt;code class=&quot;highlighter-rouge&quot;&gt;M*ED&lt;/code&gt; = “med”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;MIN&lt;/code&gt; = “minute”, &lt;code class=&quot;highlighter-rouge&quot;&gt;M*IN&lt;/code&gt; = “min”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I don’t like to do this. My philosophy is: if it’s a brief, and has to be
+memorized anyways, then we might as well pick a non-conflicting stroke for it.
+This way you don’t have to worry about whether an asterisk has to be added for
+the word you want to type because it’s a brief for another word.&lt;/p&gt;
+
+&lt;p&gt;My strokes for the above are:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;NURM&lt;/code&gt; = “number”, &lt;code class=&quot;highlighter-rouge&quot;&gt;NUM&lt;/code&gt; = “num”, &lt;code class=&quot;highlighter-rouge&quot;&gt;N*UM&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;NUMB&lt;/code&gt; = “numb”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;FIRG&lt;/code&gt; = “figure”, &lt;code class=&quot;highlighter-rouge&quot;&gt;FIG&lt;/code&gt; = “fig”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;M*ED&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;MED/SIN&lt;/code&gt;, or &lt;code class=&quot;highlighter-rouge&quot;&gt;MED/S*IN&lt;/code&gt; = “medicine”, &lt;code class=&quot;highlighter-rouge&quot;&gt;MED&lt;/code&gt; = “med”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;M*INT&lt;/code&gt; = “minute”, &lt;code class=&quot;highlighter-rouge&quot;&gt;MIN&lt;/code&gt; = “min”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This is my order of preference for these common briefing patterns, with the
+first entries being more desirable:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Pick a sound and add an asterisk to it, ensuring that it doesn’t conflict with
+anything.&lt;/li&gt;
+  &lt;li&gt;Remove the vowel from the brief.&lt;/li&gt;
+  &lt;li&gt;Pick a sound without an asterisk.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;If I were to do it over, I would probably add asterisks to the above strokes as
+well (e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;N*URM&lt;/code&gt; = “number”).&lt;/p&gt;
+
+&lt;h2 id=&quot;my-brief-system&quot;&gt;My brief system&lt;/h2&gt;
+
+&lt;p&gt;I have one large brief system that I use to abbreviate phrases. This system only
+works for the subjects “I” and “you”, which means that it’s most appropriate for
+holding conversations with other people, or transcribing conversations between
+people. Fortunately, in English, “you” can also be a third-person pronoun in the
+same way as “one”, which makes the brief system more widely applicable.&lt;/p&gt;
+
+&lt;h3 id=&quot;installation&quot;&gt;Installation&lt;/h3&gt;
+
+&lt;p&gt;This brief system is implemented as a “Python dictionary”. This allows the
+dictionary definition to be implemented as code, which means that it can
+automatically generate every combination of prefixes and suffixes and so on. You
+need Plover 4.0 with its plugin manager and &lt;a href=&quot;https://pypi.org/project/plover-python-dictionary/&quot;&gt;the Python dictionary
+plugin&lt;/a&gt; to use it.&lt;/p&gt;
+
+&lt;p&gt;To install this system, first install the Python dictionary plugin above, then
+&lt;a href=&quot;https://gist.github.com/arxanas/ab337490bf204ed81b5e9d7d3417fa8a&quot;&gt;download the source code
+here&lt;/a&gt; (you can
+do this by clicking “Download ZIP” and decompressing the ZIP file). Then go into
+Plover’s main view and click the add-dictionary button and select the
+&lt;code class=&quot;highlighter-rouge&quot;&gt;multiword_briefs.py&lt;/code&gt; file that you downloaded/extracted previously.&lt;/p&gt;
+
+&lt;h3 id=&quot;the-subjects&quot;&gt;The subjects&lt;/h3&gt;
+
+&lt;p&gt;Easy:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;I&lt;/code&gt; = “I”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;U&lt;/code&gt; = “you”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You can also omit the subject altogether if you don’t need one, such as for a
+short phrase like “that haven’t”.&lt;/p&gt;
+
+&lt;h3 id=&quot;the-right-hand-phrase-enders&quot;&gt;The right-hand phrase enders&lt;/h3&gt;
+
+&lt;p&gt;These can be combined with a subject to produce a two-word phrase. For example,
+&lt;code class=&quot;highlighter-rouge&quot;&gt;UF&lt;/code&gt; = “you have”, or “IKT” = “I can’t”.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;*D&lt;/code&gt; = “{^’d’}”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;*L&lt;/code&gt; = “{^’ll’}”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;*M&lt;/code&gt; = “{^’m}” (only for “I”)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;*R&lt;/code&gt; = “{^’re}” (only for no subject or “you”)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-B&lt;/code&gt; = “be”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-K&lt;/code&gt; = “can”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-KD&lt;/code&gt; = “could”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;*KT&lt;/code&gt; = “couldn’t”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;*NT&lt;/code&gt; = “didn’t”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-NT&lt;/code&gt; = “don’t”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;*FN&lt;/code&gt; = “even”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;*FR&lt;/code&gt; = “ever”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-RBGT&lt;/code&gt; = “get”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;*RBGT&lt;/code&gt; = “got” (“get” and “got” are a bit arbitrary. I originally used just
+&lt;code class=&quot;highlighter-rouge&quot;&gt;-GT&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;*G&lt;/code&gt;, but this conflicted with words where you tucked &lt;code class=&quot;highlighter-rouge&quot;&gt;-G&lt;/code&gt;, such as
+ &lt;code class=&quot;highlighter-rouge&quot;&gt;SHOUGT&lt;/code&gt; = “should you get”/”shouting”. So I added some other letters to make
+ it not conflict.)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-D&lt;/code&gt; = “had”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-F&lt;/code&gt; = “have”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-FT&lt;/code&gt; = “have the”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-FNT&lt;/code&gt; = “haven’t”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-J&lt;/code&gt; = “know” (mostly arbitrary, there was some brief in the Plover dictionary
+that use it, so I kept it)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;*J&lt;/code&gt; = “knew”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;*PBL&lt;/code&gt; = “mean”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-PLT&lt;/code&gt; = “might”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;*PBD&lt;/code&gt; = “need”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-PBL&lt;/code&gt; = “only”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;*RL&lt;/code&gt; = “really”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-RBD&lt;/code&gt; = “should”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;*RBT&lt;/code&gt; = “shouldn’t”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-PBG&lt;/code&gt; = “think”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-RPBD&lt;/code&gt; = “understand”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;*RPBD&lt;/code&gt; = “understood”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-PT&lt;/code&gt; = “want”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-FS&lt;/code&gt; = “was” (only for no subject or “I”)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;*FBT&lt;/code&gt; = “wasn’t” (only for no subject or “I”)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-RP&lt;/code&gt; = “were”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;*RPT&lt;/code&gt; = “weren’t”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-L&lt;/code&gt; = “will”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-FBT&lt;/code&gt; = “won’t”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-LD&lt;/code&gt; = “would”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;*LT&lt;/code&gt; = “wouldn’t”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;the-left-hand-phrase-beginners&quot;&gt;The left-hand phrase beginners&lt;/h3&gt;
+
+&lt;p&gt;These start phrases, and can be combined with a subject or right-hand phrase
+ender. There’s a lot of overlap in these entries, such as &lt;code class=&quot;highlighter-rouge&quot;&gt;STWHAO&lt;/code&gt; = “so that
+you don’t” being a combination of &lt;code class=&quot;highlighter-rouge&quot;&gt;SW-&lt;/code&gt; = “so”, &lt;code class=&quot;highlighter-rouge&quot;&gt;TH-&lt;/code&gt; = “that”, and &lt;code class=&quot;highlighter-rouge&quot;&gt;AO&lt;/code&gt; = “you
+don’t”, but it’s regular and predictable.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SKP-&lt;/code&gt; = “and” (standard Plover theory)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SKPO-&lt;/code&gt; = “and I don’t”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SKPAO-&lt;/code&gt; = “and you don’t”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;STKP-&lt;/code&gt; = “and if”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;STKPO-&lt;/code&gt; = “and if I don’t”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;STKPAO-&lt;/code&gt; = “and if you don’t”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;K-&lt;/code&gt; = “can”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;KO-&lt;/code&gt; = “could”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;TK-&lt;/code&gt; = “did”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;TKO-&lt;/code&gt; = “do”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SR-&lt;/code&gt; = “have”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;KWRO&lt;/code&gt; = “I don’t”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;KWRAO&lt;/code&gt; = “you don’t”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;STP&lt;/code&gt; = “if” (just &lt;code class=&quot;highlighter-rouge&quot;&gt;TP-&lt;/code&gt; conflicts with things, such as &lt;code class=&quot;highlighter-rouge&quot;&gt;FUR&lt;/code&gt; = “fur” versus
+“if you are”)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;STPO&lt;/code&gt; = “if I don’t”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;STPAO&lt;/code&gt; = “if you don’t”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;STHA&lt;/code&gt; = “is that”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SWHA&lt;/code&gt; = “is what”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;STHO&lt;/code&gt; = “is that I don’t”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;STHAO&lt;/code&gt; = “is that you don’t”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SHO&lt;/code&gt; = “should”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SW&lt;/code&gt; = “so”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SWO&lt;/code&gt; = “so I don’t”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SWAO&lt;/code&gt; = “so you don’t”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;STPW&lt;/code&gt; = “so if”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;STPWO&lt;/code&gt; = “so if I don’t”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;STPWAO&lt;/code&gt; = “so if you don’t”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;STWHA&lt;/code&gt; = “so that”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;STWHO&lt;/code&gt; = “so that I don’t”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;STWHAO&lt;/code&gt; = “so that you don’t”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SWHA&lt;/code&gt; = “so what”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;THA&lt;/code&gt; = “that”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;THAO&lt;/code&gt; = “that you don’t”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;THO&lt;/code&gt; = “that I don’t”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;WHA&lt;/code&gt; = “what”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;WHO&lt;/code&gt; = “what I don’t”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;WHAO&lt;/code&gt; = “what you don’t”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;WO&lt;/code&gt; = “would”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;putting-it-together&quot;&gt;Putting it together&lt;/h3&gt;
+
+&lt;p&gt;Combining these phrase-beginners and phrase-enders allows me to write common but
+reasonably-long phrases in one stroke:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;STHOPT&lt;/code&gt; = “is that I don’t want” (such as in “the reason I didn’t do that is
+that I don’t want X to happen…”)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;STWHAOF&lt;/code&gt; = “so that you don’t have” (such as in “the reason I did that is so
+that you don’t have to do X…”).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;At the same time, it can be used for much smaller phrases:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;THALD&lt;/code&gt; = “that would”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;THAIRBD&lt;/code&gt; = “that I should”&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UKD&lt;/code&gt; = “you could”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;My brief system was accumulated over time, so if you decide to use a similar
+system, it might be best to build up the phrase beginners and phrase enders as
+you find you need them, rather than try to learn them all at once.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 21 May 2018 00:00:00 -0500</pubDate>
+        <link>https://waleedkhan.name/blog/my-steno-system/</link>
+        <guid isPermaLink="true">https://waleedkhan.name/blog/my-steno-system/</guid>
+        
+        <category>stenography</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Why LINQ syntax differs from SQL, list comprehensions, etc.</title>
+        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#data-comprehension-syntaxes&quot; id=&quot;markdown-toc-data-comprehension-syntaxes&quot;&gt;Data comprehension syntaxes&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#its-a-better-mental-model&quot; id=&quot;markdown-toc-its-a-better-mental-model&quot;&gt;It’s a better mental model&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#its-better-for-tooling&quot; id=&quot;markdown-toc-its-better-for-tooling&quot;&gt;It’s better for tooling&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;data-comprehension-syntaxes&quot;&gt;Data comprehension syntaxes&lt;/h2&gt;
+
+&lt;p&gt;The order of clauses in SQL is as follows:&lt;/p&gt;
+
+&lt;div class=&quot;language-sql highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;expression&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data_source&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;condition&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Python features a similar syntax in its list comprehensions. (In this article I
+don’t discuss syntax like Haskell’s list comprehensions or Scala’s
+for-comprehensions.)&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;expression&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data_source&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;condition&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You can see that these two are roughly parallel. The order of clauses is: the
+expression, the data source, and then the filtering condition.&lt;/p&gt;
+
+&lt;p&gt;But the LINQ syntax in C# orders these clauses differently:&lt;/p&gt;
+
+&lt;div class=&quot;language-cs highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data_source&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;where&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;condition&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;expression&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Why is it different from the established standard? It turns out it’s a
+deliberate design decision by the C# team.&lt;/p&gt;
+
+&lt;h2 id=&quot;its-a-better-mental-model&quot;&gt;It’s a better mental model&lt;/h2&gt;
+
+&lt;p&gt;One reason I’ve heard given by C# team members is that the SQL syntax doesn’t
+make very much sense. It might be intuitive from a natural-language standpoint,
+but it fails to accurately model how we can think about the data processing.&lt;/p&gt;
+
+&lt;p&gt;When doing the database scan, of course we have to first identify where we are
+getting data from. Then we have to scan each row and determine if it meets the
+condition, and then we add some expression in terms of the row to the set of
+results that we are going to return.&lt;/p&gt;
+
+&lt;aside class=&quot;aside&quot; id=&quot;not-exactly&quot;&gt;
+          &lt;header class=&quot;aside-header&quot;&gt;&lt;a href=&quot;#not-exactly&quot;&gt;Not exactly&lt;/a&gt;&lt;/header&gt;
+          &lt;div class=&quot;aside-contents&quot;&gt;&lt;p&gt;In practice this isn’t quite accurate for SQL. We can use the result of our
+expression in our filtering condition:&lt;/p&gt;
+
+&lt;div class=&quot;language-sql highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bar&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;my_table&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bar&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;-- This uses the expression `bar` we computed.&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;But we can’t do this in Python:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# Can't name this expression for use in the filter...
+&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;my_table&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# ...so we have to recompute it.
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+        &lt;/aside&gt;
+
+&lt;p&gt;It’s arguably intuitive to go from more general (the entire aggregate data
+source) to more specific (the exact transformations on the specific data we want
+from the data source). This is reflected in how one would write out these loops
+by hand:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data_source&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;yield&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;its-better-for-tooling&quot;&gt;It’s better for tooling&lt;/h2&gt;
+
+&lt;p&gt;One problem with the SQL syntax is that when you’ve written this:&lt;/p&gt;
+
+&lt;div class=&quot;language-sql highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;you have a hard time of autocompleting the word starting with “f”. It could be a
+column name from any table in the database!&lt;/p&gt;
+
+&lt;p&gt;C# doesn’t have this problem because you only write the filter and expression
+after you’ve written the data source:&lt;/p&gt;
+
+&lt;div class=&quot;language-cs highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data_source&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;where&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// easily autocompleted&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data_source&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;where&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;10&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// likewise&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The usefulness of autocomplete in exploratory programming shouldn’t be
+understated; this alone is a compelling reason to use a different order for
+these clauses.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 23 Dec 2017 00:00:00 -0600</pubDate>
+        <link>https://waleedkhan.name/blog/data-comprehension-syntaxes/</link>
+        <guid isPermaLink="true">https://waleedkhan.name/blog/data-comprehension-syntaxes/</guid>
+        
+        <category>programming-languages</category>
+        
+        
+      </item>
+    
+  </channel>
+</rss>

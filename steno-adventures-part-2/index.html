@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Stenography adventures with Plover and the Ergodox EZ, part 2</title>
+  <meta name="description" content="">
+
+  <link rel="stylesheet" href="/blog/css/main.css">
+  <link rel="canonical" href="https://waleedkhan.name/blog/steno-adventures-part-2/">
+  <link rel="alternate" type="application/rss+xml" title="Stenography and programming languages" href="https://waleedkhan.name/blog/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/blog/">Stenography and programming languages</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/blog/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Stenography adventures with Plover and the Ergodox EZ, part 2</h1>
+    <p class="post-meta"><time datetime="2016-09-06T00:00:00-05:00" itemprop="datePublished">Sep 6, 2016</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    
+    <ul id="markdown-toc">
+  <li><a href="#firmware-features" id="markdown-toc-firmware-features">Firmware features</a></li>
+  <li><a href="#installing-the-firmware" id="markdown-toc-installing-the-firmware">Installing the firmware</a></li>
+  <li><a href="#building-the-firmware" id="markdown-toc-building-the-firmware">Building the firmware</a></li>
+  <li><a href="#fixing-the-firmware" id="markdown-toc-fixing-the-firmware">Fixing the firmware</a>    <ul>
+      <li><a href="#toggling-the-led" id="markdown-toc-toggling-the-led">Toggling the LED</a></li>
+      <li><a href="#adding-a-toggle-key" id="markdown-toc-adding-a-toggle-key">Adding a toggle key</a></li>
+      <li><a href="#adding-n-key-rollover" id="markdown-toc-adding-n-key-rollover">Adding N-key rollover</a></li>
+      <li><a href="#toggling-plover-in-software" id="markdown-toc-toggling-plover-in-software">Toggling Plover in software</a></li>
+    </ul>
+  </li>
+  <li><a href="#so-after-all-that-how-is-steno-going" id="markdown-toc-so-after-all-that-how-is-steno-going">“So after all that, how is steno going?”</a></li>
+</ul>
+
+<p>This is part 2 of my exploits with Plover and the Ergodox EZ. <a href="/blog/steno-adventures-part-1/">Click here
+for part 1</a>.</p>
+
+<h2 id="firmware-features">Firmware features</h2>
+
+<p>Besides the silly-looking keyboard structure, the Ergodox EZ’s other
+selling point is that its firmware is fully modifiable. This means that the user
+can write arbitrary code to handle input keystrokes.</p>
+
+<p>The Ergodox EZ uses the <a href="https://github.com/jackhumbert/qmk_firmware">QMK firmware</a> (which also supports several
+other keyboards (such as <a href="http://olkb.com/planck/">the Planck</a>). Beyond controlling the behavior
+of keypresses, the framework has support for “layers” and macros, and has
+keyboard-specific support to control the three LEDs on the Ergodox EZ
+(which are red, green, and blue).</p>
+
+<p>Suppose that my work computer is locked down and only supports Qwerty, but I am
+a snob who wants to use Dvorak. I can modify the firmware so that it sends
+different keycodes when I press the keys, corresponding to the Dvorak keyboard
+layout. Thus it will work on every computer, without needing to delve into
+obscure settings. I could even make up my own keyboard layout altogether if I so
+desired, which I understand many do.</p>
+
+<aside class="aside" id="is-it-better-to-use-dvora">
+          <header class="aside-header"><a href="#is-it-better-to-use-dvora">Is it better to use Dvorak in software or hardware?</a></header>
+          <div class="aside-contents"><p>For this case, it is better to implement Dvorak in hardware. The problem with
+setting up one’s Ergodox EZ to use Dvorak at the software level is in the
+symbol keys.  For example, <code class="highlighter-rouge">[</code> on a Qwerty keyboard maps to <code class="highlighter-rouge">/</code> if interpreted
+as Dvorak.</p>
+
+<p>On a Qwerty keyboard, I deal with this just by means of muscle memory. But on
+the Ergodox EZ, when defining the keymap, one would have to reverse-lookup
+all of the keycodes to ensure that the symbols are in the right places. When
+writing their code, they would have to place <code class="highlighter-rouge">KC_LBRC</code> (<code class="highlighter-rouge">[</code>) where they intend
+<code class="highlighter-rouge">KC_SLSH</code> (<code class="highlighter-rouge">/</code>) to go, and so on for every symbol.</p>
+
+<p>And what happens when you connect your keyboard to a Qwerty computer, but your
+keymap is expecting a Dvorak computer? Unless one wants to memorize the
+Qwerty-Dvorak symbol correspondence for their keyboard, they will likely
+encounter difficulties typing many special characters. There are no such
+problems at the hardware level.</p>
+</div>
+        </aside>
+
+<p>The firmware also has support for “layers”. Each layer defines key mappings, and
+the layers can be enabled or disabled individually. If a layer doesn’t handle a
+certain key at all, it delegates to a layer below it; thus, one can have
+multiple active layers, each providing a different set of keys.</p>
+
+<p>Below is the default layout:</p>
+
+<figure class="figure">
+        <a href="/blog/assets/posts/adventures-in-stenography-part-2/ergodox-keymap.png"><img class="center-image" src="/blog/assets/posts/adventures-in-stenography-part-2/ergodox-keymap.png" alt="The default Ergodox EZ layout. Notice that one can press a key to activate layers." title="The default Ergodox EZ layout. Notice that one can press a key to activate layers." /></a>
+        <figcaption class="caption"><p>The <a href="https://ergodox-ez.com/pages/our-firmware">default Ergodox EZ layout</a>.
+          Notice that one can press a key to activate layers.</p>
+</figcaption>
+      </figure>
+
+<h2 id="installing-the-firmware">Installing the firmware</h2>
+
+<p>To change the keyboard layout, one has to get a version of the firmware (a
+<code class="highlighter-rouge">.hex</code> file) that maps all the keys appropriately. For the pragmatic or the less
+technically-inclined, there are <a href="https://keyboard-configurator.massdrop.com/ext/ergodox">online tools</a> that provide a GUI
+to define a basic keymap, although this isn’t sufficient for the tweaks I make
+later in this article. Then they can download its <code class="highlighter-rouge">.hex</code> and flash it onto the
+Ergodox EZ.</p>
+
+<p>In order to install the firmware, one uses the <a href="https://www.pjrc.com/teensy/loader.html">Teensy Loader</a>
+GUI application. (It can be installed with <code class="highlighter-rouge">brew cask install teensy</code> on OS X.
+There is also a command-line version, but I haven’t used it.)</p>
+
+<figure class="figure">
+        <a href="/blog/assets/posts/adventures-in-stenography-part-2/teensy-loader.png"><img class="center-image" src="/blog/assets/posts/adventures-in-stenography-part-2/teensy-loader.png" alt="The Teensy loader application. I think it's the microcontroller in the keyboard which is &quot;teensy&quot;, but this app is also pretty minimal." title="The Teensy loader application. I think it's the microcontroller in the keyboard which is &quot;teensy&quot;, but this app is also pretty minimal." /></a>
+        <figcaption class="caption"><p>The Teensy loader application. I think it&#8217;s the microcontroller
+          in the keyboard which is &#8220;teensy&#8221;, but this app is also
+          pretty minimal.</p>
+</figcaption>
+      </figure>
+
+<p>To set the <code class="highlighter-rouge">.hex</code> file to load, one can drag it onto the Teensy window, or open
+it using the button in the upper-left corner.</p>
+
+<figure class="figure">
+        <a href="/blog/assets/posts/adventures-in-stenography-part-2/load-onto-teensy.png"><img class="center-image" src="/blog/assets/posts/adventures-in-stenography-part-2/load-onto-teensy.png" alt="You can drag the file onto the Teensy loader on OS X." title="You can drag the file onto the Teensy loader on OS X." /></a>
+        <figcaption class="caption"><p>You can drag the file onto the Teensy loader on OS X.</p>
+</figcaption>
+      </figure>
+
+<p>Now, to flash the keyboard, you must put it into <em>reset mode</em>. You can do this
+by putting a very thin rod down the hole on the front of the keyboard to tap
+the reset button. (I used several mechanical pencil leads and much patience.)</p>
+
+<aside class="aside" id="how-to-rapidly-hack-on-th">
+          <header class="aside-header"><a href="#how-to-rapidly-hack-on-th">How to rapidly hack on the firmware, without fiddling with the reset button</a></header>
+          <div class="aside-contents"><p>Pressing the physical reset button every time is a pain. One can <a href="https://github.com/jackhumbert/qmk_firmware/issues/112">bind a key on
+the Ergodox EZ itself to enter reset mode (a so-called “Teensy
+key”)</a>, rather than manually fiddle with the reset button. Use the
+<code class="highlighter-rouge">RESET</code> keycode. I have mine bound on a non-topmost-layer so that I don’t
+accidentally hit it.</p>
+
+<p>If you make changes to the firmware and recompile it, Teensy will respect the
+<code class="highlighter-rouge">.hex</code> file changing on disk, and would flash the new version of the firmware if
+you were to load it again. Thus, it is safe to recompile, reset the keyboard,
+and click “load” immediately after recompiling, without selecting the <code class="highlighter-rouge">.hex</code>
+file again</p>
+
+<p>If one clicks the “auto” button, Teensy enters a mode where it will flash the
+keyboard as soon as it is connected and in reset mode. Then one no longer needs
+to click “load” every time they want to re-deploy the firmware; they can
+recompile and press the Teensy key.</p>
+</div>
+        </aside>
+
+<p>Once the keyboard is in reset mode, press the “Program” button to flash it. This
+loads the firmware onto the keyboard and restarts it. By default, my Ergodox EZ flashes its three LEDs in sequence on startup, so that one can
+tell when it has restarted.</p>
+
+<figure class="figure">
+        <a href="/blog/assets/posts/adventures-in-stenography-part-2/teensy-program.png"><img class="center-image" src="/blog/assets/posts/adventures-in-stenography-part-2/teensy-program.png" alt="Click the outlined button to program the keyboard." title="Click the outlined button to program the keyboard." /></a>
+        <figcaption class="caption"><p>Click the outlined button to program it. Ignore the picture of the
+          button on a circuit board: it does not have any software function.</p>
+
+<p>Ha-ha, who would spend time trying to click a picture of a button, and get
+          confused when it didn&#8217;t work? Not me, that&#8217;s for sure.</p>
+</figcaption>
+      </figure>
+
+<h2 id="building-the-firmware">Building the firmware</h2>
+
+<p>As it turns out, the QMK firmware is already bundled <a href="https://github.com/qmk/qmk_firmware/blob/86656690f12e98f7aa6c2faddbcef3b9bcdad35b/keyboards/ergodox/keymaps/plover/keymap.c">with a Plover layout
+(permalink)</a>! The vowel keys for Plover are ordinarily struck
+with the thumbs; this keymap assigns the vowel keys to the thumb clusters and
+moves the rest of the keys closer. Below is the ASCII art comment included in
+the layout code. You’ll notice that the rows of the Qwerty keyboard are shifted
+down one position, and most of the bottom row is missing, only including the
+four keys in the thumb clusters.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>,--------------------------------------------------.           ,--------------------------------------------------.
+|        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
+|--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
+|        |   1  |   2  |   3  |   4  |   5  |      |           |      |  6   |  7   |   8  |   9  |  0   |        |
+|--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+|        |   q  |   w  |   e  |   r  |   t  |------|           |------|  y   |  u   |   i  |   o  |  p   |   [    |
+|--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+|        |   a  |   s  |   d  |   f  |   g  |      |           |      |  h   |  j   |   k  |   l  |  ;   |   '    |
+`--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
+  |      |      |      |      |      |                                       |      |      |      |      |      |
+  `----------------------------------'                                       `----------------------------------'
+                                       ,-------------.       ,-------------.
+                                       |      |      |       |      |      |
+                                ,------|------|------|       |------+------+------.
+                                |      |      |      |       |      |      |      |
+                                |   c  |   v  |------|       |------|  n   |  m   |
+                                |      |      |      |       |      |      |      |
+                                `--------------------'       `--------------------'
+</code></pre></div></div>
+
+<p>But to use this layout one must first build it. First, install the dependencies
+(on OS X; you can find your OS in the QMK documentation):</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>brew tap osx-cross/avr
+<span class="nv">$ </span>brew <span class="nb">install </span>avr-libc
+<span class="nv">$ </span>brew <span class="nb">install </span>dfu-programmer
+</code></pre></div></div>
+
+<p>This takes quite a while, as it is setting up a cross-compiler toolchain and has
+to build GCC from source.</p>
+
+<aside class="aside" id="warning-the-following-ver">
+          <header class="aside-header"><a href="#warning-the-following-ver">Warning: the following version of the build doesn't actually work</a></header>
+          <div class="aside-contents"><p>Before you try to install the firmware after building it as below, be warned
+that the Plover layout has a few problems. You can read on to see how I fixed
+it, or just build off of <a href="https://github.com/arxanas/qmk_firmware/tree/fixed-plover/keyboards/ergodox_ez/keymaps/plover-arxanas">my firmware</a>. (It is likely not a good
+idea to use it exactly as it is, since the default layer is set to Dvorak.)</p>
+
+<p>While I was writing this, somebody else came out with <a href="https://github.com/qmk/qmk_firmware/tree/a4ff8b91f74df9fb1d87f52c0ded23935344d2eb/keyboards/ergodox_ez/keymaps/steno">firmware that pretends to
+be a steno machine (permalink)</a> instead of using macros to
+toggle Plover.  This is superior to the firmware I outline below, because then
+the state of the keyboard and Plover can never get out of sync.</p>
+
+<p>For either of these, you will probably want to modify the keymaps to your liking
+for the non-Plover parts.</p>
+</div>
+        </aside>
+
+<p>When I’m done, I build it by running the <code class="highlighter-rouge">make</code> command shown below. It is shown
+with an example of the successful output. The build process is surprisingly
+nice: one can specify the keyboard type and layout very succinctly.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/Workspace/qmk_firmware $ make keyboard=ergodox_ez keymap=plover
+Size before:
+avr-gcc (GCC) 4.9.3
+Copyright (C) 2015 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+   text	   data	    bss	    dec	    hex	filename
+      0	  18300	      0	  18300	   477c	ergodox_ez_plover.hex
+
+WARNING:
+ Some git sub-modules are out of date or modified, please consider runnning:[1m
+ git submodule sync --recursive
+ git submodule update --init --recursive
+
+ You can ignore this warning if you are not compiling any ChibiOS keyboards,
+ or if you have modified the ChibiOS libraries yourself.
+
+Compiling: ./keyboards/ergodox_ez/twimaster.c                                                      Compiling: keyboards/ergodox_ez/ergodox_ez.c                                                       Compiling: ./keyboards/ergodox_ez/matrix.c                                                         Compiling: keyboards/ergodox_ez/keymaps/plover/keymap.c                                            Compiling: quantum/quantum.c                                                                        [OK]
+Compiling: quantum/keymap_common.c                                                                  [OK]
+ [OK]
+Compiling: quantum/keycode_config.c                                                                Compiling: quantum/process_keycode/process_leader.c                                                 [OK]
+Compiling: quantum/process_keycode/process_unicode.c                                                [OK]
+Compiling: ./tmk_core/common/host.c                                                                 [OK]
+Compiling: ./tmk_core/common/keyboard.c                                                             [OK]
+Compiling: ./tmk_core/common/action.c                                                               [OK]
+Compiling: ./tmk_core/common/action_tapping.c                                                       [OK]
+ [OK]
+Compiling: ./tmk_core/common/action_macro.c                                                        Compiling: ./tmk_core/common/action_layer.c                                                         [OK]
+Compiling: ./tmk_core/common/action_util.c                                                          [OK]
+ [OK]
+ [OK]
+Compiling: ./tmk_core/common/print.c                                                               Compiling: ./tmk_core/common/debug.c                                                               Compiling: ./tmk_core/common/util.c                                                                 [OK]
+ [OK]
+ [OK]
+Compiling: ./tmk_core/common/eeconfig.c                                                            Compiling: ./tmk_core/common/avr/timer.c                                                           Compiling: ./tmk_core/common/avr/suspend.c                                                          [OK]
+ [OK]
+Compiling: ./tmk_core/common/avr/bootloader.c                                                       [OK]
+Assembling: ./tmk_core/common/avr/xprintf.S                                                         [OK]
+Compiling: ./tmk_core/common/magic.c                                                               Compiling: ./tmk_core/common/mousekey.c                                                             [OK]
+ [OK]
+Compiling: ./tmk_core/common/command.c                                                             Compiling: ./tmk_core/common/avr/sleep_led.c                                                        [OK]
+Compiling: ./tmk_core/protocol/lufa/lufa.c                                                          [OK]
+Compiling: ./tmk_core/protocol/lufa/descriptor.c                                                    [OK]
+Compiling: ./tmk_core/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Class/Common/HIDParser.c              [OK]
+Compiling: ./tmk_core/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Device_AVR8.c               [OK]
+ [OK]
+Compiling: ./tmk_core/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/EndpointStream_AVR8.c      Compiling: ./tmk_core/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Endpoint_AVR8.c             [OK]
+Compiling: ./tmk_core/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Host_AVR8.c                 [OK]
+Compiling: ./tmk_core/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/PipeStream_AVR8.c           [OK]
+ [OK]
+Compiling: ./tmk_core/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Pipe_AVR8.c                Compiling: ./tmk_core/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBController_AVR8.c        [OK]
+ [OK]
+Compiling: ./tmk_core/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBInterrupt_AVR8.c        Compiling: ./tmk_core/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/ConfigDescriptors.c              [OK]
+Compiling: ./tmk_core/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/DeviceStandardReq.c              [OK]
+Compiling: ./tmk_core/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/Events.c                         [OK]
+ [OK]
+Compiling: ./tmk_core/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/HostStandardReq.c               Compiling: ./tmk_core/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/USBTask.c                        [OK]
+ [OK]
+ [OK]
+ [OK]
+ [OK]
+Linking: .build/ergodox_ez_plover.elf                                                               [OK]
+Creating load file for Flash: .build/ergodox_ez_plover.hex                                          [OK]
+
+Size after:
+   text	   data	    bss	    dec	    hex	filename
+      0	  18300	      0	  18300	   477c	ergodox_ez_plover.hex
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">.hex</code> file can be found in the directory that the <code class="highlighter-rouge">make</code> command was run
+in, likely the root directory of the <code class="highlighter-rouge">qmk_firmware</code> project.</p>
+
+<p>The moment of truth! I install the firmware, restart the keyboard, and press the
+toggle Plover key…</p>
+
+<figure class="figure">
+        <a href="/blog/assets/posts/adventures-in-stenography-part-2/ergodox-ez.jpg"><img class="center-image" src="/blog/assets/posts/adventures-in-stenography-part-2/ergodox-ez.jpg" alt="The unchanged Ergodox keyboard." title="The unchanged Ergodox keyboard." /></a>
+        <figcaption class="caption"><p>Depicted: the wholly unchanged state of the keyboard.</p>
+</figcaption>
+      </figure>
+
+<p>Nothing happens. There is no indication that Plover mode has been enabled. In
+comparison, when entering the symbol layer from the default layout, the red LED
+turns on. It turns out that Plover mode is working; it’s just impossible to
+tell.</p>
+
+<p>Later, I press the key to return to the regular layer… and it doesn’t do
+anything.  The keyboard is still thoroughly in Plover mode. I mash several other
+keys, but to no avail. Something is wrong with the layout which is preventing it
+from behaving well.</p>
+
+<aside class="aside" id="the-harsh-realization-set">
+          <header class="aside-header"><a href="#the-harsh-realization-set">The harsh realization sets in</a></header>
+          <div class="aside-contents"><p>Once you go Plover, you never come back over.</p>
+</div>
+        </aside>
+
+<h2 id="fixing-the-firmware">Fixing the firmware</h2>
+
+<p>After trying out the firmware, I also find a few other usability problems. In
+sum, they are:</p>
+
+<ul>
+  <li>There is nothing to indicate when the user in Plover mode.</li>
+  <li>The user can’t switch back into the regular layout.</li>
+  <li>Manually enabling Plover mode after toggling the keyboard is tedious.</li>
+  <li>It doesn’t appear to actually be using NKRO; it fails at around 6 keys.</li>
+</ul>
+
+<p>I did not like these, so I dug into the firmware code and fixed it myself. It
+wasn’t that bad! I opened up the Plover layout in
+<code class="highlighter-rouge">keyboards/ergodox_ez/keymaps/plover/keymap.c</code> and start looking…</p>
+
+<aside class="aside" id="you-too-can-make-a-keyboa">
+          <header class="aside-header"><a href="#you-too-can-make-a-keyboa">You too can make a keyboard layout</a></header>
+          <div class="aside-contents"><p>The values <code class="highlighter-rouge">ergodox_ez</code> and <code class="highlighter-rouge">plover</code> in the command <code class="highlighter-rouge">make keyboard=ergodox_ez
+keymap=plover</code> directly corresponds to the directory structure above.</p>
+
+<p>When you make your own layout, you can start by copying some other <code class="highlighter-rouge">keymap.c</code>
+and putting it in <code class="highlighter-rouge">keyboards/ergodox_ez/keymaps/my-layout</code> and build it with
+<code class="highlighter-rouge">make keyboard=ergodox_ez keymap=my-layout</code>.</p>
+</div>
+        </aside>
+
+<h3 id="toggling-the-led">Toggling the LED</h3>
+
+<p>I looked around a bit and found these snippets:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define BASE 0 // default layer
+#define SYMB 1 // symbols
+#define MDIA 2 // media keys
+#define PLVR 3 // Plover layer
+</span>
+<span class="p">...</span>
+
+<span class="k">switch</span> <span class="p">(</span><span class="n">layer</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">ergodox_right_led_1_on</span><span class="p">();</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="k">case</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">ergodox_right_led_2_on</span><span class="p">();</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="nl">default:</span>
+        <span class="c1">// none</span>
+        <span class="k">break</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The default layer doesn’t have an LED and it’s not in the <code class="highlighter-rouge">switch</code> statement.
+The next two layers, which have LEDs, are the same as the one bundled in the
+default Ergodox EZ layout, and they are listed here.</p>
+
+<p>Plover is a new layer, but it doesn’t have an entry here. Could it really be as
+simple as adding the missing entry? I add a <code class="highlighter-rouge">case 3:</code>:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>switch (layer) {
+    case 1:
+        ergodox_right_led_1_on();
+        break;
+    case 2:
+        ergodox_right_led_2_on();
+        break;
+
+    // My brilliant addition:
+    case 3:
+        ergodox_right_led_3_on();
+        break;
+
+    default:
+        // none
+        break;
+}
+</code></pre></div></div>
+
+<p>And it worked!</p>
+
+<h3 id="adding-a-toggle-key">Adding a toggle key</h3>
+
+<p>The regular layers toggle back and forth by pressing the same key, so there is
+already some code somewhere that handles it. If I can find it, surely I can just
+adapt it.</p>
+
+<p>Part of the <code class="highlighter-rouge">keymap.c</code> file is a huge array definition that defines the keymap.
+Each entry corresponds to a physical key, and there are a lot of keys. I’ve
+abbreviated it here so you can see where to look. I find where the default
+toggle key for the symbol layer is:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="n">BASE</span><span class="p">]</span> <span class="o">=</span> <span class="n">KEYMAP</span><span class="p">(</span>  <span class="c1">// layer 0 : default</span>
+        <span class="c1">// left hand</span>
+        <span class="n">KC_EQL</span><span class="p">,</span>  <span class="p">...,</span>  <span class="n">KC_LGUI</span><span class="p">,</span>
+        <span class="n">KC_TAB</span><span class="p">,</span>  <span class="p">...,</span>  <span class="n">TG</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="cm">/* &lt;- here */</span><span class="p">,</span>
+        <span class="n">KC_ESC</span><span class="p">,</span>  <span class="p">...,</span>  <span class="n">KC_G</span><span class="p">,</span>
+        <span class="p">...</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">TG(1)</code> expression toggles into layer one. With my unrivalled abilities of
+deduction, I surmise that <code class="highlighter-rouge">TG</code> stands for toggle. Now that I know how to toggle
+layers, I find the keymap for Plover mode:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// right hand</span>
+              <span class="n">KC_TRNS</span><span class="p">,</span>  <span class="n">KC_NO</span><span class="p">,</span> <span class="p">...</span>
+<span class="cm">/* here -&gt; */</span> <span class="n">KC_NO</span><span class="p">,</span>    <span class="n">KC_6</span><span class="p">,</span> <span class="p">...</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">KC_NO</code> key in the first column seems to line up with where the Plover
+toggle key is ordinarily, so I change it to <code class="highlighter-rouge">TG(3)</code> and it worked!</p>
+
+<aside class="aside" id="the-original-author-was-c">
+          <header class="aside-header"><a href="#the-original-author-was-c">The original author was closer to the mark than I initially realized</a></header>
+          <div class="aside-contents"><p><code class="highlighter-rouge">KC_NO</code> means “do nothing when this key is pressed.” On the other hand,
+<code class="highlighter-rouge">KC_TRNS</code> means “do nothing, but allow another layer to handle this key”. The
+original author just put <code class="highlighter-rouge">KC_TRNS</code> on the wrong row. If it were one row lower,
+pressing the key would delegate to the existing toggle-Plover key in the base
+layer, and it would work correctly.</p>
+</div>
+        </aside>
+
+<h3 id="adding-n-key-rollover">Adding N-key rollover</h3>
+
+<p>The firmware supports NKRO, but it is disabled by default. One has to enable it
+by setting the configuration for the layout. Before doing this, the layout
+worked correctly except that it didn’t handle pressing a large number of keys
+simultaneously.</p>
+
+<p>I looked it up the documentation and added this <code class="highlighter-rouge">config.h</code> file to the <code class="highlighter-rouge">plover</code>
+directory, alongside <code class="highlighter-rouge">keymap.c</code>. Pretty painless!</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#ifndef CONFIG_USER_H
+#define CONFIG_USER_H
+</span>
+<span class="cp">#define FORCE_NKRO
+</span>
+<span class="cp">#endif
+</span></code></pre></div></div>
+
+<h3 id="toggling-plover-in-software">Toggling Plover in software</h3>
+
+<p>I’ve successfully set up the keyboard to toggle Plover mode. But the Plover
+software itself needs to know whether you are typing normally or
+stenographically, to decide whether it should be translating your keystrokes or
+not.</p>
+
+<p>The most straightforward way to go about this is to <a href="https://sites.google.com/site/ploverdoc/appendix-the-dictionary-format#TOC-Resume">define a Plover stroke
+that enables and disables Plover</a>. Before getting the Ergodox EZ, I would switch in and out by typing the strokes PHROPB and PHROF
+(phonetically translating to Pl-On and Pl-Off, short for Plover-On and
+Plover-Off). But this is annoying to do manually and sometimes I get confused
+about which mode I’m in.</p>
+
+<p>Since the firmware supports macros, it would be nice if it could also send these
+keystrokes for me when toggling in and out of Plover mode. After some spelunking
+for other macros and examining the documentation, I figure out roughly what to
+do.</p>
+
+<p>First, I define the macros at the top of the file. The first set of definitions
+is integer identifiers for the macros; the second set is actually a keycode to
+enable the macro, as I understand it.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define MACRO_PLOVER_ON  0
+#define MACRO_PLOVER_OFF 1
+</span>
+<span class="cp">#define M_PLON M(MACRO_PLOVER_ON)
+#define M_PLOF M(MACRO_PLOVER_OFF)
+</span></code></pre></div></div>
+
+<p>Now I have to bind keys to these macros. Since I want these to happen in
+addition to changing the layer, I decide to put the macro key in my keymap and
+change the layer in the macro code itself (rather than with the convenient <code class="highlighter-rouge">TG</code>
+shortcut). I just add these entries to my keymap:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="n">BASE</span><span class="p">]</span> <span class="o">=</span> <span class="n">KEYMAP</span><span class="p">(</span>  <span class="c1">// layer 0 : default</span>
+
+<span class="p">...</span>
+
+<span class="c1">// right hand</span>
+         <span class="n">KC_RGHT</span><span class="p">,</span>  <span class="n">KC_6</span><span class="p">,</span>  <span class="n">KC_7</span><span class="p">,</span>
+<span class="cm">/* -&gt; */</span> <span class="n">M_PLON</span><span class="p">,</span>   <span class="n">KC_F</span><span class="p">,</span>  <span class="n">KC_G</span><span class="p">,</span>
+                   <span class="n">KC_D</span><span class="p">,</span>  <span class="n">KC_H</span><span class="p">,</span>
+
+<span class="p">),</span>
+
+<span class="p">...</span>
+
+<span class="p">[</span><span class="n">PLVR</span><span class="p">]</span> <span class="o">=</span> <span class="n">KEYMAP</span><span class="p">(</span>  <span class="c1">// layout: layer 3: Steno for Plover</span>
+
+<span class="p">...</span>
+
+<span class="c1">// right hand</span>
+         <span class="n">KC_TRNS</span><span class="p">,</span>  <span class="n">KC_NO</span><span class="p">,</span>  <span class="n">KC_NO</span><span class="p">,</span>
+<span class="cm">/* -&gt; */</span> <span class="n">M_PLOF</span><span class="p">,</span>   <span class="n">KC_6</span><span class="p">,</span>   <span class="n">KC_7</span><span class="p">,</span>
+                   <span class="n">KC_Y</span><span class="p">,</span>   <span class="n">KC_U</span>
+</code></pre></div></div>
+
+<p>Finally, I have to write the actual code that handles the macro. I add the
+following function, mostly stealing the structure from an existing layout
+elsewhere.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">const</span> <span class="n">macro_t</span> <span class="o">*</span><span class="nf">action_get_macro</span><span class="p">(</span><span class="n">keyrecord_t</span> <span class="o">*</span><span class="n">record</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">id</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">opt</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="n">MACRO_PLOVER_ON</span><span class="p">:</span>
+        <span class="c1">// `.pressed` refers to whether we're pressing or releasing the</span>
+        <span class="c1">// triggering key.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">record</span><span class="o">-&gt;</span><span class="n">event</span><span class="p">.</span><span class="n">pressed</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// Enable the layer.</span>
+            <span class="n">layer_on</span><span class="p">(</span><span class="n">PLVR</span><span class="p">);</span>
+
+            <span class="c1">// Send the PHROPB stroke to enable Plover.</span>
+            <span class="c1">// (Note that you must have this command in your dictionary for it</span>
+            <span class="c1">// to actually do anything.)</span>
+            <span class="c1">//</span>
+            <span class="c1">// 'D' means 'down' and 'U' means up, referring to pressing and</span>
+            <span class="c1">// releasing keystrokes.</span>
+            <span class="c1">//</span>
+            <span class="c1">// 'D(E)' means 'press down the E key.'. When using the Qwerty</span>
+            <span class="c1">// keyboard layout in software, the sequence ERFVIK corresponds to</span>
+            <span class="c1">// the steno keys PHROPB.</span>
+            <span class="k">return</span> <span class="n">MACRO</span><span class="p">(</span><span class="n">D</span><span class="p">(</span><span class="n">E</span><span class="p">),</span> <span class="n">D</span><span class="p">(</span><span class="n">R</span><span class="p">),</span> <span class="n">D</span><span class="p">(</span><span class="n">F</span><span class="p">),</span> <span class="n">D</span><span class="p">(</span><span class="n">V</span><span class="p">),</span> <span class="n">D</span><span class="p">(</span><span class="n">I</span><span class="p">),</span> <span class="n">D</span><span class="p">(</span><span class="n">K</span><span class="p">),</span>
+                         <span class="c1">// Wait for 50 milliseconds to make sure the keypresses</span>
+                         <span class="c1">// are detected. I haven't seen evidence that this is</span>
+                         <span class="c1">// necessary, but it doesn't hurt.</span>
+                         <span class="n">WAIT</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span>
+                         <span class="n">U</span><span class="p">(</span><span class="n">E</span><span class="p">),</span> <span class="n">U</span><span class="p">(</span><span class="n">R</span><span class="p">),</span> <span class="n">U</span><span class="p">(</span><span class="n">F</span><span class="p">),</span> <span class="n">U</span><span class="p">(</span><span class="n">V</span><span class="p">),</span> <span class="n">U</span><span class="p">(</span><span class="n">I</span><span class="p">),</span> <span class="n">U</span><span class="p">(</span><span class="n">K</span><span class="p">),</span>
+                         <span class="n">END</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">break</span><span class="p">;</span>
+
+    <span class="k">case</span> <span class="n">MACRO_PLOVER_OFF</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">record</span><span class="o">-&gt;</span><span class="n">event</span><span class="p">.</span><span class="n">pressed</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// Disable the layer.</span>
+            <span class="n">layer_off</span><span class="p">(</span><span class="n">PLVR</span><span class="p">);</span>
+
+            <span class="c1">// Send the PHROF stroke to disable Plover.</span>
+            <span class="k">return</span> <span class="n">MACRO</span><span class="p">(</span><span class="n">D</span><span class="p">(</span><span class="n">E</span><span class="p">),</span> <span class="n">D</span><span class="p">(</span><span class="n">R</span><span class="p">),</span> <span class="n">D</span><span class="p">(</span><span class="n">F</span><span class="p">),</span> <span class="n">D</span><span class="p">(</span><span class="n">V</span><span class="p">),</span> <span class="n">D</span><span class="p">(</span><span class="n">U</span><span class="p">),</span>
+                         <span class="n">WAIT</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span>
+                         <span class="n">U</span><span class="p">(</span><span class="n">E</span><span class="p">),</span> <span class="n">U</span><span class="p">(</span><span class="n">R</span><span class="p">),</span> <span class="n">U</span><span class="p">(</span><span class="n">F</span><span class="p">),</span> <span class="n">U</span><span class="p">(</span><span class="n">V</span><span class="p">),</span> <span class="n">U</span><span class="p">(</span><span class="n">U</span><span class="p">),</span>
+                         <span class="n">END</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Don't do anything if we didn't press an appropriate key.</span>
+    <span class="k">return</span> <span class="n">MACRO_NONE</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<h2 id="so-after-all-that-how-is-steno-going">“So after all that, how is steno going?”</h2>
+
+<p>That’s very considerate of you to ask, thanks.</p>
+
+<p>I’m currently up to 50 words per minute on newspaper-caliber text after about 12
+weeks of practice. For less vocabulary-intensive applications, such as instant
+messaging, I can reach 80–90 wpm. I intend to post a more detailed journal about
+my progress later.</p>
+
+<p>Overall, steno is showing to be much easier on the fingers, and I miss it when I
+have to return to my laptop keyboard. If you are concerned about the strain on
+your hands, want to type faster, or are curiously infatuated with esoteric
+keyboard firmware, I can recommend the Ergodox EZ + Plover combination.</p>
+
+  </div>
+
+</article>
+
+
+
+
+
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = "https://waleedkhan.name/blog/steno-adventures-part-2/";
+    this.page.identifier = "steno-adventures-part-2/";
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//waleedkhan-name.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Stenography and programming languages</h2>
+    <p class="rss-subscribe">subscribe <a href="/blog/feed.xml">via RSS</a></p>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>Waleed Khan</li>
+          <li><a href="mailto:me@waleedkhan.name">me@waleedkhan.name</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/arxanas"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">arxanas</span></a>
+
+          </li>
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>This is a personal blog. Unless otherwise stated, the opinions
+expressed here are my own, and not those of my past or present
+employers.</p>
+      </div>
+    </div>
+
+  </div>
+
+  
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-53066274-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+</footer>
+
+
+  </body>
+
+</html>
