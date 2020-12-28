@@ -1,13 +1,9 @@
-# This is a basic workflow to help you get started with Actions
-
 name: Publish site
 
 # Controls when the action will run. 
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ master ]
-  pull_request:
     branches: [ master ]
 
   # Allows you to run this workflow manually from the Actions tab
@@ -40,6 +36,13 @@ jobs:
       # Runs a single command using the runners shell
       - name: Build blog
         uses: jerryjvl/jekyll-build-action@v1
-
+    
+      # Push to the gh-pages branch
       - name: Deploy blog
-        run: rsync -avz --delete _site waleedkhan.name:home/blog
+        uses: Cecilapp/GitHub-Pages-deploy@3.1.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          email: me@waleedkhan.name
+          branch: gh-pages
+          cname: blog.waleedkhan.name
