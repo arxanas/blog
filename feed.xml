@@ -5,10 +5,10 @@
     <description>This is a personal blog. Unless otherwise stated, the opinions
 expressed here are my own, and not those of my past or present
 employers.</description>
-    <link>https://waleedkhan.name/blog/</link>
-    <atom:link href="https://waleedkhan.name/blog/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 28 Dec 2020 16:26:22 -0600</pubDate>
-    <lastBuildDate>Mon, 28 Dec 2020 16:26:22 -0600</lastBuildDate>
+    <link>https://blog.waleedkhan.name/</link>
+    <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Wed, 30 Dec 2020 14:53:45 -0600</pubDate>
+    <lastBuildDate>Wed, 30 Dec 2020 14:53:45 -0600</lastBuildDate>
     <generator>Jekyll v3.8.4</generator>
     
       <item>
@@ -86,7 +86,7 @@ employers.</description>
 &lt;p&gt;The first main thing I iterated on was the design of the exercise tracker widget. I originally based it off of the &lt;em&gt;Stronglifts&lt;/em&gt; app:&lt;/p&gt;
 
 &lt;figure class=&quot;figure&quot;&gt;
-        &lt;a href=&quot;/blog/assets/posts/smash-training-retrospective/stronglifts.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/blog/assets/posts/smash-training-retrospective/stronglifts.png&quot; alt=&quot;Advertisement screenshot of the Stronglifts workout app.&quot; title=&quot;Advertisement screenshot of the Stronglifts workout app.&quot; /&gt;&lt;/a&gt;
+        &lt;a href=&quot;/assets/posts/smash-training-retrospective/stronglifts.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/assets/posts/smash-training-retrospective/stronglifts.png&quot; alt=&quot;Advertisement screenshot of the Stronglifts workout app.&quot; title=&quot;Advertisement screenshot of the Stronglifts workout app.&quot; /&gt;&lt;/a&gt;
         &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;Advertisement screenshot of the Stronglifts workout app.&lt;/p&gt;
 &lt;/figcaption&gt;
       &lt;/figure&gt;
@@ -96,7 +96,7 @@ employers.</description>
 &lt;p&gt;I experimented with a “smiley-face” UI rather than a rep-count UI, as in Stronglifts, along with a few other options. After a lot of feedback from friends, I arrived at a slider-based widget like this:&lt;/p&gt;
 
 &lt;figure class=&quot;figure&quot;&gt;
-        &lt;a href=&quot;/blog/assets/posts/smash-training-retrospective/smash-training-exercise-widget.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/blog/assets/posts/smash-training-retrospective/smash-training-exercise-widget.png&quot; alt=&quot;Screenshot of the Smash Training exercise widget.&quot; title=&quot;Screenshot of the Smash Training exercise widget.&quot; /&gt;&lt;/a&gt;
+        &lt;a href=&quot;/assets/posts/smash-training-retrospective/smash-training-exercise-widget.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/assets/posts/smash-training-retrospective/smash-training-exercise-widget.png&quot; alt=&quot;Screenshot of the Smash Training exercise widget.&quot; title=&quot;Screenshot of the Smash Training exercise widget.&quot; /&gt;&lt;/a&gt;
         &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;Screenshot of the Smash Training exercise widget.&lt;/p&gt;
 &lt;/figcaption&gt;
       &lt;/figure&gt;
@@ -216,8 +216,8 @@ employers.</description>
 &lt;p&gt;This project was a success for me, because 1) I solved a problem I had; 2) I solved a problem that others had; and 3) I reduced my maintenance burden to the absolute minimum — I haven’t had any deployment issues since launching it.&lt;/p&gt;
 </description>
         <pubDate>Sun, 06 Dec 2020 00:00:00 -0600</pubDate>
-        <link>https://waleedkhan.name/blog/smash-training-retrospective/</link>
-        <guid isPermaLink="true">https://waleedkhan.name/blog/smash-training-retrospective/</guid>
+        <link>https://blog.waleedkhan.name/smash-training-retrospective/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/smash-training-retrospective/</guid>
         
         <category>smash-bros</category>
         
@@ -233,7 +233,7 @@ employers.</description>
 &lt;p&gt;Suppose you’re landing and trying to avoid an opponent. You want to avoid their “threat bubble” while landing: the maximum range that their attacks can reach in the time it takes you to land.&lt;/p&gt;
 
 &lt;figure class=&quot;figure&quot;&gt;
-        &lt;a href=&quot;/blog/assets/posts/smash-bros-the-parabola-rule/1-threat-bubble.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/blog/assets/posts/smash-bros-the-parabola-rule/1-threat-bubble.png&quot; alt=&quot;The red player is in the air, while the blue player is on the ground, projecting a threat bubble.&quot; title=&quot;The red player is in the air, while the blue player is on the ground, projecting a threat bubble.&quot; /&gt;&lt;/a&gt;
+        &lt;a href=&quot;/assets/posts/smash-bros-the-parabola-rule/1-threat-bubble.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/assets/posts/smash-bros-the-parabola-rule/1-threat-bubble.png&quot; alt=&quot;The red player is in the air, while the blue player is on the ground, projecting a threat bubble.&quot; title=&quot;The red player is in the air, while the blue player is on the ground, projecting a threat bubble.&quot; /&gt;&lt;/a&gt;
         &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;The red player is in the air, while the blue player is on the ground, projecting a threat bubble.&lt;/p&gt;
 &lt;/figcaption&gt;
       &lt;/figure&gt;
@@ -241,7 +241,7 @@ employers.</description>
 &lt;p&gt;So naturally, you drift to the side to avoid their threat bubble.&lt;/p&gt;
 
 &lt;figure class=&quot;figure&quot;&gt;
-        &lt;a href=&quot;/blog/assets/posts/smash-bros-the-parabola-rule/2-landing-arc.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/blog/assets/posts/smash-bros-the-parabola-rule/2-landing-arc.png&quot; alt=&quot;Red player's planned trajectory, drifting to the side to avoid the blue player.&quot; title=&quot;Red player's planned trajectory, drifting to the side to avoid the blue player.&quot; /&gt;&lt;/a&gt;
+        &lt;a href=&quot;/assets/posts/smash-bros-the-parabola-rule/2-landing-arc.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/assets/posts/smash-bros-the-parabola-rule/2-landing-arc.png&quot; alt=&quot;Red player's planned trajectory, drifting to the side to avoid the blue player.&quot; title=&quot;Red player's planned trajectory, drifting to the side to avoid the blue player.&quot; /&gt;&lt;/a&gt;
         &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;Red player&amp;#8217;s planned trajectory, drifting to the side to avoid the blue player.&lt;/p&gt;
 &lt;/figcaption&gt;
       &lt;/figure&gt;
@@ -249,7 +249,7 @@ employers.</description>
 &lt;p&gt;The ideal landing position would be as close to center stage as possible, while still staying outside of their threat bubble.&lt;/p&gt;
 
 &lt;figure class=&quot;figure&quot;&gt;
-        &lt;a href=&quot;/blog/assets/posts/smash-bros-the-parabola-rule/3-threat-bubble-and-circular-arc.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/blog/assets/posts/smash-bros-the-parabola-rule/3-threat-bubble-and-circular-arc.png&quot; alt=&quot;The red player's expected trajectory is tangent to the blue player's threat bubble. The trajectory does not pass through the threat bubble, meaning that it's a safe landing: the blue player cannot reach the red player and hit them as they land.&quot; title=&quot;The red player's expected trajectory is tangent to the blue player's threat bubble. The trajectory does not pass through the threat bubble, meaning that it's a safe landing: the blue player cannot reach the red player and hit them as they land.&quot; /&gt;&lt;/a&gt;
+        &lt;a href=&quot;/assets/posts/smash-bros-the-parabola-rule/3-threat-bubble-and-circular-arc.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/assets/posts/smash-bros-the-parabola-rule/3-threat-bubble-and-circular-arc.png&quot; alt=&quot;The red player's expected trajectory is tangent to the blue player's threat bubble. The trajectory does not pass through the threat bubble, meaning that it's a safe landing: the blue player cannot reach the red player and hit them as they land.&quot; title=&quot;The red player's expected trajectory is tangent to the blue player's threat bubble. The trajectory does not pass through the threat bubble, meaning that it's a safe landing: the blue player cannot reach the red player and hit them as they land.&quot; /&gt;&lt;/a&gt;
         &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;The red player&amp;#8217;s expected trajectory is tangent to the blue player&amp;#8217;s threat bubble. The trajectory does not pass through the threat bubble, meaning that it&amp;#8217;s a safe landing: the blue player cannot reach the red player and hit them as they land.&lt;/p&gt;
 &lt;/figcaption&gt;
       &lt;/figure&gt;
@@ -259,7 +259,7 @@ employers.</description>
 &lt;p&gt;The actual trajectory of the player is closer to a parabola. Let’s look at what a parabolic arc might look like.&lt;/p&gt;
 
 &lt;figure class=&quot;figure&quot;&gt;
-        &lt;a href=&quot;/blog/assets/posts/smash-bros-the-parabola-rule/4-threat-bubble-and-parabolic-arc.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/blog/assets/posts/smash-bros-the-parabola-rule/4-threat-bubble-and-parabolic-arc.png&quot; alt=&quot;The red player's *actual* trajectory is a wider arc. Notice that the landing position is farther away from the blue player than in the previous diagram.&quot; title=&quot;The red player's *actual* trajectory is a wider arc. Notice that the landing position is farther away from the blue player than in the previous diagram.&quot; /&gt;&lt;/a&gt;
+        &lt;a href=&quot;/assets/posts/smash-bros-the-parabola-rule/4-threat-bubble-and-parabolic-arc.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/assets/posts/smash-bros-the-parabola-rule/4-threat-bubble-and-parabolic-arc.png&quot; alt=&quot;The red player's *actual* trajectory is a wider arc. Notice that the landing position is farther away from the blue player than in the previous diagram.&quot; title=&quot;The red player's *actual* trajectory is a wider arc. Notice that the landing position is farther away from the blue player than in the previous diagram.&quot; /&gt;&lt;/a&gt;
         &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;The red player&amp;#8217;s &lt;em&gt;actual&lt;/em&gt; trajectory is a wider arc. Notice that the landing position is farther away from the blue player than in the previous diagram.&lt;/p&gt;
 &lt;/figcaption&gt;
       &lt;/figure&gt;
@@ -269,7 +269,7 @@ employers.</description>
 &lt;p&gt;If we thought that our trajectory was circular, not parabolic, and tried to aim towards the same “safe” spot on the ground as in the previous circular arc diagram, we would actually slightly enter the opponent’s threat bubble:&lt;/p&gt;
 
 &lt;figure class=&quot;figure&quot;&gt;
-        &lt;a href=&quot;/blog/assets/posts/smash-bros-the-parabola-rule/5-threat-bubble-and-real-circular-arc.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/blog/assets/posts/smash-bros-the-parabola-rule/5-threat-bubble-and-real-circular-arc.png&quot; alt=&quot;If the red player aims towards the circular arc's landing position, but actually has a parabolic arc, then they'll slightly pass through the blue player's threat bubble.&quot; title=&quot;If the red player aims towards the circular arc's landing position, but actually has a parabolic arc, then they'll slightly pass through the blue player's threat bubble.&quot; /&gt;&lt;/a&gt;
+        &lt;a href=&quot;/assets/posts/smash-bros-the-parabola-rule/5-threat-bubble-and-real-circular-arc.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/assets/posts/smash-bros-the-parabola-rule/5-threat-bubble-and-real-circular-arc.png&quot; alt=&quot;If the red player aims towards the circular arc's landing position, but actually has a parabolic arc, then they'll slightly pass through the blue player's threat bubble.&quot; title=&quot;If the red player aims towards the circular arc's landing position, but actually has a parabolic arc, then they'll slightly pass through the blue player's threat bubble.&quot; /&gt;&lt;/a&gt;
         &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;If the red player aims towards the circular arc&amp;#8217;s landing position, but actually has a parabolic arc, then they&amp;#8217;ll slightly pass through the blue player&amp;#8217;s threat bubble.&lt;/p&gt;
 &lt;/figcaption&gt;
       &lt;/figure&gt;
@@ -289,8 +289,8 @@ employers.</description>
 &lt;/ul&gt;
 </description>
         <pubDate>Tue, 04 Aug 2020 00:00:00 -0500</pubDate>
-        <link>https://waleedkhan.name/blog/smash-bros-parabola-rule/</link>
-        <guid isPermaLink="true">https://waleedkhan.name/blog/smash-bros-parabola-rule/</guid>
+        <link>https://blog.waleedkhan.name/smash-bros-parabola-rule/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/smash-bros-parabola-rule/</guid>
         
         <category>smash-bros</category>
         
@@ -330,7 +330,7 @@ employers.</description>
 &lt;p&gt;Wi-Fi can be deployed in one or both of two bands: 2.4 GHz and 5 GHz. &lt;a href=&quot;https://blog.parsecgaming.com/how-your-wifi-band-impacts-low-latency-connections-9f1e538a63dd&quot;&gt;In this article by Parsec&lt;/a&gt;, they demonstrate that 5 GHz actually has quite low latency:&lt;/p&gt;
 
 &lt;figure class=&quot;figure&quot;&gt;
-        &lt;a href=&quot;/blog/assets/posts/lan-adapter/wifi-latency.jpeg&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/blog/assets/posts/lan-adapter/wifi-latency.jpeg&quot; alt=&quot;Graph comparing latencies of 2.4 GHz Wi-Fi, 5 GHz Wi-Fi, and wired connection.&quot; title=&quot;Graph comparing latencies of 2.4 GHz Wi-Fi, 5 GHz Wi-Fi, and wired connection.&quot; /&gt;&lt;/a&gt;
+        &lt;a href=&quot;/assets/posts/lan-adapter/wifi-latency.jpeg&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/assets/posts/lan-adapter/wifi-latency.jpeg&quot; alt=&quot;Graph comparing latencies of 2.4 GHz Wi-Fi, 5 GHz Wi-Fi, and wired connection.&quot; title=&quot;Graph comparing latencies of 2.4 GHz Wi-Fi, 5 GHz Wi-Fi, and wired connection.&quot; /&gt;&lt;/a&gt;
         &lt;figcaption class=&quot;caption&quot;&gt;
 &lt;/figcaption&gt;
       &lt;/figure&gt;
@@ -355,8 +355,8 @@ employers.</description>
 &lt;p&gt;So Wi-Fi online play needn’t be that bad!&lt;/p&gt;
 </description>
         <pubDate>Thu, 30 Jul 2020 00:00:00 -0500</pubDate>
-        <link>https://waleedkhan.name/blog/lan-adapter/</link>
-        <guid isPermaLink="true">https://waleedkhan.name/blog/lan-adapter/</guid>
+        <link>https://blog.waleedkhan.name/lan-adapter/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/lan-adapter/</guid>
         
         <category>smash-bros</category>
         
@@ -391,8 +391,8 @@ dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=110, msgid=&amp;lt;19
 &lt;p&gt;I tried to be a responsible system administrator, but clearly I didn’t have the time or attention to do so effectively. Now I happily pay $5 a month for a professional service to manage my email — reliably.&lt;/p&gt;
 </description>
         <pubDate>Wed, 29 Apr 2020 00:00:00 -0500</pubDate>
-        <link>https://waleedkhan.name/blog/mail-server/</link>
-        <guid isPermaLink="true">https://waleedkhan.name/blog/mail-server/</guid>
+        <link>https://blog.waleedkhan.name/mail-server/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/mail-server/</guid>
         
         <category>software-engineering</category>
         
@@ -658,8 +658,8 @@ dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=110, msgid=&amp;lt;19
 &lt;p&gt;To carry out this compaction procedure may require an exclusive lock or some other kind of synchronization, but it can reduce the performance overhead of a monotonic approach.&lt;/p&gt;
 </description>
         <pubDate>Mon, 20 Apr 2020 00:00:00 -0500</pubDate>
-        <link>https://waleedkhan.name/blog/monotonicity/</link>
-        <guid isPermaLink="true">https://waleedkhan.name/blog/monotonicity/</guid>
+        <link>https://blog.waleedkhan.name/monotonicity/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/monotonicity/</guid>
         
         <category>software-engineering</category>
         
@@ -700,7 +700,7 @@ security of my account.&lt;/p&gt;
 &lt;p&gt;I got this message today indicating that I could no longer use this app:&lt;/p&gt;
 
 &lt;figure class=&quot;figure&quot;&gt;
-        &lt;a href=&quot;/blog/assets/posts/login-gov-2fa/login-gov-2fa-new-options.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/blog/assets/posts/login-gov-2fa/login-gov-2fa-new-options.png&quot; alt=&quot;Required upgrade to a new 2FA option. They are: 1) SMS, 2) physical security key, 3) government security key, 4) none of the above and they'll give you 10 codes.&quot; title=&quot;Required upgrade to a new 2FA option. They are: 1) SMS, 2) physical security key, 3) government security key, 4) none of the above and they'll give you 10 codes.&quot; /&gt;&lt;/a&gt;
+        &lt;a href=&quot;/assets/posts/login-gov-2fa/login-gov-2fa-new-options.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/assets/posts/login-gov-2fa/login-gov-2fa-new-options.png&quot; alt=&quot;Required upgrade to a new 2FA option. They are: 1) SMS, 2) physical security key, 3) government security key, 4) none of the above and they'll give you 10 codes.&quot; title=&quot;Required upgrade to a new 2FA option. They are: 1) SMS, 2) physical security key, 3) government security key, 4) none of the above and they'll give you 10 codes.&quot; /&gt;&lt;/a&gt;
         &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;Required upgrade to a new 2FA option.&lt;/p&gt;
 &lt;/figcaption&gt;
       &lt;/figure&gt;
@@ -731,8 +731,8 @@ my login.gov password (also not reused anywhere else).&lt;/p&gt;
 most important.&lt;/p&gt;
 </description>
         <pubDate>Fri, 13 Dec 2019 00:00:00 -0600</pubDate>
-        <link>https://waleedkhan.name/blog/login-gov-2fa/</link>
-        <guid isPermaLink="true">https://waleedkhan.name/blog/login-gov-2fa/</guid>
+        <link>https://blog.waleedkhan.name/login-gov-2fa/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/login-gov-2fa/</guid>
         
         <category>security</category>
         
@@ -848,8 +848,8 @@ code.&lt;/li&gt;
 &lt;/ul&gt;
 </description>
         <pubDate>Thu, 20 Dec 2018 00:00:00 -0600</pubDate>
-        <link>https://waleedkhan.name/blog/ocaml-file-extensions/</link>
-        <guid isPermaLink="true">https://waleedkhan.name/blog/ocaml-file-extensions/</guid>
+        <link>https://blog.waleedkhan.name/ocaml-file-extensions/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/ocaml-file-extensions/</guid>
         
         <category>ocaml</category>
         
@@ -1079,8 +1079,8 @@ hope that this article helps you make a concrete plan about how to get your
 desired job in programming languages as well.&lt;/p&gt;
 </description>
         <pubDate>Wed, 12 Sep 2018 00:00:00 -0500</pubDate>
-        <link>https://waleedkhan.name/blog/getting-a-job-in-pl/</link>
-        <guid isPermaLink="true">https://waleedkhan.name/blog/getting-a-job-in-pl/</guid>
+        <link>https://blog.waleedkhan.name/getting-a-job-in-pl/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/getting-a-job-in-pl/</guid>
         
         <category>programming-languages</category>
         
@@ -1784,8 +1784,8 @@ system, it might be best to build up the phrase beginners and phrase enders as
 you find you need them, rather than try to learn them all at once.&lt;/p&gt;
 </description>
         <pubDate>Mon, 21 May 2018 00:00:00 -0500</pubDate>
-        <link>https://waleedkhan.name/blog/my-steno-system/</link>
-        <guid isPermaLink="true">https://waleedkhan.name/blog/my-steno-system/</guid>
+        <link>https://blog.waleedkhan.name/my-steno-system/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/my-steno-system/</guid>
         
         <category>stenography</category>
         
@@ -1897,8 +1897,8 @@ understated; this alone is a compelling reason to use a different order for
 these clauses.&lt;/p&gt;
 </description>
         <pubDate>Sat, 23 Dec 2017 00:00:00 -0600</pubDate>
-        <link>https://waleedkhan.name/blog/data-comprehension-syntaxes/</link>
-        <guid isPermaLink="true">https://waleedkhan.name/blog/data-comprehension-syntaxes/</guid>
+        <link>https://blog.waleedkhan.name/data-comprehension-syntaxes/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/data-comprehension-syntaxes/</guid>
         
         <category>programming-languages</category>
         
