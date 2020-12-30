@@ -13,8 +13,7 @@ description: |-
   employers.
 real_name: Waleed Khan
 email: me@waleedkhan.name
-baseurl: "/blog" # the subpath of your site, e.g. /blog
-url: "https://waleedkhan.name" # the base hostname & protocol for your site
+url: "https://blog.waleedkhan.name" # the base hostname & protocol for your site
 github_username: arxanas
 google_analytics_id: 'UA-53066274-1'
 permalink: none
