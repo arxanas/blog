@@ -2,6 +2,7 @@
 layout: post
 title: 'Smash Training retrospective'
 permalink: smash-training-retrospective/
+hn: https://news.ycombinator.com/item?id=25387356
 tags:
   - smash-bros
   - software-engineering
