@@ -7,9 +7,77 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 30 Dec 2020 19:04:55 -0600</pubDate>
-    <lastBuildDate>Wed, 30 Dec 2020 19:04:55 -0600</lastBuildDate>
+    <pubDate>Sun, 03 Jan 2021 01:36:50 -0600</pubDate>
+    <lastBuildDate>Sun, 03 Jan 2021 01:36:50 -0600</lastBuildDate>
     <generator>Jekyll v3.8.4</generator>
+    
+      <item>
+        <title>The Rust module system for Python users</title>
+        <description>&lt;p&gt;Every time I go back to Rust, I have to figure out how the module system works again. Here are some of my notes comparing it to Python’s module system.&lt;/p&gt;
+
+&lt;p&gt;These notes are for Rust 2018.&lt;/p&gt;
+
+&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#crates&quot; id=&quot;markdown-toc-crates&quot;&gt;Crates&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#packages&quot; id=&quot;markdown-toc-packages&quot;&gt;Packages&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#file-layout&quot; id=&quot;markdown-toc-file-layout&quot;&gt;File layout&lt;/a&gt;    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#crate-roots&quot; id=&quot;markdown-toc-crate-roots&quot;&gt;Crate roots&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#module-lookups&quot; id=&quot;markdown-toc-module-lookups&quot;&gt;Module lookups&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#nested-modules&quot; id=&quot;markdown-toc-nested-modules&quot;&gt;Nested modules&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;crates&quot;&gt;Crates&lt;/h3&gt;
+
+&lt;p&gt;A &lt;strong&gt;crate&lt;/strong&gt; is a build target in Rust. A crate can either be a library or a binary. It can be built with &lt;code class=&quot;highlighter-rouge&quot;&gt;cargo build&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;In Python, libraries are called “packages”. Binaries are an entirely heterogenous concept, typically installed by configuring &lt;a href=&quot;https://packaging.python.org/specifications/entry-points/&quot;&gt;entry points&lt;/a&gt;. Such a binary doesn’t even need to be Python code (for example, it can be a shell script instead).&lt;/p&gt;
+
+&lt;h3 id=&quot;packages&quot;&gt;Packages&lt;/h3&gt;
+
+&lt;p&gt;A &lt;strong&gt;package&lt;/strong&gt; in Rust consists of up to one library crate and any number of binary crates. (It’s required that there be at least one library or binary crate.)&lt;/p&gt;
+
+&lt;p&gt;In Python, a single “distribution package” (i.e. one that you can &lt;code class=&quot;highlighter-rouge&quot;&gt;pip install&lt;/code&gt;) can contain multiple “import packages” (i.e. one that you can &lt;code class=&quot;highlighter-rouge&quot;&gt;import&lt;/code&gt;), while Rust allows at most one import package per distribution package.&lt;/p&gt;
+
+&lt;h3 id=&quot;file-layout&quot;&gt;File layout&lt;/h3&gt;
+
+&lt;h4 id=&quot;crate-roots&quot;&gt;Crate roots&lt;/h4&gt;
+
+&lt;p&gt;Python places &lt;code class=&quot;highlighter-rouge&quot;&gt;__init__.py&lt;/code&gt; at the root of a package to indicate that it’s importable as a package. Similarly, Rust conventionally puts &lt;code class=&quot;highlighter-rouge&quot;&gt;lib.rs&lt;/code&gt; at the root of a crate as the library &lt;strong&gt;crate root&lt;/strong&gt;. (Unlike Python, the name can be re-configured, but &lt;code class=&quot;highlighter-rouge&quot;&gt;lib.rs&lt;/code&gt; is the default.)&lt;/p&gt;
+
+&lt;p&gt;In Python, &lt;code class=&quot;highlighter-rouge&quot;&gt;__main__.py&lt;/code&gt; corresponds to the main entry point for the module when run with &lt;code class=&quot;highlighter-rouge&quot;&gt;python -m&lt;/code&gt;. Rust conventionally puts &lt;code class=&quot;highlighter-rouge&quot;&gt;main.rs&lt;/code&gt; as a binary crate root. (This can also be renamed, which is probably desirable if you have more than one binary.)&lt;/p&gt;
+
+&lt;h4 id=&quot;module-lookups&quot;&gt;Module lookups&lt;/h4&gt;
+
+&lt;p&gt;In Python, all modules are available by importing them via their filesystem path name. For example, &lt;code class=&quot;highlighter-rouge&quot;&gt;import foo.bar&lt;/code&gt; first looks for a &lt;code class=&quot;highlighter-rouge&quot;&gt;foo/&lt;/code&gt; directory on the &lt;code class=&quot;highlighter-rouge&quot;&gt;PYTHONPATH&lt;/code&gt;. Then it looks for a &lt;code class=&quot;highlighter-rouge&quot;&gt;bar/&lt;/code&gt; package or a &lt;code class=&quot;highlighter-rouge&quot;&gt;bar.py&lt;/code&gt; module underneath the &lt;code class=&quot;highlighter-rouge&quot;&gt;foo/&lt;/code&gt; directory.&lt;/p&gt;
+
+&lt;p&gt;In Rust, modules also correspond to their paths on the filesystem (by default; &lt;a href=&quot;https://doc.rust-lang.org/reference/items/modules.html#the-path-attribute&quot;&gt;you can use the &lt;code class=&quot;highlighter-rouge&quot;&gt;path&lt;/code&gt; attribute&lt;/a&gt; to change this behavior). However, they are not immediately &lt;code class=&quot;highlighter-rouge&quot;&gt;use&lt;/code&gt;-able just because the corresponding file is present! They must be declared with a &lt;code class=&quot;highlighter-rouge&quot;&gt;mod foo;&lt;/code&gt; declaration in the crate root file (e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;lib.rs&lt;/code&gt;).&lt;/p&gt;
+
+&lt;h4 id=&quot;nested-modules&quot;&gt;Nested modules&lt;/h4&gt;
+
+&lt;p&gt;In Python, a nested module &lt;code class=&quot;highlighter-rouge&quot;&gt;foo.bar&lt;/code&gt; is implemented either by &lt;code class=&quot;highlighter-rouge&quot;&gt;foo/bar.py&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;foo/bar/__init__.py&lt;/code&gt;. You can’t use both. If you want to have sub-modules of &lt;code class=&quot;highlighter-rouge&quot;&gt;foo.bar&lt;/code&gt;, you’ll place additional modules or packages under &lt;code class=&quot;highlighter-rouge&quot;&gt;foo/bar/&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;A statement like &lt;code class=&quot;highlighter-rouge&quot;&gt;from foo.bar import qux&lt;/code&gt; could either be importing a symbol declared in &lt;code class=&quot;highlighter-rouge&quot;&gt;foo/bar/__init__.py&lt;/code&gt; or the module &lt;code class=&quot;highlighter-rouge&quot;&gt;foo/bar/qux.py&lt;/code&gt;. Some developers choose to explicitly re-export the public interface of &lt;code class=&quot;highlighter-rouge&quot;&gt;bar&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;__init__.py&lt;/code&gt; for clarity, and prefix sub-modules with underscores (e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;_qux.py&lt;/code&gt; instead of &lt;code class=&quot;highlighter-rouge&quot;&gt;qux.py&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;In Rust, you use &lt;code class=&quot;highlighter-rouge&quot;&gt;foo/bar.rs&lt;/code&gt; to declare members of the namespace &lt;code class=&quot;highlighter-rouge&quot;&gt;foo::bar&lt;/code&gt;. If you also want to have sub-namespaces of bar (e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;foo::bar::qux&lt;/code&gt;), then you additionally create the &lt;code class=&quot;highlighter-rouge&quot;&gt;bar/&lt;/code&gt; directory alongside &lt;code class=&quot;highlighter-rouge&quot;&gt;bar.rs&lt;/code&gt;. To access a sub-namespace &lt;code class=&quot;highlighter-rouge&quot;&gt;qux&lt;/code&gt; inside &lt;code class=&quot;highlighter-rouge&quot;&gt;bar.rs&lt;/code&gt;, the line &lt;code class=&quot;highlighter-rouge&quot;&gt;mod qux;&lt;/code&gt; must be added to &lt;code class=&quot;highlighter-rouge&quot;&gt;bar.rs&lt;/code&gt;. (This is similar to how we have to add &lt;code class=&quot;highlighter-rouge&quot;&gt;mod foo;&lt;/code&gt; at the top-level &lt;code class=&quot;highlighter-rouge&quot;&gt;lib.rs&lt;/code&gt;.)&lt;/p&gt;
+
+&lt;p&gt;To re-export the namespace and make it available to all users outside of &lt;code class=&quot;highlighter-rouge&quot;&gt;bar&lt;/code&gt;, it should be changed to &lt;code class=&quot;highlighter-rouge&quot;&gt;pub mod qux;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;The main take-away is that Rust requires the explicit re-exporting of nested modules using &lt;code class=&quot;highlighter-rouge&quot;&gt;mod&lt;/code&gt; at each step of the hierarchy, while Python does not.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 03 Jan 2021 00:00:00 -0600</pubDate>
+        <link>https://blog.waleedkhan.name/rust-modules-for-python-users/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/rust-modules-for-python-users/</guid>
+        
+        <category>python</category>
+        
+        <category>rust</category>
+        
+        <category>software-engineering</category>
+        
+        
+      </item>
     
       <item>
         <title>Smash Training retrospective</title>
@@ -1788,119 +1856,6 @@ you find you need them, rather than try to learn them all at once.&lt;/p&gt;
         <guid isPermaLink="true">https://blog.waleedkhan.name/my-steno-system/</guid>
         
         <category>stenography</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Why LINQ syntax differs from SQL, list comprehensions, etc.</title>
-        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#data-comprehension-syntaxes&quot; id=&quot;markdown-toc-data-comprehension-syntaxes&quot;&gt;Data comprehension syntaxes&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#its-a-better-mental-model&quot; id=&quot;markdown-toc-its-a-better-mental-model&quot;&gt;It’s a better mental model&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#its-better-for-tooling&quot; id=&quot;markdown-toc-its-better-for-tooling&quot;&gt;It’s better for tooling&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;data-comprehension-syntaxes&quot;&gt;Data comprehension syntaxes&lt;/h2&gt;
-
-&lt;p&gt;The order of clauses in SQL is as follows:&lt;/p&gt;
-
-&lt;div class=&quot;language-sql highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;expression&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data_source&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;condition&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Python features a similar syntax in its list comprehensions. (In this article I
-don’t discuss syntax like Haskell’s list comprehensions or Scala’s
-for-comprehensions.)&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;expression&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data_source&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;condition&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;You can see that these two are roughly parallel. The order of clauses is: the
-expression, the data source, and then the filtering condition.&lt;/p&gt;
-
-&lt;p&gt;But the LINQ syntax in C# orders these clauses differently:&lt;/p&gt;
-
-&lt;div class=&quot;language-cs highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data_source&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;where&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;condition&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;expression&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Why is it different from the established standard? It turns out it’s a
-deliberate design decision by the C# team.&lt;/p&gt;
-
-&lt;h2 id=&quot;its-a-better-mental-model&quot;&gt;It’s a better mental model&lt;/h2&gt;
-
-&lt;p&gt;One reason I’ve heard given by C# team members is that the SQL syntax doesn’t
-make very much sense. It might be intuitive from a natural-language standpoint,
-but it fails to accurately model how we can think about the data processing.&lt;/p&gt;
-
-&lt;p&gt;When doing the database scan, of course we have to first identify where we are
-getting data from. Then we have to scan each row and determine if it meets the
-condition, and then we add some expression in terms of the row to the set of
-results that we are going to return.&lt;/p&gt;
-
-&lt;aside class=&quot;aside&quot; id=&quot;not-exactly&quot;&gt;
-          &lt;header class=&quot;aside-header&quot;&gt;&lt;a href=&quot;#not-exactly&quot;&gt;Not exactly&lt;/a&gt;&lt;/header&gt;
-          &lt;div class=&quot;aside-contents&quot;&gt;&lt;p&gt;In practice this isn’t quite accurate for SQL. We can use the result of our
-expression in our filtering condition:&lt;/p&gt;
-
-&lt;div class=&quot;language-sql highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bar&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;my_table&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bar&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;-- This uses the expression `bar` we computed.&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;But we can’t do this in Python:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# Can't name this expression for use in the filter...
-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;my_table&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# ...so we have to recompute it.
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;/div&gt;
-        &lt;/aside&gt;
-
-&lt;p&gt;It’s arguably intuitive to go from more general (the entire aggregate data
-source) to more specific (the exact transformations on the specific data we want
-from the data source). This is reflected in how one would write out these loops
-by hand:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data_source&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;yield&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;its-better-for-tooling&quot;&gt;It’s better for tooling&lt;/h2&gt;
-
-&lt;p&gt;One problem with the SQL syntax is that when you’ve written this:&lt;/p&gt;
-
-&lt;div class=&quot;language-sql highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;you have a hard time of autocompleting the word starting with “f”. It could be a
-column name from any table in the database!&lt;/p&gt;
-
-&lt;p&gt;C# doesn’t have this problem because you only write the filter and expression
-after you’ve written the data source:&lt;/p&gt;
-
-&lt;div class=&quot;language-cs highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data_source&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;where&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// easily autocompleted&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data_source&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;where&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;10&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// likewise&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;The usefulness of autocomplete in exploratory programming shouldn’t be
-understated; this alone is a compelling reason to use a different order for
-these clauses.&lt;/p&gt;
-</description>
-        <pubDate>Sat, 23 Dec 2017 00:00:00 -0600</pubDate>
-        <link>https://blog.waleedkhan.name/data-comprehension-syntaxes/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/data-comprehension-syntaxes/</guid>
-        
-        <category>programming-languages</category>
         
         
       </item>
