@@ -7,9 +7,94 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 08 Mar 2021 14:55:58 -0600</pubDate>
-    <lastBuildDate>Mon, 08 Mar 2021 14:55:58 -0600</lastBuildDate>
+    <pubDate>Wed, 10 Mar 2021 12:40:18 -0600</pubDate>
+    <lastBuildDate>Wed, 10 Mar 2021 12:40:18 -0600</lastBuildDate>
     <generator>Jekyll v3.8.4</generator>
+    
+      <item>
+        <title>On Pro Controller stick drift</title>
+        <description>&lt;p&gt;The Nintendo Switch Pro Controller is one of the main controllers used for competitive &lt;em&gt;Smash Bros.&lt;/em&gt; play. Most players use either the Pro Controller or a GameCube controller.&lt;/p&gt;
+
+&lt;p&gt;These controllers are prone to &lt;em&gt;stick drift&lt;/em&gt;: a phenomenon where inputs are registered for a control stick in a certain direction, despite the control stick being pressed in a different direction or not at all. As one can expect, this would significantly impair gameplay at the competitive level, and is frustrating at even the casual level.&lt;/p&gt;
+
+&lt;p&gt;This post is a brief summary of stick drift problems, which may be relevant to those interested in playing &lt;em&gt;Smash Bros.&lt;/em&gt; (particularly &lt;em&gt;Ultimate&lt;/em&gt;) competitively.&lt;/p&gt;
+
+&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#reputation&quot; id=&quot;markdown-toc-reputation&quot;&gt;Reputation&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#warranty&quot; id=&quot;markdown-toc-warranty&quot;&gt;Warranty&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#my-experience&quot; id=&quot;markdown-toc-my-experience&quot;&gt;My experience&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#possible-causes&quot; id=&quot;markdown-toc-possible-causes&quot;&gt;Possible causes&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#prevention&quot; id=&quot;markdown-toc-prevention&quot;&gt;Prevention&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#manual-repair&quot; id=&quot;markdown-toc-manual-repair&quot;&gt;Manual repair&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;reputation&quot;&gt;Reputation&lt;/h2&gt;
+
+&lt;p&gt;Original GameCube controllers, produced contemporaneously with the original GameCube, have a reputation of rock-solid reliability. Many players use their old GameCube controllers to this day. At the time of this writing, such controllers sell for USD ~70 used or USD ~200 new on eBay and Amazon, which is significantly more than their original MSRP.&lt;/p&gt;
+
+&lt;p&gt;Unfortunately, both modern Pro Controllers and GameCube controllers are plagued with reliability issues. The build quality in Nintendo’s controller manufacturing processes seems to have dropped significantly since the time of the original GameCube controller.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.reddit.com/r/NintendoSwitch/comments/cj0au7/has_anyone_experienced_drift_on_the_pro_controller/&quot;&gt;Anecdotal experiences with Pro Controller stick drift&lt;/a&gt; vary from “no issues after several hundred hours of use” to “several of my pro controllers have drift”. Generally, issues arise with the left control stick, which sees more use. See also &lt;a href=&quot;#my-experience&quot;&gt;My experience&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;One could try a third-party controller. However, they are generally cheaper and have a reputation of inferior build quality, battery life, etc. They also tend to feel different than first-party Pro Controllers, so it may take a while to adjust when switching between them.&lt;/p&gt;
+
+&lt;h2 id=&quot;warranty&quot;&gt;Warranty&lt;/h2&gt;
+
+&lt;p&gt;In the US, the Pro Controller’s warrant period is only 30 days. This is a shameful support period time for a device that should last several years.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.beuc.eu/publications/beuc-x-2021-002_nintendo_-_premature_obsolescence_complaint_to_the_ec.pdf&quot;&gt;Complaints have been filed in the EU&lt;/a&gt; about Nintendo’s shoddy controllers, suggesting that controllers should last approximately the lifetime of the console itself:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Nintendo is thus artificially creating an aftermarket in a sector in which this should not be the case, in a sector in which the average consumer should not expect the lifespan for the game controllers to be more limited than that of the console and does in any event not take into account the eventual cost of repair or replacement of game controllers when buying the console.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;You can opt to have Nintendo repair a malfunctioning Pro Controller for around USD 30, or half the MSRP. Some players report that the problems persist even after sending their controller to Nintendo. At these prices, it may not make sense to risk a repair that might not fix the problem.&lt;/p&gt;
+
+&lt;p&gt;Some vendors sell additional insurance for a small fee on top of the controller. Walmart offers up to 3 years of insurance for USD 7, which is a significantly better price than Nintendo’s offered repair price. I recently purchased a new Pro Controller from Target with the same insurance plan, but I have not yet filed a claim with it. This may be more economical than suffering through the official repair process. At my controller failure rates, this should be a good investment (see &lt;a href=&quot;#my-experience&quot;&gt;My experience&lt;/a&gt;).&lt;/p&gt;
+
+&lt;h2 id=&quot;my-experience&quot;&gt;My experience&lt;/h2&gt;
+
+&lt;p&gt;I have now purchased three Pro controllers, all of which have started exhibiting downward drifting of the left control stick by the 900-hour mark in &lt;em&gt;Smash Ultimate&lt;/em&gt;. So I go through them at a rate of about one controller (USD 60) per 300 hours.&lt;/p&gt;
+
+&lt;p&gt;By now, they are all in various states of usability. One is completely unusable (the stick drifts down at all times), one has frequent stick drift (which makes it only reasonable for casual play), and one has mild stick drift (which I can use to practice, but which sometimes causes premature deaths anyways).&lt;/p&gt;
+
+&lt;h2 id=&quot;possible-causes&quot;&gt;Possible causes&lt;/h2&gt;
+
+&lt;p&gt;There are two main theories for stick drift in the Pro controller:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;The analog stick sensor wheel component used in modern controllers is simply not durable compared to older controllers.&lt;/li&gt;
+  &lt;li&gt;The grinding of the stick against the enclosure, particularly during mashing, causes an accumulation of white dust which impairs the sensor.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Both are consistent with the left control stick being particularly vulnerable, since it sees significantly more use than the right control stick during normal play.&lt;/p&gt;
+
+&lt;h2 id=&quot;prevention&quot;&gt;Prevention&lt;/h2&gt;
+
+&lt;p&gt;To prevent the first issue, one could in principle replace the analog sensor immediately with a more reliable one, but I had difficulty doing this (see &lt;a href=&quot;#manual-repair&quot;&gt;Manual repair&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;To prevent the second issue, one can wrap the left control stick with a piece of tape, so that it doesn’t produce dust when grinding against its enclosure.&lt;/p&gt;
+
+&lt;p&gt;I have also taken to labeling my controllers and using only a certain controller for competitive play. This ensures that load is primarily focused on one controller so as to diagnose stick drift more easily, as it starts out sporadically at first. It also leaves a maximum number of functioning controllers available for multiplayer casual play.&lt;/p&gt;
+
+&lt;p&gt;One could also use one of the known-good controllers for tournaments to ensure there’s no stick drift at the least opportune time, while using one of the heavily-loaded controllers for practice, when it’s less of an issue.&lt;/p&gt;
+
+&lt;h2 id=&quot;manual-repair&quot;&gt;Manual repair&lt;/h2&gt;
+
+&lt;p&gt;To resolve the first issue by replacing the analog stick sensor wheel, I followed the guide at &lt;a href=&quot;https://www.reddit.com/r/NintendoSwitch/comments/bscoz9/nintendo_switch_pro_controller_analog_stick/&quot;&gt;Nintendo Switch Pro Controller PERMANENT Fix&lt;/a&gt;, but it &lt;strong&gt;did not&lt;/strong&gt; work for me. It claimed that the analog stick sensor wheel would not be soldered into place, and could be easily replaced. However, when I opened up my Pro Controller, I found that it was indeed soldered into place, so I couldn’t remove it.&lt;/p&gt;
+
+&lt;p&gt;Nonetheless, the above document is still a good reference for Pro Controller internals and repair, as it includes instructions to open the Pro Controller and a discussion of the relevant components, with many pictures.&lt;/p&gt;
+
+&lt;p&gt;To resolve the second issue, one can clean out dust and debris using electric contact cleaner or compressed air. This is a relatively cheap and simple fix to carry out, and many people have reported that it fixes their stick drift for a reasonable length of time.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 10 Mar 2021 00:00:00 -0600</pubDate>
+        <link>https://blog.waleedkhan.name/pro-controller-stick-drift/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/pro-controller-stick-drift/</guid>
+        
+        <category>smash-bros</category>
+        
+        
+      </item>
     
       <item>
         <title>The USB-C dream</title>
@@ -947,237 +1032,6 @@ code.&lt;/li&gt;
         <guid isPermaLink="true">https://blog.waleedkhan.name/ocaml-file-extensions/</guid>
         
         <category>ocaml</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>How to get a job in programming languages</title>
-        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#introduction&quot; id=&quot;markdown-toc-introduction&quot;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#academia&quot; id=&quot;markdown-toc-academia&quot;&gt;Academia&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#large-tech-companies&quot; id=&quot;markdown-toc-large-tech-companies&quot;&gt;Large tech companies&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#financial-institutions&quot; id=&quot;markdown-toc-financial-institutions&quot;&gt;Financial institutions&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#companies-with-developer-facing-products&quot; id=&quot;markdown-toc-companies-with-developer-facing-products&quot;&gt;Companies with developer-facing products&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#how-did-i-do-it&quot; id=&quot;markdown-toc-how-did-i-do-it&quot;&gt;How did I do it?&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
-
-&lt;p&gt;I recently saw this posted to Twitter:&lt;/p&gt;
-
-&lt;div class=&quot;jekyll-twitter-plugin&quot;&gt;&lt;blockquote class=&quot;twitter-tweet&quot;&gt;&lt;p lang=&quot;en&quot; dir=&quot;ltr&quot;&gt;For people considering it: working in compilers / developer tools is a great career. The programs are deterministic and have testsuites, the problems to solve are intellectually engaging and high-impact, the colleagues are friendly and reasonable, and the hours and pay are good. &lt;a href=&quot;https://t.co/d759G6g1fg&quot;&gt;https://t.co/d759G6g1fg&lt;/a&gt;&lt;/p&gt;&amp;mdash; Graydon Hoare (@graydon_pub) &lt;a href=&quot;https://twitter.com/graydon_pub/status/1039597413936160768?ref_src=twsrc%5Etfw&quot;&gt;September 11, 2018&lt;/a&gt;&lt;/blockquote&gt;
-&lt;script async=&quot;&quot; src=&quot;https://platform.twitter.com/widgets.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
-&lt;/div&gt;
-
-&lt;p&gt;It’s true! Developer tooling is a great space to be in, since you’re in the
-target audience for the products you’re building, so it’s easy to feel invested
-in your work. And the deterministic testing is great.&lt;/p&gt;
-
-&lt;p&gt;But how do you actually &lt;em&gt;get&lt;/em&gt; a job in programming languages specifically? The
-sad truth is that there are not a lot of opportunities to work in programming
-languages professionally: it has to be your institution’s core competency, or
-your institution has to be so large that it’s economical for them to spend
-multiple developer-years on a programming language project.&lt;/p&gt;
-
-&lt;p&gt;I had figured out after having taken my compilers course in college that I
-wanted to go into programming languages as a full-time profession. This article
-is the guide I wish I had when I was searching for jobs.&lt;/p&gt;
-
-&lt;h2 id=&quot;academia&quot;&gt;Academia&lt;/h2&gt;
-
-&lt;p&gt;The simplest way (but I won’t claim it’s the easiest way) to get into
-programming languages is to pursue a position in academia. You get to choose
-your institution and advisor to make sure that you find a position where you’ll
-be able to work on programming languages full-time. The downside is that you’re
-not compensated very well, relatively-speaking.&lt;/p&gt;
-
-&lt;p&gt;At my alma mater, the University of Michigan, we had no programming language
-faculty whatsoever. Apparently Carnegie Mellon University had taken them all.
-The state of programming language research seems to be a bit better in Europe
-than in the US, with institutions like Cambridge and INRIA. Many of my
-formally-trained coworkers reside in our London office.&lt;/p&gt;
-
-&lt;h2 id=&quot;large-tech-companies&quot;&gt;Large tech companies&lt;/h2&gt;
-
-&lt;p&gt;Large tech companies have so many developers that it starts to make sense to
-build tooling specifically for those developers. One minute saved per developer
-across 10,000 developers per day would pay for your yearly salary a few times
-over.&lt;/p&gt;
-
-&lt;p&gt;Some large tech companies with programming language teams:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Microsoft (C++, C♯, VB, TypeScript, Chakra).&lt;/li&gt;
-  &lt;li&gt;Google (Go, Dart, V8).&lt;/li&gt;
-  &lt;li&gt;Facebook (Hack, Flow, Pyre).&lt;/li&gt;
-  &lt;li&gt;Apple (Swift, LLVM).&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;The good news is that you’re well-compensated for working at these companies.
-The bad news is that it’s hard to get such a job.&lt;/p&gt;
-
-&lt;h2 id=&quot;financial-institutions&quot;&gt;Financial institutions&lt;/h2&gt;
-
-&lt;p&gt;It surprised me when I was looking for jobs how many financial institutions had
-their feet wet in programming languages. This is mostly for two reasons:
-reliability by means of safer programming languages, and performance for
-handling massive data streams.&lt;/p&gt;
-
-&lt;p&gt;Some examples of banks with programming language projects:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Morgan Stanley (Hobbes).&lt;/li&gt;
-  &lt;li&gt;Goldman Sachs (Slang).&lt;/li&gt;
-  &lt;li&gt;Standard Chartered. I had a coworker once who talked about their eager
-spreadsheet-based variant of Haskell designed for parallel computing.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Some examples of trading firms with programming language projects:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Jane Street (OCaml).&lt;/li&gt;
-  &lt;li&gt;Jump Trading. One of my classmates joined there full-time out of college and
-mentioned that they had people working on eking out performance from their C++
-compiler. They also sponsored his H1B, so trading firms could be a good fit
-for international candidates.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;companies-with-developer-facing-products&quot;&gt;Companies with developer-facing products&lt;/h2&gt;
-
-&lt;p&gt;The only other way a company can afford to spend time on a programming language
-is if it’s one of its core competencies. JetBrains makes the Kotlin language as
-well as excellent developer tooling. (It also has the advantage of being
-headquartered in Saint Petersburg, where presumably the developer salaries are
-lower than in the US). Mozilla develops Rust in the course of improving Firefox.
-(They are in a bit of a unique situation given how their income works.)&lt;/p&gt;
-
-&lt;h2 id=&quot;how-did-i-do-it&quot;&gt;How did I do it?&lt;/h2&gt;
-
-&lt;p&gt;I received a Bachelor’s degree in computer science from the University of
-Michigan. Once there, I heavily optimized towards getting a job at a large tech
-company. I got a job as an undergraduate teaching assistant, then interned at
-Amazon, and then interned again at Facebook, and ultimately joined Facebook
-full-time in Seattle out of college working on the Hack programming language.&lt;/p&gt;
-
-&lt;aside class=&quot;aside&quot; id=&quot;two-internships&quot;&gt;
-          &lt;header class=&quot;aside-header&quot;&gt;&lt;a href=&quot;#two-internships&quot;&gt;Two internships?&lt;/a&gt;&lt;/header&gt;
-          &lt;div class=&quot;aside-contents&quot;&gt;&lt;p&gt;One internship, usually in the summer between one’s junior and senior years is
-typical. I had two internships instead of one because I originally intended to
-return to university for my Master’s degree and to do an internship in between,
-a common practice for Master’s students. I decided halfway through my internship
-that I want to go into industry instead, and got my return internship offer
-converted into a return full-time offer.&lt;/p&gt;
-
-&lt;p&gt;The effects of getting a second internship were profound. The internship
-interview process is substantially easier than the full-time interview process,
-and the compensation package turned out to be very competitive, even compared to
-non-internship-return offers for Facebook new grad hires. (If you want to know
-the details of the compensation package I got, you can email me or leave a
-comment.)&lt;/p&gt;
-
-&lt;p&gt;And overall it was much easier to get the second internship offer at all because
-I had the first internship on my résumé!&lt;/p&gt;
-
-&lt;p&gt;If you have the resources to do so, it may make sense to apply for a Master’s
-degree somewhere or even delay graduation by a semester to arrange for this sort
-of double-internship.&lt;/p&gt;
-
-&lt;p&gt;I actually had two friends who, like me, were undergraduate teaching assistants,
-completed first internships at various places, then second internships at
-Amazon, and then got and accepted full-time offers from Google and Microsoft,
-respectively. So there is a cohort of people who do this sort of thing with
-excellent results. If you are set on working at a large tech company, it’s best
-to start grinding this route as soon as possible.&lt;/p&gt;
-&lt;/div&gt;
-        &lt;/aside&gt;
-
-&lt;p&gt;New hires at Facebook go through a 6-week “bootcamp” process where you browse
-teams and try to find one that’s a good fit for you. Even though I interned at
-Facebook, I foolishly didn’t take the time to get a good sense of what teams
-were hiring. Nonetheless, I took a gamble and joined Facebook anyways out of
-college and did find a spot on the Hack programming language team, which had
-just started expanding in its Seattle office. (Fun fact: for a couple of weeks,
-my only coworker in the Seattle office was Eric Lippert, known for his work on
-C♯ at Microsoft.)&lt;/p&gt;
-
-&lt;p&gt;I didn’t consider academia at all when I was in college, thinking that I wasn’t
-cut out for it. I should have at least considered it given that I wanted to go
-into programming languages, possibly by participating in research as an
-undergrad.&lt;/p&gt;
-
-&lt;p&gt;I seriously looked at Microsoft and Google, both of which have top-notch
-programming language teams. While I was interviewing at Microsoft, I asked a
-hiring manager if it would be a problem for someone with only a Bachelor’s
-degree would be able to to get into programming languages. He reassured me that
-programming language teams needed entry-level developers just like most other
-teams, and that, indeed, PhD hires oftentimes just wanted to continue their PhD
-work, which only aligned with the company’s business needs perhaps three months
-out of the year.&lt;/p&gt;
-
-&lt;p&gt;I didn’t accept an offer with Microsoft because the pay was less and because I
-liked the culture at Facebook, although they did guarantee me a position
-somewhere in their developer division. I didn’t accept an offer with Google
-because they only got back to me about my interview results one week after the
-deadline of my Facebook full-time offer elapsed (!).&lt;/p&gt;
-
-&lt;aside class=&quot;aside&quot; id=&quot;the-rsum-black-hole&quot;&gt;
-          &lt;header class=&quot;aside-header&quot;&gt;&lt;a href=&quot;#the-rsum-black-hole&quot;&gt;The résumé black hole&lt;/a&gt;&lt;/header&gt;
-          &lt;div class=&quot;aside-contents&quot;&gt;&lt;p&gt;Big tech companies have a “résumé black hole”: you can submit your résumé to an
-online portal, but it’s unlikely that they’ll even set you up for a phone screen
-unless you have some impressive experience. But how do you get the impressive
-experience necessary if you can’t get an interview at a big tech company? And
-even if you do have the experience, the technical interviews have a reputation
-for being grueling and overly focused on computer science rather than software
-engineering.&lt;/p&gt;
-
-&lt;p&gt;I first managed to secure an undergraduate teaching assistant position for our
-Data Structures and Algorithms class, which looked great on my résumé. This
-position was available because the University of Michigan has large enough class
-sizes in the computer science department that they have no choice but to hire
-some number of undergraduate teaching assistants to handle the load. I did well
-in the course and made an impression on the professor teaching it by answering a
-lot of questions on the class forum, and then cold-emailed them asking for a
-job. (I did have to send them a couple of reminder emails throughout the
-semester since I didn’t get a response… professors are busy people.)&lt;/p&gt;
-
-&lt;p&gt;I submitted my improved résumé into the black hole for various large tech
-companies. The only one I heard back from was Amazon. They had an easy interview
-pipeline in that they just made me do a single online coding assessment and then
-extended me an internship offer — no need to get an actual human to spend time
-on me!&lt;/p&gt;
-
-&lt;p&gt;Amazon was a stepping-stone to getting interviews at large tech companies, such
-as Google, Facebook, and Microsoft. For example, right after my Amazon
-internship ended, I submitted my updated résumé to the Google résumé black hole,
-and got a response back from a recruiter within a week. My experience teaching
-data structures and algorithms for many semesters in a row then prepared me for
-the ensuing technical interviews.&lt;/p&gt;
-
-&lt;p&gt;If you don’t have the requisite experience on your résumé, the other thing you
-can do is to get someone who works at the company to refer you, which is how a
-large percentage of their openings end up filled.&lt;/p&gt;
-
-&lt;p&gt;Both of these routes are pretty awful on the whole, but it’s hard to do anything
-other than play by the large tech companies’ rules.&lt;/p&gt;
-&lt;/div&gt;
-        &lt;/aside&gt;
-
-&lt;p&gt;I’ll admit: I had a privileged upbringing which afforded me the resources and
-the confidence to jump through the set of hoops necessary to secure my current
-position. Frankly, the technical hiring process for these large companies is
-ridiculous, and not everyone has the resources to spend years aiming for one.&lt;/p&gt;
-
-&lt;p&gt;I’m writing about my experience because I believe putting the information out
-there is better than not putting it out there. Regardless of your situation, I
-hope that this article helps you make a concrete plan about how to get your
-desired job in programming languages as well.&lt;/p&gt;
-</description>
-        <pubDate>Wed, 12 Sep 2018 00:00:00 -0500</pubDate>
-        <link>https://blog.waleedkhan.name/getting-a-job-in-pl/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/getting-a-job-in-pl/</guid>
-        
-        <category>programming-languages</category>
         
         
       </item>
