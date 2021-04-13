@@ -90,7 +90,7 @@ I’m documenting here what I’ve found about each of them.</p>
   <li>Portable, as long as the runtime exists on the target system.</li>
   <li>Probably faster to compile.</li>
   <li>Slower to execute.</li>
-  <li>Can be used in conjunction with <code class="highlighter-rouge">ocamldebug</code> (e.g. to support time-traveling
+  <li>Can be used in conjunction with <code class="language-plaintext highlighter-rouge">ocamldebug</code> (e.g. to support time-traveling
 debugging).</li>
 </ul>
 
@@ -100,11 +100,11 @@ debugging).</li>
   <li>Non-portable.</li>
   <li>Probably slower to compile.</li>
   <li>Faster to execute.</li>
-  <li>Can’t be used with <code class="highlighter-rouge">ocamldebug</code>.
+  <li>Can’t be used with <code class="language-plaintext highlighter-rouge">ocamldebug</code>.
     <ul>
-      <li>Note that a traditional debugger like <code class="highlighter-rouge">gdb</code> will still work.</li>
+      <li>Note that a traditional debugger like <code class="language-plaintext highlighter-rouge">gdb</code> will still work.</li>
       <li>You can choose to compile OCaml to native code with debugging symbols using
-the <a href="https://caml.inria.fr/pub/docs/manual-ocaml/native.html"><code class="highlighter-rouge">-g</code> flag to <code class="highlighter-rouge">ocamlopt</code></a>. This is required to preserve stack
+the <a href="https://caml.inria.fr/pub/docs/manual-ocaml/native.html"><code class="language-plaintext highlighter-rouge">-g</code> flag to <code class="language-plaintext highlighter-rouge">ocamlopt</code></a>. This is required to preserve stack
 traces.</li>
     </ul>
 
@@ -116,14 +116,14 @@ traces.</li>
 <p>Source files:</p>
 
 <ul>
-  <li><code class="highlighter-rouge">.ml</code>: Implementation file.</li>
-  <li><code class="highlighter-rouge">.mli</code>: Interface file.</li>
+  <li><code class="language-plaintext highlighter-rouge">.ml</code>: Implementation file.</li>
+  <li><code class="language-plaintext highlighter-rouge">.mli</code>: Interface file.</li>
 </ul>
 
 <p>Compiled module interface:</p>
 
 <ul>
-  <li><code class="highlighter-rouge">.cmi</code> (both bytecode and native).</li>
+  <li><code class="language-plaintext highlighter-rouge">.cmi</code> (both bytecode and native).</li>
   <li>This appears to be used to describe the signature of a module, but not contain
 its implementation. The analog in C or C++ might be a precompiled header.</li>
 </ul>
@@ -131,27 +131,27 @@ its implementation. The analog in C or C++ might be a precompiled header.</li>
 <p>Compiled module object code:</p>
 
 <ul>
-  <li>Bytecode: <code class="highlighter-rouge">.cmo</code></li>
-  <li>Native: <code class="highlighter-rouge">.cmx</code></li>
-  <li>Analogous to <code class="highlighter-rouge">.o</code> files in C or C++.</li>
+  <li>Bytecode: <code class="language-plaintext highlighter-rouge">.cmo</code></li>
+  <li>Native: <code class="language-plaintext highlighter-rouge">.cmx</code></li>
+  <li>Analogous to <code class="language-plaintext highlighter-rouge">.o</code> files in C or C++.</li>
 </ul>
 
 <p>Compiled module archive:</p>
 
 <ul>
-  <li>Bytecode: <code class="highlighter-rouge">.cma</code></li>
-  <li>Native: <code class="highlighter-rouge">.cmxa</code></li>
-  <li>Analogous to <code class="highlighter-rouge">.a</code> files in C or C++.</li>
+  <li>Bytecode: <code class="language-plaintext highlighter-rouge">.cma</code></li>
+  <li>Native: <code class="language-plaintext highlighter-rouge">.cmxa</code></li>
+  <li>Analogous to <code class="language-plaintext highlighter-rouge">.a</code> files in C or C++.</li>
 </ul>
 
 <p>Dynamically-linkable library:</p>
 
 <ul>
-  <li>Native: <code class="highlighter-rouge">.cmxs</code>.</li>
+  <li>Native: <code class="language-plaintext highlighter-rouge">.cmxs</code>.</li>
   <li>No obvious counterpart for bytecode.</li>
-  <li>Can be used with the <a href="https://caml.inria.fr/pub/docs/manual-ocaml/libdynlink.html"><code class="highlighter-rouge">Dynlink</code> library</a>.</li>
+  <li>Can be used with the <a href="https://caml.inria.fr/pub/docs/manual-ocaml/libdynlink.html"><code class="language-plaintext highlighter-rouge">Dynlink</code> library</a>.</li>
   <li>
-    <p>Analogous to <code class="highlighter-rouge">.so</code> or <code class="highlighter-rouge">.dll</code> files in C or C++.</p>
+    <p>Analogous to <code class="language-plaintext highlighter-rouge">.so</code> or <code class="language-plaintext highlighter-rouge">.dll</code> files in C or C++.</p>
 
   </li>
 </ul>
@@ -159,14 +159,14 @@ its implementation. The analog in C or C++ might be a precompiled header.</li>
 <p>Documentation file:</p>
 
 <ul>
-  <li>Documentation for source file: <code class="highlighter-rouge">.cmt</code>.</li>
-  <li>Documentation for interface file: <code class="highlighter-rouge">.cmti</code>.</li>
+  <li>Documentation for source file: <code class="language-plaintext highlighter-rouge">.cmt</code>.</li>
+  <li>Documentation for interface file: <code class="language-plaintext highlighter-rouge">.cmti</code>.</li>
   <li>These extensions seem to be specific to tooling, and are not used to generate
 code.</li>
   <li>It’s unclear which tools make use of these. My guesses:
     <ul>
-      <li>Yes: <code class="highlighter-rouge">odoc</code>, <code class="highlighter-rouge">codoc</code>.</li>
-      <li>No: <code class="highlighter-rouge">ocamldoc</code>.</li>
+      <li>Yes: <code class="language-plaintext highlighter-rouge">odoc</code>, <code class="language-plaintext highlighter-rouge">codoc</code>.</li>
+      <li>No: <code class="language-plaintext highlighter-rouge">ocamldoc</code>.</li>
     </ul>
   </li>
 </ul>

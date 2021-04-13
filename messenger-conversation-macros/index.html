@@ -163,7 +163,7 @@ adding a macro for them.</p>
 <h3 id="parsing-json">Parsing JSON</h3>
 
 <p>I could write a script to parse my messages out of the JSON, but perhaps better
-would be to take a opportunity to get practice with <code class="highlighter-rouge">jq</code>, which is a
+would be to take a opportunity to get practice with <code class="language-plaintext highlighter-rouge">jq</code>, which is a
 command-line tool to manipulate JSON.</p>
 
 <p>After some finagling, I write the following query. I’ve told jq to produce “raw”
@@ -194,21 +194,21 @@ that an n-gram has to appear at least 5 times for it to be worth looking at.</p>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">collections</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 
-<span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">ngrams</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">Counter</span><span class="p">()</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ngrams</span> <span class="o">=</span> <span class="n">collections</span><span class="p">.</span><span class="n">Counter</span><span class="p">()</span>
 
-<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="p">:</span>
-    <span class="n">words</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">:</span>
+    <span class="n">words</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="n">split</span><span class="p">()</span>
     <span class="n">line_ngrams</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="n">i</span><span class="p">:])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)])</span>
     <span class="k">for</span> <span class="n">ngram</span> <span class="ow">in</span> <span class="n">line_ngrams</span><span class="p">:</span>
         <span class="n">ngrams</span><span class="p">[</span><span class="n">ngram</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
 
-<span class="n">average</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">ngrams</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">ngrams</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"Average: {}</span><span class="se">\n</span><span class="s">"</span><span class="o">.</span><span class="nb">format</span><span class="p">(</span><span class="n">average</span><span class="p">))</span>
-<span class="n">most_frequent_ngrams</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">ngrams</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">average</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">ngrams</span><span class="p">.</span><span class="n">values</span><span class="p">())</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">ngrams</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"Average: {}</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">average</span><span class="p">))</span>
+<span class="n">most_frequent_ngrams</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">ngrams</span><span class="p">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">ngram</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">most_frequent_ngrams</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">"{}: {}"</span><span class="o">.</span><span class="nb">format</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="s">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ngram</span><span class="p">)))</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"{}: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="s">" "</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">ngram</span><span class="p">)))</span>
 </code></pre></div></div>
 
 <h2 id="results">Results</h2>

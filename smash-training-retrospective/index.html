@@ -125,7 +125,7 @@
   <li>ssb.fit</li>
 </ul>
 
-<p>In the end, I used <code class="highlighter-rouge">ssb.fit</code> because 1) <code class="highlighter-rouge">smash.training</code> got taken (!) and 2) I wanted to optimize for typing it in on a mobile device, even though the name is less memorable. This lack of memorability unfortunately manifested in <a href="https://www.reddit.com/r/CrazyHand/comments/gp9sem/wtf_was_that_smash_training_website_called/frkscwe/?context=3">this Reddit thread titled “WTF was that smash training website called?”</a>. However, another commenter writes “ssb.fit is better, short for mobile”, perhaps vindicating the original choice.</p>
+<p>In the end, I used <code class="language-plaintext highlighter-rouge">ssb.fit</code> because 1) <code class="language-plaintext highlighter-rouge">smash.training</code> got taken (!) and 2) I wanted to optimize for typing it in on a mobile device, even though the name is less memorable. This lack of memorability unfortunately manifested in <a href="https://www.reddit.com/r/CrazyHand/comments/gp9sem/wtf_was_that_smash_training_website_called/frkscwe/?context=3">this Reddit thread titled “WTF was that smash training website called?”</a>. However, another commenter writes “ssb.fit is better, short for mobile”, perhaps vindicating the original choice.</p>
 
 <p>It’s unfortunate that the domain name and the website title don’t exactly match up. Many people seemed to address it as “ssb.fit” hence, so maybe that’s what the project should have been called too (rather than “Smash Training”).</p>
 
@@ -180,21 +180,21 @@
 
 <p><a href="https://github.com/arxanas/smashtraining/commit/f621f02af95da697435cb720563b590d57f38b87">I encountered one mysterious bug in Babel during development</a>, which I was unable to isolate. I worked around it by targeting only newer browsers, after which the problem disappeared.</p>
 
-<p>I used <code class="highlighter-rouge">vue-cli-service</code> as a wrapper around the build, test, and lint actions, as recommended by Vue. But I found it hard to configure and debug. When I had an issue with tests not properly compiling an imported module, <a href="https://github.com/arxanas/smashtraining/blame/d0c31a33ab880e8c58824c0f58247c8bd8f38485/src/utils.ts#L38-L44">I gave up and reimplemented the function I needed myself</a>.</p>
+<p>I used <code class="language-plaintext highlighter-rouge">vue-cli-service</code> as a wrapper around the build, test, and lint actions, as recommended by Vue. But I found it hard to configure and debug. When I had an issue with tests not properly compiling an imported module, <a href="https://github.com/arxanas/smashtraining/blame/d0c31a33ab880e8c58824c0f58247c8bd8f38485/src/utils.ts#L38-L44">I gave up and reimplemented the function I needed myself</a>.</p>
 
 <h3 id="typescript">TypeScript</h3>
 
 <p>I also used <a href="https://www.typescriptlang.org/">TypeScript</a>, since I find its static typing system useful for maintenance purposes.</p>
 
-<p>TypeScript support for Vue was not ideal. Many Vue patterns are not easy to express in TypeScript. Libraries like <a href="https://github.com/istrib/vuex-typescript"><code class="highlighter-rouge">vuex-typescript</code></a> exist, but require a lot of boilerplate in order to get static typing support. The <a href="https://github.com/paroi-tech/direct-vuex"><code class="highlighter-rouge">direct-vuex</code></a> library had less boilerplate, but <a href="https://github.com/arxanas/smashtraining/commit/9a8c0c0baf05d048a564b11f62afdfafc9f66a62">I couldn’t figure out how to test it</a>.</p>
+<p>TypeScript support for Vue was not ideal. Many Vue patterns are not easy to express in TypeScript. Libraries like <a href="https://github.com/istrib/vuex-typescript"><code class="language-plaintext highlighter-rouge">vuex-typescript</code></a> exist, but require a lot of boilerplate in order to get static typing support. The <a href="https://github.com/paroi-tech/direct-vuex"><code class="language-plaintext highlighter-rouge">direct-vuex</code></a> library had less boilerplate, but <a href="https://github.com/arxanas/smashtraining/commit/9a8c0c0baf05d048a564b11f62afdfafc9f66a62">I couldn’t figure out how to test it</a>.</p>
 
-<p>TypeScript was generally pleasant to work with, although in the project, I pushed it to its extremes and it was unable to keep pace. In my case, it was unable to track associated/mapped types adequately. It’s perhaps exemplified by this <code class="highlighter-rouge">@ts-ignore</code> comment:</p>
+<p>TypeScript was generally pleasant to work with, although in the project, I pushed it to its extremes and it was unable to keep pace. In my case, it was unable to track associated/mapped types adequately. It’s perhaps exemplified by this <code class="language-plaintext highlighter-rouge">@ts-ignore</code> comment:</p>
 
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="nx">type</span> <span class="nx">TechVariantOf</span><span class="o">&lt;</span><span class="nx">T</span> <span class="kd">extends</span> <span class="nx">TechId</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">{</span>
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="kd">type</span> <span class="nx">TechVariantOf</span><span class="o">&lt;</span><span class="nx">T</span> <span class="kd">extends</span> <span class="nx">TechId</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">{</span>
   <span class="c1">// @ts-ignore "Type 'x' cannot be used to index type 'AllTechVariants'."</span>
   <span class="c1">// Strangely, the correct type is calculated here anyways, and can be used for</span>
   <span class="c1">// exhaustiveness-checking later.</span>
-  <span class="p">[</span><span class="nx">x</span> <span class="k">in</span> <span class="nx">keyof</span> <span class="nx">AllTechMetadata</span><span class="p">[</span><span class="nx">T</span><span class="p">][</span><span class="dl">"</span><span class="s2">variants</span><span class="dl">"</span><span class="p">]]:</span> <span class="nx">AllTechVariants</span><span class="p">[</span><span class="nx">x</span><span class="p">];</span>
+  <span class="p">[</span><span class="nx">x</span> <span class="k">in</span> <span class="kr">keyof</span> <span class="nx">AllTechMetadata</span><span class="p">[</span><span class="nx">T</span><span class="p">][</span><span class="dl">"</span><span class="s2">variants</span><span class="dl">"</span><span class="p">]]:</span> <span class="nx">AllTechVariants</span><span class="p">[</span><span class="nx">x</span><span class="p">];</span>
 <span class="p">};</span>
 </code></pre></div></div>
 
@@ -217,7 +217,7 @@
 
 <p>I would have preferred to use a <a href="https://www.typescriptlang.org/docs/handbook/jsx.html">JSX</a> solution, as it removes some of the indirection and has better tooling support.</p>
 
-<p>I wish Vue had fewer ways to do things. For example, attributes on HTML elements can be set with the normal <code class="highlighter-rouge">=</code> syntax, but also with a leading <code class="highlighter-rouge">:</code> (expression evaluation) or a leading <code class="highlighter-rouge">@</code> (callback) for brevity. In comparison, React with JSX only has <code class="highlighter-rouge">=</code> for all of these situations.</p>
+<p>I wish Vue had fewer ways to do things. For example, attributes on HTML elements can be set with the normal <code class="language-plaintext highlighter-rouge">=</code> syntax, but also with a leading <code class="language-plaintext highlighter-rouge">:</code> (expression evaluation) or a leading <code class="language-plaintext highlighter-rouge">@</code> (callback) for brevity. In comparison, React with JSX only has <code class="language-plaintext highlighter-rouge">=</code> for all of these situations.</p>
 
 <h3 id="vuetify">Vuetify</h3>
 
@@ -233,9 +233,9 @@
 
 <h3 id="custom-database">Custom database</h3>
 
-<p>I stored data locally on the client using the <a href="https://developer.mozilla.org/docs/Web/API/Window/localStorage"><code class="highlighter-rouge">localStorage</code> APIs</a>. I was careful to design the data schema such that it was append-only and such that each record had a unique ID, the idea being to make it easy to merge changes from multiple clients. However, this alone makes it difficult to delete records without some more thought.</p>
+<p>I stored data locally on the client using the <a href="https://developer.mozilla.org/docs/Web/API/Window/localStorage"><code class="language-plaintext highlighter-rouge">localStorage</code> APIs</a>. I was careful to design the data schema such that it was append-only and such that each record had a unique ID, the idea being to make it easy to merge changes from multiple clients. However, this alone makes it difficult to delete records without some more thought.</p>
 
-<p>I later discovered <a href="https://couchdb.apache.org/">CouchDB</a> as a distributed document-store in exactly the manner I had already architected my application, but including sync and delete capabilities. I also discovered the <a href="https://pouchdb.com/">PouchDB</a> library, which exposes a CouchDB interface and allows you to store your data locally or sync it remotely. It also supports more backends than just <code class="highlighter-rouge">localStorage</code>.</p>
+<p>I later discovered <a href="https://couchdb.apache.org/">CouchDB</a> as a distributed document-store in exactly the manner I had already architected my application, but including sync and delete capabilities. I also discovered the <a href="https://pouchdb.com/">PouchDB</a> library, which exposes a CouchDB interface and allows you to store your data locally or sync it remotely. It also supports more backends than just <code class="language-plaintext highlighter-rouge">localStorage</code>.</p>
 
 <p>I wish I had used PouchDB from the beginning! Now I’m stuck with an inefficient, feature-lacking implementation of it, which would require some migration effort to move onto PouchDB.</p>
 

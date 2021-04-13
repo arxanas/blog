@@ -96,8 +96,8 @@ short, I issued these commands:</p>
 </code></pre></div></div>
 
 <p>Then I made a virtualenv for my project. To use PyQt 5 in this project with
-Python 2, you can’t just <code class="highlighter-rouge">pip install</code> it into your virtualenv; instead, you
-must use the system version of it. With Homebrew, I had to add a <code class="highlighter-rouge">.pth</code> file to
+Python 2, you can’t just <code class="language-plaintext highlighter-rouge">pip install</code> it into your virtualenv; instead, you
+must use the system version of it. With Homebrew, I had to add a <code class="language-plaintext highlighter-rouge">.pth</code> file to
 my virtualenv:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'import site; site.addsitedir("/usr/local/lib/python2.7/site-packages")'</span> <span class="se">\</span>
@@ -121,7 +121,7 @@ Type <span class="s2">"help"</span>, <span class="s2">"copyright"</span>, <span 
 
 <h2 id="about-ui-files">About .ui files</h2>
 
-<p>Qt Designer uses <code class="highlighter-rouge">.ui</code> files to represent the GUI. These files are just XML
+<p>Qt Designer uses <code class="language-plaintext highlighter-rouge">.ui</code> files to represent the GUI. These files are just XML
 files with information about the window layout. We’d like to be able to somehow
 access these files from Python and render them with Qt. Below is an example of
 such a file, which you might want to use to follow along.</p>
@@ -157,9 +157,9 @@ and parse and render it at runtime using a library. Another way is to compile
 them into Python classes ahead of time, and just include those Python source
 files with your app. I used the second approach.</p>
 
-<p>To do this, I used a package called <code class="highlighter-rouge">pyqt-distutils</code>. This package lets you
-build your <code class="highlighter-rouge">.ui</code> files into Python classes as part of <code class="highlighter-rouge">setup.py</code>. The idea is to
-keep the <code class="highlighter-rouge">.ui</code> files alongside their built <code class="highlighter-rouge">.py</code> files.</p>
+<p>To do this, I used a package called <code class="language-plaintext highlighter-rouge">pyqt-distutils</code>. This package lets you
+build your <code class="language-plaintext highlighter-rouge">.ui</code> files into Python classes as part of <code class="language-plaintext highlighter-rouge">setup.py</code>. The idea is to
+keep the <code class="language-plaintext highlighter-rouge">.ui</code> files alongside their built <code class="language-plaintext highlighter-rouge">.py</code> files.</p>
 
 <p>To set up my directory structure, I issued these commands:</p>
 
@@ -183,7 +183,7 @@ keep the <code class="highlighter-rouge">.ui</code> files alongside their built 
 
 <p>First, install the package:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ pip install pyqt-distutils
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ pip install pyqt-distutils
 </code></pre></div></div>
 
 <p>Now, we need to make a configuration file. Fortunately, the package comes with a
@@ -202,8 +202,8 @@ pyuic.json generated
 <span class="o">}</span>
 </code></pre></div></div>
 
-<p>Next, we need to add the <code class="highlighter-rouge">.ui</code> files to be built. Update <code class="highlighter-rouge">pyuic.json</code> to have
-this entry in <code class="highlighter-rouge">files</code>:</p>
+<p>Next, we need to add the <code class="language-plaintext highlighter-rouge">.ui</code> files to be built. Update <code class="language-plaintext highlighter-rouge">pyuic.json</code> to have
+this entry in <code class="language-plaintext highlighter-rouge">files</code>:</p>
 
 <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
     </span><span class="nl">"files"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
@@ -222,11 +222,11 @@ this entry in <code class="highlighter-rouge">files</code>:</p>
 
 <p>The first entry in the sublist is the file to build, and the second entry is the
 directory to put the built file in. In my case, I just stored the built files
-right alongside the <code class="highlighter-rouge">.ui</code> files.</p>
+right alongside the <code class="language-plaintext highlighter-rouge">.ui</code> files.</p>
 
-<p>Finally, we need to add a command to actually build the <code class="highlighter-rouge">.ui</code> files. This is the
+<p>Finally, we need to add a command to actually build the <code class="language-plaintext highlighter-rouge">.ui</code> files. This is the
 suggestion <a href="https://pypi.python.org/pypi/pyqt-distutils">from the documentation</a>, to be added to
-<code class="highlighter-rouge">setup.py</code>:</p>
+<code class="language-plaintext highlighter-rouge">setup.py</code>:</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span>
 
@@ -244,7 +244,7 @@ suggestion <a href="https://pypi.python.org/pypi/pyqt-distutils">from the docume
 <span class="p">)</span>
 </code></pre></div></div>
 
-<p>Run the <code class="highlighter-rouge">build_ui</code> command:</p>
+<p>Run the <code class="language-plaintext highlighter-rouge">build_ui</code> command:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>python setup.py build_ui
 running build_ui
@@ -264,13 +264,13 @@ pyuic5 <span class="nt">--from-import</span> /Users/waleed/Workspace/python/pyqt
 2 directories, 7 files
 </code></pre></div></div>
 
-<p>As you can see, it generated the <code class="highlighter-rouge">mainwindow_ui.py</code> file. Since this is
-generated code, you may want to add it to your <code class="highlighter-rouge">.gitignore</code> or similar.</p>
+<p>As you can see, it generated the <code class="language-plaintext highlighter-rouge">mainwindow_ui.py</code> file. Since this is
+generated code, you may want to add it to your <code class="language-plaintext highlighter-rouge">.gitignore</code> or similar.</p>
 
 <h2 id="launching-the-app">Launching the app</h2>
 
-<p>Once the <code class="highlighter-rouge">.ui </code>files are built, you need to import the created classes into your
-own code to use them. Put this content into <code class="highlighter-rouge">myapp/__main__.py</code>:</p>
+<p>Once the <code class="language-plaintext highlighter-rouge">.ui </code>files are built, you need to import the created classes into your
+own code to use them. Put this content into <code class="language-plaintext highlighter-rouge">myapp/__main__.py</code>:</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
 
@@ -280,15 +280,15 @@ own code to use them. Put this content into <code class="highlighter-rouge">myap
 
 <span class="k">class</span> <span class="nc">MainWindow</span><span class="p">(</span><span class="n">QMainWindow</span><span class="p">,</span> <span class="n">Ui_MainWindow</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">MainWindow</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MainWindow</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="n">app</span> <span class="o">=</span> <span class="n">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)</span>
     <span class="n">main_window</span> <span class="o">=</span> <span class="n">MainWindow</span><span class="p">()</span>
-    <span class="n">main_window</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-    <span class="n">sys</span><span class="o">.</span><span class="nb">exit</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">exec_</span><span class="p">())</span>
+    <span class="n">main_window</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">sys</span><span class="p">.</span><span class="nb">exit</span><span class="p">(</span><span class="n">app</span><span class="p">.</span><span class="n">exec_</span><span class="p">())</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
@@ -316,19 +316,19 @@ Successfully installed myapp-0.1
 
 <h2 id="using-qt-designer">Using Qt Designer</h2>
 
-<p>Once all this is set up, we just need to use Qt Designer to modify the <code class="highlighter-rouge">.ui</code>
+<p>Once all this is set up, we just need to use Qt Designer to modify the <code class="language-plaintext highlighter-rouge">.ui</code>
 file for us, so that we can rebuild it and have it appear in our app.</p>
 
 <aside class="aside" id="trouble-with-setting-up-q">
           <header class="aside-header"><a href="#trouble-with-setting-up-q">Trouble with setting up Qt Creator with Homebrew's Qt</a></header>
           <div class="aside-contents"><p>When I launched Qt Creator for the first time, it told me that it wasn’t able to
 find a “kit” to use. To fix this, I added a Qt version by navigating to the
-directory of the <code class="highlighter-rouge">qmake</code> executable that Homebrew installed, then I updated the
+directory of the <code class="language-plaintext highlighter-rouge">qmake</code> executable that Homebrew installed, then I updated the
 default Qt kit to use that Qt version.</p>
 
 <figure class="figure">
         <a href="/assets/posts/pyqt-designer/qt-versions.png"><img class="center-image" src="/assets/posts/pyqt-designer/qt-versions.png" alt="The Qt version configuration. I added the path to `qmake`." title="The Qt version configuration. I added the path to `qmake`." /></a>
-        <figcaption class="caption"><p>The Qt version configuration. I added the path to <code class="highlighter-rouge">qmake</code>.</p>
+        <figcaption class="caption"><p>The Qt version configuration. I added the path to <code class="language-plaintext highlighter-rouge">qmake</code>.</p>
 </figcaption>
       </figure>
 
@@ -340,7 +340,7 @@ default Qt kit to use that Qt version.</p>
 </div>
         </aside>
 
-<p>Launch Qt Creator, click <code class="highlighter-rouge">File &gt; Open File or Project...</code>, and select your <code class="highlighter-rouge">.ui</code>
+<p>Launch Qt Creator, click <code class="language-plaintext highlighter-rouge">File &gt; Open File or Project...</code>, and select your <code class="language-plaintext highlighter-rouge">.ui</code>
 file. (Do not try to create a project of any sort.) It should appear in Qt
 Creator for you to edit and save. That’s it!</p>
 

@@ -105,14 +105,14 @@ desired, which I understand many do.</p>
           <header class="aside-header"><a href="#is-it-better-to-use-dvora">Is it better to use Dvorak in software or hardware?</a></header>
           <div class="aside-contents"><p>For this case, it is better to implement Dvorak in hardware. The problem with
 setting up one’s Ergodox EZ to use Dvorak at the software level is in the
-symbol keys.  For example, <code class="highlighter-rouge">[</code> on a Qwerty keyboard maps to <code class="highlighter-rouge">/</code> if interpreted
+symbol keys.  For example, <code class="language-plaintext highlighter-rouge">[</code> on a Qwerty keyboard maps to <code class="language-plaintext highlighter-rouge">/</code> if interpreted
 as Dvorak.</p>
 
 <p>On a Qwerty keyboard, I deal with this just by means of muscle memory. But on
 the Ergodox EZ, when defining the keymap, one would have to reverse-lookup
 all of the keycodes to ensure that the symbols are in the right places. When
-writing their code, they would have to place <code class="highlighter-rouge">KC_LBRC</code> (<code class="highlighter-rouge">[</code>) where they intend
-<code class="highlighter-rouge">KC_SLSH</code> (<code class="highlighter-rouge">/</code>) to go, and so on for every symbol.</p>
+writing their code, they would have to place <code class="language-plaintext highlighter-rouge">KC_LBRC</code> (<code class="language-plaintext highlighter-rouge">[</code>) where they intend
+<code class="language-plaintext highlighter-rouge">KC_SLSH</code> (<code class="language-plaintext highlighter-rouge">/</code>) to go, and so on for every symbol.</p>
 
 <p>And what happens when you connect your keyboard to a Qwerty computer, but your
 keymap is expecting a Dvorak computer? Unless one wants to memorize the
@@ -139,14 +139,14 @@ multiple active layers, each providing a different set of keys.</p>
 <h2 id="installing-the-firmware">Installing the firmware</h2>
 
 <p>To change the keyboard layout, one has to get a version of the firmware (a
-<code class="highlighter-rouge">.hex</code> file) that maps all the keys appropriately. For the pragmatic or the less
+<code class="language-plaintext highlighter-rouge">.hex</code> file) that maps all the keys appropriately. For the pragmatic or the less
 technically-inclined, there are <a href="https://keyboard-configurator.massdrop.com/ext/ergodox">online tools</a> that provide a GUI
 to define a basic keymap, although this isn’t sufficient for the tweaks I make
-later in this article. Then they can download its <code class="highlighter-rouge">.hex</code> and flash it onto the
+later in this article. Then they can download its <code class="language-plaintext highlighter-rouge">.hex</code> and flash it onto the
 Ergodox EZ.</p>
 
 <p>In order to install the firmware, one uses the <a href="https://www.pjrc.com/teensy/loader.html">Teensy Loader</a>
-GUI application. (It can be installed with <code class="highlighter-rouge">brew cask install teensy</code> on OS X.
+GUI application. (It can be installed with <code class="language-plaintext highlighter-rouge">brew cask install teensy</code> on OS X.
 There is also a command-line version, but I haven’t used it.)</p>
 
 <figure class="figure">
@@ -157,7 +157,7 @@ There is also a command-line version, but I haven’t used it.)</p>
 </figcaption>
       </figure>
 
-<p>To set the <code class="highlighter-rouge">.hex</code> file to load, one can drag it onto the Teensy window, or open
+<p>To set the <code class="language-plaintext highlighter-rouge">.hex</code> file to load, one can drag it onto the Teensy window, or open
 it using the button in the upper-left corner.</p>
 
 <figure class="figure">
@@ -175,13 +175,13 @@ the reset button. (I used several mechanical pencil leads and much patience.)</p
           <div class="aside-contents"><p>Pressing the physical reset button every time is a pain. One can <a href="https://github.com/jackhumbert/qmk_firmware/issues/112">bind a key on
 the Ergodox EZ itself to enter reset mode (a so-called “Teensy
 key”)</a>, rather than manually fiddle with the reset button. Use the
-<code class="highlighter-rouge">RESET</code> keycode. I have mine bound on a non-topmost-layer so that I don’t
+<code class="language-plaintext highlighter-rouge">RESET</code> keycode. I have mine bound on a non-topmost-layer so that I don’t
 accidentally hit it.</p>
 
 <p>If you make changes to the firmware and recompile it, Teensy will respect the
-<code class="highlighter-rouge">.hex</code> file changing on disk, and would flash the new version of the firmware if
+<code class="language-plaintext highlighter-rouge">.hex</code> file changing on disk, and would flash the new version of the firmware if
 you were to load it again. Thus, it is safe to recompile, reset the keyboard,
-and click “load” immediately after recompiling, without selecting the <code class="highlighter-rouge">.hex</code>
+and click “load” immediately after recompiling, without selecting the <code class="language-plaintext highlighter-rouge">.hex</code>
 file again</p>
 
 <p>If one clicks the “auto” button, Teensy enters a mode where it will flash the
@@ -215,7 +215,7 @@ the layout code. You’ll notice that the rows of the Qwerty keyboard are shifte
 down one position, and most of the bottom row is missing, only including the
 four keys in the thumb clusters.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>,--------------------------------------------------.           ,--------------------------------------------------.
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>,--------------------------------------------------.           ,--------------------------------------------------.
 |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
 |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
 |        |   1  |   2  |   3  |   4  |   5  |      |           |      |  6   |  7   |   8  |   9  |  0   |        |
@@ -263,11 +263,11 @@ for the non-Plover parts.</p>
 </div>
         </aside>
 
-<p>When I’m done, I build it by running the <code class="highlighter-rouge">make</code> command shown below. It is shown
+<p>When I’m done, I build it by running the <code class="language-plaintext highlighter-rouge">make</code> command shown below. It is shown
 with an example of the successful output. The build process is surprisingly
 nice: one can specify the keyboard type and layout very succinctly.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/Workspace/qmk_firmware $ make keyboard=ergodox_ez keymap=plover
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/Workspace/qmk_firmware $ make keyboard=ergodox_ez keymap=plover
 Size before:
 avr-gcc (GCC) 4.9.3
 Copyright (C) 2015 Free Software Foundation, Inc.
@@ -337,8 +337,8 @@ Size after:
       0	  18300	      0	  18300	   477c	ergodox_ez_plover.hex
 </code></pre></div></div>
 
-<p>The <code class="highlighter-rouge">.hex</code> file can be found in the directory that the <code class="highlighter-rouge">make</code> command was run
-in, likely the root directory of the <code class="highlighter-rouge">qmk_firmware</code> project.</p>
+<p>The <code class="language-plaintext highlighter-rouge">.hex</code> file can be found in the directory that the <code class="language-plaintext highlighter-rouge">make</code> command was run
+in, likely the root directory of the <code class="language-plaintext highlighter-rouge">qmk_firmware</code> project.</p>
 
 <p>The moment of truth! I install the firmware, restart the keyboard, and press the
 toggle Plover key…</p>
@@ -379,16 +379,16 @@ sum, they are:</p>
 
 <p>I did not like these, so I dug into the firmware code and fixed it myself. It
 wasn’t that bad! I opened up the Plover layout in
-<code class="highlighter-rouge">keyboards/ergodox_ez/keymaps/plover/keymap.c</code> and start looking…</p>
+<code class="language-plaintext highlighter-rouge">keyboards/ergodox_ez/keymaps/plover/keymap.c</code> and start looking…</p>
 
 <aside class="aside" id="you-too-can-make-a-keyboa">
           <header class="aside-header"><a href="#you-too-can-make-a-keyboa">You too can make a keyboard layout</a></header>
-          <div class="aside-contents"><p>The values <code class="highlighter-rouge">ergodox_ez</code> and <code class="highlighter-rouge">plover</code> in the command <code class="highlighter-rouge">make keyboard=ergodox_ez
+          <div class="aside-contents"><p>The values <code class="language-plaintext highlighter-rouge">ergodox_ez</code> and <code class="language-plaintext highlighter-rouge">plover</code> in the command <code class="language-plaintext highlighter-rouge">make keyboard=ergodox_ez
 keymap=plover</code> directly corresponds to the directory structure above.</p>
 
-<p>When you make your own layout, you can start by copying some other <code class="highlighter-rouge">keymap.c</code>
-and putting it in <code class="highlighter-rouge">keyboards/ergodox_ez/keymaps/my-layout</code> and build it with
-<code class="highlighter-rouge">make keyboard=ergodox_ez keymap=my-layout</code>.</p>
+<p>When you make your own layout, you can start by copying some other <code class="language-plaintext highlighter-rouge">keymap.c</code>
+and putting it in <code class="language-plaintext highlighter-rouge">keyboards/ergodox_ez/keymaps/my-layout</code> and build it with
+<code class="language-plaintext highlighter-rouge">make keyboard=ergodox_ez keymap=my-layout</code>.</p>
 </div>
         </aside>
 
@@ -416,14 +416,14 @@ and putting it in <code class="highlighter-rouge">keyboards/ergodox_ez/keymaps/m
 <span class="p">}</span>
 </code></pre></div></div>
 
-<p>The default layer doesn’t have an LED and it’s not in the <code class="highlighter-rouge">switch</code> statement.
+<p>The default layer doesn’t have an LED and it’s not in the <code class="language-plaintext highlighter-rouge">switch</code> statement.
 The next two layers, which have LEDs, are the same as the one bundled in the
 default Ergodox EZ layout, and they are listed here.</p>
 
 <p>Plover is a new layer, but it doesn’t have an entry here. Could it really be as
-simple as adding the missing entry? I add a <code class="highlighter-rouge">case 3:</code>:</p>
+simple as adding the missing entry? I add a <code class="language-plaintext highlighter-rouge">case 3:</code>:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>switch (layer) {
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>switch (layer) {
     case 1:
         ergodox_right_led_1_on();
         break;
@@ -450,7 +450,7 @@ simple as adding the missing entry? I add a <code class="highlighter-rouge">case
 already some code somewhere that handles it. If I can find it, surely I can just
 adapt it.</p>
 
-<p>Part of the <code class="highlighter-rouge">keymap.c</code> file is a huge array definition that defines the keymap.
+<p>Part of the <code class="language-plaintext highlighter-rouge">keymap.c</code> file is a huge array definition that defines the keymap.
 Each entry corresponds to a physical key, and there are a lot of keys. I’ve
 abbreviated it here so you can see where to look. I find where the default
 toggle key for the symbol layer is:</p>
@@ -463,8 +463,8 @@ toggle key for the symbol layer is:</p>
         <span class="p">...</span>
 </code></pre></div></div>
 
-<p>The <code class="highlighter-rouge">TG(1)</code> expression toggles into layer one. With my unrivalled abilities of
-deduction, I surmise that <code class="highlighter-rouge">TG</code> stands for toggle. Now that I know how to toggle
+<p>The <code class="language-plaintext highlighter-rouge">TG(1)</code> expression toggles into layer one. With my unrivalled abilities of
+deduction, I surmise that <code class="language-plaintext highlighter-rouge">TG</code> stands for toggle. Now that I know how to toggle
 layers, I find the keymap for Plover mode:</p>
 
 <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// right hand</span>
@@ -472,14 +472,14 @@ layers, I find the keymap for Plover mode:</p>
 <span class="cm">/* here -&gt; */</span> <span class="n">KC_NO</span><span class="p">,</span>    <span class="n">KC_6</span><span class="p">,</span> <span class="p">...</span>
 </code></pre></div></div>
 
-<p>The <code class="highlighter-rouge">KC_NO</code> key in the first column seems to line up with where the Plover
-toggle key is ordinarily, so I change it to <code class="highlighter-rouge">TG(3)</code> and it worked!</p>
+<p>The <code class="language-plaintext highlighter-rouge">KC_NO</code> key in the first column seems to line up with where the Plover
+toggle key is ordinarily, so I change it to <code class="language-plaintext highlighter-rouge">TG(3)</code> and it worked!</p>
 
 <aside class="aside" id="the-original-author-was-c">
           <header class="aside-header"><a href="#the-original-author-was-c">The original author was closer to the mark than I initially realized</a></header>
-          <div class="aside-contents"><p><code class="highlighter-rouge">KC_NO</code> means “do nothing when this key is pressed.” On the other hand,
-<code class="highlighter-rouge">KC_TRNS</code> means “do nothing, but allow another layer to handle this key”. The
-original author just put <code class="highlighter-rouge">KC_TRNS</code> on the wrong row. If it were one row lower,
+          <div class="aside-contents"><p><code class="language-plaintext highlighter-rouge">KC_NO</code> means “do nothing when this key is pressed.” On the other hand,
+<code class="language-plaintext highlighter-rouge">KC_TRNS</code> means “do nothing, but allow another layer to handle this key”. The
+original author just put <code class="language-plaintext highlighter-rouge">KC_TRNS</code> on the wrong row. If it were one row lower,
 pressing the key would delegate to the existing toggle-Plover key in the base
 layer, and it would work correctly.</p>
 </div>
@@ -492,8 +492,8 @@ by setting the configuration for the layout. Before doing this, the layout
 worked correctly except that it didn’t handle pressing a large number of keys
 simultaneously.</p>
 
-<p>I looked it up the documentation and added this <code class="highlighter-rouge">config.h</code> file to the <code class="highlighter-rouge">plover</code>
-directory, alongside <code class="highlighter-rouge">keymap.c</code>. Pretty painless!</p>
+<p>I looked it up the documentation and added this <code class="language-plaintext highlighter-rouge">config.h</code> file to the <code class="language-plaintext highlighter-rouge">plover</code>
+directory, alongside <code class="language-plaintext highlighter-rouge">keymap.c</code>. Pretty painless!</p>
 
 <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#ifndef CONFIG_USER_H
 #define CONFIG_USER_H
@@ -534,7 +534,7 @@ enable the macro, as I understand it.</p>
 
 <p>Now I have to bind keys to these macros. Since I want these to happen in
 addition to changing the layer, I decide to put the macro key in my keymap and
-change the layer in the macro code itself (rather than with the convenient <code class="highlighter-rouge">TG</code>
+change the layer in the macro code itself (rather than with the convenient <code class="language-plaintext highlighter-rouge">TG</code>
 shortcut). I just add these entries to my keymap:</p>
 
 <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="n">BASE</span><span class="p">]</span> <span class="o">=</span> <span class="n">KEYMAP</span><span class="p">(</span>  <span class="c1">// layer 0 : default</span>

@@ -71,11 +71,11 @@
     </ul>
   </li>
   <li><a href="#approachs" id="markdown-toc-approachs">Approachs</a>    <ul>
-      <li><a href="#parsing-partial-directly-in-the-grammar" id="markdown-toc-parsing-partial-directly-in-the-grammar">Parsing <code class="highlighter-rouge">partial</code> directly in the grammar</a></li>
+      <li><a href="#parsing-partial-directly-in-the-grammar" id="markdown-toc-parsing-partial-directly-in-the-grammar">Parsing <code class="language-plaintext highlighter-rouge">partial</code> directly in the grammar</a></li>
       <li><a href="#having-special-syntax-for-a-verbatim-identifier" id="markdown-toc-having-special-syntax-for-a-verbatim-identifier">Having special syntax for a verbatim identifier</a></li>
-      <li><a href="#parsing-async-syntactically-using-arbitrary-lookahead" id="markdown-toc-parsing-async-syntactically-using-arbitrary-lookahead">Parsing <code class="highlighter-rouge">async</code> syntactically using arbitrary lookahead</a></li>
-      <li><a href="#parsing-var-using-semantic-information" id="markdown-toc-parsing-var-using-semantic-information">Parsing <code class="highlighter-rouge">var</code> using semantic information</a></li>
-      <li><a href="#parsing-async-syntactically-using-constant-lookahead" id="markdown-toc-parsing-async-syntactically-using-constant-lookahead">Parsing <code class="highlighter-rouge">async</code> syntactically using constant lookahead</a></li>
+      <li><a href="#parsing-async-syntactically-using-arbitrary-lookahead" id="markdown-toc-parsing-async-syntactically-using-arbitrary-lookahead">Parsing <code class="language-plaintext highlighter-rouge">async</code> syntactically using arbitrary lookahead</a></li>
+      <li><a href="#parsing-var-using-semantic-information" id="markdown-toc-parsing-var-using-semantic-information">Parsing <code class="language-plaintext highlighter-rouge">var</code> using semantic information</a></li>
+      <li><a href="#parsing-async-syntactically-using-constant-lookahead" id="markdown-toc-parsing-async-syntactically-using-constant-lookahead">Parsing <code class="language-plaintext highlighter-rouge">async</code> syntactically using constant lookahead</a></li>
     </ul>
   </li>
 </ul>
@@ -85,21 +85,21 @@
 <h2 id="whats-the-problem-with-contextual-keywords">What’s the problem with contextual keywords?</h2>
 
 <p>Ordinarily in a programming language, a keyword isn’t usable as an identifier.
-For example, you often can’t name a variable <code class="highlighter-rouge">int</code>, because <code class="highlighter-rouge">int</code> is the keyword
+For example, you often can’t name a variable <code class="language-plaintext highlighter-rouge">int</code>, because <code class="language-plaintext highlighter-rouge">int</code> is the keyword
 used to denote the integral numeric type.</p>
 
 <p>Sometimes, you want to add a new keyword to a language, but can’t break backward
 compatibility. For example, when C# added async/await, they needed to retain
-<code class="highlighter-rouge">async</code> as an identifier, so that old programs that used variables or classes
-named <code class="highlighter-rouge">async</code> would still compile.</p>
+<code class="language-plaintext highlighter-rouge">async</code> as an identifier, so that old programs that used variables or classes
+named <code class="language-plaintext highlighter-rouge">async</code> would still compile.</p>
 
-<p>For example, you may have written code that used <code class="highlighter-rouge">async</code> as an identifier in a
+<p>For example, you may have written code that used <code class="language-plaintext highlighter-rouge">async</code> as an identifier in a
 program written for a previous version of C#:</p>
 
 <div class="language-cs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="k">async</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
 </code></pre></div></div>
 
-<p>But you should now also be able to write code using <code class="highlighter-rouge">async</code> with its special
+<p>But you should now also be able to write code using <code class="language-plaintext highlighter-rouge">async</code> with its special
 meaning as a keyword:</p>
 
 <div class="language-cs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="k">void</span><span class="p">&gt;</span> <span class="nf">foo</span><span class="p">()</span>
@@ -108,20 +108,20 @@ meaning as a keyword:</p>
 <span class="p">}</span>
 </code></pre></div></div>
 
-<p>That is to say, the token <code class="highlighter-rouge">async</code> should be treated as an identifier under some
+<p>That is to say, the token <code class="language-plaintext highlighter-rouge">async</code> should be treated as an identifier under some
 circumstances, and as a keyword under others. A keyword with this property is
 called a “contextual keyword” in C#. Other languages have identical concepts,
-such as <code class="highlighter-rouge">override</code> and <code class="highlighter-rouge">final</code> in C++.</p>
+such as <code class="language-plaintext highlighter-rouge">override</code> and <code class="language-plaintext highlighter-rouge">final</code> in C++.</p>
 
 <p>Lexing is typically strictly separated from parsing. Then the question is: when
 should we lex the string “async” appearing in the source code as an identifier,
-and when should we lex it as the <code class="highlighter-rouge">async</code> token? We need information about the
+and when should we lex it as the <code class="language-plaintext highlighter-rouge">async</code> token? We need information about the
 surrounding tokens to decide that, but we don’t have that until the parsing
 phase, which runs later.</p>
 
 <h3 id="parsing-can-be-difficult-when-there-is-ambiguity">Parsing can be difficult when there is ambiguity</h3>
 
-<p>Sometimes, a keyword has no ambiguity during parsing. If the <code class="highlighter-rouge">async</code> keyword
+<p>Sometimes, a keyword has no ambiguity during parsing. If the <code class="language-plaintext highlighter-rouge">async</code> keyword
 can never be used in a place where a valid identifier could appear, and vice
 versa, then the problem can be solved in a straightforward manner, discussed
 shortly.</p>
@@ -144,7 +144,7 @@ expression, then we have a function call:</p>
 <div class="language-cs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">async</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span> <span class="n">bar</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="n">foo</span> <span class="p">+</span> <span class="n">bar</span> <span class="c1">// declaring an async lambda</span>
 </code></pre></div></div>
 
-<p>You would have to look ahead an arbitrary number of tokens (from the <code class="highlighter-rouge">async</code>
+<p>You would have to look ahead an arbitrary number of tokens (from the <code class="language-plaintext highlighter-rouge">async</code>
 keyword to the next operator) in order to disambiguate these two cases, so
 oftentimes implementing a contextual keyword can’t be solved with a small
 change to the grammar.</p>
@@ -155,11 +155,11 @@ change to the grammar.</p>
 and detailed how various languages (mainly C#) implement contextual keywords,
 with examples.</p>
 
-<h3 id="parsing-partial-directly-in-the-grammar">Parsing <code class="highlighter-rouge">partial</code> directly in the grammar</h3>
+<h3 id="parsing-partial-directly-in-the-grammar">Parsing <code class="language-plaintext highlighter-rouge">partial</code> directly in the grammar</h3>
 
-<p>C# has the <code class="highlighter-rouge">partial</code> keyword which is used to mark a class as being implemented
-in multiple source files. The grammar is such that the <code class="highlighter-rouge">partial</code> keyword only
-appears before the <code class="highlighter-rouge">class</code> keyword in a class definition. For example:</p>
+<p>C# has the <code class="language-plaintext highlighter-rouge">partial</code> keyword which is used to mark a class as being implemented
+in multiple source files. The grammar is such that the <code class="language-plaintext highlighter-rouge">partial</code> keyword only
+appears before the <code class="language-plaintext highlighter-rouge">class</code> keyword in a class definition. For example:</p>
 
 <div class="language-cs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">partial</span> <span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
   <span class="k">void</span> <span class="nf">DoSomething</span><span class="p">()</span> <span class="p">{</span>
@@ -169,11 +169,11 @@ appears before the <code class="highlighter-rouge">class</code> keyword in a cla
 <span class="p">}</span>
 </code></pre></div></div>
 
-<p>The <code class="highlighter-rouge">partial</code> keyword can be parsed unambiguously, because an identifier can’t
-appear as a modifier when declaring a class, and the <code class="highlighter-rouge">partial</code> token can’t
+<p>The <code class="language-plaintext highlighter-rouge">partial</code> keyword can be parsed unambiguously, because an identifier can’t
+appear as a modifier when declaring a class, and the <code class="language-plaintext highlighter-rouge">partial</code> token can’t
 appear anywhere the grammar expects an identifier.</p>
 
-<p>The idea is allow the <code class="highlighter-rouge">partial</code> token to be a valid value for an identifier.
+<p>The idea is allow the <code class="language-plaintext highlighter-rouge">partial</code> token to be a valid value for an identifier.
 This is especially useful for generated parsers, since it requires only a
 grammar change, and doesn’t fundamentally change lexing or parsing.</p>
 
@@ -187,19 +187,19 @@ ident ::=
   | /* any other contextual keywords... */
 </code></pre>
 
-<p>This allows you to write <code class="highlighter-rouge">partial</code> anywhere you need an identifier, but also
+<p>This allows you to write <code class="language-plaintext highlighter-rouge">partial</code> anywhere you need an identifier, but also
 have access to the partial keyword. When extracting the actual identifier name
 from the identifier node in the parse tree, you just need to handle the case of
-the identifier being the <code class="highlighter-rouge">partial</code> token, and return the literal string
+the identifier being the <code class="language-plaintext highlighter-rouge">partial</code> token, and return the literal string
 “partial” in that case.</p>
 
 <h3 id="having-special-syntax-for-a-verbatim-identifier">Having special syntax for a verbatim identifier</h3>
 
-<p>C# supports prefixing any identifier with the <code class="highlighter-rouge">@</code> symbol to use any name as an
+<p>C# supports prefixing any identifier with the <code class="language-plaintext highlighter-rouge">@</code> symbol to use any name as an
 identifier, regardless of conflicts with keywords. For example, you could write
-<code class="highlighter-rouge">@for</code> to refer to an identifier named “for”.</p>
+<code class="language-plaintext highlighter-rouge">@for</code> to refer to an identifier named “for”.</p>
 
-<p>The <code class="highlighter-rouge">@</code> symbol used in this way is unambiguous in the C# grammar, so it’s
+<p>The <code class="language-plaintext highlighter-rouge">@</code> symbol used in this way is unambiguous in the C# grammar, so it’s
 easily implemented. However, it doesn’t actually solve the
 backward-compatibility problem, since any new keywords you minted will still be
 parsed incorrectly in older programs.</p>
@@ -209,56 +209,56 @@ another language where the identifier in question is not a keyword. Depending
 on your needs, this may be sufficient, and will obviate reworking the grammar
 of your language.</p>
 
-<h3 id="parsing-async-syntactically-using-arbitrary-lookahead">Parsing <code class="highlighter-rouge">async</code> syntactically using arbitrary lookahead</h3>
+<h3 id="parsing-async-syntactically-using-arbitrary-lookahead">Parsing <code class="language-plaintext highlighter-rouge">async</code> syntactically using arbitrary lookahead</h3>
 
 <p>C# and <a href="https://flow.org/">Flow</a>, probably among others, use a purely-syntactic approach to
-disambiguate the <code class="highlighter-rouge">async</code> token from an identifier named “async”. The idea is to
+disambiguate the <code class="language-plaintext highlighter-rouge">async</code> token from an identifier named “async”. The idea is to
 scan ahead in the token stream until you see a token that disambiguates whether
 it’s a keyword or an identifier. The exact implementation will depend on the
 details of the grammar in question, but you can find the <a href="https://github.com/dotnet/roslyn/blob/614299ff83da9959fa07131c6d0ffbc58873b6ae/src/Compilers/CSharp/Portable/Parser/LanguageParser.cs#L1371-L1440">current
-implementation of parsing <code class="highlighter-rouge">async</code> in C# here</a>.</p>
+implementation of parsing <code class="language-plaintext highlighter-rouge">async</code> in C# here</a>.</p>
 
-<h3 id="parsing-var-using-semantic-information">Parsing <code class="highlighter-rouge">var</code> using semantic information</h3>
+<h3 id="parsing-var-using-semantic-information">Parsing <code class="language-plaintext highlighter-rouge">var</code> using semantic information</h3>
 
-<p>C# uses the <code class="highlighter-rouge">var</code> keyword in the place of an actual type name to tell the
+<p>C# uses the <code class="language-plaintext highlighter-rouge">var</code> keyword in the place of an actual type name to tell the
 compiler to infer the type of the given variable. That is, you can type</p>
 
 <div class="language-cs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">foo</span> <span class="p">=</span> <span class="nf">MakeAnInt</span><span class="p">();</span>
 </code></pre></div></div>
 
-<p>and the compiler will determine from the return type of <code class="highlighter-rouge">MakeAnInt</code> that the
-variable <code class="highlighter-rouge">foo</code> should be of type <code class="highlighter-rouge">int</code>.</p>
+<p>and the compiler will determine from the return type of <code class="language-plaintext highlighter-rouge">MakeAnInt</code> that the
+variable <code class="language-plaintext highlighter-rouge">foo</code> should be of type <code class="language-plaintext highlighter-rouge">int</code>.</p>
 
 <p>Fundamentally, this can’t be resolved in a purely syntactic way. By definition,
-<code class="highlighter-rouge">var</code> is allowed to appear in a strict subset of places where an identifier
+<code class="language-plaintext highlighter-rouge">var</code> is allowed to appear in a strict subset of places where an identifier
 (referring to a type name) could appear.</p>
 
-<p>C# solves this problem by <a href="https://ericlippert.com/2009/05/11/reserved-and-contextual-keywords/">looking up the <code class="highlighter-rouge">var</code> symbol in the semantic
-analyzer</a>, and only treating it as the <code class="highlighter-rouge">var</code> keyword if there is
-no type named <code class="highlighter-rouge">var</code> in the current scope.</p>
+<p>C# solves this problem by <a href="https://ericlippert.com/2009/05/11/reserved-and-contextual-keywords/">looking up the <code class="language-plaintext highlighter-rouge">var</code> symbol in the semantic
+analyzer</a>, and only treating it as the <code class="language-plaintext highlighter-rouge">var</code> keyword if there is
+no type named <code class="language-plaintext highlighter-rouge">var</code> in the current scope.</p>
 
-<h3 id="parsing-async-syntactically-using-constant-lookahead">Parsing <code class="highlighter-rouge">async</code> syntactically using constant lookahead</h3>
+<h3 id="parsing-async-syntactically-using-constant-lookahead">Parsing <code class="language-plaintext highlighter-rouge">async</code> syntactically using constant lookahead</h3>
 
-<p><a href="http://hacklang.org/">The Hack language</a> added <code class="highlighter-rouge">async</code> with the same
+<p><a href="http://hacklang.org/">The Hack language</a> added <code class="language-plaintext highlighter-rouge">async</code> with the same
 backward-compatibility issues present in other languages that also added it. In
 particular, the lambda syntax is hard to parse in the same way that it’s hard
 to parse in C# and Javascript.  For example, the following is hard to parse:</p>
 
-<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">async</span> <span class="p">(</span><span class="nv">$foo</span><span class="p">,</span> <span class="nv">$bar</span><span class="p">)</span>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">async</span> <span class="p">(</span><span class="nv">$foo</span><span class="p">,</span> <span class="nv">$bar</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p>It could be a function call:</p>
 
-<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">async</span> <span class="p">(</span><span class="nv">$foo</span><span class="p">,</span> <span class="nv">$bar</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">async</span> <span class="p">(</span><span class="nv">$foo</span><span class="p">,</span> <span class="nv">$bar</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span>
 </code></pre></div></div>
 
 <p>Or it could be lambda syntax:</p>
 
-<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">async</span> <span class="p">(</span><span class="nv">$foo</span><span class="p">,</span> <span class="nv">$bar</span><span class="p">)</span> <span class="o">==&gt;</span> <span class="nv">$foo</span> <span class="o">+</span> <span class="nv">$bar</span>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">async</span> <span class="p">(</span><span class="nv">$foo</span><span class="p">,</span> <span class="nv">$bar</span><span class="p">)</span> <span class="o">==&gt;</span> <span class="nv">$foo</span> <span class="o">+</span> <span class="nv">$bar</span>
 </code></pre></div></div>
 
 <p>Hack “solves” this problem while only needing constant lookahead. If there is a
-space after <code class="highlighter-rouge">async</code>, it is parsed as the <code class="highlighter-rouge">async</code> keyword. Otherwise it is
+space after <code class="language-plaintext highlighter-rouge">async</code>, it is parsed as the <code class="language-plaintext highlighter-rouge">async</code> keyword. Otherwise it is
 parsed as an identifier. Thus, the above example is unambiguous: it is parsed
 as a lambda.</p>
 

@@ -69,7 +69,7 @@
 
 <p>Immutable values are easy to reason about in complex systems, because they never change. Many functional languages strongly encourage the developer to use immutable values. For example, Clojure has a strong emphasis on using immutable values, so that multithreading can be made easy and safe.</p>
 
-<p>However, making everything immutable can be impractical, especially in established codebases with poor language-level support for immutability-by-default. Some modern languages with good support for immutable values still let you opt into mutable data when needed (such as Rust with the <code class="highlighter-rouge">mut</code> keyword).</p>
+<p>However, making everything immutable can be impractical, especially in established codebases with poor language-level support for immutability-by-default. Some modern languages with good support for immutable values still let you opt into mutable data when needed (such as Rust with the <code class="language-plaintext highlighter-rouge">mut</code> keyword).</p>
 
 <p>In this article, I describe a property called <em>monotonicity</em>, which is a halfway point between mutable and immutable values. Structuring your code around monotonicity can make it easier to reason about values without having to make them immutable, even in languages with good support for immutable values.</p>
 
@@ -95,7 +95,7 @@
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
 
     <span class="k">def</span> <span class="nf">update_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">new_name</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">new_name</span>
 </code></pre></div></div>
 
 <p>This <strong>loses data</strong>, specifically the old version of the name. In enterprise systems, you can imagine wanting an “audit log” that would let you examine changes that occurred to the system. We can use a monotonic value to accomplish this. Instead of storing a single name, we’ll store <em>all</em> the names that the user has ever had, and return the last one as the user’s canonical name:</p>
@@ -109,7 +109,7 @@
         <span class="k">return</span> <span class="n">names</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">update_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">names</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_name</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p>Now an administrator can view all of the historical names for a user. (In a real system, we would also store the person who did the action, the time, etc.).</p>
@@ -125,20 +125,20 @@
     <span class="n">profile</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Profile</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">read_profile</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Profile</span><span class="p">:</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">profile</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">profile</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">profile</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">profile</span>
         <span class="n">profile</span> <span class="o">=</span> <span class="n">load_profile_from_disk</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">profile</span> <span class="o">=</span> <span class="n">profile</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">profile</span> <span class="o">=</span> <span class="n">profile</span>
         <span class="k">return</span> <span class="n">profile</span>
 </code></pre></div></div>
 
 <p>Mutable state can be difficult to reason about at times, but in the case of a memoized value, it’s hardly considered mutable at all. Once the value is loaded, it’s never changed.</p>
 
-<p>This makes it easier for someone to debug the system. When they see a value for <code class="highlighter-rouge">profile</code>, it implies something about the <em>history</em> for that value. If it is <code class="highlighter-rouge">None</code>, then it has never been computed in the past, and if it is a <code class="highlighter-rouge">Profile</code>, then it was computed exactly once and updated. There’s no concern that <code class="highlighter-rouge">profile</code> was updated multiple times in the past with a value you can no longer access, or that different callers may have seen different values.</p>
+<p>This makes it easier for someone to debug the system. When they see a value for <code class="language-plaintext highlighter-rouge">profile</code>, it implies something about the <em>history</em> for that value. If it is <code class="language-plaintext highlighter-rouge">None</code>, then it has never been computed in the past, and if it is a <code class="language-plaintext highlighter-rouge">Profile</code>, then it was computed exactly once and updated. There’s no concern that <code class="language-plaintext highlighter-rouge">profile</code> was updated multiple times in the past with a value you can no longer access, or that different callers may have seen different values.</p>
 
 <h2 id="state-machines">State machines</h2>
 
-<p>A memoized value is a special case of a <a href="https://en.wikipedia.org/wiki/Finite-state_machine">state machine</a>. The value in the previous example transitions from the <code class="highlighter-rouge">None</code> state to the <code class="highlighter-rouge">Profile</code> state.</p>
+<p>A memoized value is a special case of a <a href="https://en.wikipedia.org/wiki/Finite-state_machine">state machine</a>. The value in the previous example transitions from the <code class="language-plaintext highlighter-rouge">None</code> state to the <code class="language-plaintext highlighter-rouge">Profile</code> state.</p>
 
 <p>A <em>monotonic state machine</em> is a state machine that never revisits a previous state. For example, we may transition a user through multiple states of verification when they sign up for a service:</p>
 
@@ -157,32 +157,32 @@
     <span class="n">phone_number</span><span class="p">:</span> <span class="nb">str</span>
 
     <span class="k">def</span> <span class="nf">add_email</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">email_state</span> <span class="o">==</span> <span class="n">ContactDataState</span><span class="o">.</span><span class="n">NONE</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">email_state</span> <span class="o">=</span> <span class="n">ContactDataState</span><span class="o">.</span><span class="n">UNVERIFIED</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="n">email</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">email_state</span> <span class="o">==</span> <span class="n">ContactDataState</span><span class="p">.</span><span class="n">NONE</span><span class="p">:</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">email_state</span> <span class="o">=</span> <span class="n">ContactDataState</span><span class="p">.</span><span class="n">UNVERIFIED</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">email</span> <span class="o">=</span> <span class="n">email</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="nb">RuntimeError</span><span class="p">(</span><span class="s">"Cannot set email for a user who already has an email"</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">verify_email</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">email_state</span> <span class="o">==</span> <span class="n">ContactDataState</span><span class="o">.</span><span class="n">NONE</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">email_state</span> <span class="o">==</span> <span class="n">ContactDataState</span><span class="p">.</span><span class="n">NONE</span><span class="p">:</span>
             <span class="k">raise</span> <span class="nb">RuntimeError</span><span class="p">(</span><span class="s">"No current email set"</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">email_state</span> <span class="o">==</span> <span class="n">ContactDataState</span><span class="o">.</span><span class="n">UNVERIFIED</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">email</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">email</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">email_state</span> <span class="o">=</span> <span class="n">ContactDataState</span><span class="o">.</span><span class="n">VERIFIED</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="p">.</span><span class="n">email_state</span> <span class="o">==</span> <span class="n">ContactDataState</span><span class="p">.</span><span class="n">UNVERIFIED</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">email</span> <span class="o">==</span> <span class="bp">self</span><span class="p">.</span><span class="n">email</span><span class="p">:</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">email_state</span> <span class="o">=</span> <span class="n">ContactDataState</span><span class="p">.</span><span class="n">VERIFIED</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="nb">RuntimeError</span><span class="p">(</span><span class="s">"Could not validate email"</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">email_state</span> <span class="o">==</span> <span class="n">ContactDataState</span><span class="o">.</span><span class="n">VERIFIED</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">email_state</span> <span class="o">==</span> <span class="n">ContactDataState</span><span class="p">.</span><span class="n">VERIFIED</span><span class="p">:</span>
             <span class="k">raise</span> <span class="nb">RuntimeError</span><span class="p">(</span><span class="s">"Email already verified"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="nb">AssertionError</span><span class="p">(</span><span class="s">"Invalid state"</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">revoke_email</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">email_state</span> <span class="o">=</span> <span class="n">ContactDataState</span><span class="o">.</span><span class="n">REVOKED</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">email_state</span> <span class="o">=</span> <span class="n">ContactDataState</span><span class="p">.</span><span class="n">REVOKED</span>
 
     <span class="c1"># Similar for `phone_number`...
 </span></code></pre></div></div>
 
-<p>This example represents a monotonic state machine, since the only transitions are from <code class="highlighter-rouge">NONE</code> to <code class="highlighter-rouge">UNVERIFIED</code> and <code class="highlighter-rouge">UNVERIFIED</code> to <code class="highlighter-rouge">VERIFIED</code>, or from any state to <code class="highlighter-rouge">REVOKED</code>. No state is ever re-visited. This means that the developer never has to worry about the question “was this email ever valid in the past?”. Instead, an email becomes revoked, which is a different status.</p>
+<p>This example represents a monotonic state machine, since the only transitions are from <code class="language-plaintext highlighter-rouge">NONE</code> to <code class="language-plaintext highlighter-rouge">UNVERIFIED</code> and <code class="language-plaintext highlighter-rouge">UNVERIFIED</code> to <code class="language-plaintext highlighter-rouge">VERIFIED</code>, or from any state to <code class="language-plaintext highlighter-rouge">REVOKED</code>. No state is ever re-visited. This means that the developer never has to worry about the question “was this email ever valid in the past?”. Instead, an email becomes revoked, which is a different status.</p>
 
 <p>Of course, if the user wants to set up a new email, this pattern won’t work. Then we can combine it with the “simple value” pattern above and store lists of email-plus-email-state. The current status of the user’s email would be the most recent email-plus-email-state entry.</p>
 
@@ -208,18 +208,18 @@
     <span class="n">queued_workouts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Workout</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">add_workout_to_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workout</span><span class="p">:</span> <span class="n">Workout</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">queued_workouts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">add_workout_to_queue</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">queued_workouts</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">add_workout_to_queue</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">get_queued_workouts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Workout</span><span class="p">]:</span>
         <span class="k">return</span> <span class="n">queued_workouts</span>
 
     <span class="k">def</span> <span class="nf">clear_queued_workouts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">queued_workouts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">queued_workouts</span> <span class="o">=</span> <span class="p">[]</span>
 </code></pre></div></div>
 
-<p>The app wants to call <code class="highlighter-rouge">get_queued_workouts</code> to get the queued up workouts, and then <code class="highlighter-rouge">clear_queued_workouts</code> so that they’re not returned and double-counted the next time it asks for them. If the connection between the fitness tracker and the app dies in between <code class="highlighter-rouge">get_queued_workouts</code> and <code class="highlighter-rouge">clear_queued_workouts</code>, then we may return the workouts again in the next <code class="highlighter-rouge">get_queued_workouts</code> call.</p>
+<p>The app wants to call <code class="language-plaintext highlighter-rouge">get_queued_workouts</code> to get the queued up workouts, and then <code class="language-plaintext highlighter-rouge">clear_queued_workouts</code> so that they’re not returned and double-counted the next time it asks for them. If the connection between the fitness tracker and the app dies in between <code class="language-plaintext highlighter-rouge">get_queued_workouts</code> and <code class="language-plaintext highlighter-rouge">clear_queued_workouts</code>, then we may return the workouts again in the next <code class="language-plaintext highlighter-rouge">get_queued_workouts</code> call.</p>
 
-<p>(There is another approach where <code class="highlighter-rouge">get_queued_workouts</code> and <code class="highlighter-rouge">clear_queued_workouts</code> are combined into the same call. This also has a flaw: if the app received the workouts and then crashes before it can process them, then the workouts are lost forever.)</p>
+<p>(There is another approach where <code class="language-plaintext highlighter-rouge">get_queued_workouts</code> and <code class="language-plaintext highlighter-rouge">clear_queued_workouts</code> are combined into the same call. This also has a flaw: if the app received the workouts and then crashes before it can process them, then the workouts are lost forever.)</p>
 
 <p>The core problem is that this data structure is not monotonic: data can be lost. A simple fix is to retain all the data and use a monotonically-increasing integer to synchronize the two systems:</p>
 
@@ -234,8 +234,8 @@
     <span class="n">queued_workouts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Workout</span><span class="p">]]</span>
 
     <span class="k">def</span> <span class="nf">add_workout_to_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workout</span><span class="p">:</span> <span class="n">Workout</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">queued_workouts</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">next_id</span><span class="p">,</span> <span class="n">workout</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">next_id</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">queued_workouts</span><span class="p">.</span><span class="n">append</span><span class="p">((</span><span class="bp">self</span><span class="p">.</span><span class="n">next_id</span><span class="p">,</span> <span class="n">workout</span><span class="p">))</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">next_id</span> <span class="o">+=</span> <span class="mi">1</span>
 
     <span class="k">def</span> <span class="nf">get_queued_workouts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">since_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Workout</span><span class="p">]]:</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">workout</span>
@@ -263,8 +263,8 @@
     <span class="n">queued_workouts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Workout</span><span class="p">]]</span>
 
     <span class="k">def</span> <span class="nf">add_workout_to_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workout</span><span class="p">:</span> <span class="n">Workout</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">queued_workouts</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">next_id</span><span class="p">,</span> <span class="n">workout</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">next_id</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">queued_workouts</span><span class="p">.</span><span class="n">append</span><span class="p">((</span><span class="bp">self</span><span class="p">.</span><span class="n">next_id</span><span class="p">,</span> <span class="n">workout</span><span class="p">))</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">next_id</span> <span class="o">+=</span> <span class="mi">1</span>
 
     <span class="k">def</span> <span class="nf">get_queued_workouts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">since_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Workout</span><span class="p">]]:</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">workout</span>
@@ -279,7 +279,7 @@
     <span class="k">def</span> <span class="nf">clear_queued_workouts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">since_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
         <span class="c1"># Delete any workouts that occurred before `since_id`, since they've
 </span>        <span class="c1"># been acknowledged by the caller.
-</span>        <span class="bp">self</span><span class="o">.</span><span class="n">queued_workouts</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">id</span><span class="p">,</span> <span class="n">workout</span><span class="p">)</span>
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">queued_workouts</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">id</span><span class="p">,</span> <span class="n">workout</span><span class="p">)</span>
                                 <span class="k">for</span> <span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">workout</span><span class="p">)</span> <span class="ow">in</span> <span class="n">queued_workouts</span>
                                 <span class="k">if</span> <span class="nb">id</span> <span class="o">&gt;=</span> <span class="n">since_id</span><span class="p">]</span>
 </code></pre></div></div>
@@ -298,7 +298,7 @@
 
 <p>Then a record is only valid if there is no deletion record for that same record. (A database engine should be able to configure a schema to query for this quickly.)</p>
 
-<p>This is the same as transitioning the data to a new state called <code class="highlighter-rouge">DELETED</code>, except that it’s doable in a distributed context. Multiple parties can synchronize data, and the deletion will be properly synchronized between them — without having to modify any data in-place. The technical term for this kind of marker is a <a href="https://en.wikipedia.org/wiki/Tombstone_(data_store)">“tombstone”</a>.</p>
+<p>This is the same as transitioning the data to a new state called <code class="language-plaintext highlighter-rouge">DELETED</code>, except that it’s doable in a distributed context. Multiple parties can synchronize data, and the deletion will be properly synchronized between them — without having to modify any data in-place. The technical term for this kind of marker is a <a href="https://en.wikipedia.org/wiki/Tombstone_(data_store)">“tombstone”</a>.</p>
 
 <h2 id="compaction">Compaction</h2>
 
