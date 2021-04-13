@@ -190,6 +190,9 @@ pre {
   text-align: center;
   width: 24px; }
 
+table {
+  width: 100%; }
+
 .center-image {
   margin: 0 auto;
   display: block; }

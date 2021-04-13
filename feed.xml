@@ -7,9 +7,249 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 10 Mar 2021 12:40:18 -0600</pubDate>
-    <lastBuildDate>Wed, 10 Mar 2021 12:40:18 -0600</lastBuildDate>
+    <pubDate>Mon, 12 Apr 2021 22:40:08 -0500</pubDate>
+    <lastBuildDate>Mon, 12 Apr 2021 22:40:08 -0500</lastBuildDate>
     <generator>Jekyll v3.8.4</generator>
+    
+      <item>
+        <title>Anecdata: hours invested vs percentile rank</title>
+        <description>&lt;p&gt;The “10,000-hour rule” is the idea suggested in Malcolm Gladwell’s book &lt;a href=&quot;https://en.wikipedia.org/wiki/Outliers_(book)&quot;&gt;&lt;em&gt;Outliers&lt;/em&gt;&lt;/a&gt; that you need about 10,000 hours of practice to become an expert in a given field. The specifics are disputed (both in terms of the absolute amount of time, and how much of skill is explained by practice time), but it’s a simple way to evaluate one’s progress towards experthood.&lt;/p&gt;
+
+&lt;p&gt;I switched from competitive chess to competitive videogaming. It’s interesting to compare the amount of time invested in each and examine how skillful I became in their respective competitive scenes as a result.&lt;/p&gt;
+
+&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#switching-away-from-chess&quot; id=&quot;markdown-toc-switching-away-from-chess&quot;&gt;Switching away from chess&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#data&quot; id=&quot;markdown-toc-data&quot;&gt;Data&lt;/a&gt;    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#chess&quot; id=&quot;markdown-toc-chess&quot;&gt;Chess&lt;/a&gt;        &lt;ul&gt;
+          &lt;li&gt;&lt;a href=&quot;#background-practicing-chess&quot; id=&quot;markdown-toc-background-practicing-chess&quot;&gt;Background: practicing chess&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;#percentile-calculation&quot; id=&quot;markdown-toc-percentile-calculation&quot;&gt;Percentile calculation&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;#practice-time-breakdown&quot; id=&quot;markdown-toc-practice-time-breakdown&quot;&gt;Practice time breakdown&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#smash&quot; id=&quot;markdown-toc-smash&quot;&gt;Smash&lt;/a&gt;        &lt;ul&gt;
+          &lt;li&gt;&lt;a href=&quot;#background-practicing-smash&quot; id=&quot;markdown-toc-background-practicing-smash&quot;&gt;Background: practicing Smash&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;#percentile-calculation-1&quot; id=&quot;markdown-toc-percentile-calculation-1&quot;&gt;Percentile calculation&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;#practice-time-breakdown-1&quot; id=&quot;markdown-toc-practice-time-breakdown-1&quot;&gt;Practice time breakdown&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#analysis&quot; id=&quot;markdown-toc-analysis&quot;&gt;Analysis&lt;/a&gt;    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#summary&quot; id=&quot;markdown-toc-summary&quot;&gt;Summary&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#caveats&quot; id=&quot;markdown-toc-caveats&quot;&gt;Caveats&lt;/a&gt;        &lt;ul&gt;
+          &lt;li&gt;&lt;a href=&quot;#blitz-chess&quot; id=&quot;markdown-toc-blitz-chess&quot;&gt;Blitz chess&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;#online-smash&quot; id=&quot;markdown-toc-online-smash&quot;&gt;Online Smash&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;#differing-player-pools&quot; id=&quot;markdown-toc-differing-player-pools&quot;&gt;Differing player pools&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#conclusions&quot; id=&quot;markdown-toc-conclusions&quot;&gt;Conclusions&lt;/a&gt;    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#is-smash-a-better-use-of-my-time&quot; id=&quot;markdown-toc-is-smash-a-better-use-of-my-time&quot;&gt;Is &lt;em&gt;Smash&lt;/em&gt; a better use of my time?&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#can-i-reach-expert-strength-in-smash&quot; id=&quot;markdown-toc-can-i-reach-expert-strength-in-smash&quot;&gt;Can I reach expert strength in &lt;em&gt;Smash&lt;/em&gt;?&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#are-there-any-lessons-for-my-other-hobbies&quot; id=&quot;markdown-toc-are-there-any-lessons-for-my-other-hobbies&quot;&gt;Are there any lessons for my other hobbies?&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;switching-away-from-chess&quot;&gt;Switching away from chess&lt;/h2&gt;
+
+&lt;p&gt;For the last few years, I have been aiming at becoming a world-class player in my choice of game. Of course, whether I will achieve that goal is a different matter!&lt;/p&gt;
+
+&lt;p&gt;I started investing in competitive chess in January 2014, while studying at university, around the time &lt;a href=&quot;https://en.wikipedia.org/wiki/Magnus_Carlsen&quot;&gt;Magnus Carlsen&lt;/a&gt; won the world championship and consequently sparked a renewed interest in chess for many.&lt;/p&gt;
+
+&lt;p&gt;I graduated from university in April 2016, took up a full-time job, and played continuously until March 2019. I decided to quit in favor of playing the fighting game &lt;a href=&quot;https://en.wikipedia.org/wiki/Super_Smash_Bros._Ultimate&quot;&gt;&lt;em&gt;Super Smash Bros. Ultimate&lt;/em&gt;&lt;/a&gt; competitively. It was released in December 2018, just a few months prior.&lt;/p&gt;
+
+&lt;p&gt;I decided to switch for two main reasons:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The competition in chess is much fiercer. The game has been popular for hundreds of years, and the learning tools and resources have developed much more than for the &lt;em&gt;Smash Bros.&lt;/em&gt; franchise, whose first entrant was released in 1999.&lt;/li&gt;
+  &lt;li&gt;I generally enjoy playing &lt;em&gt;Smash&lt;/em&gt; more than chess, which means that I naturally invest more practice time into it.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Since I invested a significant amount of time in chess before dropping it, I want to look back at the data in this article and decide it was justified from a strictly numerical point of view. This might also impart some useful lessons for my other hobbies (currently piano and learning Polish).&lt;/p&gt;
+
+&lt;h2 id=&quot;data&quot;&gt;Data&lt;/h2&gt;
+
+&lt;p&gt;You can skip this section to go to &lt;a href=&quot;#analysis&quot;&gt;Analysis&lt;/a&gt; if the details of the data don’t interest you.&lt;/p&gt;
+
+&lt;h3 id=&quot;chess&quot;&gt;Chess&lt;/h3&gt;
+
+&lt;p&gt;As a kid, I knew the rules and played in a handful of scholastic tournaments of laughable strength. For my chess blitz rating, I started at an estimated &lt;strong&gt;22nd percentile&lt;/strong&gt; and spent &lt;strong&gt;1068 hours practicing&lt;/strong&gt; to proceed to the &lt;strong&gt;77th percentile&lt;/strong&gt;.  Blitz strength may not be a good measure of skill, so see the analysis later.&lt;/p&gt;
+
+&lt;h4 id=&quot;background-practicing-chess&quot;&gt;Background: practicing chess&lt;/h4&gt;
+
+&lt;p&gt;Chess practice is primarily broken into time spent playing games and time spent studying. Studying is further divided into many areas:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;em&gt;Tactics training&lt;/em&gt;: The majority of training time is spent here. There are many automated tools to improve tactical skill, since it can be evaluated entirely by computer.&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;Strategic training&lt;/em&gt;: This is harder to train. Usually, one learns by reading about abstract principles in books, analyzing games, or receiving professional instruction.&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;Endgame training&lt;/em&gt;: At the endgame of chess, there are few pieces remaining on the board, and a mix of endgame-specific tactical and strategic principles need to be studied.&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;Opening training&lt;/em&gt;: Usually, it’s recommended for beginners not to focus on this, as the advantages are marginal compared to time spent on other areas of the game.&lt;/li&gt;
+  &lt;li&gt;Analyzing one’s own games.&lt;/li&gt;
+  &lt;li&gt;Analyzing top players’ games.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;percentile-calculation&quot;&gt;Percentile calculation&lt;/h4&gt;
+
+&lt;p&gt;I estimated the percentile for my blitz strength. In a blitz game, each side has under ten minutes (or equivalent, due to chess clock rules) to make all their moves.&lt;/p&gt;
+
+&lt;p&gt;I started a blitz rating of 850 at Chess.com. I wasn’t able to access the estimated percentile on Chess.com, so I added 300 rating points to roughly convert it to a Lichess rating, and used their leaderboards. I switched to primarly playing on Lichess for most games, where I ended with a blitz rating of 1801, which is the 77th percentile according to the Lichess leaderboards.&lt;/p&gt;
+
+&lt;h4 id=&quot;practice-time-breakdown&quot;&gt;Practice time breakdown&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://chesstempo.com/&quot;&gt;ChessTempo&lt;/a&gt; tactics training: 746.5 hours.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://lichess.org/&quot;&gt;Lichess&lt;/a&gt; game time: 275 hours (1753 games).&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://chess.com/&quot;&gt;Chess.com&lt;/a&gt; game time: estimated 47 hours (300 games).
+    &lt;ul&gt;
+      &lt;li&gt;I couldn’t find this information on Chess.com easily. I took the average time per game from Lichess (275 hours / 1753 games) and multiplied it by my total number of games on Chess.com (300 games).&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Lichess percentile: 77% blitz (from the &lt;a href=&quot;https://lichess.org/stat/rating/distribution/blitz&quot;&gt;blitz leaderboard&lt;/a&gt;), 80% rapid (from the &lt;a href=&quot;https://lichess.org/stat/rating/distribution/rapid&quot;&gt;rapid leaderboard&lt;/a&gt;).
+    &lt;ul&gt;
+      &lt;li&gt;Chess.com also has percentile information, but it’s not available to me unless I’ve played a game recently.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;A small amount of time (&amp;lt;20 hours) reading a couple of chess books.&lt;/li&gt;
+  &lt;li&gt;A small amount of time (&amp;lt;20 hours) playing at the local chess club. (The events take place in a windowless basement for up to 12 hours at a time, so I only went a couple of times.)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I took the lower bound of 746 + 275 + 47 = 1068 hours.&lt;/p&gt;
+
+&lt;h3 id=&quot;smash&quot;&gt;Smash&lt;/h3&gt;
+
+&lt;p&gt;I played &lt;em&gt;Super Smash Bros. Brawl&lt;/em&gt; as a kid, but only very casually. I’ve also had a variety of other dexterity-focused video games and hobbies.&lt;/p&gt;
+
+&lt;p&gt;I started at the &lt;strong&gt;4th percentile&lt;/strong&gt; and spent an estimated &lt;strong&gt;1204&lt;/strong&gt; hours to reach the &lt;strong&gt;99th percentile&lt;/strong&gt; of online players.&lt;/p&gt;
+
+&lt;h4 id=&quot;background-practicing-smash&quot;&gt;Background: practicing Smash&lt;/h4&gt;
+
+&lt;p&gt;There is a “training mode” in &lt;em&gt;Smash Ultimate&lt;/em&gt;, which allows you to test out moves and combos against CPU opponents or real training partners. People use training mode to do drills, which are necessary to execute the fine-grained movements required by the game.&lt;/p&gt;
+
+&lt;p&gt;The training mode is somewhat deficient compared to other fighting games when it comes to practicing combos rather than doing drills. While you’re executing a combo, the opponent may be able to input certain moves to escape, which the CPU will not do. If you don’t have a training partner, there are some software mods and hardware devices which can simulate these inputs. I didn’t have access to a training partner, and I didn’t use one of these automated solutions.&lt;/p&gt;
+
+&lt;p&gt;I watched a few training videos on YouTube for general &lt;em&gt;Smash&lt;/em&gt; skills and specific to my character. I even &lt;a href=&quot;/smash-training-retrospective/&quot;&gt;created a training tool&lt;/a&gt; for myself to practice drills. This is an example of where I think the training tools are not well-developed in Smash compared to chess, and having access to a new tool could in principle accelerate the growth of new entrants.&lt;/p&gt;
+
+&lt;p&gt;Other than training mode, players play games, either in-person or online. They can also analyze them later, although the built-in tools for doing so are not convenient to use. I spent a significant amount of time in training mode, but I mostly played games.&lt;/p&gt;
+
+&lt;h4 id=&quot;percentile-calculation-1&quot;&gt;Percentile calculation&lt;/h4&gt;
+
+&lt;p&gt;The &lt;em&gt;Smash&lt;/em&gt; online gameplay uses an inverted ranking system, in which your ranking is the number of players that you’re better than. It’s probably backed by an traditional rating system. Annoyingly, this means that your ranking will change over time without any meaningful differences in your skill.&lt;/p&gt;
+
+&lt;p&gt;When a player reaches a percentile certain threshold, they’re admitted into “Elite Smash”. User-reported numbers have allowed people to reverse-engineer the total number of ranked players at any given time. In my experience, the estimate is fairly accurate (say, within 25,000).&lt;/p&gt;
+
+&lt;p&gt;Unfortunately, I don’t remember the exact player count when I started. Some trawling through historical Reddit threads suggests it was at least 3,000,000 players. I remember being below 100,000 rank when I started, so that optimistically puts me at the 4th percentile.&lt;/p&gt;
+
+&lt;h4 id=&quot;practice-time-breakdown-1&quot;&gt;Practice time breakdown&lt;/h4&gt;
+
+&lt;p&gt;The Nintendo Switch records in-game time for the games you play. According to the Nintendo Switch’s in-game play time, I spent approximately 1204 hours to reach the 99.0th percentile. Some of that time was spent in loading screens or playing casually with friends.&lt;/p&gt;
+
+&lt;h2 id=&quot;analysis&quot;&gt;Analysis&lt;/h2&gt;
+
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+
+&lt;p&gt;The data is summarized below:&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;Game&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;Start percentile&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;Hours spent&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;End percentile&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Chess&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;22%&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;1068&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;77%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;em&gt;Smash Ultimate&lt;/em&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;4%&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;1204&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;99%&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Based on just the numbers, it looks like practicing &lt;em&gt;Smash Ultimate&lt;/em&gt; is a significantly better use of my time!&lt;/p&gt;
+
+&lt;h3 id=&quot;caveats&quot;&gt;Caveats&lt;/h3&gt;
+
+&lt;h4 id=&quot;blitz-chess&quot;&gt;Blitz chess&lt;/h4&gt;
+
+&lt;p&gt;I primarily played “blitz” chess. In a blitz game, each side has under ten minutes (or equivalent, due to chess clock rules) to make all their moves. The conventional wisdom is that one should focus on standard chess to improve their general skills, and blitz chess to improve their blitz skills.&lt;/p&gt;
+
+&lt;p&gt;I also played “rapid” chess games (which range between ten and thirty minutes). These games are much closer to the kind of games played in tournaments, but arguably still not slow enough. Interestingly, my rapid ratings were almost exactly the same as my blitz ratings:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Chess.com: blitz 1644, rapid 1645&lt;/li&gt;
+  &lt;li&gt;Lichess: blitz 1801, rapid 1804&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;One could reasonably argue that I made much less progress in chess than in &lt;em&gt;Smash&lt;/em&gt; because I didn’t play enough slow chess. I’m not necessarily convinced by this conclusion:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Playing blitz games rather than slow games means more games with shorter feedback loops. Why should that be a bad thing? I think the determination of quality of this practice time is how much I thought about the game while playing it, rather than how long the game happened to be. Personally, I played blitz chess deliberately, focusing on finding a strong move, rather than running down the clock or playing on instinct.&lt;/li&gt;
+  &lt;li&gt;746 hours / 1068 hours = 69% of my practice time was spent on tactics training. Does that mean that the other 31% of time was so poorly spent that it explains the 22-point percentile difference between chess and &lt;em&gt;Smash&lt;/em&gt;?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I have not formally researched this topic to see if the question has been answered in the literature.&lt;/p&gt;
+
+&lt;h4 id=&quot;online-smash&quot;&gt;Online Smash&lt;/h4&gt;
+
+&lt;p&gt;The online experience for chess is as good or better than over-the-board experience. It’s generally easier to see all the pieces and move them around. Most chess sites implement a “pre-move” system, which is convenient, and makes it possible to play games at a speed which aren’t realistic over-the board.&lt;/p&gt;
+
+&lt;p&gt;On the other hand, the online experience for &lt;em&gt;Smash Ultimate&lt;/em&gt; is not very good. In an in-person game, there are six frames (0.1 seconds) of input delay between pressing a button and having it happen. The online gameplay automatically enforces a minimum of five extra frames of delay, almost doubling the input delay compared to an in-person game, regardless of the actual geographic latency between players.&lt;/p&gt;
+
+&lt;p&gt;Furthermore, the netcode for &lt;em&gt;Smash Ultimate&lt;/em&gt; uses a primarily “delay-based” mechanism, where all messages have to be acknowledged by all parties before gameplay can proceed. The current state-of-the-art for online fighting games is “rollback-based”, where each party can speculatively execute actions on behalf of the other party, and fix the game state only if the prediction was wrong.&lt;/p&gt;
+
+&lt;p&gt;As a result of these factors, &lt;em&gt;Smash Ultimate&lt;/em&gt; has more latency than you would expect from a different fighting game, to the point where the metagame changes significantly online, and players generally can’t play optimally. Online &lt;em&gt;Smash Ultimate&lt;/em&gt; tournaments are not regarded seriously in the competitive scene, compared to in-person tournaments.&lt;/p&gt;
+
+&lt;h4 id=&quot;differing-player-pools&quot;&gt;Differing player pools&lt;/h4&gt;
+
+&lt;p&gt;&lt;em&gt;Smash Bros.&lt;/em&gt; has always been marketed by Nintendo as a primarily casual game, whereas chess may be considered to have a more serious player-base. So reaching the 99th percentile in online &lt;em&gt;Smash&lt;/em&gt; play is not as meaningful as reaching the 99th percentile in online chess play.&lt;/p&gt;
+
+&lt;p&gt;In-person tournaments have a more serious self-selected pool of players. Since I quit my local chess club, and since COVID-19 shut down in-person &lt;em&gt;Smash&lt;/em&gt; tournaments, it’s hard for me to get a sense of how I compare in the competitive scene. My guess is that I’m below the 50th percentile among in-person tournament players for both games.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusions&quot;&gt;Conclusions&lt;/h2&gt;
+
+&lt;h3 id=&quot;is-smash-a-better-use-of-my-time&quot;&gt;Is &lt;em&gt;Smash&lt;/em&gt; a better use of my time?&lt;/h3&gt;
+
+&lt;p&gt;Certainly. Regardless of the absolute amount of time spent or the percentiles achieved, I managed to spend about the same amount of practice time in chess over five years as I did in &lt;em&gt;Smash&lt;/em&gt; over two years. This indicates that I naturally enjoy it a lot more, and I will probably be better at it as a result.&lt;/p&gt;
+
+&lt;h3 id=&quot;can-i-reach-expert-strength-in-smash&quot;&gt;Can I reach expert strength in &lt;em&gt;Smash&lt;/em&gt;?&lt;/h3&gt;
+
+&lt;p&gt;If we assume that it takes 10,000 hours of practice, then maybe. At the rate of 1200 practice hours over two years, one would expect that I could reach the 10,000 hour mark in about 6.3 years from now.&lt;/p&gt;
+
+&lt;p&gt;A particular concern for competitive videogaming is that one can expect response times to &lt;a href=&quot;https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0094215&quot;&gt;start declining at the age of 24&lt;/a&gt;. I am 24 at the time of this writing, so I would be 30 years of age by the time I reached 10,000 hours, which will put me at a natural disadvantage compared to younger players. It might not be an insurmountable obstacle — it’s not as if 30-year-olds are known for their infamously-poor response times.&lt;/p&gt;
+
+&lt;p&gt;One case-study is the &lt;em&gt;Super Smash Bros. Melee&lt;/em&gt; player &lt;a href=&quot;https://www.ssbwiki.com/Smasher:Zain&quot;&gt;Zain&lt;/a&gt;, who started playing competitively in 2014, and started producing top results within five years. It’s an encouraging result in terms of the absolute timeline. On the other hand, it’s possible that he simply practices around 3.5x as much as me (that is, 2000 hours a year, rather than 1200 hours in two years).&lt;/p&gt;
+
+&lt;p&gt;Since &lt;em&gt;Smash&lt;/em&gt; is not as well developed as chess, it might be that I could reach an expert level in less time than the 10,000 hours. Or it simply might not require 10,000 hours.&lt;/p&gt;
+
+&lt;h3 id=&quot;are-there-any-lessons-for-my-other-hobbies&quot;&gt;Are there any lessons for my other hobbies?&lt;/h3&gt;
+
+&lt;p&gt;My piano-playing ability is quite poor at the moment. I would estimate I’ve spent around 300 total practice hours on it, since it took it up in November 2019. Unfortunately, I took no objective measurements.&lt;/p&gt;
+
+&lt;p&gt;Unlike competitive videogaming, where one is matched to an opponent of similar strength, a piano player typically compares themselves to the best players in the field. It’s sometimes demoralizing to compare my performances of the same pieces with theirs. But it’s a relief to see that no matter how I feel now, I can expect to see significant improvements in ability as I reach even the 1000-hour mark.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 02 Apr 2021 00:00:00 -0500</pubDate>
+        <link>https://blog.waleedkhan.name/hours-invested-vs-percentile-rank/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/hours-invested-vs-percentile-rank/</guid>
+        
+        <category>chess</category>
+        
+        <category>deliberate-practice</category>
+        
+        <category>smash-bros</category>
+        
+        
+      </item>
     
       <item>
         <title>On Pro Controller stick drift</title>
@@ -915,123 +1155,6 @@ most important.&lt;/p&gt;
         <guid isPermaLink="true">https://blog.waleedkhan.name/login-gov-2fa/</guid>
         
         <category>security</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>OCaml file extensions</title>
-        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#bytecode-vs-native&quot; id=&quot;markdown-toc-bytecode-vs-native&quot;&gt;Bytecode vs native&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#file-extensions&quot; id=&quot;markdown-toc-file-extensions&quot;&gt;File extensions&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;OCaml has a similar compilation model to C or C++. (Indeed, the OCaml compiler
-will let you link the two together.) However, it’s complicated by the fact that
-it can target both bytecode and native code. As a result, there are a lot of
-possible file extensions, and it’s not obvious what they mean.&lt;/p&gt;
-
-&lt;p&gt;There are a lot of pages on the internet that specify &lt;em&gt;some&lt;/em&gt; of the extensions
-that I’ve encountered in practice, but no single page documents all of them.
-I’m documenting here what I’ve found about each of them.&lt;/p&gt;
-
-&lt;h2 id=&quot;bytecode-vs-native&quot;&gt;Bytecode vs native&lt;/h2&gt;
-
-&lt;p&gt;OCaml can be compiled to bytecode or native code. See &lt;a href=&quot;https://v1.realworldocaml.org/v1/en/html/the-compiler-backend-byte-code-and-native-code.html&quot;&gt;Real World OCaml, Chapter
-23&lt;/a&gt; for more detail.&lt;/p&gt;
-
-&lt;p&gt;Bytecode:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Portable, as long as the runtime exists on the target system.&lt;/li&gt;
-  &lt;li&gt;Probably faster to compile.&lt;/li&gt;
-  &lt;li&gt;Slower to execute.&lt;/li&gt;
-  &lt;li&gt;Can be used in conjunction with &lt;code class=&quot;highlighter-rouge&quot;&gt;ocamldebug&lt;/code&gt; (e.g. to support time-traveling
-debugging).&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Native code:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Non-portable.&lt;/li&gt;
-  &lt;li&gt;Probably slower to compile.&lt;/li&gt;
-  &lt;li&gt;Faster to execute.&lt;/li&gt;
-  &lt;li&gt;Can’t be used with &lt;code class=&quot;highlighter-rouge&quot;&gt;ocamldebug&lt;/code&gt;.
-    &lt;ul&gt;
-      &lt;li&gt;Note that a traditional debugger like &lt;code class=&quot;highlighter-rouge&quot;&gt;gdb&lt;/code&gt; will still work.&lt;/li&gt;
-      &lt;li&gt;You can choose to compile OCaml to native code with debugging symbols using
-the &lt;a href=&quot;https://caml.inria.fr/pub/docs/manual-ocaml/native.html&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-g&lt;/code&gt; flag to &lt;code class=&quot;highlighter-rouge&quot;&gt;ocamlopt&lt;/code&gt;&lt;/a&gt;. This is required to preserve stack
-traces.&lt;/li&gt;
-    &lt;/ul&gt;
-
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;file-extensions&quot;&gt;File extensions&lt;/h2&gt;
-
-&lt;p&gt;Source files:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;.ml&lt;/code&gt;: Implementation file.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;.mli&lt;/code&gt;: Interface file.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Compiled module interface:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;.cmi&lt;/code&gt; (both bytecode and native).&lt;/li&gt;
-  &lt;li&gt;This appears to be used to describe the signature of a module, but not contain
-its implementation. The analog in C or C++ might be a precompiled header.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Compiled module object code:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Bytecode: &lt;code class=&quot;highlighter-rouge&quot;&gt;.cmo&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;Native: &lt;code class=&quot;highlighter-rouge&quot;&gt;.cmx&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;Analogous to &lt;code class=&quot;highlighter-rouge&quot;&gt;.o&lt;/code&gt; files in C or C++.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Compiled module archive:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Bytecode: &lt;code class=&quot;highlighter-rouge&quot;&gt;.cma&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;Native: &lt;code class=&quot;highlighter-rouge&quot;&gt;.cmxa&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;Analogous to &lt;code class=&quot;highlighter-rouge&quot;&gt;.a&lt;/code&gt; files in C or C++.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Dynamically-linkable library:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Native: &lt;code class=&quot;highlighter-rouge&quot;&gt;.cmxs&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;No obvious counterpart for bytecode.&lt;/li&gt;
-  &lt;li&gt;Can be used with the &lt;a href=&quot;https://caml.inria.fr/pub/docs/manual-ocaml/libdynlink.html&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Dynlink&lt;/code&gt; library&lt;/a&gt;.&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Analogous to &lt;code class=&quot;highlighter-rouge&quot;&gt;.so&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;.dll&lt;/code&gt; files in C or C++.&lt;/p&gt;
-
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Documentation file:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Documentation for source file: &lt;code class=&quot;highlighter-rouge&quot;&gt;.cmt&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;Documentation for interface file: &lt;code class=&quot;highlighter-rouge&quot;&gt;.cmti&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;These extensions seem to be specific to tooling, and are not used to generate
-code.&lt;/li&gt;
-  &lt;li&gt;It’s unclear which tools make use of these. My guesses:
-    &lt;ul&gt;
-      &lt;li&gt;Yes: &lt;code class=&quot;highlighter-rouge&quot;&gt;odoc&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;codoc&lt;/code&gt;.&lt;/li&gt;
-      &lt;li&gt;No: &lt;code class=&quot;highlighter-rouge&quot;&gt;ocamldoc&lt;/code&gt;.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Thu, 20 Dec 2018 00:00:00 -0600</pubDate>
-        <link>https://blog.waleedkhan.name/ocaml-file-extensions/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/ocaml-file-extensions/</guid>
-        
-        <category>ocaml</category>
         
         
       </item>
