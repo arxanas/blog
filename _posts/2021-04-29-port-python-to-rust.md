@@ -17,12 +17,12 @@ I've been working on [git-branchless](https://github.com/arxanas/git-branchless)
 
 ### Motivation
 
-I successfully prototyped a working version of git-branchless using Python. The `git-branchless` executable is invoked in one of two ways:
+Initially, I prototyped a working version of git-branchless using Python. The `git-branchless` executable can be invoked in one of two ways:
 
-* Explicitly by a user's command, such as `git-branchless smartlog` (which is typically aliased to `git sl`).
-* By a [Git "hook"](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks), which is an event that triggers when certain actions happen in the repository. For example, whenever the user makes a commit, it triggers the `post-commit` hook, which triggers `git-branchless` to register the commit in its internal database.
+1. **Explicitly by a user's command**. For example, `git-branchless smartlog`. This is typically aliased to `git sl`.
+2. **By a [Git "hook"](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks)**. This is an event that triggers when specific actions occur in the repository. For example, when a user makes a commit, it triggers the `post-commit` hook, which then tells `git-branchless` to register the commit in its internal database.
 
-Some Git operations, such as a rebase of a stack of several commits, this can result in many Git hook invocations, and therefore Python invocations. The Python interpreter takes tens or hundreds of milliseconds to start up, which degrades performance in the situation where we invoke it many times serially.
+However, some Git operations can result in many Git hook invocations, and therefore Python invocations. For example, a rebase of a stack of several commits will trigger several `post-commit` hooks in sequence. The Python interpreter takes tens or hundreds of milliseconds to start up, which degrades performance in the situation where we invoke it many times serially.
 
 I considered adding some kind of long-running background daemon to the Python codebase, but I hate the amount of additional complexity and edge-cases associated with such an approach. Instead, I decided to rewrite the project in Rust to address the startup time issue.
 
@@ -31,18 +31,12 @@ I considered adding some kind of long-running background daemon to the Python co
 These were the requirements for my choice of language:
 
 * Fast startup time.
-* Bindings to [SQLite](https://www.sqlite.org/index.html), [libgit2](https://libgit2.org/) (or equivalent), and to some kind of [TUI](https://en.wikipedia.org/wiki/Text-based_user_interface) library.
+* Bindings to [SQLite](https://www.sqlite.org/index.html), [`libgit2`](https://libgit2.org/) (or equivalent), and to some kind of [TUI](https://en.wikipedia.org/wiki/Text-based_user_interface) library.
 * Python interop, to support an incremental porting approach.
 
 There are a lot of languages which may meet these constraints. I chose Rust because I had some prior experience with it, and I liked the ML-style type system. The Python codebase was already statically-checked with Mypy and written in an ML style, so it was largely a line-by-line port.
 
 Realistically, Go would have been equally good, if not better, for this domain. I chose Rust anyways because I prefer it as a language.
-
-### Why incremental?
-
-By *incremental*, I mean that I ported the project one module at a time, rather than all at once. This is accomplished by calling between Rust and Python as appropriate at runtime.
-
-The amount of code in the project was still small enough that I could conceiveably rewrite it all at once, but I figured it would take a long time to iron out all the bugs if I did it that way. I wanted the end result to be stable once I finished, rather than having to deal with occasional bugs after the inital porting process, so I preferred to do an incremental approach and port the project one module at a time.
 
 ### Previous Rust experience
 
@@ -55,13 +49,19 @@ Essentially, I had as much Rust experience as one can have without actually havi
 * I already knew about the `Deref` trait, which allows references to be automatically dereferenced (in the style of a [smart pointer](https://en.wikipedia.org/wiki/Smart_pointer)), but didn't know about the `Borrow` trait, which allows values to be borrowed as a different type. The exact relationship between `String` and `str` wasn't clear to me until observing this.
 * The `'static` lifetime includes not only statically-allocated data, but also any owned data. Since the data is owned, the user of that data can ensure that it lives for any length of time. Once I realized this, the lifetime annotations on closures made a lot more sense.
 
+### Why incremental?
+
+By *incremental*, I mean that I ported the project one module at a time, rather than all at once. This is accomplished by calling between Rust and Python as appropriate at runtime.
+
+The amount of code in the project was still small enough that I could conceivably rewrite it all at once, but I figured it would take a long time to iron out all the bugs if I did it that way. I wanted the end result to be stable once I finished, rather than having to deal with occasional bugs after the initial porting process, so I preferred to do an incremental approach and port the project one module at a time.
+
 ## Porting
 
 For git-branchless, [version 0.1.0](https://github.com/arxanas/git-branchless/releases/tag/v0.1.0) is the last Python-only version, and [version 0.2.0](https://github.com/arxanas/git-branchless/releases/tag/v0.2.0) is the first Rust-only version. There were 65 commits in between these versions. You can browse the commits in between to see the progress over time.
 
 ### Strategy
 
-I used the [PyO3](https://github.com/PyO3/pyo3) library for Rust to handle the Python-Rust interop. See [this commit](https://github.com/arxanas/git-branchless/commit/3020395c96f519c2a70da521d4d20f591582d628) for the inital setup.
+I used the [PyO3](https://github.com/PyO3/pyo3) library for Rust to handle the Python-Rust interop. See [this commit](https://github.com/arxanas/git-branchless/commit/3020395c96f519c2a70da521d4d20f591582d628) for the initial setup.
 
 PyO3 supports calling Rust from Python and vice-versa:
 
@@ -215,13 +215,13 @@ These are my raw notes. They do not accurately capture the frequency of each kin
 
 * Returned OID instead of string from method (immediately caught by tests).
 * `struct` properties not visible from Python (added `#[pyo3(get)]`).
-* No `==` method for dataclass replacements. Worked around by some minor
+* No `==` method for `dataclass` replacements. Worked around by some minor
   rewrites.
 * Legitimate regression where we didn't treat the `0` commit hash as a
   non-existent old/new ref (partly due to `git2::Oid` not verifying that the
   OID exists).
 * Forgot to implement some methods (immediately revealed by tests).
-* Panic due to conversion of -1 to usize with `try_into().unwrap()`; fixed by
+* Panic due to conversion of -1 to `usize` with `try_into().unwrap()`; fixed by
 delaying conversion until bounds check.
 * Legitimate regression: old version of code names were misleading, and I
 simplified the ported version into an incorrect version (should have checked
@@ -229,8 +229,7 @@ the status of an event at a time in the past, but instead checked the current
 status). Detected by tests.
 * Double bug: name mixup for two string fields in Rust; and off-by-one error
   when translating reverse iteration in Python to Rust.
-* TypeError: argument 'main_branch_oid': 'Oid' object cannot be converted to
-  'PyString' (immediately caught by tests). Legitimate type mismatch
+* `TypeError: argument 'main_branch_oid': 'Oid' object cannot be converted to 'PyString'` (immediately caught by tests). Legitimate type mismatch
   between Python and Rust type signatures.
 * TypeError: accidentally wrote list of bytes to TextIO instead of str.
 * Defaulted a configuration setting to `false` instead of `true`, causing
