@@ -7,8 +7,8 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 29 Apr 2021 18:03:42 -0500</pubDate>
-    <lastBuildDate>Thu, 29 Apr 2021 18:03:42 -0500</lastBuildDate>
+    <pubDate>Sun, 23 May 2021 16:35:45 -0500</pubDate>
+    <lastBuildDate>Sun, 23 May 2021 16:35:45 -0500</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
@@ -19,8 +19,8 @@ employers.</description>
   &lt;li&gt;&lt;a href=&quot;#introduction&quot; id=&quot;markdown-toc-introduction&quot;&gt;Introduction&lt;/a&gt;    &lt;ul&gt;
       &lt;li&gt;&lt;a href=&quot;#motivation&quot; id=&quot;markdown-toc-motivation&quot;&gt;Motivation&lt;/a&gt;&lt;/li&gt;
       &lt;li&gt;&lt;a href=&quot;#why-rust&quot; id=&quot;markdown-toc-why-rust&quot;&gt;Why Rust?&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#why-incremental&quot; id=&quot;markdown-toc-why-incremental&quot;&gt;Why incremental?&lt;/a&gt;&lt;/li&gt;
       &lt;li&gt;&lt;a href=&quot;#previous-rust-experience&quot; id=&quot;markdown-toc-previous-rust-experience&quot;&gt;Previous Rust experience&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#why-incremental&quot; id=&quot;markdown-toc-why-incremental&quot;&gt;Why incremental?&lt;/a&gt;&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#porting&quot; id=&quot;markdown-toc-porting&quot;&gt;Porting&lt;/a&gt;    &lt;ul&gt;
@@ -49,14 +49,14 @@ employers.</description>
 
 &lt;h3 id=&quot;motivation&quot;&gt;Motivation&lt;/h3&gt;
 
-&lt;p&gt;I successfully prototyped a working version of git-branchless using Python. The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-branchless&lt;/code&gt; executable is invoked in one of two ways:&lt;/p&gt;
+&lt;p&gt;Initially, I prototyped a working version of git-branchless using Python. The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-branchless&lt;/code&gt; executable can be invoked in one of two ways:&lt;/p&gt;
 
-&lt;ul&gt;
-  &lt;li&gt;Explicitly by a user’s command, such as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-branchless smartlog&lt;/code&gt; (which is typically aliased to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git sl&lt;/code&gt;).&lt;/li&gt;
-  &lt;li&gt;By a &lt;a href=&quot;https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks&quot;&gt;Git “hook”&lt;/a&gt;, which is an event that triggers when certain actions happen in the repository. For example, whenever the user makes a commit, it triggers the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;post-commit&lt;/code&gt; hook, which triggers &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-branchless&lt;/code&gt; to register the commit in its internal database.&lt;/li&gt;
-&lt;/ul&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;Explicitly by a user’s command&lt;/strong&gt;. For example, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-branchless smartlog&lt;/code&gt;. This is typically aliased to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git sl&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;By a &lt;a href=&quot;https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks&quot;&gt;Git “hook”&lt;/a&gt;&lt;/strong&gt;. This is an event that triggers when specific actions occur in the repository. For example, when a user makes a commit, it triggers the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;post-commit&lt;/code&gt; hook, which then tells &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-branchless&lt;/code&gt; to register the commit in its internal database.&lt;/li&gt;
+&lt;/ol&gt;
 
-&lt;p&gt;Some Git operations, such as a rebase of a stack of several commits, this can result in many Git hook invocations, and therefore Python invocations. The Python interpreter takes tens or hundreds of milliseconds to start up, which degrades performance in the situation where we invoke it many times serially.&lt;/p&gt;
+&lt;p&gt;However, some Git operations can result in many Git hook invocations, and therefore Python invocations. For example, a rebase of a stack of several commits will trigger several &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;post-commit&lt;/code&gt; hooks in sequence. The Python interpreter takes tens or hundreds of milliseconds to start up, which degrades performance in the situation where we invoke it many times serially.&lt;/p&gt;
 
 &lt;p&gt;I considered adding some kind of long-running background daemon to the Python codebase, but I hate the amount of additional complexity and edge-cases associated with such an approach. Instead, I decided to rewrite the project in Rust to address the startup time issue.&lt;/p&gt;
 
@@ -66,19 +66,13 @@ employers.</description>
 
 &lt;ul&gt;
   &lt;li&gt;Fast startup time.&lt;/li&gt;
-  &lt;li&gt;Bindings to &lt;a href=&quot;https://www.sqlite.org/index.html&quot;&gt;SQLite&lt;/a&gt;, &lt;a href=&quot;https://libgit2.org/&quot;&gt;libgit2&lt;/a&gt; (or equivalent), and to some kind of &lt;a href=&quot;https://en.wikipedia.org/wiki/Text-based_user_interface&quot;&gt;TUI&lt;/a&gt; library.&lt;/li&gt;
+  &lt;li&gt;Bindings to &lt;a href=&quot;https://www.sqlite.org/index.html&quot;&gt;SQLite&lt;/a&gt;, &lt;a href=&quot;https://libgit2.org/&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;libgit2&lt;/code&gt;&lt;/a&gt; (or equivalent), and to some kind of &lt;a href=&quot;https://en.wikipedia.org/wiki/Text-based_user_interface&quot;&gt;TUI&lt;/a&gt; library.&lt;/li&gt;
   &lt;li&gt;Python interop, to support an incremental porting approach.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;There are a lot of languages which may meet these constraints. I chose Rust because I had some prior experience with it, and I liked the ML-style type system. The Python codebase was already statically-checked with Mypy and written in an ML style, so it was largely a line-by-line port.&lt;/p&gt;
 
 &lt;p&gt;Realistically, Go would have been equally good, if not better, for this domain. I chose Rust anyways because I prefer it as a language.&lt;/p&gt;
-
-&lt;h3 id=&quot;why-incremental&quot;&gt;Why incremental?&lt;/h3&gt;
-
-&lt;p&gt;By &lt;em&gt;incremental&lt;/em&gt;, I mean that I ported the project one module at a time, rather than all at once. This is accomplished by calling between Rust and Python as appropriate at runtime.&lt;/p&gt;
-
-&lt;p&gt;The amount of code in the project was still small enough that I could conceiveably rewrite it all at once, but I figured it would take a long time to iron out all the bugs if I did it that way. I wanted the end result to be stable once I finished, rather than having to deal with occasional bugs after the inital porting process, so I preferred to do an incremental approach and port the project one module at a time.&lt;/p&gt;
 
 &lt;h3 id=&quot;previous-rust-experience&quot;&gt;Previous Rust experience&lt;/h3&gt;
 
@@ -93,13 +87,19 @@ employers.</description>
   &lt;li&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;'static&lt;/code&gt; lifetime includes not only statically-allocated data, but also any owned data. Since the data is owned, the user of that data can ensure that it lives for any length of time. Once I realized this, the lifetime annotations on closures made a lot more sense.&lt;/li&gt;
 &lt;/ul&gt;
 
+&lt;h3 id=&quot;why-incremental&quot;&gt;Why incremental?&lt;/h3&gt;
+
+&lt;p&gt;By &lt;em&gt;incremental&lt;/em&gt;, I mean that I ported the project one module at a time, rather than all at once. This is accomplished by calling between Rust and Python as appropriate at runtime.&lt;/p&gt;
+
+&lt;p&gt;The amount of code in the project was still small enough that I could conceivably rewrite it all at once, but I figured it would take a long time to iron out all the bugs if I did it that way. I wanted the end result to be stable once I finished, rather than having to deal with occasional bugs after the initial porting process, so I preferred to do an incremental approach and port the project one module at a time.&lt;/p&gt;
+
 &lt;h2 id=&quot;porting&quot;&gt;Porting&lt;/h2&gt;
 
 &lt;p&gt;For git-branchless, &lt;a href=&quot;https://github.com/arxanas/git-branchless/releases/tag/v0.1.0&quot;&gt;version 0.1.0&lt;/a&gt; is the last Python-only version, and &lt;a href=&quot;https://github.com/arxanas/git-branchless/releases/tag/v0.2.0&quot;&gt;version 0.2.0&lt;/a&gt; is the first Rust-only version. There were 65 commits in between these versions. You can browse the commits in between to see the progress over time.&lt;/p&gt;
 
 &lt;h3 id=&quot;strategy&quot;&gt;Strategy&lt;/h3&gt;
 
-&lt;p&gt;I used the &lt;a href=&quot;https://github.com/PyO3/pyo3&quot;&gt;PyO3&lt;/a&gt; library for Rust to handle the Python-Rust interop. See &lt;a href=&quot;https://github.com/arxanas/git-branchless/commit/3020395c96f519c2a70da521d4d20f591582d628&quot;&gt;this commit&lt;/a&gt; for the inital setup.&lt;/p&gt;
+&lt;p&gt;I used the &lt;a href=&quot;https://github.com/PyO3/pyo3&quot;&gt;PyO3&lt;/a&gt; library for Rust to handle the Python-Rust interop. See &lt;a href=&quot;https://github.com/arxanas/git-branchless/commit/3020395c96f519c2a70da521d4d20f591582d628&quot;&gt;this commit&lt;/a&gt; for the initial setup.&lt;/p&gt;
 
 &lt;p&gt;PyO3 supports calling Rust from Python and vice-versa:&lt;/p&gt;
 
@@ -269,13 +269,13 @@ employers.</description>
 &lt;ul&gt;
   &lt;li&gt;Returned OID instead of string from method (immediately caught by tests).&lt;/li&gt;
   &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;struct&lt;/code&gt; properties not visible from Python (added &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;#[pyo3(get)]&lt;/code&gt;).&lt;/li&gt;
-  &lt;li&gt;No &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;==&lt;/code&gt; method for dataclass replacements. Worked around by some minor
+  &lt;li&gt;No &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;==&lt;/code&gt; method for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dataclass&lt;/code&gt; replacements. Worked around by some minor
 rewrites.&lt;/li&gt;
   &lt;li&gt;Legitimate regression where we didn’t treat the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;0&lt;/code&gt; commit hash as a
 non-existent old/new ref (partly due to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git2::Oid&lt;/code&gt; not verifying that the
 OID exists).&lt;/li&gt;
   &lt;li&gt;Forgot to implement some methods (immediately revealed by tests).&lt;/li&gt;
-  &lt;li&gt;Panic due to conversion of -1 to usize with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;try_into().unwrap()&lt;/code&gt;; fixed by
+  &lt;li&gt;Panic due to conversion of -1 to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;usize&lt;/code&gt; with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;try_into().unwrap()&lt;/code&gt;; fixed by
 delaying conversion until bounds check.&lt;/li&gt;
   &lt;li&gt;Legitimate regression: old version of code names were misleading, and I
 simplified the ported version into an incorrect version (should have checked
@@ -283,8 +283,7 @@ the status of an event at a time in the past, but instead checked the current
 status). Detected by tests.&lt;/li&gt;
   &lt;li&gt;Double bug: name mixup for two string fields in Rust; and off-by-one error
 when translating reverse iteration in Python to Rust.&lt;/li&gt;
-  &lt;li&gt;TypeError: argument ‘main_branch_oid’: ‘Oid’ object cannot be converted to
-‘PyString’ (immediately caught by tests). Legitimate type mismatch
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TypeError: argument 'main_branch_oid': 'Oid' object cannot be converted to 'PyString'&lt;/code&gt; (immediately caught by tests). Legitimate type mismatch
 between Python and Rust type signatures.&lt;/li&gt;
   &lt;li&gt;TypeError: accidentally wrote list of bytes to TextIO instead of str.&lt;/li&gt;
   &lt;li&gt;Defaulted a configuration setting to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;false&lt;/code&gt; instead of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;true&lt;/code&gt;, causing

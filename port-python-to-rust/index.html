@@ -71,8 +71,8 @@
   <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a>    <ul>
       <li><a href="#motivation" id="markdown-toc-motivation">Motivation</a></li>
       <li><a href="#why-rust" id="markdown-toc-why-rust">Why Rust?</a></li>
-      <li><a href="#why-incremental" id="markdown-toc-why-incremental">Why incremental?</a></li>
       <li><a href="#previous-rust-experience" id="markdown-toc-previous-rust-experience">Previous Rust experience</a></li>
+      <li><a href="#why-incremental" id="markdown-toc-why-incremental">Why incremental?</a></li>
     </ul>
   </li>
   <li><a href="#porting" id="markdown-toc-porting">Porting</a>    <ul>
@@ -101,14 +101,14 @@
 
 <h3 id="motivation">Motivation</h3>
 
-<p>I successfully prototyped a working version of git-branchless using Python. The <code class="language-plaintext highlighter-rouge">git-branchless</code> executable is invoked in one of two ways:</p>
+<p>Initially, I prototyped a working version of git-branchless using Python. The <code class="language-plaintext highlighter-rouge">git-branchless</code> executable can be invoked in one of two ways:</p>
 
-<ul>
-  <li>Explicitly by a user’s command, such as <code class="language-plaintext highlighter-rouge">git-branchless smartlog</code> (which is typically aliased to <code class="language-plaintext highlighter-rouge">git sl</code>).</li>
-  <li>By a <a href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks">Git “hook”</a>, which is an event that triggers when certain actions happen in the repository. For example, whenever the user makes a commit, it triggers the <code class="language-plaintext highlighter-rouge">post-commit</code> hook, which triggers <code class="language-plaintext highlighter-rouge">git-branchless</code> to register the commit in its internal database.</li>
-</ul>
+<ol>
+  <li><strong>Explicitly by a user’s command</strong>. For example, <code class="language-plaintext highlighter-rouge">git-branchless smartlog</code>. This is typically aliased to <code class="language-plaintext highlighter-rouge">git sl</code>.</li>
+  <li><strong>By a <a href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks">Git “hook”</a></strong>. This is an event that triggers when specific actions occur in the repository. For example, when a user makes a commit, it triggers the <code class="language-plaintext highlighter-rouge">post-commit</code> hook, which then tells <code class="language-plaintext highlighter-rouge">git-branchless</code> to register the commit in its internal database.</li>
+</ol>
 
-<p>Some Git operations, such as a rebase of a stack of several commits, this can result in many Git hook invocations, and therefore Python invocations. The Python interpreter takes tens or hundreds of milliseconds to start up, which degrades performance in the situation where we invoke it many times serially.</p>
+<p>However, some Git operations can result in many Git hook invocations, and therefore Python invocations. For example, a rebase of a stack of several commits will trigger several <code class="language-plaintext highlighter-rouge">post-commit</code> hooks in sequence. The Python interpreter takes tens or hundreds of milliseconds to start up, which degrades performance in the situation where we invoke it many times serially.</p>
 
 <p>I considered adding some kind of long-running background daemon to the Python codebase, but I hate the amount of additional complexity and edge-cases associated with such an approach. Instead, I decided to rewrite the project in Rust to address the startup time issue.</p>
 
@@ -118,19 +118,13 @@
 
 <ul>
   <li>Fast startup time.</li>
-  <li>Bindings to <a href="https://www.sqlite.org/index.html">SQLite</a>, <a href="https://libgit2.org/">libgit2</a> (or equivalent), and to some kind of <a href="https://en.wikipedia.org/wiki/Text-based_user_interface">TUI</a> library.</li>
+  <li>Bindings to <a href="https://www.sqlite.org/index.html">SQLite</a>, <a href="https://libgit2.org/"><code class="language-plaintext highlighter-rouge">libgit2</code></a> (or equivalent), and to some kind of <a href="https://en.wikipedia.org/wiki/Text-based_user_interface">TUI</a> library.</li>
   <li>Python interop, to support an incremental porting approach.</li>
 </ul>
 
 <p>There are a lot of languages which may meet these constraints. I chose Rust because I had some prior experience with it, and I liked the ML-style type system. The Python codebase was already statically-checked with Mypy and written in an ML style, so it was largely a line-by-line port.</p>
 
 <p>Realistically, Go would have been equally good, if not better, for this domain. I chose Rust anyways because I prefer it as a language.</p>
-
-<h3 id="why-incremental">Why incremental?</h3>
-
-<p>By <em>incremental</em>, I mean that I ported the project one module at a time, rather than all at once. This is accomplished by calling between Rust and Python as appropriate at runtime.</p>
-
-<p>The amount of code in the project was still small enough that I could conceiveably rewrite it all at once, but I figured it would take a long time to iron out all the bugs if I did it that way. I wanted the end result to be stable once I finished, rather than having to deal with occasional bugs after the inital porting process, so I preferred to do an incremental approach and port the project one module at a time.</p>
 
 <h3 id="previous-rust-experience">Previous Rust experience</h3>
 
@@ -145,13 +139,19 @@
   <li>The <code class="language-plaintext highlighter-rouge">'static</code> lifetime includes not only statically-allocated data, but also any owned data. Since the data is owned, the user of that data can ensure that it lives for any length of time. Once I realized this, the lifetime annotations on closures made a lot more sense.</li>
 </ul>
 
+<h3 id="why-incremental">Why incremental?</h3>
+
+<p>By <em>incremental</em>, I mean that I ported the project one module at a time, rather than all at once. This is accomplished by calling between Rust and Python as appropriate at runtime.</p>
+
+<p>The amount of code in the project was still small enough that I could conceivably rewrite it all at once, but I figured it would take a long time to iron out all the bugs if I did it that way. I wanted the end result to be stable once I finished, rather than having to deal with occasional bugs after the initial porting process, so I preferred to do an incremental approach and port the project one module at a time.</p>
+
 <h2 id="porting">Porting</h2>
 
 <p>For git-branchless, <a href="https://github.com/arxanas/git-branchless/releases/tag/v0.1.0">version 0.1.0</a> is the last Python-only version, and <a href="https://github.com/arxanas/git-branchless/releases/tag/v0.2.0">version 0.2.0</a> is the first Rust-only version. There were 65 commits in between these versions. You can browse the commits in between to see the progress over time.</p>
 
 <h3 id="strategy">Strategy</h3>
 
-<p>I used the <a href="https://github.com/PyO3/pyo3">PyO3</a> library for Rust to handle the Python-Rust interop. See <a href="https://github.com/arxanas/git-branchless/commit/3020395c96f519c2a70da521d4d20f591582d628">this commit</a> for the inital setup.</p>
+<p>I used the <a href="https://github.com/PyO3/pyo3">PyO3</a> library for Rust to handle the Python-Rust interop. See <a href="https://github.com/arxanas/git-branchless/commit/3020395c96f519c2a70da521d4d20f591582d628">this commit</a> for the initial setup.</p>
 
 <p>PyO3 supports calling Rust from Python and vice-versa:</p>
 
@@ -321,13 +321,13 @@
 <ul>
   <li>Returned OID instead of string from method (immediately caught by tests).</li>
   <li><code class="language-plaintext highlighter-rouge">struct</code> properties not visible from Python (added <code class="language-plaintext highlighter-rouge">#[pyo3(get)]</code>).</li>
-  <li>No <code class="language-plaintext highlighter-rouge">==</code> method for dataclass replacements. Worked around by some minor
+  <li>No <code class="language-plaintext highlighter-rouge">==</code> method for <code class="language-plaintext highlighter-rouge">dataclass</code> replacements. Worked around by some minor
 rewrites.</li>
   <li>Legitimate regression where we didn’t treat the <code class="language-plaintext highlighter-rouge">0</code> commit hash as a
 non-existent old/new ref (partly due to <code class="language-plaintext highlighter-rouge">git2::Oid</code> not verifying that the
 OID exists).</li>
   <li>Forgot to implement some methods (immediately revealed by tests).</li>
-  <li>Panic due to conversion of -1 to usize with <code class="language-plaintext highlighter-rouge">try_into().unwrap()</code>; fixed by
+  <li>Panic due to conversion of -1 to <code class="language-plaintext highlighter-rouge">usize</code> with <code class="language-plaintext highlighter-rouge">try_into().unwrap()</code>; fixed by
 delaying conversion until bounds check.</li>
   <li>Legitimate regression: old version of code names were misleading, and I
 simplified the ported version into an incorrect version (should have checked
@@ -335,8 +335,7 @@ the status of an event at a time in the past, but instead checked the current
 status). Detected by tests.</li>
   <li>Double bug: name mixup for two string fields in Rust; and off-by-one error
 when translating reverse iteration in Python to Rust.</li>
-  <li>TypeError: argument ‘main_branch_oid’: ‘Oid’ object cannot be converted to
-‘PyString’ (immediately caught by tests). Legitimate type mismatch
+  <li><code class="language-plaintext highlighter-rouge">TypeError: argument 'main_branch_oid': 'Oid' object cannot be converted to 'PyString'</code> (immediately caught by tests). Legitimate type mismatch
 between Python and Rust type signatures.</li>
   <li>TypeError: accidentally wrote list of bytes to TextIO instead of str.</li>
   <li>Defaulted a configuration setting to <code class="language-plaintext highlighter-rouge">false</code> instead of <code class="language-plaintext highlighter-rouge">true</code>, causing
