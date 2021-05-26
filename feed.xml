@@ -7,8 +7,8 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 23 May 2021 16:36:13 -0500</pubDate>
-    <lastBuildDate>Sun, 23 May 2021 16:36:13 -0500</lastBuildDate>
+    <pubDate>Wed, 26 May 2021 17:09:16 -0500</pubDate>
+    <lastBuildDate>Wed, 26 May 2021 17:09:16 -0500</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
@@ -58,7 +58,7 @@ employers.</description>
 
 &lt;p&gt;However, some Git operations can result in many Git hook invocations, and therefore Python invocations. For example, a rebase of a stack of several commits will trigger several &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;post-commit&lt;/code&gt; hooks in sequence. The Python interpreter takes tens or hundreds of milliseconds to start up, which degrades performance in the situation where we invoke it many times serially.&lt;/p&gt;
 
-&lt;p&gt;I considered adding some kind of long-running background daemon to the Python codebase, but I hate the amount of additional complexity and edge-cases associated with such an approach. Instead, I decided to rewrite the project in Rust to address the startup time issue.&lt;/p&gt;
+&lt;p&gt;I considered incorporating a long-running background process into the architecture, but I hate the amount of additional complexity and edge-cases associated with such an approach. Instead, I decided to rewrite the project in Rust to address the startup time issue.&lt;/p&gt;
 
 &lt;h3 id=&quot;why-rust&quot;&gt;Why Rust?&lt;/h3&gt;
 
@@ -66,13 +66,12 @@ employers.</description>
 
 &lt;ul&gt;
   &lt;li&gt;Fast startup time.&lt;/li&gt;
-  &lt;li&gt;Bindings to &lt;a href=&quot;https://www.sqlite.org/index.html&quot;&gt;SQLite&lt;/a&gt;, &lt;a href=&quot;https://libgit2.org/&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;libgit2&lt;/code&gt;&lt;/a&gt; (or equivalent), and to some kind of &lt;a href=&quot;https://en.wikipedia.org/wiki/Text-based_user_interface&quot;&gt;TUI&lt;/a&gt; library.&lt;/li&gt;
+  &lt;li&gt;Bindings to &lt;a href=&quot;https://www.sqlite.org/index.html&quot;&gt;SQLite&lt;/a&gt;, &lt;a href=&quot;https://libgit2.org/&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;libgit2&lt;/code&gt;&lt;/a&gt; (or equivalent).&lt;/li&gt;
+  &lt;li&gt;Bindings to some kind of &lt;a href=&quot;https://en.wikipedia.org/wiki/Text-based_user_interface&quot;&gt;TUI&lt;/a&gt; library.&lt;/li&gt;
   &lt;li&gt;Python interop, to support an incremental porting approach.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;There are a lot of languages which may meet these constraints. I chose Rust because I had some prior experience with it, and I liked the ML-style type system. The Python codebase was already statically-checked with Mypy and written in an ML style, so it was largely a line-by-line port.&lt;/p&gt;
-
-&lt;p&gt;Realistically, Go would have been equally good, if not better, for this domain. I chose Rust anyways because I prefer it as a language.&lt;/p&gt;
+&lt;p&gt;I chose Rust because I had some prior experience with it, and I liked the ML-style type system. The Python codebase was already statically-checked with Mypy and written in an ML style, so it was largely a line-by-line port.&lt;/p&gt;
 
 &lt;h3 id=&quot;previous-rust-experience&quot;&gt;Previous Rust experience&lt;/h3&gt;
 

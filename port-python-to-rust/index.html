@@ -110,7 +110,7 @@
 
 <p>However, some Git operations can result in many Git hook invocations, and therefore Python invocations. For example, a rebase of a stack of several commits will trigger several <code class="language-plaintext highlighter-rouge">post-commit</code> hooks in sequence. The Python interpreter takes tens or hundreds of milliseconds to start up, which degrades performance in the situation where we invoke it many times serially.</p>
 
-<p>I considered adding some kind of long-running background daemon to the Python codebase, but I hate the amount of additional complexity and edge-cases associated with such an approach. Instead, I decided to rewrite the project in Rust to address the startup time issue.</p>
+<p>I considered incorporating a long-running background process into the architecture, but I hate the amount of additional complexity and edge-cases associated with such an approach. Instead, I decided to rewrite the project in Rust to address the startup time issue.</p>
 
 <h3 id="why-rust">Why Rust?</h3>
 
@@ -118,13 +118,12 @@
 
 <ul>
   <li>Fast startup time.</li>
-  <li>Bindings to <a href="https://www.sqlite.org/index.html">SQLite</a>, <a href="https://libgit2.org/"><code class="language-plaintext highlighter-rouge">libgit2</code></a> (or equivalent), and to some kind of <a href="https://en.wikipedia.org/wiki/Text-based_user_interface">TUI</a> library.</li>
+  <li>Bindings to <a href="https://www.sqlite.org/index.html">SQLite</a>, <a href="https://libgit2.org/"><code class="language-plaintext highlighter-rouge">libgit2</code></a> (or equivalent).</li>
+  <li>Bindings to some kind of <a href="https://en.wikipedia.org/wiki/Text-based_user_interface">TUI</a> library.</li>
   <li>Python interop, to support an incremental porting approach.</li>
 </ul>
 
-<p>There are a lot of languages which may meet these constraints. I chose Rust because I had some prior experience with it, and I liked the ML-style type system. The Python codebase was already statically-checked with Mypy and written in an ML style, so it was largely a line-by-line port.</p>
-
-<p>Realistically, Go would have been equally good, if not better, for this domain. I chose Rust anyways because I prefer it as a language.</p>
+<p>I chose Rust because I had some prior experience with it, and I liked the ML-style type system. The Python codebase was already statically-checked with Mypy and written in an ML style, so it was largely a line-by-line port.</p>
 
 <h3 id="previous-rust-experience">Previous Rust experience</h3>
 
