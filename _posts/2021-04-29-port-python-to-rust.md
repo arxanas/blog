@@ -24,19 +24,18 @@ Initially, I prototyped a working version of git-branchless using Python. The `g
 
 However, some Git operations can result in many Git hook invocations, and therefore Python invocations. For example, a rebase of a stack of several commits will trigger several `post-commit` hooks in sequence. The Python interpreter takes tens or hundreds of milliseconds to start up, which degrades performance in the situation where we invoke it many times serially.
 
-I considered adding some kind of long-running background daemon to the Python codebase, but I hate the amount of additional complexity and edge-cases associated with such an approach. Instead, I decided to rewrite the project in Rust to address the startup time issue.
+I considered incorporating a long-running background process into the architecture, but I hate the amount of additional complexity and edge-cases associated with such an approach. Instead, I decided to rewrite the project in Rust to address the startup time issue.
 
 ### Why Rust?
 
 These were the requirements for my choice of language:
 
 * Fast startup time.
-* Bindings to [SQLite](https://www.sqlite.org/index.html), [`libgit2`](https://libgit2.org/) (or equivalent), and to some kind of [TUI](https://en.wikipedia.org/wiki/Text-based_user_interface) library.
+* Bindings to [SQLite](https://www.sqlite.org/index.html), [`libgit2`](https://libgit2.org/) (or equivalent).
+* Bindings to some kind of [TUI](https://en.wikipedia.org/wiki/Text-based_user_interface) library.
 * Python interop, to support an incremental porting approach.
 
-There are a lot of languages which may meet these constraints. I chose Rust because I had some prior experience with it, and I liked the ML-style type system. The Python codebase was already statically-checked with Mypy and written in an ML style, so it was largely a line-by-line port.
-
-Realistically, Go would have been equally good, if not better, for this domain. I chose Rust anyways because I prefer it as a language.
+I chose Rust because I had some prior experience with it, and I liked the ML-style type system. The Python codebase was already statically-checked with Mypy and written in an ML style, so it was largely a line-by-line port.
 
 ### Previous Rust experience
 
