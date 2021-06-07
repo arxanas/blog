@@ -7,8 +7,8 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 05 Jun 2021 00:06:26 -0500</pubDate>
-    <lastBuildDate>Sat, 05 Jun 2021 00:06:26 -0500</lastBuildDate>
+    <pubDate>Sun, 06 Jun 2021 23:11:15 -0500</pubDate>
+    <lastBuildDate>Sun, 06 Jun 2021 23:11:15 -0500</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
@@ -75,26 +75,19 @@ employers.</description>
 
 &lt;h3 id=&quot;previous-rust-experience&quot;&gt;Previous Rust experience&lt;/h3&gt;
 
-&lt;p&gt;I used OCaml professionally for four years. Rust is descended from OCaml, so it’s quite similar. During that time, my team was rewriting various components from OCaml into Rust for performance reasons. I personally wrote one of the  smaller modules, which was called from OCaml.&lt;/p&gt;
+&lt;p&gt;Before this project, I had a small amount of experience with Rust. I was working in an OCaml codebase, and implemented one module in Rust for performance reasons. This was also a case of interoperating between Rust and another programming language.&lt;/p&gt;
 
-&lt;p&gt;Since we were a team working on a programming language, we also happened to have had read a couple of papers on linear types, so the underlying theory guiding the borrow checker was familiar to me.&lt;/p&gt;
-
-&lt;p&gt;Essentially, I had as much Rust experience as one can have without actually having written any large amount of code in it. Overall, the language did not surprise me very much. A couple of points that did surprise me:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;I already knew about the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Deref&lt;/code&gt; trait, which allows references to be automatically dereferenced (in the style of a &lt;a href=&quot;https://en.wikipedia.org/wiki/Smart_pointer&quot;&gt;smart pointer&lt;/a&gt;), but didn’t know about the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Borrow&lt;/code&gt; trait, which allows values to be borrowed as a different type. The exact relationship between &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;String&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;str&lt;/code&gt; wasn’t clear to me until observing this.&lt;/li&gt;
-  &lt;li&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;'static&lt;/code&gt; lifetime includes not only statically-allocated data, but also any owned data. Since the data is owned, the user of that data can ensure that it lives for any length of time. Once I realized this, the lifetime annotations on closures made a lot more sense.&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;I didn’t have any experience working with a significant amount of Rust code. However, OCaml is similar to Rust (as Rust descends from OCaml), and I had already read a couple of papers on linear types, so the language didn’t surprise me very much.&lt;/p&gt;
 
 &lt;h3 id=&quot;why-incremental&quot;&gt;Why incremental?&lt;/h3&gt;
 
-&lt;p&gt;By &lt;em&gt;incremental&lt;/em&gt;, I mean that I ported the project one module at a time, rather than all at once. This is accomplished by calling between Rust and Python as appropriate at runtime.&lt;/p&gt;
+&lt;p&gt;The small amount of code in the project could conceivably have been rewritten all at once, but I figured it would take a long time to iron out all the bugs that way. I wanted a stable end result, rather than to have to deal with occasional bugs after the initial porting process, so I preferred to use an incremental approach and port the project one module at a time.&lt;/p&gt;
 
-&lt;p&gt;The amount of code in the project was still small enough that I could conceivably rewrite it all at once, but I figured it would take a long time to iron out all the bugs if I did it that way. I wanted the end result to be stable once I finished, rather than having to deal with occasional bugs after the initial porting process, so I preferred to do an incremental approach and port the project one module at a time.&lt;/p&gt;
+&lt;p&gt;By &lt;em&gt;incremental&lt;/em&gt;, I’m referring to the method of porting modules individually, rather than all at once. I accomplished this by calling between Rust and Python as appropriate at runtime.&lt;/p&gt;
 
 &lt;h2 id=&quot;porting&quot;&gt;Porting&lt;/h2&gt;
 
-&lt;p&gt;For git-branchless, &lt;a href=&quot;https://github.com/arxanas/git-branchless/releases/tag/v0.1.0&quot;&gt;version 0.1.0&lt;/a&gt; is the last Python-only version, and &lt;a href=&quot;https://github.com/arxanas/git-branchless/releases/tag/v0.2.0&quot;&gt;version 0.2.0&lt;/a&gt; is the first Rust-only version. There were 65 commits in between these versions. You can browse the commits in between to see the progress over time.&lt;/p&gt;
+&lt;p&gt;The last Python-only version of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-branchless&lt;/code&gt; is &lt;a href=&quot;https://github.com/arxanas/git-branchless/releases/tag/v0.1.0&quot;&gt;version 0.1.0&lt;/a&gt;, and the first Rust-only version is &lt;a href=&quot;https://github.com/arxanas/git-branchless/releases/tag/v0.2.0&quot;&gt;version 0.2.0&lt;/a&gt;. You can browse the 65 commits between these versions to see my progress over time.&lt;/p&gt;
 
 &lt;h3 id=&quot;strategy&quot;&gt;Strategy&lt;/h3&gt;
 
@@ -107,15 +100,15 @@ employers.</description>
   &lt;li&gt;Call Python from Rust: a specific version of the Python interpreter is linked into the Rust executable, which can be used to execute Python code.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;I ported all the lowest-level modules individually and worked my way up the dependency hierarchy until I arrived at the main function.&lt;/p&gt;
+&lt;p&gt;I began porting the lowest-level modules individually and worked my way up the dependency hierarchy until I arrived at the main function.&lt;/p&gt;
 
-&lt;p&gt;Since git-branchless is implemented as a short-lived script, there weren’t any significant lifetime-related difficulties in the Rust version. The problematic situations were when the Python and Rust code both need to keep a reference to a shared resource, like a database connection. I worked around these resource issues by copying the resources on the Rust side (e.g. opening a new database connection to the same database), and then I undid those workarounds once the Python code was gone.&lt;/p&gt;
+&lt;p&gt;Since git-branchless is implemented as a short-lived script, I didn’t face any significant lifetime-related difficulties in the Rust version. The problematic situations arose when the Python and Rust code both needed to keep a reference to a shared resource. I worked around these issues by copying the resources on the Rust side, and then undid those copies when I deleted the Python code. For example, when passing a database connection from Python to Rust, I opened a new database connection to the same database on the Rust side.&lt;/p&gt;
 
 &lt;h3 id=&quot;ide-ergonomics&quot;&gt;IDE ergonomics&lt;/h3&gt;
 
-&lt;p&gt;If you’re using VS Code, do not use the &lt;a href=&quot;https://marketplace.visualstudio.com/items?itemName=rust-lang.rust&quot;&gt;official Rust extension (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rust-lang.rust&lt;/code&gt;)&lt;/a&gt;, and instead use the &lt;a href=&quot;https://marketplace.visualstudio.com/items?itemName=matklad.rust-analyzer&quot;&gt;Rust Analyzer plugin (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;matklad.rust-analyzer&lt;/code&gt;)&lt;/a&gt;. The former is unreliable and doesn’t offer many features, but the latter is reliable and has a lot of nice features.&lt;/p&gt;
+&lt;p&gt;If you’re using VS Code, do not use the &lt;a href=&quot;https://marketplace.visualstudio.com/items?itemName=rust-lang.rust&quot;&gt;official Rust extension (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rust-lang.rust&lt;/code&gt;)&lt;/a&gt;, as it’s fairly unreliable, and doesn’t offer too many features. Instead use the &lt;a href=&quot;https://marketplace.visualstudio.com/items?itemName=matklad.rust-analyzer&quot;&gt;Rust Analyzer plugin (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;matklad.rust-analyzer&lt;/code&gt;)&lt;/a&gt;, which is more reliable, and offers many quality-of-life features.&lt;/p&gt;
 
-&lt;p&gt;The IDE experience is refreshingly good compared to VS Code’s Python offerings.  Some feature highlights (see &lt;a href=&quot;https://rust-analyzer.github.io/manual.html&quot;&gt;the manual&lt;/a&gt; for a full list):&lt;/p&gt;
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rust-analyzer&lt;/code&gt; IDE experience is refreshingly productive compared to VS Code’s Python offerings.  Some feature highlights:&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Autocomplete works reliably, including for symbols not imported into the current scope. In those cases, selecting the autocomplete item also adds a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;use&lt;/code&gt; statement in the appropriate scope.&lt;/li&gt;
@@ -123,18 +116,19 @@ employers.</description>
     &lt;ul&gt;
       &lt;li&gt;The most common ones I use are “add borrow”/”remove borrow” as appropriate, and “import this missing symbol”. They’re very convenient!&lt;/li&gt;
       &lt;li&gt;You can rename symbols, even across multiple modules. If you move or rename a module, it also automatically refactors the module name.&lt;/li&gt;
-      &lt;li&gt;As someone who has spent time implementing refactorings for a language server, I can say that the plugin authors put care into the selection and functionality/reliability of the available refactorings.&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;Inline type annotations are shown.
     &lt;ul&gt;
       &lt;li&gt;This is really useful for longer &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.iter()&lt;/code&gt; method chains to see the inferred types for lambda parameters and results.&lt;/li&gt;
       &lt;li&gt;It’s not always obvious when values are borrowed or dereferenced, particularly for a beginner. For example, it’s not necessarily obvious when the fields of a struct are borrowed in a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;match&lt;/code&gt; statement. Even if you know the types involved, seeing the borrows is still useful.&lt;/li&gt;
-      &lt;li&gt;It’s also just generally nice to look at a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;let foo = bar();&lt;/code&gt; binding and see what the type of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;foo&lt;/code&gt; is.&lt;/li&gt;
+      &lt;li&gt;It’s also just generally helpful to look at a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;let foo = bar();&lt;/code&gt; binding and see what the type of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;foo&lt;/code&gt; is.&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-  &lt;li&gt;It can format your documents using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rustfmt&lt;/code&gt; on save. If you’re not using an automatic formatter, then you’re doing yourself a disservice.&lt;/li&gt;
+  &lt;li&gt;Documents are formatted using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rustfmt&lt;/code&gt; on save (if you enable the “format-on-save” setting in VS Code). If you’re not using an automatic formatter, then you’re doing yourself a disservice.&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;p&gt;See &lt;a href=&quot;https://rust-analyzer.github.io/manual.html&quot;&gt;the manual&lt;/a&gt; for a full list.&lt;/p&gt;
 
 &lt;h3 id=&quot;build-ergonomics&quot;&gt;Build ergonomics&lt;/h3&gt;
 
