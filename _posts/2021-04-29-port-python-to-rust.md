@@ -39,24 +39,19 @@ I chose Rust because I had some prior experience with it, and I liked the ML-sty
 
 ### Previous Rust experience
 
-I used OCaml professionally for four years. Rust is descended from OCaml, so it's quite similar. During that time, my team was rewriting various components from OCaml into Rust for performance reasons. I personally wrote one of the  smaller modules, which was called from OCaml.
+Before this project, I had a small amount of experience with Rust. I was working in an OCaml codebase, and implemented one module in Rust for performance reasons. This was also a case of interoperating between Rust and another programming language.
 
-Since we were a team working on a programming language, we also happened to have had read a couple of papers on linear types, so the underlying theory guiding the borrow checker was familiar to me.
-
-Essentially, I had as much Rust experience as one can have without actually having written any large amount of code in it. Overall, the language did not surprise me very much. A couple of points that did surprise me:
-
-* I already knew about the `Deref` trait, which allows references to be automatically dereferenced (in the style of a [smart pointer](https://en.wikipedia.org/wiki/Smart_pointer)), but didn't know about the `Borrow` trait, which allows values to be borrowed as a different type. The exact relationship between `String` and `str` wasn't clear to me until observing this.
-* The `'static` lifetime includes not only statically-allocated data, but also any owned data. Since the data is owned, the user of that data can ensure that it lives for any length of time. Once I realized this, the lifetime annotations on closures made a lot more sense.
+I didn't have any experience working with a significant amount of Rust code. However, OCaml is similar to Rust (as Rust descends from OCaml), and I had already read a couple of papers on linear types, so the language didn't surprise me very much.
 
 ### Why incremental?
 
-By *incremental*, I mean that I ported the project one module at a time, rather than all at once. This is accomplished by calling between Rust and Python as appropriate at runtime.
+The small amount of code in the project could conceivably have been rewritten all at once, but I figured it would take a long time to iron out all the bugs that way. I wanted a stable end result, rather than to have to deal with occasional bugs after the initial porting process, so I preferred to use an incremental approach and port the project one module at a time.
 
-The amount of code in the project was still small enough that I could conceivably rewrite it all at once, but I figured it would take a long time to iron out all the bugs if I did it that way. I wanted the end result to be stable once I finished, rather than having to deal with occasional bugs after the initial porting process, so I preferred to do an incremental approach and port the project one module at a time.
+By *incremental*, I'm referring to the method of porting modules individually, rather than all at once. I accomplished this by calling between Rust and Python as appropriate at runtime.
 
 ## Porting
 
-For git-branchless, [version 0.1.0](https://github.com/arxanas/git-branchless/releases/tag/v0.1.0) is the last Python-only version, and [version 0.2.0](https://github.com/arxanas/git-branchless/releases/tag/v0.2.0) is the first Rust-only version. There were 65 commits in between these versions. You can browse the commits in between to see the progress over time.
+The last Python-only version of `git-branchless` is [version 0.1.0](https://github.com/arxanas/git-branchless/releases/tag/v0.1.0), and the first Rust-only version is [version 0.2.0](https://github.com/arxanas/git-branchless/releases/tag/v0.2.0). You can browse the 65 commits between these versions to see my progress over time.
 
 ### Strategy
 
@@ -67,26 +62,27 @@ PyO3 supports calling Rust from Python and vice-versa:
 * Call Rust from Python: a step is added to `setup.py` which compiles the Rust modules into modules available to Python.
 * Call Python from Rust: a specific version of the Python interpreter is linked into the Rust executable, which can be used to execute Python code.
 
-I ported all the lowest-level modules individually and worked my way up the dependency hierarchy until I arrived at the main function.
+I began porting the lowest-level modules individually and worked my way up the dependency hierarchy until I arrived at the main function.
 
-Since git-branchless is implemented as a short-lived script, there weren't any significant lifetime-related difficulties in the Rust version. The problematic situations were when the Python and Rust code both need to keep a reference to a shared resource, like a database connection. I worked around these resource issues by copying the resources on the Rust side (e.g. opening a new database connection to the same database), and then I undid those workarounds once the Python code was gone.
+Since git-branchless is implemented as a short-lived script, I didn't face any significant lifetime-related difficulties in the Rust version. The problematic situations arose when the Python and Rust code both needed to keep a reference to a shared resource. I worked around these issues by copying the resources on the Rust side, and then undid those copies when I deleted the Python code. For example, when passing a database connection from Python to Rust, I opened a new database connection to the same database on the Rust side.
 
 ### IDE ergonomics
 
-If you're using VS Code, do not use the [official Rust extension (`rust-lang.rust`)](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust), and instead use the [Rust Analyzer plugin (`matklad.rust-analyzer`)](https://marketplace.visualstudio.com/items?itemName=matklad.rust-analyzer). The former is unreliable and doesn't offer many features, but the latter is reliable and has a lot of nice features.
+If you're using VS Code, do not use the [official Rust extension (`rust-lang.rust`)](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust), as it's fairly unreliable, and doesn't offer too many features. Instead use the [Rust Analyzer plugin (`matklad.rust-analyzer`)](https://marketplace.visualstudio.com/items?itemName=matklad.rust-analyzer), which is more reliable, and offers many quality-of-life features.
 
-The IDE experience is refreshingly good compared to VS Code's Python offerings.  Some feature highlights (see [the manual](https://rust-analyzer.github.io/manual.html) for a full list):
+The `rust-analyzer` IDE experience is refreshingly productive compared to VS Code's Python offerings.  Some feature highlights:
 
 * Autocomplete works reliably, including for symbols not imported into the current scope. In those cases, selecting the autocomplete item also adds a `use` statement in the appropriate scope.
 * Useful refactorings are suggested routinely. See [the manual](https://rust-analyzer.github.io/manual.html#assists-code-actions) for a full list.
   * The most common ones I use are "add borrow"/"remove borrow" as appropriate, and "import this missing symbol". They're very convenient!
   * You can rename symbols, even across multiple modules. If you move or rename a module, it also automatically refactors the module name.
-  * As someone who has spent time implementing refactorings for a language server, I can say that the plugin authors put care into the selection and functionality/reliability of the available refactorings.
 * Inline type annotations are shown.
   * This is really useful for longer `.iter()` method chains to see the inferred types for lambda parameters and results.
   * It's not always obvious when values are borrowed or dereferenced, particularly for a beginner. For example, it's not necessarily obvious when the fields of a struct are borrowed in a `match` statement. Even if you know the types involved, seeing the borrows is still useful.
-  * It's also just generally nice to look at a `let foo = bar();` binding and see what the type of `foo` is.
-* It can format your documents using `rustfmt` on save. If you're not using an automatic formatter, then you're doing yourself a disservice.
+  * It's also just generally helpful to look at a `let foo = bar();` binding and see what the type of `foo` is.
+* Documents are formatted using `rustfmt` on save (if you enable the "format-on-save" setting in VS Code). If you're not using an automatic formatter, then you're doing yourself a disservice.
+
+See [the manual](https://rust-analyzer.github.io/manual.html) for a full list.
 
 ### Build ergonomics
 
