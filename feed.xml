@@ -7,9 +7,67 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 08 Jun 2021 10:58:01 -0500</pubDate>
-    <lastBuildDate>Tue, 08 Jun 2021 10:58:01 -0500</lastBuildDate>
+    <pubDate>Sun, 20 Jun 2021 01:01:36 -0500</pubDate>
+    <lastBuildDate>Sun, 20 Jun 2021 01:01:36 -0500</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
+    
+      <item>
+        <title>git undo: We can do better</title>
+        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#motivation&quot; id=&quot;markdown-toc-motivation&quot;&gt;Motivation&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#solution&quot; id=&quot;markdown-toc-solution&quot;&gt;Solution&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#demos&quot; id=&quot;markdown-toc-demos&quot;&gt;Demos&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#implementation&quot; id=&quot;markdown-toc-implementation&quot;&gt;Implementation&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;motivation&quot;&gt;Motivation&lt;/h2&gt;
+
+&lt;p&gt;Git is a version control system with robust underlying principles, and yet, novice users are terrified of it. When they make a mistake, many would rather delete and re-clone the repository than try to fix it. Even proficient users can find wading through the reflog tedious.&lt;/p&gt;
+
+&lt;p&gt;Why? How is it so easy to “lose” your data in a system that’s supposed to never lose your data?&lt;/p&gt;
+
+&lt;p&gt;Well, it’s not that it’s too easy to lose your data — but rather, that it’s too difficult to recover it. For each operation you want to recover from, there’s a different “magic” incantation to undo it. All the data is still there in principle, but it’s not accessible to many in practice.&lt;/p&gt;
+
+&lt;p&gt;Here’s my theory: novice and intermediate users would significantly improve their understanding and efficacy with Git if they weren’t afraid of making mistakes.&lt;/p&gt;
+
+&lt;h2 id=&quot;solution&quot;&gt;Solution&lt;/h2&gt;
+
+&lt;p&gt;To address this problem, I offer &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git undo&lt;/code&gt;, &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;part of the git-branchless suite of tools&lt;/a&gt;. To my knowledge, this is the most capable undo tool currently available for Git. For example, it can undo bad merges and rebases with ease, and there are even some rare operations that &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git undo&lt;/code&gt; can undo &lt;a href=&quot;https://github.com/arxanas/git-branchless/wiki/Architecture#comparison-with-the-reflog&quot;&gt;which can’t be undone with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git reflog&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I’ve presented demos below, and briefly discussed the implementation at the end of the article. My hope is that by making it easier to fix mistakes, novice Git users will be able to experiment more freely and learn more effectively.&lt;/p&gt;
+
+&lt;h2 id=&quot;demos&quot;&gt;Demos&lt;/h2&gt;
+
+&lt;p&gt;Undoing an amended commit:&lt;/p&gt;
+
+&lt;script id=&quot;asciicast-W7aEzc0yiOQqRo4HFg806vO0X&quot; src=&quot;https://asciinema.org/a/W7aEzc0yiOQqRo4HFg806vO0X.js&quot; async=&quot;&quot;&gt;&lt;/script&gt;
+
+&lt;noscript&gt;&lt;a href=&quot;https://asciinema.org/a/421202&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://asciinema.org/a/421202.svg&quot; /&gt;&lt;/a&gt;&lt;/noscript&gt;
+
+&lt;p&gt;Undoing a merge conflict that was resolved wrongly:&lt;/p&gt;
+
+&lt;script id=&quot;asciicast-1Ynb4BpQEN2H2XwVq1DcXu7cq&quot; src=&quot;https://asciinema.org/a/1Ynb4BpQEN2H2XwVq1DcXu7cq.js&quot; async=&quot;&quot;&gt;&lt;/script&gt;
+
+&lt;noscript&gt;&lt;a href=&quot;https://asciinema.org/a/421201&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://asciinema.org/a/421201.svg&quot; /&gt;&lt;/a&gt;&lt;/noscript&gt;
+
+&lt;h2 id=&quot;implementation&quot;&gt;Implementation&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git undo&lt;/code&gt; is made possible by a recent addition to Git: the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reference-transaction&lt;/code&gt; hook. This hook triggers whenever a change is made to a reference, such as a branch. By recording all reference moves, we can rebuild the state of the commit graph at any previous point in time. Then we accomplish the undo operation by restoring all references to their previous positions in time (possibly creating or deleting references in the process).&lt;/p&gt;
+
+&lt;p&gt;I originally built &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-branchless&lt;/code&gt; in order to replicate a certain Mercurial workflow, but the data structures turn out to be flexible enough to give us a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git undo&lt;/code&gt; feature nearly for free. You can find more detail at the &lt;a href=&quot;https://github.com/arxanas/git-branchless/wiki/Architecture&quot;&gt;Architecture&lt;/a&gt; page for the project.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 19 Jun 2021 00:00:00 -0500</pubDate>
+        <link>https://blog.waleedkhan.name/git-undo/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/git-undo/</guid>
+        
+        <category>git</category>
+        
+        <category>rust</category>
+        
+        <category>software-engineering</category>
+        
+        
+      </item>
     
       <item>
         <title>My easiest-to-fix Smash mistakes</title>
@@ -1283,42 +1341,6 @@ test failures.&lt;/li&gt;
         <guid isPermaLink="true">https://blog.waleedkhan.name/lan-adapter/</guid>
         
         <category>smash-bros</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>I used to run my own mail server</title>
-        <description>&lt;p&gt;I used to run my own mail server on this domain. That’s because I receive email at this domain, and being a student at the time, I didn’t want to pay an additional cost for an email service on top of the domain and hosting costs.&lt;/p&gt;
-
-&lt;p&gt;It was surprisingly complex. After a lot of frustrating debugging, I installed and configured Postfix and Dovecot. Looking back at it now, maybe I can understand a little of the awful mail situation that the authors of &lt;a href=&quot;https://web.mit.edu/~simsong/www/ugh.pdf&quot;&gt;The UNIX-HATERS Handbook&lt;/a&gt; lamented.&lt;/p&gt;
-
-&lt;p&gt;I also had Logwatch configured on my server, which sends daily log digests to my personal Gmail address. One day, I got a much larger email than usual, with about 500 entries of this form:&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=100, msgid=&amp;lt;1916378978.228657.1422669964925.JavaMail.s605113@s605113nj3cu23.uspswy6.savv..., size=3846: 1 Time(s)
-dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=101, msgid=&amp;lt;1249814308.228946.1422670382174.JavaMail.s605113@s605113nj3cu23.uspswy6.savv..., size=5784: 1 Time(s)
-dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=102, msgid=&amp;lt;601365427.63734562.1422671000015.JavaMail.jobnotification@noreply.jobs2web.com&amp;gt;, size=3576: 1 Time(s)
-dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=103, msgid=&amp;lt;87573488.39381.1422671386061.JavaMail.rcc@127.0.0.1&amp;gt;, size=8427: 1 Time(s)
-dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=104, msgid=&amp;lt;1193028303.63734619.1422671449632.JavaMail.jobnotification@noreply.jobs2web...., size=8061: 1 Time(s)
-dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=105, msgid=&amp;lt;1643814520.773962.1422671831522.JavaMail.app@ltx1-app10243.prod&amp;gt;, size=28350: 1 Time(s)
-dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=106, msgid=&amp;lt;30128166.20150131023820.54cc401cc8ef84.75123093@mail149.wdc04.mandrillapp.com&amp;gt;, size=25278: 1 Time(s)
-dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=107, msgid=&amp;lt;d33d663bb8154e91ad366791d6415e4c@verona-exch-2.epic.com&amp;gt;, size=8389: 1 Time(s)
-dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=108, msgid=&amp;lt;201502030243.t132hp8Q025750@goon4.epic.com&amp;gt;, size=2416: 1 Time(s)
-dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=109, msgid=&amp;lt;20150203183535.BD0B2AF0001@prod-batch01.recsolu.com&amp;gt;, size=11568: 1 Time(s)
-dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=110, msgid=&amp;lt;1968774189.2003704.1422991430758.JavaMail.app@lva1-app3310.prod&amp;gt;, size=27061: 1 Time(s)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;I didn’t really know what “expunge” means in technical terms, except that it sounds like deletion, and I certainly didn’t know what triggered 500 of them. (I still don’t.) When I feverishly logged into my email account, I found that a huge chunk of mail indeed seemed to be missing. I wasn’t able to recover them from my server’s disk. I thought I had backups, but I discovered that day that I had apparently failed to enable DigitalOcean’s backup service for my server.&lt;/p&gt;
-
-&lt;p&gt;At the time, I was interviewing for internships. In fact, I lost the offer letter I had intended to accept, and had to ask the recruiter to re-send it. I imagine it wasn’t a very professional look!&lt;/p&gt;
-
-&lt;p&gt;I tried to be a responsible system administrator, but clearly I didn’t have the time or attention to do so effectively. Now I happily pay $5 a month for a professional service to manage my email — reliably.&lt;/p&gt;
-</description>
-        <pubDate>Wed, 29 Apr 2020 00:00:00 -0500</pubDate>
-        <link>https://blog.waleedkhan.name/mail-server/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/mail-server/</guid>
-        
-        <category>software-engineering</category>
         
         
       </item>
