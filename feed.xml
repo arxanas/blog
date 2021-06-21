@@ -7,9 +7,87 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 20 Jun 2021 23:16:10 -0500</pubDate>
-    <lastBuildDate>Sun, 20 Jun 2021 23:16:10 -0500</lastBuildDate>
+    <pubDate>Mon, 21 Jun 2021 11:47:47 -0500</pubDate>
+    <lastBuildDate>Mon, 21 Jun 2021 11:47:47 -0500</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
+    
+      <item>
+        <title>Automating terminal demos</title>
+        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#problem&quot; id=&quot;markdown-toc-problem&quot;&gt;Problem&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#solution&quot; id=&quot;markdown-toc-solution&quot;&gt;Solution&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;problem&quot;&gt;Problem&lt;/h2&gt;
+
+&lt;p&gt;I needed to automate a terminal demo to post in another blog article. There are several solutions for automating terminal demos, but they have some problems for my use-case:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;I want my demos to be hands-off. Most solutions are meant for live demos, and have you type to advance the script.&lt;/li&gt;
+  &lt;li&gt;I want to be able to manually adjust timings. (Reviewers of my demos have commented that I tend to go too fast.)&lt;/li&gt;
+  &lt;li&gt;I need to support interactive programs like Vim.&lt;/li&gt;
+  &lt;li&gt;I need to export something which can be embedded in a webpage.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;solution&quot;&gt;Solution&lt;/h2&gt;
+
+&lt;p&gt;I used &lt;a href=&quot;https://en.wikipedia.org/wiki/Expect&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;expect&lt;/code&gt;&lt;/a&gt; in combination with &lt;a href=&quot;https://asciinema.org/&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;asciinema rec&lt;/code&gt;&lt;/a&gt; to meet the above requirements. The trick is to run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;spawn asciinema rec&lt;/code&gt; inside the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;expect&lt;/code&gt; script.&lt;/p&gt;
+
+&lt;p&gt;I’ve written an example &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;expect&lt;/code&gt; script below. Note that the script displays some junk while it’s running — it looks like the demo, but it isn’t. However, at the beginning of the output, a message like this is displayed:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;asciinema: recording asciicast to /var/folders/gn/gdp9z_g968b9nx7c9lvgy8y00000gp/T/tmpcpublyyb-ascii.cast
+asciinema: press &amp;lt;ctrl-d&amp;gt; or type &quot;exit&quot; when you're done
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You can then pass the above path to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;asciinema play&lt;/code&gt; or &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;asciinema upload&lt;/code&gt; to access the actual demo.&lt;/p&gt;
+
+&lt;p&gt;Script:&lt;/p&gt;
+
+&lt;div class=&quot;language-tcl highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;#!/usr/bin/env expect -f&lt;/span&gt;
+set timeout 1
+set send_human &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;0.1 0.3 1 0.05 1&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+set CTRLC &lt;span class=&quot;se&quot;&gt;\003&lt;/span&gt;
+
+proc expect_prompt &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    expect &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;$&lt;span class=&quot;s2&quot;&gt; &quot;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+proc run_command &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;cmd&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    send -h &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$cmd&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+    sleep 3
+    send &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\r&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+    expect -timeout 1
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+proc send_keystroke_to_interactive_process &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;key &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;addl_sleep 2&lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    send &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$key&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+    expect -timeout 1
+    sleep $addl_sleep
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+spawn asciinema rec
+expect_prompt
+
+run_command &lt;span class=&quot;s2&quot;&gt;&quot;echo Hello, world!&quot;&lt;/span&gt;
+run_command &lt;span class=&quot;s2&quot;&gt;&quot;vim foo.txt&quot;&lt;/span&gt;
+
+send_keystroke_to_interactive_process &lt;span class=&quot;s2&quot;&gt;&quot;i&quot;&lt;/span&gt;
+send -h &lt;span class=&quot;s2&quot;&gt;&quot;Example text&quot;&lt;/span&gt;
+send_keystroke_to_interactive_process &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;$&lt;span class=&quot;s2&quot;&gt;CTRLC&quot;&lt;/span&gt;
+send -h &lt;span class=&quot;s2&quot;&gt;&quot;:wq&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\r&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+expect_prompt
+
+send &lt;span class=&quot;s2&quot;&gt;&quot;exit&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Sun, 20 Jun 2021 00:00:00 -0500</pubDate>
+        <link>https://blog.waleedkhan.name/automating-terminal-demos/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/automating-terminal-demos/</guid>
+        
+        <category>software-engineering</category>
+        
+        
+      </item>
     
       <item>
         <title>git undo: We can do better</title>
@@ -33,6 +111,8 @@ employers.</description>
 &lt;h2 id=&quot;solution&quot;&gt;Solution&lt;/h2&gt;
 
 &lt;p&gt;To address this problem, I offer &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git undo&lt;/code&gt;, &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;part of the git-branchless suite of tools&lt;/a&gt;. To my knowledge, this is the most capable undo tool currently available for Git. For example, it can undo bad merges and rebases with ease, and there are even some rare operations that &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git undo&lt;/code&gt; can undo &lt;a href=&quot;https://github.com/arxanas/git-branchless/wiki/Architecture#comparison-with-the-reflog&quot;&gt;which can’t be undone with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git reflog&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Update 2021-06-21&lt;/em&gt;: &lt;a href=&quot;https://news.ycombinator.com/item?id=27580659&quot;&gt;user &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gldnspud&lt;/code&gt; on Hacker News&lt;/a&gt; points out that the &lt;a href=&quot;https://gitup.co/&quot;&gt;GitUp&lt;/a&gt; client also supports undo/redo via snapshots, also by adding additional plumbing on top of Git.&lt;/p&gt;
 
 &lt;p&gt;I’ve presented demos below, and briefly discussed the implementation at the end of the article. My hope is that by making it easier to fix mistakes, novice Git users will be able to experiment more freely and learn more effectively.&lt;/p&gt;
 
@@ -1273,72 +1353,6 @@ test failures.&lt;/li&gt;
         <pubDate>Tue, 04 Aug 2020 00:00:00 -0500</pubDate>
         <link>https://blog.waleedkhan.name/smash-bros-parabola-rule/</link>
         <guid isPermaLink="true">https://blog.waleedkhan.name/smash-bros-parabola-rule/</guid>
-        
-        <category>smash-bros</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>A LAN adapter isn't everything</title>
-        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#on-online-mode&quot; id=&quot;markdown-toc-on-online-mode&quot;&gt;On online mode&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#playing-on-wi-fi&quot; id=&quot;markdown-toc-playing-on-wi-fi&quot;&gt;Playing on Wi-Fi&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;on-online-mode&quot;&gt;On online mode&lt;/h2&gt;
-
-&lt;p&gt;I’ve been getting into &lt;em&gt;Super Smash Bros. Ultimate&lt;/em&gt;, and I want to play competitively once COVID-19 is over.&lt;/p&gt;
-
-&lt;p&gt;The best I can do for now is to play online. However, &lt;em&gt;Ultimate&lt;/em&gt;’s online play is notoriously bad:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.polygon.com/2018/12/14/18140814/super-smash-bros-ultimate-input-lag-latency-feel&quot;&gt;The input lag is around 98 ms (~6 frames)&lt;/a&gt;, which is on the high end for a fighting game (&lt;a href=&quot;http://shoryuken.com/2018/10/19/soulcalibur-vi-input-lag-tested-and-its-comparable-to-street-fighter-v/&quot;&gt;the highest listed in this article&lt;/a&gt; is &lt;em&gt;Samurai Showdown&lt;/em&gt; with 94ms input lag).&lt;/li&gt;
-  &lt;li&gt;The game uses delay-based netcode instead of rollback-based netcode, which means that inputs are delayed until all participants have acknowledged them, rather than speculatively executed.&lt;/li&gt;
-  &lt;li&gt;The game uses peer-to-peer connections rather than centralized servers, which means that all parties are punished for a single party’s lag. This is a problem in both one-on-one play and in the Battle Arena format, where many participants may join, and the quality of the game is determined by the worst internet connection. (NB: a peer-to-peer connection can also have theoretically better performance if the route between players is shorter than a given player’s route to the server.)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;playing-on-wi-fi&quot;&gt;Playing on Wi-Fi&lt;/h2&gt;
-
-&lt;p&gt;There’s two main arrangements recommended to combat lag:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Use a LAN adapter for the Nintendo Switch, rather than relying on Wi-Fi.&lt;/li&gt;
-  &lt;li&gt;Use a low-latency display (particularly one set to “Game Mode”, if available).&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;I used to play with a LAN adapter on my living room TV, under the assumption that having a wired connection was more important than having a low-latency display. Then I tried playing with my Switch on a small monitor at my work setup over Wi-Fi. What I discovered is that the opposite was true in my case: &lt;strong&gt;having a low-latency display produced better gameplay than having a wired internet connection&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;Wi-Fi can be deployed in one or both of two bands: 2.4 GHz and 5 GHz. &lt;a href=&quot;https://blog.parsecgaming.com/how-your-wifi-band-impacts-low-latency-connections-9f1e538a63dd&quot;&gt;In this article by Parsec&lt;/a&gt;, they demonstrate that 5 GHz actually has quite low latency:&lt;/p&gt;
-
-&lt;figure class=&quot;figure&quot;&gt;
-        &lt;a href=&quot;/assets/posts/lan-adapter/wifi-latency.jpeg&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/assets/posts/lan-adapter/wifi-latency.jpeg&quot; alt=&quot;Graph comparing latencies of 2.4 GHz Wi-Fi, 5 GHz Wi-Fi, and wired connection.&quot; title=&quot;Graph comparing latencies of 2.4 GHz Wi-Fi, 5 GHz Wi-Fi, and wired connection.&quot; /&gt;&lt;/a&gt;
-        &lt;figcaption class=&quot;caption&quot;&gt;
-&lt;/figcaption&gt;
-      &lt;/figure&gt;
-
-&lt;p&gt;This diagram indicates the following:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;As a baseline, a wired connection has around 1 ms latency.&lt;/li&gt;
-  &lt;li&gt;2.4 GHz Wi-Fi can have huge spikes in latency, routinely hitting 30 ms in their testing.&lt;/li&gt;
-  &lt;li&gt;5 GHz reliably stays at around 5 ms latency, and in the worst case, only hits&lt;/li&gt;
-  &lt;li&gt;about 8 ms latency.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;So 5 GHz Wi-Fi is definitely worse than a wired connection, but not by much. For context, 8 ms is about half a frame, so it would be barely noticeable in practice.&lt;/p&gt;
-
-&lt;p&gt;The display you use also can make a big difference. &lt;a href=&quot;https://www.rtings.com/monitor/tests/inputs/input-lag&quot;&gt;Gaming monitors might have on the order of 10 ms lag&lt;/a&gt;. My living room TV is an awful 70-inch Samsung smart TV, and I have nothing but bad things to say about it. Besides smart TVs being inherently bad, this particular TV was not marketed as a gaming display, and it seems to have a huge amount of latency, even with Game Mode enabled.&lt;/p&gt;
-
-&lt;p&gt;The difference became noticeable only now that I’m playing at a higher level than before. &lt;a href=&quot;https://www.elitegsp.com/&quot;&gt;elitegsp.com&lt;/a&gt; currently estimates me at the 98th percentile of online players. (My guess is that this would be around the 40th or 50th percentile for in-person players).&lt;/p&gt;
-
-&lt;p&gt;After switching to a better monitor, I find I can suddenly react to things I was unable to before. I can catch ledge get-up options more reliably; I’ve started being able to jump over to Samus’s fully-charged charge shots, etc., on reaction, which has never happened before; some of my tight combos even seem more reliable.&lt;/p&gt;
-
-&lt;p&gt;So Wi-Fi online play needn’t be that bad!&lt;/p&gt;
-</description>
-        <pubDate>Thu, 30 Jul 2020 00:00:00 -0500</pubDate>
-        <link>https://blog.waleedkhan.name/lan-adapter/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/lan-adapter/</guid>
         
         <category>smash-bros</category>
         
