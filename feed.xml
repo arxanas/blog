@@ -7,8 +7,8 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 20 Jun 2021 01:01:36 -0500</pubDate>
-    <lastBuildDate>Sun, 20 Jun 2021 01:01:36 -0500</lastBuildDate>
+    <pubDate>Sun, 20 Jun 2021 23:16:10 -0500</pubDate>
+    <lastBuildDate>Sun, 20 Jun 2021 23:16:10 -0500</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
@@ -40,15 +40,15 @@ employers.</description>
 
 &lt;p&gt;Undoing an amended commit:&lt;/p&gt;
 
-&lt;script id=&quot;asciicast-W7aEzc0yiOQqRo4HFg806vO0X&quot; src=&quot;https://asciinema.org/a/W7aEzc0yiOQqRo4HFg806vO0X.js&quot; async=&quot;&quot;&gt;&lt;/script&gt;
+&lt;script id=&quot;asciicast-2T3MdVSJVlGcK73Yl5YRXbSGK&quot; src=&quot;https://asciinema.org/a/2T3MdVSJVlGcK73Yl5YRXbSGK.js&quot; async=&quot;&quot;&gt;&lt;/script&gt;
 
-&lt;noscript&gt;&lt;a href=&quot;https://asciinema.org/a/421202&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://asciinema.org/a/421202.svg&quot; /&gt;&lt;/a&gt;&lt;/noscript&gt;
+&lt;noscript&gt;&lt;a href=&quot;https://asciinema.org/a/2T3MdVSJVlGcK73Yl5YRXbSGK&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://asciinema.org/a/2T3MdVSJVlGcK73Yl5YRXbSGK.svg&quot; /&gt;&lt;/a&gt;&lt;/noscript&gt;
 
 &lt;p&gt;Undoing a merge conflict that was resolved wrongly:&lt;/p&gt;
 
-&lt;script id=&quot;asciicast-1Ynb4BpQEN2H2XwVq1DcXu7cq&quot; src=&quot;https://asciinema.org/a/1Ynb4BpQEN2H2XwVq1DcXu7cq.js&quot; async=&quot;&quot;&gt;&lt;/script&gt;
+&lt;script id=&quot;asciicast-ziVoTyp4390RaKsdcdNj2gI0Q&quot; src=&quot;https://asciinema.org/a/ziVoTyp4390RaKsdcdNj2gI0Q.js&quot; async=&quot;&quot;&gt;&lt;/script&gt;
 
-&lt;noscript&gt;&lt;a href=&quot;https://asciinema.org/a/421201&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://asciinema.org/a/421201.svg&quot; /&gt;&lt;/a&gt;&lt;/noscript&gt;
+&lt;noscript&gt;&lt;a href=&quot;https://asciinema.org/a/ziVoTyp4390RaKsdcdNj2gI0Q&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://asciinema.org/a/ziVoTyp4390RaKsdcdNj2gI0Q.svg&quot; /&gt;&lt;/a&gt;&lt;/noscript&gt;
 
 &lt;h2 id=&quot;implementation&quot;&gt;Implementation&lt;/h2&gt;
 
