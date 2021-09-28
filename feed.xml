@@ -7,8 +7,8 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 27 Sep 2021 20:36:27 -0500</pubDate>
-    <lastBuildDate>Mon, 27 Sep 2021 20:36:27 -0500</lastBuildDate>
+    <pubDate>Mon, 27 Sep 2021 21:37:58 -0500</pubDate>
+    <lastBuildDate>Mon, 27 Sep 2021 21:37:58 -0500</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
@@ -92,6 +92,8 @@ send &lt;span class=&quot;s2&quot;&gt;&quot;exit&quot;&lt;/span&gt;
       <item>
         <title>git undo: We can do better</title>
         <description>&lt;p&gt;&lt;strong&gt;Update for future readers&lt;/strong&gt;: Are you looking for a way to undo something with Git? The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git undo&lt;/code&gt; command won’t help with your current issue (it needs to be installed ahead of time), but it can make dealing with future issues a lot easier. Try installing &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-branchless&lt;/code&gt;&lt;/a&gt;, and then see the &lt;a href=&quot;https://github.com/arxanas/git-branchless/wiki/Command:-git-undo&quot;&gt;documentation for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git undo&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;hr /&gt;
 
 &lt;ul id=&quot;markdown-toc&quot;&gt;
   &lt;li&gt;&lt;a href=&quot;#motivation&quot; id=&quot;markdown-toc-motivation&quot;&gt;Motivation&lt;/a&gt;&lt;/li&gt;
