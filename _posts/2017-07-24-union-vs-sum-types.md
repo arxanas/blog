@@ -268,6 +268,8 @@ types" are sum types.
 
   [stdvariant]: http://en.cppreference.com/w/cpp/utility/variant
 
+**Update**: Readers on Reddit argue that C++'s `std::variant` is a sum type. The API for `std::variant` is quite complicated, so [see the discussion here](https://www.reddit.com/r/ProgrammingLanguages/comments/lbgegk/comment/glva7l6/?utm_source=reddit&utm_medium=web2x&context=3).
+
 ## Differences
 
 ### Singleton null versus a null for every type
