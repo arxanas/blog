@@ -157,6 +157,8 @@ table { width: 100%; }
 
 .post-tag:before { content: "\2022"; padding-right: 5px; }
 
+.related-posts { text-align: left; }
+
 /** Syntax highlighting styles */
 .highlight { background: #fff; }
 

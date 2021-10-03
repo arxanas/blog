@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Stenography and programming languages</title>
+    <title>Steno &amp; PL</title>
     <description>This is a personal blog. Unless otherwise stated, the opinions
 expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 30 Sep 2021 11:53:30 -0500</pubDate>
-    <lastBuildDate>Thu, 30 Sep 2021 11:53:30 -0500</lastBuildDate>
+    <pubDate>Sun, 03 Oct 2021 14:52:30 -0500</pubDate>
+    <lastBuildDate>Sun, 03 Oct 2021 14:52:30 -0500</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
