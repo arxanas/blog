@@ -5,6 +5,7 @@ permalink: getting-a-job-in-pl/
 tags:
   - career
   - programming-languages
+reddit: https://www.reddit.com/r/ProgrammingLanguages/comments/9ffiky/how_to_get_a_job_in_programming_languages/
 ---
 
  * toc

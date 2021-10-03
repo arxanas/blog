@@ -4,6 +4,7 @@ title: My easiest-to-fix Smash mistakes
 permalink: smash-mistakes/
 tags:
   - smash-bros
+reddit: https://www.reddit.com/r/CrazyHand/comments/nv7hv5/my_easiesttofix_smash_mistakes/
 ---
 
  * toc

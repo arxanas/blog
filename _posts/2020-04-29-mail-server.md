@@ -3,6 +3,7 @@ layout: post
 title: I used to run my own mail server
 permalink: mail-server/
 tags:
+  - career
   - software-engineering
 ---
 

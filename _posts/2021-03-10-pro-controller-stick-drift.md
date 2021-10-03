@@ -4,6 +4,7 @@ title: 'On Pro Controller stick drift'
 permalink: pro-controller-stick-drift/
 tags:
   - smash-bros
+reddit: https://www.reddit.com/r/CrazyHand/comments/m2599t/on_pro_controller_stick_drift/
 ---
 
 The Nintendo Switch Pro Controller is one of the main controllers used for competitive *Smash Bros.* play. Most players use either the Pro Controller or a GameCube controller.

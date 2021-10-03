@@ -4,6 +4,7 @@ title: A LAN adapter isn't everything
 permalink: lan-adapter/
 tags:
   - smash-bros
+reddit: https://www.reddit.com/r/SmashBrosUltimate/comments/i0y9bq/a_lan_adapter_isnt_everything/
 ---
 
  * toc

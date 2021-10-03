@@ -29,3 +29,25 @@ plugins:
 katex:
   rendering_options:
     throw_error: true                       # throwOnError - set to false if you want rendering to output error as text rather than a build error
+
+related_posts:
+  - - steno-adventures-part-1/
+    - steno-adventures-part-2/
+    - steno-journal/
+    - my-steno-system/
+
+  - - dot-name-email-address/
+    - messenger-conversation-macros/
+    - mail-server/
+
+  - - lan-adapter/
+    - smash-bros-parabola-rule/
+    - pro-controller-stick-drift/
+    - hours-invested-vs-percentile-rank/
+    - smash-mistakes/
+
+  - - port-python-to-rust/
+    - rust-modules-for-python-users/
+
+  - - parsing-contextual-keywords/
+    - data-comprehension-syntaxes/
