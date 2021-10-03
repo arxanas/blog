@@ -3,6 +3,7 @@ layout: post
 title: How to get a job in programming languages
 permalink: getting-a-job-in-pl/
 tags:
+  - career
   - programming-languages
 ---
 
@@ -148,7 +149,7 @@ undergrad.
 I seriously looked at Microsoft and Google, both of which have top-notch
 programming language teams. While I was interviewing at Microsoft, I asked a
 hiring manager if it would be a problem for someone with only a Bachelor's
-degree would be able to to get into programming languages. He reassured me that
+degree to get into programming languages. He reassured me that
 programming language teams needed entry-level developers just like most other
 teams, and that, indeed, PhD hires oftentimes just wanted to continue their PhD
 work, which only aligned with the company's business needs perhaps three months
