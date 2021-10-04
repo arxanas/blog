@@ -52,3 +52,5 @@ In Rust, you use `foo/bar.rs` to declare members of the namespace `foo::bar`. If
 To re-export the namespace and make it available to all users outside of `bar`, it should be changed to `pub mod qux;`.
 
 The main take-away is that Rust requires the explicit re-exporting of nested modules using `mod` at each step of the hierarchy, while Python does not.
+
+{% include end_matter.md %}

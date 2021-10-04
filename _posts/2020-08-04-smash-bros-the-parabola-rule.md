@@ -45,3 +45,5 @@ To fix this problem, we need to apply **the parabola rule**:
 * DI outwards all the way down, until you reach the tangent point between your arc and your opponent's threat bubble. Then you are free to start DI-ing inwards.
 * Do not fast-fall until you've cleared the tangent point! Otherwise, you may accidentally fall through the threat bubble earlier than expected.
   * This issue is something I'm still working on. Fast-falling gets you to the ground faster, so it intuitively feels safer (particularly considering that I main a fast-falling character). But it can actually be a worse choice than drifting as far as possible away from the opponent, and not fast-falling at all.
+
+{% include end_matter.md %}

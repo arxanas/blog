@@ -292,3 +292,5 @@ discovered only after joining the Plover chat room:
 
 ...in which I get frustrated at the sorry state of firmware and build my own.
 [Click here for part 2][part-2].
+
+{% include end_matter.md %}

@@ -72,3 +72,5 @@ To resolve the first issue by replacing the analog stick sensor wheel, I followe
 Nonetheless, the above document is still a good reference for Pro Controller internals and repair, as it includes instructions to open the Pro Controller and a discussion of the relevant components, with many pictures.
 
 To resolve the second issue, one can clean out dust and debris using electric contact cleaner or compressed air. This is a relatively cheap and simple fix to carry out, and many people have reported that it fixes their stick drift for a reasonable length of time.
+
+{% include end_matter.md %}

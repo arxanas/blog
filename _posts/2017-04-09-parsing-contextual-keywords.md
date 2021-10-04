@@ -214,3 +214,5 @@ implementation detail, or otherwise incorrectly add spaces to their code and
 get inscrutable parse errors.
 
 But hey --- "if it compiles, it works", right?
+
+{% include end_matter.md %}

@@ -172,3 +172,5 @@ Most of my friction was around attempting to describe things statically:
 User studies proved invaluable. Thanks to all my friends who participated.
 
 This project was a success for me, because 1) I solved a problem I had; 2) I solved a problem that others had; and 3) I reduced my maintenance burden to the absolute minimum --- I haven't had any deployment issues since launching it.
+
+{% include end_matter.md %}

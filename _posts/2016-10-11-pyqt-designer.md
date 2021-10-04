@@ -300,3 +300,5 @@ Creator for you to edit and save. That's it!
 
 {% image editor.png
          "Qt Designer's UI editor." %}
+
+{% include end_matter.md %}

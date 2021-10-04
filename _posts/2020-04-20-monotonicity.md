@@ -6,6 +6,9 @@ tags:
   - software-engineering
 ---
 
+* toc
+{:toc}
+
 ## Introduction
 
 Immutable values are easy to reason about in complex systems, because they never change. Many functional languages strongly encourage the developer to use immutable values. For example, Clojure has a strong emphasis on using immutable values, so that multithreading can be made easy and safe.
@@ -272,3 +275,5 @@ And the output:
 ```
 
 To carry out this compaction procedure may require an exclusive lock or some other kind of synchronization, but it can reduce the performance overhead of a monotonic approach.
+
+{% include end_matter.md %}

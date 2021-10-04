@@ -51,3 +51,5 @@ The difference became noticeable only now that I’m playing at a higher level t
 After switching to a better monitor, I find I can suddenly react to things I was unable to before. I can catch ledge get-up options more reliably; I’ve started being able to jump over to Samus’s fully-charged charge shots, etc., on reaction, which has never happened before; some of my tight combos even seem more reliable.
 
 So Wi-Fi online play needn’t be that bad!
+
+{% include end_matter.md %}

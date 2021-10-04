@@ -32,3 +32,5 @@ I didn't really know what "expunge" means in technical terms, except that it sou
 At the time, I was interviewing for internships. In fact, I lost the offer letter I had intended to accept, and had to ask the recruiter to re-send it. I imagine it wasn't a very professional look!
 
 I tried to be a responsible system administrator, but clearly I didn't have the time or attention to do so effectively. Now I happily pay $5 a month for a professional service to manage my email --- reliably.
+
+{% include end_matter.md %}

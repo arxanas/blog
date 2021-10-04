@@ -1,0 +1,49 @@
+{% if page.related_posts %}
+## Related posts
+
+The following are hand-curated posts which you might find interesting.
+
+<table class="related-posts">
+<thead>
+  <tr>
+    <th>Date</th>
+    <th></th>
+    <th>Title</th>
+  </tr>
+</thead>
+
+<tbody>
+{% for related_post in page.related_posts %}
+  <tr>
+    <td>{{ related_post.date | date: "%d&nbsp;%B&nbsp;%Y" }}</td>
+    <td class="this-post">
+      {% if related_post.permalink == page.permalink %}
+      (this&nbsp;post)
+      {% endif %}
+      </td>
+    <td><a href="{{ site.base_url }}/{{ related_post.permalink }}">{{ related_post.title }}</a>
+    </td>
+  </tr>
+{% endfor %}
+</tbody>
+</table>
+
+Want to see more of my posts? Follow me <a href="https://twitter.com/arxanas">on Twitter</a> or subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a>.
+{% endif %}
+
+## Comments
+
+<ul>
+{% if page.hn %}
+<li class="hacker-news"><a href="{{ page.hn }} ">Discussion on Hacker News</a></li>
+{% endif %}
+{% if page.reddit %}
+<li><a href="{{ page.reddit }} ">Discussion on Reddit</a></li>
+{% endif %}
+</ul>
+
+{% if page.typeset_math %}
+<link rel="stylesheet" href="/css/katex.min.css" />
+{% endif %}
+
+{% include comments.html %}

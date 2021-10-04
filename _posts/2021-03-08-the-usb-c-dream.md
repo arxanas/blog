@@ -21,3 +21,5 @@ Or you're working from home at your desk. You decide you need to go into the off
 Or you're working, and you need to read a document. So you unplug your device and walk over to the couch and get comfortable and read it there.
 
 Phones will have to get a little bit more powerful and flexible, and drivers will have to get a little bit more reliable — my Macbook still regularly crashes in its sleep, due to faulty power management of the USB hub. But I look forward to this future.
+
+{% include end_matter.md %}

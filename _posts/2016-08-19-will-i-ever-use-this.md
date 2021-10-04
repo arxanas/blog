@@ -89,3 +89,5 @@ practice, knowing what it is that you don't know is very valuable.
 Some say that to implement a CRUD app one does not need any understanding of
 theoretical computer science whatsoever. For those who hold that opinion — I
 wish you luck implementing your next meeting tool.
+
+{% include end_matter.md %}

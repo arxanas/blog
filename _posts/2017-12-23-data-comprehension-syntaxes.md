@@ -110,3 +110,5 @@ select f // likewise
 The usefulness of autocomplete in exploratory programming shouldn't be
 understated; this alone is a compelling reason to use a different order for
 these clauses.
+
+{% include end_matter.md %}

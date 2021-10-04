@@ -172,7 +172,7 @@ interns get the same ergonomics benefits as full-time employees, which is nice.
 It was only when I got the email that I was informed that the lead time was two
 weeks. If I had known that ahead of time, I would have ordered it a lot earlier.
 (Although it seems to have been sent out rather earlier than the projected lead
-time; maybe it's just a worst-case estimate.) 
+time; maybe it's just a worst-case estimate.)
 
 # Week 9
 
@@ -232,3 +232,5 @@ My internship has ended, so I haven't been keeping that close track of my
 progress lately. I've been practicing on TypeRacer periodically. By week 13 I
 was regularly about 60 wpm with spikes to 90 wpm, and by week 14 I was regularly
 about 70 wpm with spikes to 100 wpm.
+
+{% include end_matter.md %}

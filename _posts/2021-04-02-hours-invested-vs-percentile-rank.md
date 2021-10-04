@@ -164,3 +164,5 @@ Since *Smash* is not as well developed as chess, it might be that I could reach 
 My piano-playing ability is quite poor at the moment. I would estimate I've spent around 300 total practice hours on it, since it took it up in November 2019. Unfortunately, I took no objective measurements.
 
 Unlike competitive videogaming, where one is matched to an opponent of similar strength, a piano player typically compares themselves to the best players in the field. It's sometimes demoralizing to compare my performances of the same pieces with theirs. But it's a relief to see that no matter how I feel now, I can expect to see significant improvements in ability as I reach even the 1000-hour mark.
+
+{% include end_matter.md %}

@@ -107,3 +107,5 @@ address to sign up for services with, after all. My intention in getting this
 domain was for branding purposes. Given that it's been remarked upon at least
 once to my face, I think that my goal has been achieved. But I'll be on the
 look-out for waleedkhan.com, when it becomes available...
+
+{% include end_matter.md %}

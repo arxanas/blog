@@ -297,3 +297,5 @@ In summary:
 * Incremental porting with PyO3 was quite reasonable for this small project.
   * It would presumably be more difficult with a larger project which has more nuanced runtime resource management.
   * For "hub-and-spoke" projects, which don't have deep dependency trees, an incremental approach is likely tractable.
+
+{% include end_matter.md %}

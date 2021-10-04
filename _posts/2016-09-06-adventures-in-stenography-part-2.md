@@ -580,3 +580,5 @@ Overall, steno is showing to be much easier on the fingers, and I miss it when I
 have to return to my laptop keyboard. If you are concerned about the strain on
 your hands, want to type faster, or are curiously infatuated with esoteric
 keyboard firmware, I can recommend the {{ ergodox-ez }} + Plover combination.
+
+{% include end_matter.md %}

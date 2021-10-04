@@ -60,3 +60,5 @@ It does make sense to pummel sometimes:
 *   When you want to [un-stale](https://www.ssbwiki.com/Stale-move_negation) a different move (e.g. back-air as a kill option).
 
 _Want to improve your Smash? I made [the Smash Training app](https://ssb.fit) to help you improve your technical skills for free._
+
+{% include end_matter.md %}

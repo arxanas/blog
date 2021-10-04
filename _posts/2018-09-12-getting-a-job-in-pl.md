@@ -213,3 +213,5 @@ I'm writing about my experience because I believe putting the information out
 there is better than not putting it out there. Regardless of your situation, I
 hope that this article helps you make a concrete plan about how to get your
 desired job in programming languages as well.
+
+{% include end_matter.md %}
