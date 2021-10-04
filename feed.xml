@@ -7,15 +7,416 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 03 Oct 2021 14:52:30 -0500</pubDate>
-    <lastBuildDate>Sun, 03 Oct 2021 14:52:30 -0500</lastBuildDate>
+    <pubDate>Mon, 04 Oct 2021 16:36:02 -0500</pubDate>
+    <lastBuildDate>Mon, 04 Oct 2021 16:36:02 -0500</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
+    
+      <item>
+        <title>Automatically detecting and replying to recruiter spam</title>
+        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#introduction&quot; id=&quot;markdown-toc-introduction&quot;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#bayesian-filtering&quot; id=&quot;markdown-toc-bayesian-filtering&quot;&gt;Bayesian filtering&lt;/a&gt;    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#approach&quot; id=&quot;markdown-toc-approach&quot;&gt;Approach&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#properties&quot; id=&quot;markdown-toc-properties&quot;&gt;Properties&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#training&quot; id=&quot;markdown-toc-training&quot;&gt;Training&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#deployment&quot; id=&quot;markdown-toc-deployment&quot;&gt;Deployment&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#automatic-salary-negotiation&quot; id=&quot;markdown-toc-automatic-salary-negotiation&quot;&gt;Automatic salary negotiation&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#results&quot; id=&quot;markdown-toc-results&quot;&gt;Results&lt;/a&gt;    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#example&quot; id=&quot;markdown-toc-example&quot;&gt;Example&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#efficacy&quot; id=&quot;markdown-toc-efficacy&quot;&gt;Efficacy&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#responses&quot; id=&quot;markdown-toc-responses&quot;&gt;Responses&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#selected-amusing-keywords&quot; id=&quot;markdown-toc-selected-amusing-keywords&quot;&gt;Selected amusing keywords&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#bugs&quot; id=&quot;markdown-toc-bugs&quot;&gt;Bugs&lt;/a&gt;    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#non-existent-words&quot; id=&quot;markdown-toc-non-existent-words&quot;&gt;Non-existent words&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#email-delivery&quot; id=&quot;markdown-toc-email-delivery&quot;&gt;Email delivery&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#related-posts&quot; id=&quot;markdown-toc-related-posts&quot;&gt;Related posts&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The code for this post is at my Github repository: &lt;a href=&quot;https://github.com/arxanas/detect-recruiter-spam&quot;&gt;github.com/arxanas/detect-recruiter-spam&lt;/a&gt;. However, I have not included my pre-trained model, since it contains sensitive information derived from  my email inbox. If you would like to use my API endpoint, send me an email.&lt;/p&gt;
+
+&lt;p&gt;If you just want to see the results, skip to &lt;a href=&quot;#results&quot;&gt;Results&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;Many software engineers I know complain about the frequency of “recruiter spam” emails. These emails are obviously generic emails sent in an attempt to hire someone. Clearly, the recruiters are generating and sending the emails with the press of a button, and the recipients are deleting these emails just as quickly.&lt;/p&gt;
+
+&lt;p&gt;It’s understandable. In the current climate, job-seeking is a numbers game (I live in the US). Job seekers blast countless job sites with their résumés, while recruiters browse through LinkedIn wielding a mouse in one hand and a templated introduction in the other.&lt;/p&gt;
+
+&lt;p&gt;So why engage with these recruiters? Well, as a college graduate, I interviewed at Microsoft, thinking that I would never accept a job offer from them. But the recruiter really astounded me with the whole experience, and Microsoft changed from being barely a contender to one of my top choices. Since then, I have a policy of at least giving companies a chance to impress me.&lt;/p&gt;
+
+&lt;p&gt;One the one hand, I don’t want to miss out on a potential opportunity, but on the other hand, I don’t want to waste time on low-quality recruiter interactions. So I decided that further automated emailing must be the solution.&lt;/p&gt;
+
+&lt;h2 id=&quot;bayesian-filtering&quot;&gt;Bayesian filtering&lt;/h2&gt;
+
+&lt;p&gt;A Bayesian spam filter is a simple binary classification model, often used as a first project in a machine learning course. It accepts a document and returns whether it thinks that the document is spam or not. I used the &lt;a href=&quot;https://scikit-learn.org/stable/&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scikit-learn&lt;/code&gt;&lt;/a&gt; library to build my model.&lt;/p&gt;
+
+&lt;h3 id=&quot;approach&quot;&gt;Approach&lt;/h3&gt;
+
+&lt;p&gt;The idea is to encode each message as a vector of zeros and ones. To do this, we first accumulate all of the different words across all of the different messages (with some normalization applied, such as lowercasing, removing punctuation, lemmatizing, etc.). Then we assign each unique word a different index, starting from zero. For each unique word in a given message, we set the entry at that word’s index to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;1&lt;/code&gt; in its corresponding vector. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scikit-learn&lt;/code&gt; includes the convenient &lt;a href=&quot;https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.CountVectorizer.html&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CountVectorizer&lt;/code&gt;&lt;/a&gt; class for this purpose.&lt;/p&gt;
+
+&lt;p&gt;Then we just feed the result into a pre-made Bayesian classifier model. I used &lt;a href=&quot;https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.MultinomialNB.html&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MultinomialNB&lt;/code&gt;&lt;/a&gt; from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scikit-learn&lt;/code&gt;. (This model actually accepts a vector of not just zeros and ones, but word frequency counts.)&lt;/p&gt;
+
+&lt;p&gt;The code is relatively simple, available here: &lt;a href=&quot;https://github.com/arxanas/detect-recruiter-spam/blob/main/recruiterspam/train.py&quot;&gt;https://github.com/arxanas/detect-recruiter-spam/blob/main/recruiterspam/train.py&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;properties&quot;&gt;Properties&lt;/h3&gt;
+
+&lt;p&gt;A Bayesian filter is a decent general-purpose classifier for this use-case. However, it’s worth noting some of its limitations:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;It isn’t able to deal with words that didn’t appear in the training set.&lt;/li&gt;
+  &lt;li&gt;If the training set has few positive or negative examples, it may not be trained very accurately.
+    &lt;ul&gt;
+      &lt;li&gt;For example, if your training set has 0.01% spam messages, then a classifier which always outputs “not spam” will be accurate for the vast majority of the inputs, but such a model is useless.&lt;/li&gt;
+      &lt;li&gt;According to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scikit-learn&lt;/code&gt; documentation, there are some tricks that can be done to improve the accuracy in these cases, such as by training classification against the complement of the desired output classes.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In real life, a false positive (detecting an email as spam when it’s not) is particularly bad if it results in the loss of important communication, while a false negative (failing to detect a spam email) is mostly an annoyance. Thus, a typical Bayesian classifier probably wants to optimize to reduce false positives.&lt;/p&gt;
+
+&lt;p&gt;In our case, I don’t mind if the classifier occasionally returns false positives, because the resulting emails won’t be deleted — the recipient will just receive an automated email, which they can ignore. Thus, we can afford to optimize the classifier towards decreasing false negatives.&lt;/p&gt;
+
+&lt;h2 id=&quot;training&quot;&gt;Training&lt;/h2&gt;
+
+&lt;p&gt;To actually train the model, I went through all of my email and manually tagged recruiter spam emails as such. This wasn’t too bad, as I was able to filter out most of the automated email in my inbox pretty easily during manual annotation.&lt;/p&gt;
+
+&lt;p&gt;The repository includes two scripts to download your mailbox. One works by reading each message over IMAP, while the other works by reading a local &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.mbox&lt;/code&gt; file. (For Gmail, you can get an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.mbox&lt;/code&gt; file by using the Google Takeout feature.)&lt;/p&gt;
+
+&lt;p&gt;My training set consisted of:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;16752 messages,&lt;/li&gt;
+  &lt;li&gt;182 of which were spam,&lt;/li&gt;
+  &lt;li&gt;resulting in an accuracy of 95.2%,&lt;/li&gt;
+  &lt;li&gt;and a false positive rate of 4.7%.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For an actual spam filter, these numbers would be abysmal, but they’re fine for my purposes.&lt;/p&gt;
+
+&lt;h2 id=&quot;deployment&quot;&gt;Deployment&lt;/h2&gt;
+
+&lt;p&gt;The model is deployed as a REST API endpoint. I tried really hard to deploy the model to AWS Lambda, but despite my packaging everything up into a Docker container, I had inscrutable differences between my local testing environment and the cloud one, and I couldn’t get it to work. In the end, I gave up and used a Heroku instance ($7 per month), which is significantly more expensive, but at least works without hassle.&lt;/p&gt;
+
+&lt;p&gt;To connect the model to my email account and have it be able to reply on my behalf, I first tried using services like Zapier and IFTTT. However, they didn’t have useful integrations at the free tier, and the paid tier would cost $25+ per month, which was more than I wanted to pay.&lt;/p&gt;
+
+&lt;p&gt;Instead, I used &lt;a href=&quot;https://www.cloudmailin.com/&quot;&gt;CloudMailIn&lt;/a&gt;. They have a usable free tier, helpful documentation, and customer support even helped me with a coding issue I had during development.&lt;/p&gt;
+
+&lt;p&gt;I simply set up a Gmail filter to forward email to CloudMailIn, which forwarded it to the Heroku service. The service would then call back into CloudMailIn to send a reply email using my email address, if necessary.&lt;/p&gt;
+
+&lt;h2 id=&quot;automatic-salary-negotiation&quot;&gt;Automatic salary negotiation&lt;/h2&gt;
+
+&lt;p&gt;Large companies have well-defined levels with associated compensation ranges. In my script, if I was able to determine the company that the recruiter represented, I cross-referenced the recruiter’s company with data from &lt;a href=&quot;https://www.levels.fyi/&quot;&gt;Levels.fyi&lt;/a&gt; and compared it to my current company’s level and salary, and used that information to propose a level to interview at. (I’ve been bitten a couple of times by not clarifying the salary ranges up-front with recruiters, so I figure it’s best to automate it.)&lt;/p&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;h3 id=&quot;example&quot;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Here’s an example exchange with Amazon:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Dear Waleed,&lt;/p&gt;
+
+  &lt;p&gt;I came across your LinkedIn profile and am so impressed with your skill set! I’m looking for great people with your background for our AZ, OR, TX, TN, NY, CA and Canada locations for SDEII (80% coding and 20% System design).&lt;/p&gt;
+
+  &lt;p&gt;IF YOU ARE CURRENTLY WORKING OR HAS APPLIED FOR ANY POSITION WITH AMAZON IN THE LAST 3 MONTHS. PLEASE LET ME KNOW&lt;/p&gt;
+
+  &lt;p&gt;If not, I was wondering if you would like to connect and discuss possibilities?&lt;/p&gt;
+
+  &lt;p&gt;Qualifications&lt;/p&gt;
+
+  &lt;ul&gt;
+    &lt;li&gt;3+ years of non-internship professional software development experience&lt;/li&gt;
+    &lt;li&gt;Programming experience with at least one modern language such as Java, C++, or C# including object-oriented design&lt;/li&gt;
+    &lt;li&gt;1+ years of experience contributing to the architecture and design (architecture, design patterns, reliability and scaling) of new and current systems.&lt;/li&gt;
+    &lt;li&gt;Experience building complex software systems that have been successfully delivered to customers&lt;/li&gt;
+    &lt;li&gt;Knowledge of professional software engineering practices and best practices for the full software development lifecycle, including coding standards, code reviews, source control management, build processes, testing, and operations&lt;/li&gt;
+    &lt;li&gt;Ability to take a project from scoping requirements through actual launch of the project&lt;/li&gt;
+    &lt;li&gt;Experience in communicating with users, other technical teams, and management to collect requirements, describe software product features, and technical designs.&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;p&gt;If interested, please reply back to me along with contact details and email.&lt;/p&gt;
+
+  &lt;p&gt;[Recruiter name]&lt;br /&gt;
+Technical Recruiter at Amazon&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;And here’s the automated response:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Hello,&lt;/p&gt;
+
+  &lt;p&gt;I am always open to the right opportunity, but since I receive so much email from recruiters, I don’t have time to individually follow up on every message.&lt;/p&gt;
+
+  &lt;p&gt;To make things easier for us both, please include the following in your reply:&lt;/p&gt;
+
+  &lt;ul&gt;
+    &lt;li&gt;The location of the position.&lt;/li&gt;
+    &lt;li&gt;Whether your company supports remote work.&lt;/li&gt;
+    &lt;li&gt;The team which is hiring.&lt;/li&gt;
+    &lt;li&gt;How my experience relates to the team in question.&lt;/li&gt;
+    &lt;li&gt;When you are looking to fill the position.&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;p&gt;I enjoy competitive compensation at my current company, TWITTER. I’ve automatically looked up the compensation details for the company you appear to represent, AMAZON, and it seems like I would have to receive an offer at the below level to be compensated competitively.&lt;/p&gt;
+
+  &lt;p&gt;Company name: AMAZON&lt;/p&gt;
+
+  &lt;p&gt;Compensation rating: C&lt;/p&gt;
+
+  &lt;p&gt;Suggested level for competitive compensation: PRINCIPAL SDE/L7&lt;/p&gt;
+
+  &lt;p&gt;Can you confirm that you can offer the position at the above level?&lt;/p&gt;
+
+  &lt;p&gt;The following are the details of why your message was flagged as a recruiting message. If this email was sent in error, you can ignore it.&lt;/p&gt;
+
+  &lt;p&gt;Probability: &amp;gt;99%&lt;/p&gt;
+
+  &lt;p&gt;Top keywords: SCOPING, OBJECTORIENTED, CONTRIBUTING, LIFECYCLE, COMMUNICATING&lt;/p&gt;
+
+  &lt;p&gt;Best,&lt;/p&gt;
+
+  &lt;p&gt;Recruiter Reply Bot&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The recruiter did not reply in this case (see &lt;a href=&quot;#email-delivery&quot;&gt;Bugs&lt;/a&gt;).&lt;/p&gt;
+
+&lt;h3 id=&quot;efficacy&quot;&gt;Efficacy&lt;/h3&gt;
+
+&lt;p&gt;The bot correctly detected 36 recruiter emails over a 3-month period, out of which 6 emails led to further conversation.&lt;/p&gt;
+
+&lt;p&gt;At the rate of $7.72 per month,&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;That’s $0.64 per response,&lt;/li&gt;
+  &lt;li&gt;or $3.86 per thread which led to actual discussion.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;That price could definitely be reduced (such as by using serverless computing), but considering that I stand to make tens of thousands dollars more per year if I actually do accept a new position, I don’t consider it a bad price to generate “real” leads with recruiters.&lt;/p&gt;
+
+&lt;p&gt;The bot also produced 12 false positive replies:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;1 false positive to a “real” person who was trying to sell me SEO services.&lt;/li&gt;
+  &lt;li&gt;4 false positives to a correspondent who writes their emails in Polish, due to a serious bug (see &lt;a href=&quot;#non-existent-words&quot;&gt;Bugs&lt;/a&gt;). I removed this person from the email forwarding filter after that, so the real incidence would have been higher.&lt;/li&gt;
+  &lt;li&gt;4 false positives in response to Facebook Pay automated emails written in Polish, due to the same bug. There were many more automated emails written in Polish from the same service, so it’s not clear to me why only some of them triggered a reply.&lt;/li&gt;
+  &lt;li&gt;2 false positives to LinkedIn email notifications, which would probably be difficult to accurately detect given its nature as a recruiting service.&lt;/li&gt;
+  &lt;li&gt;1 false positive to an automated newsletter from a miscellaneous service.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;There were 29 further false positive replies which were caused by silly bugs, such as replying to emails even when the prediction probability was 0%, which I didn’t include in the above list.&lt;/p&gt;
+
+&lt;h3 id=&quot;responses&quot;&gt;Responses&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Response #1 (from a recruiter firm): They represented an early-stage startup in Canada. They gave a salary range, but I declined because they couldn’t meet my US-centric salary expectations.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Response #2 (from a recruiter for finance): They responded with “Thank you for responding to my email, automated though it may be.”, being the only person who acknowledged the automated nature of my response. They gave me useful information with the role and location, but only said that compensation “a minimum of 30% more than what you’re making now”. I declined because I was interested in working in functional programming languages, rather than C++ and Python.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Response #3 (from a recruiting firm): I asked for a salary range in advance, and they declined to give it (after a 10-email thread!), so we stopped communication.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Response #4 (from an early-stage startup): I asked for a salary range in advance, and they declined to give it, so we stopped communication.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Response #5 (from a late-stage startup): I actually proceeded to a phone call with the recruiter. They had an interesting team, but I declined to move forward with an interview, since it wouldn’t be a substantial compensation increase, and the equity portion would be illiquid, as the company was not public.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Response #6 (from an early-stage startup): They just responded “Okay, thank you!” to my automated reply, which I assume means that they did not want to share salary information.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;selected-amusing-keywords&quot;&gt;Selected amusing keywords&lt;/h3&gt;
+
+&lt;p&gt;Recruiters use a lot of common buzzwords in their emails, which is the premise for detecting those emails automatically. Here are some of the keywords which I found amusing. (Each of the following keywords &lt;a href=&quot;https://github.com/arxanas/detect-recruiter-spam/blob/829b2ed18394388fe977ce39f407107c88f16a66/recruiterspam/train.py#L141-L142&quot;&gt;had to appear in more than one email in the training set&lt;/a&gt; to be flagged.)&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PROFITABLE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ACTIONABLE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MOBILIZE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RAPIDLY&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;COGNITIVE&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AMAZONIANS&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INNOVATE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PURSUING&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RAPIDLY&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SKILLED&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ARLINGTON&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MICROSERVICES&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FINTECH&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;JERSEY&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;STRIVING&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PIQUED&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FOREFRONT&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;COMPLIANT&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RAPIDLY&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HEALTHTECH&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ENG&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;COMPELLING&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CERTAINTY&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;OWNING&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TALENTED&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FINTECH&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SOURCER&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;COLLABORATIVE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;IMPRESSED&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;OUTDATED&lt;/code&gt;
+    &lt;ul&gt;
+      &lt;li&gt;“Sourcer” is part of the sender’s signature, rather than the email body.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AUTONOMOUS&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SOURCER&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ACCELERATION&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CRUISE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TALENTED&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RECONNECT&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CAREERSGOOGLECOM&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LATELY&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;IMAGINE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ACCOMMODATION&lt;/code&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Obviously, this one was from Google. The punctuation in the URL has been removed as part of preprocessing.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SCOPING&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;OBJECTORIENTED&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CONTRIBUTING&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LIFECYCLE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;COMMUNICATING&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;250K&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FINTECH&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HYPERGROWTH&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LUCRATIVE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RAPIDLY&lt;/code&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Apparently $250k is a common number mentioned in recruiting emails?&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SIGMA&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AMIDST&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CHEERS&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SELECTIVE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SHAW&lt;/code&gt;
+    &lt;ul&gt;
+      &lt;li&gt;“Sigma” refers to “Two Sigma” and “Shaw” refers to “DE Shaw”, both finance firms.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AMIDST&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SELECTIVE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SHAW&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;REVOLUTIONIZE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;QUANTITATIVE&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;bugs&quot;&gt;Bugs&lt;/h2&gt;
+
+&lt;h3 id=&quot;non-existent-words&quot;&gt;Non-existent words&lt;/h3&gt;
+
+&lt;p&gt;Strangely, the filter triggers often on email which contain words that don’t appear in the training corpus. The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CountVectorizer&lt;/code&gt; should have removed these words from the input vector, and if the vector were entirely empty in the end, then the output should have taken on the prior probability of ~1%, which is not enough to trigger a response.&lt;/p&gt;
+
+&lt;p&gt;For example, an email with the following keywords was triggered:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Probability: &amp;gt;99%&lt;/p&gt;
+
+  &lt;p&gt;Top keywords: MIDZY, UKASZ, MINUT, DZISIEJSZE, PAR&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;None of these words appeared in the training set, so they should not have contributed to the classification.&lt;/p&gt;
+
+&lt;p&gt;T/L note: non-ASCII letters were removed as part of pre-processing. Here is the translation table for the above words:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;“MIDZY” = “między”, meaning “during”;&lt;/li&gt;
+  &lt;li&gt;“UKASZ” = “Łukasz”, a given name;&lt;/li&gt;
+  &lt;li&gt;“MINUT” means “minute”;&lt;/li&gt;
+  &lt;li&gt;“DZISIEJSZE” means “today’s”;&lt;/li&gt;
+  &lt;li&gt;“PAR” = “parę”, meaning “couple”.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;email-delivery&quot;&gt;Email delivery&lt;/h3&gt;
+
+&lt;p&gt;When receiving an email from LinkedIn, it says at the bottom that I can reply to the email directly. However, it appears that all of the reply emails bounced with the error “550 5.7.1 sender not authorised to email this recipient”. I assume that this is because I haven’t set up SPF on my domain. I could either set it up, or route my emails directly through Gmail.&lt;/p&gt;
+
+&lt;p&gt;Additionally, I never received a response from any Microsoft or Amazon recruiter, despite them making up the vast majority of incoming recruiter emails. The logs indicate that email delivery succeeded, but they’re using custom recruiting management solutions, so perhaps the email was rejected at some later step in the process.&lt;/p&gt;
+
+&lt;p&gt;Or alternatively, maybe they’ve decided not to waste their time with my automated emails, just like I decided not to waste my time with theirs?&lt;/p&gt;
+
+&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
+
+&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
+
+&lt;table class=&quot;related-posts&quot;&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Date&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;19&amp;nbsp;September&amp;nbsp;2016&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/dot-name-email-address/&quot;&gt;Is having a '.name' email address a good idea?&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;13&amp;nbsp;October&amp;nbsp;2016&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/messenger-conversation-macros/&quot;&gt;Analyzing all of my Messenger conversations to create conversational macros&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;12&amp;nbsp;September&amp;nbsp;2018&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/getting-a-job-in-pl/&quot;&gt;How to get a job in programming languages&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;29&amp;nbsp;April&amp;nbsp;2020&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/mail-server/&quot;&gt;I used to run my own mail server&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;04&amp;nbsp;October&amp;nbsp;2021&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      (this&amp;nbsp;post)
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/detect-recruiter-spam/&quot;&gt;Automatically detecting and replying to recruiter spam&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+&lt;/ul&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/detect-recruiter-spam/&quot;;
+    this.page.identifier = &quot;detect-recruiter-spam/&quot;;
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//waleedkhan-name.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
+</description>
+        <pubDate>Mon, 04 Oct 2021 00:00:00 -0500</pubDate>
+        <link>https://blog.waleedkhan.name/detect-recruiter-spam/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/detect-recruiter-spam/</guid>
+        
+        <category>career</category>
+        
+        <category>python</category>
+        
+        
+      </item>
     
       <item>
         <title>Automating terminal demos</title>
         <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
   &lt;li&gt;&lt;a href=&quot;#problem&quot; id=&quot;markdown-toc-problem&quot;&gt;Problem&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#solution&quot; id=&quot;markdown-toc-solution&quot;&gt;Solution&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;problem&quot;&gt;Problem&lt;/h2&gt;
@@ -79,6 +480,35 @@ expect_prompt
 
 send &lt;span class=&quot;s2&quot;&gt;&quot;exit&quot;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+&lt;/ul&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/automating-terminal-demos/&quot;;
+    this.page.identifier = &quot;automating-terminal-demos/&quot;;
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//waleedkhan-name.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
 </description>
         <pubDate>Sun, 20 Jun 2021 00:00:00 -0500</pubDate>
         <link>https://blog.waleedkhan.name/automating-terminal-demos/</link>
@@ -100,6 +530,7 @@ send &lt;span class=&quot;s2&quot;&gt;&quot;exit&quot;&lt;/span&gt;
   &lt;li&gt;&lt;a href=&quot;#solution&quot; id=&quot;markdown-toc-solution&quot;&gt;Solution&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#demos&quot; id=&quot;markdown-toc-demos&quot;&gt;Demos&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#implementation&quot; id=&quot;markdown-toc-implementation&quot;&gt;Implementation&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;motivation&quot;&gt;Motivation&lt;/h2&gt;
@@ -139,6 +570,37 @@ send &lt;span class=&quot;s2&quot;&gt;&quot;exit&quot;&lt;/span&gt;
 &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git undo&lt;/code&gt; is made possible by a recent addition to Git: the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reference-transaction&lt;/code&gt; hook. This hook triggers whenever a change is made to a reference, such as a branch. By recording all reference moves, we can rebuild the state of the commit graph at any previous point in time. Then we accomplish the undo operation by restoring all references to their previous positions in time (possibly creating or deleting references in the process).&lt;/p&gt;
 
 &lt;p&gt;I originally built &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-branchless&lt;/code&gt; in order to replicate a certain Mercurial workflow, but the data structures turn out to be flexible enough to give us a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git undo&lt;/code&gt; feature nearly for free. You can find more detail at the &lt;a href=&quot;https://github.com/arxanas/git-branchless/wiki/Architecture&quot;&gt;Architecture&lt;/a&gt; page for the project.&lt;/p&gt;
+
+&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+
+&lt;ul&gt;
+
+&lt;li class=&quot;hacker-news&quot;&gt;&lt;a href=&quot;https://news.ycombinator.com/item?id=27579701 &quot;&gt;Discussion on Hacker News&lt;/a&gt;&lt;/li&gt;
+
+
+&lt;/ul&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/git-undo/&quot;;
+    this.page.identifier = &quot;git-undo/&quot;;
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//waleedkhan-name.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
 </description>
         <pubDate>Sat, 19 Jun 2021 00:00:00 -0500</pubDate>
         <link>https://blog.waleedkhan.name/git-undo/</link>
@@ -162,6 +624,8 @@ send &lt;span class=&quot;s2&quot;&gt;&quot;exit&quot;&lt;/span&gt;
   &lt;li&gt;&lt;a href=&quot;#not-lsi-ing-down&quot; id=&quot;markdown-toc-not-lsi-ing-down&quot;&gt;Not LSI-ing down&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#not-full-hopping-to-follow-up-after-a-throw&quot; id=&quot;markdown-toc-not-full-hopping-to-follow-up-after-a-throw&quot;&gt;Not full-hopping to follow up after a throw&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#pummeling-after-grab-when-seeking-a-follow-up&quot; id=&quot;markdown-toc-pummeling-after-grab-when-seeking-a-follow-up&quot;&gt;Pummeling after grab when seeking a follow-up&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#related-posts&quot; id=&quot;markdown-toc-related-posts&quot;&gt;Related posts&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;These are the easiest-to-fix mistakes that I’d been making in Smash so far, even well into Elite Smash. I main Chrom, but these are largely character-agnostic. I’m curious to hear yours in the comments as well.&lt;/p&gt;
@@ -206,6 +670,104 @@ send &lt;span class=&quot;s2&quot;&gt;&quot;exit&quot;&lt;/span&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;&lt;em&gt;Want to improve your Smash? I made &lt;a href=&quot;https://ssb.fit&quot;&gt;the Smash Training app&lt;/a&gt; to help you improve your technical skills for free.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
+
+&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
+
+&lt;table class=&quot;related-posts&quot;&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Date&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;30&amp;nbsp;July&amp;nbsp;2020&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/lan-adapter/&quot;&gt;A LAN adapter isn't everything&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;04&amp;nbsp;August&amp;nbsp;2020&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/smash-bros-parabola-rule/&quot;&gt;Smash Bros: the parabola rule&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;10&amp;nbsp;March&amp;nbsp;2021&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/pro-controller-stick-drift/&quot;&gt;On Pro Controller stick drift&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;02&amp;nbsp;April&amp;nbsp;2021&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/hours-invested-vs-percentile-rank/&quot;&gt;Anecdata: hours invested vs percentile rank&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;08&amp;nbsp;June&amp;nbsp;2021&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      (this&amp;nbsp;post)
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/smash-mistakes/&quot;&gt;My easiest-to-fix Smash mistakes&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+&lt;li&gt;&lt;a href=&quot;https://www.reddit.com/r/CrazyHand/comments/nv7hv5/my_easiesttofix_smash_mistakes/ &quot;&gt;Discussion on Reddit&lt;/a&gt;&lt;/li&gt;
+
+&lt;/ul&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/smash-mistakes/&quot;;
+    this.page.identifier = &quot;smash-mistakes/&quot;;
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//waleedkhan-name.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
 </description>
         <pubDate>Tue, 08 Jun 2021 00:00:00 -0500</pubDate>
         <link>https://blog.waleedkhan.name/smash-mistakes/</link>
@@ -248,6 +810,8 @@ send &lt;span class=&quot;s2&quot;&gt;&quot;exit&quot;&lt;/span&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#conclusions&quot; id=&quot;markdown-toc-conclusions&quot;&gt;Conclusions&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#related-posts&quot; id=&quot;markdown-toc-related-posts&quot;&gt;Related posts&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
@@ -643,6 +1207,75 @@ test failures.&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
+
+&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
+
+&lt;table class=&quot;related-posts&quot;&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Date&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;03&amp;nbsp;January&amp;nbsp;2021&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/rust-modules-for-python-users/&quot;&gt;The Rust module system for Python users&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;29&amp;nbsp;April&amp;nbsp;2021&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      (this&amp;nbsp;post)
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/port-python-to-rust/&quot;&gt;Incrementally porting a small Python project to Rust&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+&lt;/ul&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/port-python-to-rust/&quot;;
+    this.page.identifier = &quot;port-python-to-rust/&quot;;
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//waleedkhan-name.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
 </description>
         <pubDate>Thu, 29 Apr 2021 00:00:00 -0500</pubDate>
         <link>https://blog.waleedkhan.name/port-python-to-rust/</link>
@@ -696,6 +1329,8 @@ test failures.&lt;/li&gt;
       &lt;li&gt;&lt;a href=&quot;#are-there-any-lessons-for-my-other-hobbies&quot; id=&quot;markdown-toc-are-there-any-lessons-for-my-other-hobbies&quot;&gt;Are there any lessons for my other hobbies?&lt;/a&gt;&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#related-posts&quot; id=&quot;markdown-toc-related-posts&quot;&gt;Related posts&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;switching-away-from-chess&quot;&gt;Switching away from chess&lt;/h2&gt;
@@ -883,6 +1518,102 @@ test failures.&lt;/li&gt;
 &lt;p&gt;My piano-playing ability is quite poor at the moment. I would estimate I’ve spent around 300 total practice hours on it, since it took it up in November 2019. Unfortunately, I took no objective measurements.&lt;/p&gt;
 
 &lt;p&gt;Unlike competitive videogaming, where one is matched to an opponent of similar strength, a piano player typically compares themselves to the best players in the field. It’s sometimes demoralizing to compare my performances of the same pieces with theirs. But it’s a relief to see that no matter how I feel now, I can expect to see significant improvements in ability as I reach even the 1000-hour mark.&lt;/p&gt;
+
+&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
+
+&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
+
+&lt;table class=&quot;related-posts&quot;&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Date&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;30&amp;nbsp;July&amp;nbsp;2020&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/lan-adapter/&quot;&gt;A LAN adapter isn't everything&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;04&amp;nbsp;August&amp;nbsp;2020&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/smash-bros-parabola-rule/&quot;&gt;Smash Bros: the parabola rule&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;10&amp;nbsp;March&amp;nbsp;2021&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/pro-controller-stick-drift/&quot;&gt;On Pro Controller stick drift&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;02&amp;nbsp;April&amp;nbsp;2021&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      (this&amp;nbsp;post)
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/hours-invested-vs-percentile-rank/&quot;&gt;Anecdata: hours invested vs percentile rank&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;08&amp;nbsp;June&amp;nbsp;2021&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/smash-mistakes/&quot;&gt;My easiest-to-fix Smash mistakes&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+&lt;/ul&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/hours-invested-vs-percentile-rank/&quot;;
+    this.page.identifier = &quot;hours-invested-vs-percentile-rank/&quot;;
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//waleedkhan-name.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
 </description>
         <pubDate>Fri, 02 Apr 2021 00:00:00 -0500</pubDate>
         <link>https://blog.waleedkhan.name/hours-invested-vs-percentile-rank/</link>
@@ -912,6 +1643,8 @@ test failures.&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#possible-causes&quot; id=&quot;markdown-toc-possible-causes&quot;&gt;Possible causes&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#prevention&quot; id=&quot;markdown-toc-prevention&quot;&gt;Prevention&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#manual-repair&quot; id=&quot;markdown-toc-manual-repair&quot;&gt;Manual repair&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#related-posts&quot; id=&quot;markdown-toc-related-posts&quot;&gt;Related posts&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;reputation&quot;&gt;Reputation&lt;/h2&gt;
@@ -972,6 +1705,104 @@ test failures.&lt;/li&gt;
 &lt;p&gt;Nonetheless, the above document is still a good reference for Pro Controller internals and repair, as it includes instructions to open the Pro Controller and a discussion of the relevant components, with many pictures.&lt;/p&gt;
 
 &lt;p&gt;To resolve the second issue, one can clean out dust and debris using electric contact cleaner or compressed air. This is a relatively cheap and simple fix to carry out, and many people have reported that it fixes their stick drift for a reasonable length of time.&lt;/p&gt;
+
+&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
+
+&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
+
+&lt;table class=&quot;related-posts&quot;&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Date&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;30&amp;nbsp;July&amp;nbsp;2020&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/lan-adapter/&quot;&gt;A LAN adapter isn't everything&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;04&amp;nbsp;August&amp;nbsp;2020&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/smash-bros-parabola-rule/&quot;&gt;Smash Bros: the parabola rule&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;10&amp;nbsp;March&amp;nbsp;2021&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      (this&amp;nbsp;post)
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/pro-controller-stick-drift/&quot;&gt;On Pro Controller stick drift&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;02&amp;nbsp;April&amp;nbsp;2021&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/hours-invested-vs-percentile-rank/&quot;&gt;Anecdata: hours invested vs percentile rank&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;08&amp;nbsp;June&amp;nbsp;2021&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/smash-mistakes/&quot;&gt;My easiest-to-fix Smash mistakes&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+&lt;li&gt;&lt;a href=&quot;https://www.reddit.com/r/CrazyHand/comments/m2599t/on_pro_controller_stick_drift/ &quot;&gt;Discussion on Reddit&lt;/a&gt;&lt;/li&gt;
+
+&lt;/ul&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/pro-controller-stick-drift/&quot;;
+    this.page.identifier = &quot;pro-controller-stick-drift/&quot;;
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//waleedkhan-name.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
 </description>
         <pubDate>Wed, 10 Mar 2021 00:00:00 -0600</pubDate>
         <link>https://blog.waleedkhan.name/pro-controller-stick-drift/</link>
@@ -999,6 +1830,35 @@ test failures.&lt;/li&gt;
 &lt;p&gt;Or you’re working, and you need to read a document. So you unplug your device and walk over to the couch and get comfortable and read it there.&lt;/p&gt;
 
 &lt;p&gt;Phones will have to get a little bit more powerful and flexible, and drivers will have to get a little bit more reliable — my Macbook still regularly crashes in its sleep, due to faulty power management of the USB hub. But I look forward to this future.&lt;/p&gt;
+
+&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+&lt;/ul&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/the-usb-c-dream/&quot;;
+    this.page.identifier = &quot;the-usb-c-dream/&quot;;
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//waleedkhan-name.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
 </description>
         <pubDate>Mon, 08 Mar 2021 00:00:00 -0600</pubDate>
         <link>https://blog.waleedkhan.name/the-usb-c-dream/</link>
@@ -1024,6 +1884,8 @@ test failures.&lt;/li&gt;
       &lt;li&gt;&lt;a href=&quot;#nested-modules&quot; id=&quot;markdown-toc-nested-modules&quot;&gt;Nested modules&lt;/a&gt;&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#related-posts&quot; id=&quot;markdown-toc-related-posts&quot;&gt;Related posts&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h3 id=&quot;crates&quot;&gt;Crates&lt;/h3&gt;
@@ -1063,6 +1925,75 @@ test failures.&lt;/li&gt;
 &lt;p&gt;To re-export the namespace and make it available to all users outside of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bar&lt;/code&gt;, it should be changed to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pub mod qux;&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;The main take-away is that Rust requires the explicit re-exporting of nested modules using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;mod&lt;/code&gt; at each step of the hierarchy, while Python does not.&lt;/p&gt;
+
+&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
+
+&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
+
+&lt;table class=&quot;related-posts&quot;&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Date&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;03&amp;nbsp;January&amp;nbsp;2021&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      (this&amp;nbsp;post)
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/rust-modules-for-python-users/&quot;&gt;The Rust module system for Python users&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;29&amp;nbsp;April&amp;nbsp;2021&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/port-python-to-rust/&quot;&gt;Incrementally porting a small Python project to Rust&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+&lt;/ul&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/rust-modules-for-python-users/&quot;;
+    this.page.identifier = &quot;rust-modules-for-python-users/&quot;;
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//waleedkhan-name.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
 </description>
         <pubDate>Sun, 03 Jan 2021 00:00:00 -0600</pubDate>
         <link>https://blog.waleedkhan.name/rust-modules-for-python-users/</link>
@@ -1102,6 +2033,7 @@ test failures.&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#conclusions&quot; id=&quot;markdown-toc-conclusions&quot;&gt;Conclusions&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;project-requirements&quot;&gt;Project requirements&lt;/h2&gt;
@@ -1280,6 +2212,37 @@ test failures.&lt;/li&gt;
 &lt;p&gt;User studies proved invaluable. Thanks to all my friends who participated.&lt;/p&gt;
 
 &lt;p&gt;This project was a success for me, because 1) I solved a problem I had; 2) I solved a problem that others had; and 3) I reduced my maintenance burden to the absolute minimum — I haven’t had any deployment issues since launching it.&lt;/p&gt;
+
+&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+
+&lt;ul&gt;
+
+&lt;li class=&quot;hacker-news&quot;&gt;&lt;a href=&quot;https://news.ycombinator.com/item?id=25387356 &quot;&gt;Discussion on Hacker News&lt;/a&gt;&lt;/li&gt;
+
+
+&lt;/ul&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/smash-training-retrospective/&quot;;
+    this.page.identifier = &quot;smash-training-retrospective/&quot;;
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//waleedkhan-name.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
 </description>
         <pubDate>Sun, 06 Dec 2020 00:00:00 -0600</pubDate>
         <link>https://blog.waleedkhan.name/smash-training-retrospective/</link>
@@ -1288,77 +2251,6 @@ test failures.&lt;/li&gt;
         <category>smash-bros</category>
         
         <category>software-engineering</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Smash Bros: the parabola rule</title>
-        <description>&lt;p&gt;This is a simple mistake that I used to make as a beginner. It took surprisingly long to realize the precise nature of the mistake, so I’m posting about it here.&lt;/p&gt;
-
-&lt;p&gt;Suppose you’re landing and trying to avoid an opponent. You want to avoid their “threat bubble” while landing: the maximum range that their attacks can reach in the time it takes you to land.&lt;/p&gt;
-
-&lt;figure class=&quot;figure&quot;&gt;
-        &lt;a href=&quot;/assets/posts/smash-bros-the-parabola-rule/1-threat-bubble.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/assets/posts/smash-bros-the-parabola-rule/1-threat-bubble.png&quot; alt=&quot;The red player is in the air, while the blue player is on the ground, projecting a threat bubble.&quot; title=&quot;The red player is in the air, while the blue player is on the ground, projecting a threat bubble.&quot; /&gt;&lt;/a&gt;
-        &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;The red player is in the air, while the blue player is on the ground, projecting a threat bubble.&lt;/p&gt;
-&lt;/figcaption&gt;
-      &lt;/figure&gt;
-
-&lt;p&gt;So naturally, you drift to the side to avoid their threat bubble.&lt;/p&gt;
-
-&lt;figure class=&quot;figure&quot;&gt;
-        &lt;a href=&quot;/assets/posts/smash-bros-the-parabola-rule/2-landing-arc.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/assets/posts/smash-bros-the-parabola-rule/2-landing-arc.png&quot; alt=&quot;Red player's planned trajectory, drifting to the side to avoid the blue player.&quot; title=&quot;Red player's planned trajectory, drifting to the side to avoid the blue player.&quot; /&gt;&lt;/a&gt;
-        &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;Red player&amp;#8217;s planned trajectory, drifting to the side to avoid the blue player.&lt;/p&gt;
-&lt;/figcaption&gt;
-      &lt;/figure&gt;
-
-&lt;p&gt;The ideal landing position would be as close to center stage as possible, while still staying outside of their threat bubble.&lt;/p&gt;
-
-&lt;figure class=&quot;figure&quot;&gt;
-        &lt;a href=&quot;/assets/posts/smash-bros-the-parabola-rule/3-threat-bubble-and-circular-arc.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/assets/posts/smash-bros-the-parabola-rule/3-threat-bubble-and-circular-arc.png&quot; alt=&quot;The red player's expected trajectory is tangent to the blue player's threat bubble. The trajectory does not pass through the threat bubble, meaning that it's a safe landing: the blue player cannot reach the red player and hit them as they land.&quot; title=&quot;The red player's expected trajectory is tangent to the blue player's threat bubble. The trajectory does not pass through the threat bubble, meaning that it's a safe landing: the blue player cannot reach the red player and hit them as they land.&quot; /&gt;&lt;/a&gt;
-        &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;The red player&amp;#8217;s expected trajectory is tangent to the blue player&amp;#8217;s threat bubble. The trajectory does not pass through the threat bubble, meaning that it&amp;#8217;s a safe landing: the blue player cannot reach the red player and hit them as they land.&lt;/p&gt;
-&lt;/figcaption&gt;
-      &lt;/figure&gt;
-
-&lt;p&gt;So what’s wrong with this image? It’s hard to tell, but the problem is that it depicts a &lt;strong&gt;circular landing arc&lt;/strong&gt;. But characters in &lt;em&gt;Smash Bros.&lt;/em&gt; don’t typically travel in circular arcs. At the top of the arc, your velocity will be close to zero horizontally, and you’ll be increasing it as gravity pulls you downward. With a circle, your velocity stays the same, but your direction changes the entire way down.&lt;/p&gt;
-
-&lt;p&gt;The actual trajectory of the player is closer to a parabola. Let’s look at what a parabolic arc might look like.&lt;/p&gt;
-
-&lt;figure class=&quot;figure&quot;&gt;
-        &lt;a href=&quot;/assets/posts/smash-bros-the-parabola-rule/4-threat-bubble-and-parabolic-arc.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/assets/posts/smash-bros-the-parabola-rule/4-threat-bubble-and-parabolic-arc.png&quot; alt=&quot;The red player's *actual* trajectory is a wider arc. Notice that the landing position is farther away from the blue player than in the previous diagram.&quot; title=&quot;The red player's *actual* trajectory is a wider arc. Notice that the landing position is farther away from the blue player than in the previous diagram.&quot; /&gt;&lt;/a&gt;
-        &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;The red player&amp;#8217;s &lt;em&gt;actual&lt;/em&gt; trajectory is a wider arc. Notice that the landing position is farther away from the blue player than in the previous diagram.&lt;/p&gt;
-&lt;/figcaption&gt;
-      &lt;/figure&gt;
-
-&lt;p&gt;There’s a constant downward force provided by gravity, accelerating you to a maximum downward velocity. However, your horizontal velocity increases as you go farther down. Furthermore, as you pass the point where your trajectory intersects the threat bubble, you’ll want to reverse your acceleration to be &lt;em&gt;towards&lt;/em&gt; center stage, so that you give up as little space as possible to the opponent.&lt;/p&gt;
-
-&lt;p&gt;If we thought that our trajectory was circular, not parabolic, and tried to aim towards the same “safe” spot on the ground as in the previous circular arc diagram, we would actually slightly enter the opponent’s threat bubble:&lt;/p&gt;
-
-&lt;figure class=&quot;figure&quot;&gt;
-        &lt;a href=&quot;/assets/posts/smash-bros-the-parabola-rule/5-threat-bubble-and-real-circular-arc.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/assets/posts/smash-bros-the-parabola-rule/5-threat-bubble-and-real-circular-arc.png&quot; alt=&quot;If the red player aims towards the circular arc's landing position, but actually has a parabolic arc, then they'll slightly pass through the blue player's threat bubble.&quot; title=&quot;If the red player aims towards the circular arc's landing position, but actually has a parabolic arc, then they'll slightly pass through the blue player's threat bubble.&quot; /&gt;&lt;/a&gt;
-        &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;If the red player aims towards the circular arc&amp;#8217;s landing position, but actually has a parabolic arc, then they&amp;#8217;ll slightly pass through the blue player&amp;#8217;s threat bubble.&lt;/p&gt;
-&lt;/figcaption&gt;
-      &lt;/figure&gt;
-
-&lt;p&gt;This difference is so minute, it’s easy to not realize what’s going on with your player’s trajectory, and get hit while landing.&lt;/p&gt;
-
-&lt;p&gt;To fix this problem, we need to apply &lt;strong&gt;the parabola rule&lt;/strong&gt;:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Aim for a spot farther away on the ground than you think is appropriate (until you’ve internalized how far away is actually appropriate).&lt;/li&gt;
-  &lt;li&gt;DI outwards all the way down, until you reach the tangent point between your arc and your opponent’s threat bubble. Then you are free to start DI-ing inwards.&lt;/li&gt;
-  &lt;li&gt;Do not fast-fall until you’ve cleared the tangent point! Otherwise, you may accidentally fall through the threat bubble earlier than expected.
-    &lt;ul&gt;
-      &lt;li&gt;This issue is something I’m still working on. Fast-falling gets you to the ground faster, so it intuitively feels safer (particularly considering that I main a fast-falling character). But it can actually be a worse choice than drifting as far as possible away from the opponent, and not fast-falling at all.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Tue, 04 Aug 2020 00:00:00 -0500</pubDate>
-        <link>https://blog.waleedkhan.name/smash-bros-parabola-rule/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/smash-bros-parabola-rule/</guid>
-        
-        <category>smash-bros</category>
         
         
       </item>

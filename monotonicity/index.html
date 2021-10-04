@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Monotonicity is a halfway point between mutability and immutability</title>
-  <meta name="description" content="Introduction">
+  <meta name="description" content="">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://blog.waleedkhan.name/monotonicity/">
@@ -66,7 +66,22 @@
 
   <div class="post-content" itemprop="articleBody">
     
-    <h2 id="introduction">Introduction</h2>
+    <ul id="markdown-toc">
+  <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a></li>
+  <li><a href="#what-is-monotonicity" id="markdown-toc-what-is-monotonicity">What is monotonicity?</a></li>
+  <li><a href="#simple-values" id="markdown-toc-simple-values">Simple values</a></li>
+  <li><a href="#memoized-values" id="markdown-toc-memoized-values">Memoized values</a></li>
+  <li><a href="#state-machines" id="markdown-toc-state-machines">State machines</a></li>
+  <li><a href="#in-distributed-contexts" id="markdown-toc-in-distributed-contexts">In distributed contexts</a>    <ul>
+      <li><a href="#case-study-a-workout-tracking-app" id="markdown-toc-case-study-a-workout-tracking-app">Case study: a workout tracking app</a></li>
+    </ul>
+  </li>
+  <li><a href="#invalidating-data" id="markdown-toc-invalidating-data">Invalidating data</a></li>
+  <li><a href="#compaction" id="markdown-toc-compaction">Compaction</a></li>
+  <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
+</ul>
+
+<h2 id="introduction">Introduction</h2>
 
 <p>Immutable values are easy to reason about in complex systems, because they never change. Many functional languages strongly encourage the developer to use immutable values. For example, Clojure has a strong emphasis on using immutable values, so that multithreading can be made easy and safe.</p>
 
@@ -322,21 +337,12 @@
 
 <p>To carry out this compaction procedure may require an exclusive lock or some other kind of synchronization, but it can reduce the performance overhead of a monotonic approach.</p>
 
-  </div>
-
-</article>
-
-
-
-<h1>Discussion</h1>
+<h2 id="comments">Comments</h2>
 
 <ul>
 
 
 </ul>
-
-
-
 
 <div id="disqus_thread"></div>
 <script>
@@ -356,9 +362,13 @@ var disqus_config = function () {
     (d.head || d.body).appendChild(s);
 })();
 </script>
+
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 
+  </div>
+
+</article>
 
       </div>
     </div>

@@ -157,7 +157,11 @@ table { width: 100%; }
 
 .post-tag:before { content: "\2022"; padding-right: 5px; }
 
-.related-posts { text-align: left; }
+.related-posts { text-align: left; margin-bottom: 20px; }
+
+.related-posts td { vertical-align: top; }
+
+.this-post { padding-right: 10px; }
 
 /** Syntax highlighting styles */
 .highlight { background: #fff; }
