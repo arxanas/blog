@@ -7,8 +7,8 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 04 Oct 2021 16:36:02 -0500</pubDate>
-    <lastBuildDate>Mon, 04 Oct 2021 16:36:02 -0500</lastBuildDate>
+    <pubDate>Mon, 04 Oct 2021 16:47:29 -0500</pubDate>
+    <lastBuildDate>Mon, 04 Oct 2021 16:47:29 -0500</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
@@ -405,6 +405,8 @@ var disqus_config = function () {
         <guid isPermaLink="true">https://blog.waleedkhan.name/detect-recruiter-spam/</guid>
         
         <category>career</category>
+        
+        <category>machine-learning</category>
         
         <category>python</category>
         
