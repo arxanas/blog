@@ -7,8 +7,8 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 12 Oct 2021 20:17:49 -0500</pubDate>
-    <lastBuildDate>Tue, 12 Oct 2021 20:17:49 -0500</lastBuildDate>
+    <pubDate>Tue, 12 Oct 2021 20:50:48 -0500</pubDate>
+    <lastBuildDate>Tue, 12 Oct 2021 20:50:48 -0500</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
@@ -22,7 +22,7 @@ employers.</description>
 
 &lt;p&gt;&lt;strong&gt;What does it mean to rebase?&lt;/strong&gt; In Git, to “rebase” a commit means to apply a commit’s diff against its parent commit as a patch to another target commit. Essentially, it “moves” the commit from one place to another.&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;How much faster is it?&lt;/strong&gt; See &lt;a href=&quot;#timing&quot;&gt;Timing&lt;/a&gt;. If the branch is currently checked out, then 10x is a reasonable estimate. If the branch is not checked out, then it’s even faster.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;How much faster is it?&lt;/strong&gt; See &lt;a href=&quot;#timing&quot;&gt;Timing&lt;/a&gt;. If the branch is currently checked out, then 11x is a reasonable estimate. If the branch is not checked out, then it’s even faster.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Is performance the only added feature?&lt;/strong&gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git move&lt;/code&gt; also offers several other quality-of-life improvements over &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase&lt;/code&gt;. For example, it can move entire subtrees, not just branches. See &lt;a href=&quot;https://github.com/arxanas/git-branchless/wiki/Command:-git-move&quot;&gt;the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git move&lt;/code&gt; documentation&lt;/a&gt; for more information.&lt;/p&gt;
 
