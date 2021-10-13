@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Lightning-fast rebases with git-move</title>
-  <meta name="description" content="You can use git move as a drop-in 10x faster replacement for git rebase. The basic syntax is">
+  <meta name="description" content="This post is a draft post — please don’t share it widely before it’s ready!">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://blog.waleedkhan.name/in-memory-rebases/">
@@ -66,16 +66,18 @@
 
   <div class="post-content" itemprop="articleBody">
     
-    <p>You can use <code class="language-plaintext highlighter-rouge">git move</code> as a drop-in 10x faster replacement for <code class="language-plaintext highlighter-rouge">git rebase</code>. The basic syntax is</p>
+    <p><em>This post is a draft post — please don’t share it widely before it’s ready!</em></p>
+
+<p>You can use <code class="language-plaintext highlighter-rouge">git move</code> as a drop-in 10x faster replacement for <code class="language-plaintext highlighter-rouge">git rebase</code> (see <a href="#timing">the demo</a>). The basic syntax is</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ git move -b &lt;branch&gt; -d &lt;dest&gt;
 </code></pre></div></div>
 
 <p><strong>How do I install it?</strong> The <code class="language-plaintext highlighter-rouge">git move</code> command is part of the <a href="https://github.com/arxanas/git-branchless">git-branchless</a> suite of tools. See the <a href="https://github.com/arxanas/git-branchless/wiki/Installation">installation instructions</a>.</p>
 
-<p><strong>What does it mean to rebase?</strong> In Git, to “rebase” a commit means to apply a commit’s diff against its parent commit as a patch to another target commit. Essentially, it “moves” the commit from one place to another.</p>
+<p><strong>What does “rebase” mean?</strong> In Git, to “rebase” a commit means to apply a commit’s diff against its parent commit as a patch to another target commit. Essentially, it “moves” the commit from one place to another.</p>
 
-<p><strong>How much faster is it?</strong> See <a href="#timing">Timing</a>. If the branch is currently checked out, then 11x is a reasonable estimate. If the branch is not checked out, then it’s even faster.</p>
+<p><strong>How much faster is it?</strong> See <a href="#timing">Timing</a>. If the branch is currently checked out, then 10x is a reasonable estimate. If the branch is not checked out, then it’s even faster.</p>
 
 <p><strong>Is performance the only added feature?</strong> <code class="language-plaintext highlighter-rouge">git move</code> also offers several other quality-of-life improvements over <code class="language-plaintext highlighter-rouge">git rebase</code>. For example, it can move entire subtrees, not just branches. See <a href="https://github.com/arxanas/git-branchless/wiki/Command:-git-move">the <code class="language-plaintext highlighter-rouge">git move</code> documentation</a> for more information.</p>
 
@@ -95,7 +97,7 @@
 
 <p>I tested on the Git mirror of Mozilla’s <a href="https://github.com/mozilla/gecko-dev">gecko-dev</a> repository. This is a large repository with ~750k commits and ~250k working copy files, so it’s good for stress tests.</p>
 
-<p>It takes about 10 seconds to rebase 20 commits on</p>
+<p>It takes about 10 seconds to rebase 20 commits with <code class="language-plaintext highlighter-rouge">git rebase</code>:</p>
 
 <script id="asciicast-437913" src="https://asciinema.org/a/437913.js" async=""></script>
 
@@ -109,7 +111,7 @@
 
 <p>These timings are not scientific, and there are optimizations that can be applied to both, but the order of magnitude is roughly correct in my experience.</p>
 
-<p>Since <code class="language-plaintext highlighter-rouge">git move</code> can operate entirely in-memory, it can also rebase branches which aren’t checked out, which is much faster than using <code class="language-plaintext highlighter-rouge">git rebase</code>, because it doesn’t have to touch the working copy at all.</p>
+<p>Since <code class="language-plaintext highlighter-rouge">git move</code> can operate entirely in-memory, it can also rebase branches which aren’t checked out. This is much faster than using <code class="language-plaintext highlighter-rouge">git rebase</code>, because it doesn’t have to touch the working copy at all.</p>
 
 <h2 id="why-is-it-faster">Why is it faster?</h2>
 
@@ -122,13 +124,15 @@
 
 <p>With a stock Git rebase, you have to check out to the target commit, and then apply each of the commits’ contents individually to disk. After each commit’s application to disk, Git will implicitly check the status of files on disk again. This isn’t strictly necessary for many rebases, and can be quite slow on sizable repos.</p>
 
-<p>The way Git creates a commit is by first populating the “index” data structure, which is essentially a sorted list of all of the files in the working copy. It can be expensive for Git to convert the index into a “tree” object, which is used to store commits internally, as it has to insert or re-insert many already-existing entries into the object database. (There are some optimizations that can improve this, such as the <a href="https://git-scm.com/docs/index-format#_cache_tree">cache tree extension</a>).</p>
+<p>When Git is ready to apply one of the commits, it first populates the “index” data structure, which is essentially a sorted list of all of the files in the working copy. It can be expensive for Git to convert the index into a “tree” object, which is used to store commits internally, as it has to insert or re-insert many already-existing entries into the object database. (There are some optimizations that can improve this, such as the <a href="https://git-scm.com/docs/index-format#_cache_tree">cache tree extension</a>).</p>
 
 <p>Work is already well underway on upstream Git to support the features which would make in-memory rebases feasible, so hopefully we’ll see mainstream Git enjoy similar performance gains in the future.</p>
 
 <h2 id="what-about-merge-conflicts">What about merge conflicts?</h2>
 
-<p>Currently, <code class="language-plaintext highlighter-rouge">git move</code> will fail if there is a merge conflict and retry the rebase operation on-disk, so that the user can resolve merge conflicts. Since in-memory rebases are typically very fast, this doesn’t usually impede the developer experience. Of course, it’s possible in principle to resolve merge conflicts in-memory as well.</p>
+<p>If an in-memory rebase produces a merge conflict, <code class="language-plaintext highlighter-rouge">git move</code> will cancel it and restart it as an on-disk rebase, so that the user can resolve merge conflicts. Since in-memory rebases are typically very fast, this doesn’t usually impede the developer experience.</p>
+
+<p>Of course, it’s possible in principle to resolve merge conflicts in-memory as well.</p>
 
 <h2 id="related-work">Related work</h2>
 
@@ -141,17 +145,21 @@
       <li>To my knowledge, no other Git GUI client offers in-memory rebases. Please let me know of others, so that I can update this comment.</li>
     </ul>
   </li>
-  <li><a href="https://github.com/mystor/git-revise"><code class="language-plaintext highlighter-rouge">git-revise</code></a> (2019), a command-line utility to provide in-memory rebases and edits.</li>
+  <li><a href="https://github.com/mystor/git-revise">git-revise</a> (2019), a command-line utility which allows various in-memory edits to commits.
+    <ul>
+      <li>git-revise is a replacement for <code class="language-plaintext highlighter-rouge">git rebase -i</code>, not <code class="language-plaintext highlighter-rouge">git rebase</code>. It can reorder commits, but it isn’t intended to move commits from one base to another. See <a href="#interactive-rebase">Interactive rebase</a>.</li>
+    </ul>
+  </li>
   <li>Other source control systems have in-memory rebases, such as <a href="https://www.mercurial-scm.org/">Mercurial</a> and <a href="https://github.com/martinvonz/jj">Jujutsu</a>.</li>
 </ul>
 
-<p>The goal of the <a href="https://github.com/arxanas/git-branchless"><code class="language-plaintext highlighter-rouge">git-branchless</code></a> project is to improve developer velocity with various features that can be incrementally adopted by users, such as in-memory rebases. Performance is an explicit feature: it’s designed to work with monorepo-scale codebases.</p>
+<p>The goal of the <a href="https://github.com/arxanas/git-branchless">git-branchless</a> project is to improve developer velocity with various features that can be incrementally adopted by users, such as in-memory rebases. Performance is an explicit feature: it’s designed to work with monorepo-scale codebases.</p>
 
 <h2 id="interactive-rebase">Interactive rebase</h2>
 
-<p>Interactive rebase (<code class="language-plaintext highlighter-rouge">git rebase -i</code>) is a feature which can be used to modify, reorder, combine, etc. several commits in sequence. <code class="language-plaintext highlighter-rouge">git-move</code> does not do this at present, but this functionality is planned for a future <code class="language-plaintext highlighter-rouge">git-branchless</code> release. Watch <a href="https://github.com/arxanas/git-branchless">the Github repository</a> to be notified of new releases.</p>
+<p>Interactive rebase (<code class="language-plaintext highlighter-rouge">git rebase -i</code>) is a feature which can be used to modify, reorder, combine, etc. several commits in sequence. <code class="language-plaintext highlighter-rouge">git move</code> does not do this at present, but this functionality is planned for a future git-branchless release. Watch <a href="https://github.com/arxanas/git-branchless">the Github repository</a> to be notified of new releases.</p>
 
-<p>In the meantime, you can use <a href="https://github.com/mystor/git-revise"><code class="language-plaintext highlighter-rouge">git-revise</code></a>. Unfortunately, <code class="language-plaintext highlighter-rouge">git-branchless</code> and <code class="language-plaintext highlighter-rouge">git-revise</code> do not interoperate well due to <code class="language-plaintext highlighter-rouge">git-revise</code>’s lack of support for the <code class="language-plaintext highlighter-rouge">post-rewrite</code> hook (see <a href="https://github.com/mystor/git-revise/issues/35#issuecomment-523237380">this issue</a>).</p>
+<p>In the meantime, you can use <a href="https://github.com/mystor/git-revise">git-revise</a>. Unfortunately, git-branchless and git-revise do not interoperate well due to git-revise’s lack of support for the <code class="language-plaintext highlighter-rouge">post-rewrite</code> hook (see <a href="https://github.com/mystor/git-revise/issues/35#issuecomment-523237380">this issue</a>).</p>
 
 <h2 id="related-posts">Related posts</h2>
 

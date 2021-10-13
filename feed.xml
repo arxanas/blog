@@ -7,22 +7,24 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 12 Oct 2021 20:50:48 -0500</pubDate>
-    <lastBuildDate>Tue, 12 Oct 2021 20:50:48 -0500</lastBuildDate>
+    <pubDate>Tue, 12 Oct 2021 22:31:39 -0500</pubDate>
+    <lastBuildDate>Tue, 12 Oct 2021 22:31:39 -0500</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
         <title>Lightning-fast rebases with git-move</title>
-        <description>&lt;p&gt;You can use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git move&lt;/code&gt; as a drop-in 10x faster replacement for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase&lt;/code&gt;. The basic syntax is&lt;/p&gt;
+        <description>&lt;p&gt;&lt;em&gt;This post is a draft post — please don’t share it widely before it’s ready!&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;You can use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git move&lt;/code&gt; as a drop-in 10x faster replacement for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase&lt;/code&gt; (see &lt;a href=&quot;#timing&quot;&gt;the demo&lt;/a&gt;). The basic syntax is&lt;/p&gt;
 
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ git move -b &amp;lt;branch&amp;gt; -d &amp;lt;dest&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;How do I install it?&lt;/strong&gt; The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git move&lt;/code&gt; command is part of the &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt; suite of tools. See the &lt;a href=&quot;https://github.com/arxanas/git-branchless/wiki/Installation&quot;&gt;installation instructions&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;What does it mean to rebase?&lt;/strong&gt; In Git, to “rebase” a commit means to apply a commit’s diff against its parent commit as a patch to another target commit. Essentially, it “moves” the commit from one place to another.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;What does “rebase” mean?&lt;/strong&gt; In Git, to “rebase” a commit means to apply a commit’s diff against its parent commit as a patch to another target commit. Essentially, it “moves” the commit from one place to another.&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;How much faster is it?&lt;/strong&gt; See &lt;a href=&quot;#timing&quot;&gt;Timing&lt;/a&gt;. If the branch is currently checked out, then 11x is a reasonable estimate. If the branch is not checked out, then it’s even faster.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;How much faster is it?&lt;/strong&gt; See &lt;a href=&quot;#timing&quot;&gt;Timing&lt;/a&gt;. If the branch is currently checked out, then 10x is a reasonable estimate. If the branch is not checked out, then it’s even faster.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Is performance the only added feature?&lt;/strong&gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git move&lt;/code&gt; also offers several other quality-of-life improvements over &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase&lt;/code&gt;. For example, it can move entire subtrees, not just branches. See &lt;a href=&quot;https://github.com/arxanas/git-branchless/wiki/Command:-git-move&quot;&gt;the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git move&lt;/code&gt; documentation&lt;/a&gt; for more information.&lt;/p&gt;
 
@@ -42,7 +44,7 @@ employers.</description>
 
 &lt;p&gt;I tested on the Git mirror of Mozilla’s &lt;a href=&quot;https://github.com/mozilla/gecko-dev&quot;&gt;gecko-dev&lt;/a&gt; repository. This is a large repository with ~750k commits and ~250k working copy files, so it’s good for stress tests.&lt;/p&gt;
 
-&lt;p&gt;It takes about 10 seconds to rebase 20 commits on&lt;/p&gt;
+&lt;p&gt;It takes about 10 seconds to rebase 20 commits with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase&lt;/code&gt;:&lt;/p&gt;
 
 &lt;script id=&quot;asciicast-437913&quot; src=&quot;https://asciinema.org/a/437913.js&quot; async=&quot;&quot;&gt;&lt;/script&gt;
 
@@ -56,7 +58,7 @@ employers.</description>
 
 &lt;p&gt;These timings are not scientific, and there are optimizations that can be applied to both, but the order of magnitude is roughly correct in my experience.&lt;/p&gt;
 
-&lt;p&gt;Since &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git move&lt;/code&gt; can operate entirely in-memory, it can also rebase branches which aren’t checked out, which is much faster than using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase&lt;/code&gt;, because it doesn’t have to touch the working copy at all.&lt;/p&gt;
+&lt;p&gt;Since &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git move&lt;/code&gt; can operate entirely in-memory, it can also rebase branches which aren’t checked out. This is much faster than using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase&lt;/code&gt;, because it doesn’t have to touch the working copy at all.&lt;/p&gt;
 
 &lt;h2 id=&quot;why-is-it-faster&quot;&gt;Why is it faster?&lt;/h2&gt;
 
@@ -69,13 +71,15 @@ employers.</description>
 
 &lt;p&gt;With a stock Git rebase, you have to check out to the target commit, and then apply each of the commits’ contents individually to disk. After each commit’s application to disk, Git will implicitly check the status of files on disk again. This isn’t strictly necessary for many rebases, and can be quite slow on sizable repos.&lt;/p&gt;
 
-&lt;p&gt;The way Git creates a commit is by first populating the “index” data structure, which is essentially a sorted list of all of the files in the working copy. It can be expensive for Git to convert the index into a “tree” object, which is used to store commits internally, as it has to insert or re-insert many already-existing entries into the object database. (There are some optimizations that can improve this, such as the &lt;a href=&quot;https://git-scm.com/docs/index-format#_cache_tree&quot;&gt;cache tree extension&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;When Git is ready to apply one of the commits, it first populates the “index” data structure, which is essentially a sorted list of all of the files in the working copy. It can be expensive for Git to convert the index into a “tree” object, which is used to store commits internally, as it has to insert or re-insert many already-existing entries into the object database. (There are some optimizations that can improve this, such as the &lt;a href=&quot;https://git-scm.com/docs/index-format#_cache_tree&quot;&gt;cache tree extension&lt;/a&gt;).&lt;/p&gt;
 
 &lt;p&gt;Work is already well underway on upstream Git to support the features which would make in-memory rebases feasible, so hopefully we’ll see mainstream Git enjoy similar performance gains in the future.&lt;/p&gt;
 
 &lt;h2 id=&quot;what-about-merge-conflicts&quot;&gt;What about merge conflicts?&lt;/h2&gt;
 
-&lt;p&gt;Currently, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git move&lt;/code&gt; will fail if there is a merge conflict and retry the rebase operation on-disk, so that the user can resolve merge conflicts. Since in-memory rebases are typically very fast, this doesn’t usually impede the developer experience. Of course, it’s possible in principle to resolve merge conflicts in-memory as well.&lt;/p&gt;
+&lt;p&gt;If an in-memory rebase produces a merge conflict, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git move&lt;/code&gt; will cancel it and restart it as an on-disk rebase, so that the user can resolve merge conflicts. Since in-memory rebases are typically very fast, this doesn’t usually impede the developer experience.&lt;/p&gt;
+
+&lt;p&gt;Of course, it’s possible in principle to resolve merge conflicts in-memory as well.&lt;/p&gt;
 
 &lt;h2 id=&quot;related-work&quot;&gt;Related work&lt;/h2&gt;
 
@@ -88,17 +92,21 @@ employers.</description>
       &lt;li&gt;To my knowledge, no other Git GUI client offers in-memory rebases. Please let me know of others, so that I can update this comment.&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/mystor/git-revise&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-revise&lt;/code&gt;&lt;/a&gt; (2019), a command-line utility to provide in-memory rebases and edits.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/mystor/git-revise&quot;&gt;git-revise&lt;/a&gt; (2019), a command-line utility which allows various in-memory edits to commits.
+    &lt;ul&gt;
+      &lt;li&gt;git-revise is a replacement for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase -i&lt;/code&gt;, not &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase&lt;/code&gt;. It can reorder commits, but it isn’t intended to move commits from one base to another. See &lt;a href=&quot;#interactive-rebase&quot;&gt;Interactive rebase&lt;/a&gt;.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
   &lt;li&gt;Other source control systems have in-memory rebases, such as &lt;a href=&quot;https://www.mercurial-scm.org/&quot;&gt;Mercurial&lt;/a&gt; and &lt;a href=&quot;https://github.com/martinvonz/jj&quot;&gt;Jujutsu&lt;/a&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;The goal of the &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-branchless&lt;/code&gt;&lt;/a&gt; project is to improve developer velocity with various features that can be incrementally adopted by users, such as in-memory rebases. Performance is an explicit feature: it’s designed to work with monorepo-scale codebases.&lt;/p&gt;
+&lt;p&gt;The goal of the &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt; project is to improve developer velocity with various features that can be incrementally adopted by users, such as in-memory rebases. Performance is an explicit feature: it’s designed to work with monorepo-scale codebases.&lt;/p&gt;
 
 &lt;h2 id=&quot;interactive-rebase&quot;&gt;Interactive rebase&lt;/h2&gt;
 
-&lt;p&gt;Interactive rebase (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase -i&lt;/code&gt;) is a feature which can be used to modify, reorder, combine, etc. several commits in sequence. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-move&lt;/code&gt; does not do this at present, but this functionality is planned for a future &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-branchless&lt;/code&gt; release. Watch &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;the Github repository&lt;/a&gt; to be notified of new releases.&lt;/p&gt;
+&lt;p&gt;Interactive rebase (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase -i&lt;/code&gt;) is a feature which can be used to modify, reorder, combine, etc. several commits in sequence. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git move&lt;/code&gt; does not do this at present, but this functionality is planned for a future git-branchless release. Watch &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;the Github repository&lt;/a&gt; to be notified of new releases.&lt;/p&gt;
 
-&lt;p&gt;In the meantime, you can use &lt;a href=&quot;https://github.com/mystor/git-revise&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-revise&lt;/code&gt;&lt;/a&gt;. Unfortunately, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-branchless&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-revise&lt;/code&gt; do not interoperate well due to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-revise&lt;/code&gt;’s lack of support for the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;post-rewrite&lt;/code&gt; hook (see &lt;a href=&quot;https://github.com/mystor/git-revise/issues/35#issuecomment-523237380&quot;&gt;this issue&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;In the meantime, you can use &lt;a href=&quot;https://github.com/mystor/git-revise&quot;&gt;git-revise&lt;/a&gt;. Unfortunately, git-branchless and git-revise do not interoperate well due to git-revise’s lack of support for the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;post-rewrite&lt;/code&gt; hook (see &lt;a href=&quot;https://github.com/mystor/git-revise/issues/35#issuecomment-523237380&quot;&gt;this issue&lt;/a&gt;).&lt;/p&gt;
 
 &lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
 
