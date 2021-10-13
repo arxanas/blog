@@ -7,9 +7,180 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 04 Oct 2021 16:47:29 -0500</pubDate>
-    <lastBuildDate>Mon, 04 Oct 2021 16:47:29 -0500</lastBuildDate>
+    <pubDate>Tue, 12 Oct 2021 20:17:49 -0500</pubDate>
+    <lastBuildDate>Tue, 12 Oct 2021 20:17:49 -0500</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
+    
+      <item>
+        <title>Lightning-fast rebases with git-move</title>
+        <description>&lt;p&gt;You can use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git move&lt;/code&gt; as a drop-in 10x faster replacement for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase&lt;/code&gt;. The basic syntax is&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ git move -b &amp;lt;branch&amp;gt; -d &amp;lt;dest&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;How do I install it?&lt;/strong&gt; The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git move&lt;/code&gt; command is part of the &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt; suite of tools. See the &lt;a href=&quot;https://github.com/arxanas/git-branchless/wiki/Installation&quot;&gt;installation instructions&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;What does it mean to rebase?&lt;/strong&gt; In Git, to “rebase” a commit means to apply a commit’s diff against its parent commit as a patch to another target commit. Essentially, it “moves” the commit from one place to another.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;How much faster is it?&lt;/strong&gt; See &lt;a href=&quot;#timing&quot;&gt;Timing&lt;/a&gt;. If the branch is currently checked out, then 10x is a reasonable estimate. If the branch is not checked out, then it’s even faster.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Is performance the only added feature?&lt;/strong&gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git move&lt;/code&gt; also offers several other quality-of-life improvements over &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase&lt;/code&gt;. For example, it can move entire subtrees, not just branches. See &lt;a href=&quot;https://github.com/arxanas/git-branchless/wiki/Command:-git-move&quot;&gt;the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git move&lt;/code&gt; documentation&lt;/a&gt; for more information.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#timing&quot; id=&quot;markdown-toc-timing&quot;&gt;Timing&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#why-is-it-faster&quot; id=&quot;markdown-toc-why-is-it-faster&quot;&gt;Why is it faster?&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#what-about-merge-conflicts&quot; id=&quot;markdown-toc-what-about-merge-conflicts&quot;&gt;What about merge conflicts?&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#related-work&quot; id=&quot;markdown-toc-related-work&quot;&gt;Related work&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#interactive-rebase&quot; id=&quot;markdown-toc-interactive-rebase&quot;&gt;Interactive rebase&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#related-posts&quot; id=&quot;markdown-toc-related-posts&quot;&gt;Related posts&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;timing&quot;&gt;Timing&lt;/h2&gt;
+
+&lt;p&gt;I tested on the Git mirror of Mozilla’s &lt;a href=&quot;https://github.com/mozilla/gecko-dev&quot;&gt;gecko-dev&lt;/a&gt; repository. This is a large repository with ~750k commits and ~250k working copy files, so it’s good for stress tests.&lt;/p&gt;
+
+&lt;p&gt;It takes about 10 seconds to rebase 20 commits on&lt;/p&gt;
+
+&lt;script id=&quot;asciicast-437913&quot; src=&quot;https://asciinema.org/a/437913.js&quot; async=&quot;&quot;&gt;&lt;/script&gt;
+
+&lt;noscript&gt;&lt;a href=&quot;https://asciinema.org/a/437913&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://asciinema.org/a/437913.svg&quot; /&gt;&lt;/a&gt;&lt;/noscript&gt;
+
+&lt;p&gt;Versus about 1 second with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git move&lt;/code&gt;:&lt;/p&gt;
+
+&lt;script id=&quot;asciicast-437914&quot; src=&quot;https://asciinema.org/a/437914.js&quot; async=&quot;&quot;&gt;&lt;/script&gt;
+
+&lt;noscript&gt;&lt;a href=&quot;https://asciinema.org/a/437914&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://asciinema.org/a/437914.svg&quot; /&gt;&lt;/a&gt;&lt;/noscript&gt;
+
+&lt;p&gt;These timings are not scientific, and there are optimizations that can be applied to both, but the order of magnitude is roughly correct in my experience.&lt;/p&gt;
+
+&lt;p&gt;Since &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git move&lt;/code&gt; can operate entirely in-memory, it can also rebase branches which aren’t checked out, which is much faster than using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase&lt;/code&gt;, because it doesn’t have to touch the working copy at all.&lt;/p&gt;
+
+&lt;h2 id=&quot;why-is-it-faster&quot;&gt;Why is it faster?&lt;/h2&gt;
+
+&lt;p&gt;There are two main problems with the Git rebase process:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;It touches disk.&lt;/li&gt;
+  &lt;li&gt;It uses the index data structure to create tree objects.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;With a stock Git rebase, you have to check out to the target commit, and then apply each of the commits’ contents individually to disk. After each commit’s application to disk, Git will implicitly check the status of files on disk again. This isn’t strictly necessary for many rebases, and can be quite slow on sizable repos.&lt;/p&gt;
+
+&lt;p&gt;The way Git creates a commit is by first populating the “index” data structure, which is essentially a sorted list of all of the files in the working copy. It can be expensive for Git to convert the index into a “tree” object, which is used to store commits internally, as it has to insert or re-insert many already-existing entries into the object database. (There are some optimizations that can improve this, such as the &lt;a href=&quot;https://git-scm.com/docs/index-format#_cache_tree&quot;&gt;cache tree extension&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;Work is already well underway on upstream Git to support the features which would make in-memory rebases feasible, so hopefully we’ll see mainstream Git enjoy similar performance gains in the future.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-about-merge-conflicts&quot;&gt;What about merge conflicts?&lt;/h2&gt;
+
+&lt;p&gt;Currently, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git move&lt;/code&gt; will fail if there is a merge conflict and retry the rebase operation on-disk, so that the user can resolve merge conflicts. Since in-memory rebases are typically very fast, this doesn’t usually impede the developer experience. Of course, it’s possible in principle to resolve merge conflicts in-memory as well.&lt;/p&gt;
+
+&lt;h2 id=&quot;related-work&quot;&gt;Related work&lt;/h2&gt;
+
+&lt;p&gt;In-memory rebases are not a new idea:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/git-up/GitUp&quot;&gt;GitUp&lt;/a&gt; (2015), a GUI client for Git with a focus on manipulating the commit graph.
+    &lt;ul&gt;
+      &lt;li&gt;Unfortunately, in my experience, it doesn’t perform too well on large repositories.&lt;/li&gt;
+      &lt;li&gt;To my knowledge, no other Git GUI client offers in-memory rebases. Please let me know of others, so that I can update this comment.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/mystor/git-revise&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-revise&lt;/code&gt;&lt;/a&gt; (2019), a command-line utility to provide in-memory rebases and edits.&lt;/li&gt;
+  &lt;li&gt;Other source control systems have in-memory rebases, such as &lt;a href=&quot;https://www.mercurial-scm.org/&quot;&gt;Mercurial&lt;/a&gt; and &lt;a href=&quot;https://github.com/martinvonz/jj&quot;&gt;Jujutsu&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The goal of the &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-branchless&lt;/code&gt;&lt;/a&gt; project is to improve developer velocity with various features that can be incrementally adopted by users, such as in-memory rebases. Performance is an explicit feature: it’s designed to work with monorepo-scale codebases.&lt;/p&gt;
+
+&lt;h2 id=&quot;interactive-rebase&quot;&gt;Interactive rebase&lt;/h2&gt;
+
+&lt;p&gt;Interactive rebase (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase -i&lt;/code&gt;) is a feature which can be used to modify, reorder, combine, etc. several commits in sequence. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-move&lt;/code&gt; does not do this at present, but this functionality is planned for a future &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-branchless&lt;/code&gt; release. Watch &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;the Github repository&lt;/a&gt; to be notified of new releases.&lt;/p&gt;
+
+&lt;p&gt;In the meantime, you can use &lt;a href=&quot;https://github.com/mystor/git-revise&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-revise&lt;/code&gt;&lt;/a&gt;. Unfortunately, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-branchless&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-revise&lt;/code&gt; do not interoperate well due to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-revise&lt;/code&gt;’s lack of support for the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;post-rewrite&lt;/code&gt; hook (see &lt;a href=&quot;https://github.com/mystor/git-revise/issues/35#issuecomment-523237380&quot;&gt;this issue&lt;/a&gt;).&lt;/p&gt;
+
+&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
+
+&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
+
+&lt;table class=&quot;related-posts&quot;&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Date&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;19&amp;nbsp;June&amp;nbsp;2021&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/git-undo/&quot;&gt;git undo: We can do better&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;12&amp;nbsp;October&amp;nbsp;2021&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      (this&amp;nbsp;post)
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/in-memory-rebases/&quot;&gt;Lightning-fast rebases with git-move&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+&lt;/ul&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/in-memory-rebases/&quot;;
+    this.page.identifier = &quot;in-memory-rebases/&quot;;
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//waleedkhan-name.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
+</description>
+        <pubDate>Tue, 12 Oct 2021 00:00:00 -0500</pubDate>
+        <link>https://blog.waleedkhan.name/in-memory-rebases/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/in-memory-rebases/</guid>
+        
+        <category>git</category>
+        
+        <category>rust</category>
+        
+        <category>software-engineering</category>
+        
+        
+      </item>
     
       <item>
         <title>Automatically detecting and replying to recruiter spam</title>
@@ -532,6 +703,7 @@ var disqus_config = function () {
   &lt;li&gt;&lt;a href=&quot;#solution&quot; id=&quot;markdown-toc-solution&quot;&gt;Solution&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#demos&quot; id=&quot;markdown-toc-demos&quot;&gt;Demos&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#implementation&quot; id=&quot;markdown-toc-implementation&quot;&gt;Implementation&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#related-posts&quot; id=&quot;markdown-toc-related-posts&quot;&gt;Related posts&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -572,6 +744,46 @@ var disqus_config = function () {
 &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git undo&lt;/code&gt; is made possible by a recent addition to Git: the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reference-transaction&lt;/code&gt; hook. This hook triggers whenever a change is made to a reference, such as a branch. By recording all reference moves, we can rebuild the state of the commit graph at any previous point in time. Then we accomplish the undo operation by restoring all references to their previous positions in time (possibly creating or deleting references in the process).&lt;/p&gt;
 
 &lt;p&gt;I originally built &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-branchless&lt;/code&gt; in order to replicate a certain Mercurial workflow, but the data structures turn out to be flexible enough to give us a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git undo&lt;/code&gt; feature nearly for free. You can find more detail at the &lt;a href=&quot;https://github.com/arxanas/git-branchless/wiki/Architecture&quot;&gt;Architecture&lt;/a&gt; page for the project.&lt;/p&gt;
+
+&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
+
+&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
+
+&lt;table class=&quot;related-posts&quot;&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Date&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;19&amp;nbsp;June&amp;nbsp;2021&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      (this&amp;nbsp;post)
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/git-undo/&quot;&gt;git undo: We can do better&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;12&amp;nbsp;October&amp;nbsp;2021&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/in-memory-rebases/&quot;&gt;Lightning-fast rebases with git-move&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
 
@@ -2004,253 +2216,6 @@ var disqus_config = function () {
         <category>python</category>
         
         <category>rust</category>
-        
-        <category>software-engineering</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Smash Training retrospective</title>
-        <description>&lt;p&gt;&lt;a href=&quot;https://ssb.fit&quot;&gt;&lt;em&gt;Smash Training&lt;/em&gt;&lt;/a&gt; is a spaced-repetition training web-app I created to help my progression with &lt;em&gt;Super Smash Bros. Ultimate&lt;/em&gt;. I released it on May 16, 2020 &lt;a href=&quot;https://www.reddit.com/r/CrazyHand/comments/gkybpe/trying_to_get_into_elite_smash_this_quarantine/?utm_source=share&amp;amp;utm_medium=web2x&amp;amp;context=3&quot;&gt;on Reddit&lt;/a&gt; to warm reception. As of December 2020, it receives 150-200 monthly users. I’d rank it as my most successful project!&lt;/p&gt;
-
-&lt;p&gt;In this article, I discuss the choices I made for this project. The source code is available at &lt;a href=&quot;https://github.com/arxanas/smashtraining&quot;&gt;https://github.com/arxanas/smashtraining&lt;/a&gt;.&lt;/p&gt;
-
-&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#project-requirements&quot; id=&quot;markdown-toc-project-requirements&quot;&gt;Project requirements&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#domain-name&quot; id=&quot;markdown-toc-domain-name&quot;&gt;Domain name&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#user-studies-and-ui&quot; id=&quot;markdown-toc-user-studies-and-ui&quot;&gt;User studies and UI&lt;/a&gt;    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#ui&quot; id=&quot;markdown-toc-ui&quot;&gt;UI&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#documentation&quot; id=&quot;markdown-toc-documentation&quot;&gt;Documentation&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#tech-stack&quot; id=&quot;markdown-toc-tech-stack&quot;&gt;Tech stack&lt;/a&gt;    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#build-system&quot; id=&quot;markdown-toc-build-system&quot;&gt;Build system&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#typescript&quot; id=&quot;markdown-toc-typescript&quot;&gt;TypeScript&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#vue&quot; id=&quot;markdown-toc-vue&quot;&gt;Vue&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#vuetify&quot; id=&quot;markdown-toc-vuetify&quot;&gt;Vuetify&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#netlify-for-hosting&quot; id=&quot;markdown-toc-netlify-for-hosting&quot;&gt;Netlify for hosting&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#custom-database&quot; id=&quot;markdown-toc-custom-database&quot;&gt;Custom database&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#github-as-a-static-data-store&quot; id=&quot;markdown-toc-github-as-a-static-data-store&quot;&gt;Github as a static data-store&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#conclusions&quot; id=&quot;markdown-toc-conclusions&quot;&gt;Conclusions&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;project-requirements&quot;&gt;Project requirements&lt;/h2&gt;
-
-&lt;p&gt;I decided that I wanted to build a spaced-repetition training app, rather than reuse a general-purpose spaced-repetition flash-card system such as Anki, because the project would benefit from domain-specific knowledge. For example:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Exercises have large numbers of variants, such as “short-hop” vs “full-hop”, or “facing left” vs “facing right”, which should be tracked separately.&lt;/li&gt;
-  &lt;li&gt;Many of the exercises have natural dependencies on others: they shouldn’t be attempted unless a certain underlying fundamental skill has been mastered.&lt;/li&gt;
-  &lt;li&gt;Exercises to train one character don’t necessarily confer the same skill for other characters. Some exercises may only be applicable to some characters.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;I decided to make an app to automate the spaced repetition regimen I was attempting to follow by hand, which I could then share with others.&lt;/p&gt;
-
-&lt;p&gt;Here were my engineering requirements:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Should be mobile-first, but preferably also available on desktop.&lt;/li&gt;
-  &lt;li&gt;Should be local-first, or at least not require creating an account to use.&lt;/li&gt;
-  &lt;li&gt;Should be architected to support sync between devices, although the sync itself was not a requirement for the first iteration.&lt;/li&gt;
-  &lt;li&gt;Should have approximately zero hosting costs.&lt;/li&gt;
-  &lt;li&gt;Should be hosted on of a stable platform which doesn’t require monitoring (e.g. not my home computer).&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;domain-name&quot;&gt;Domain name&lt;/h2&gt;
-
-&lt;p&gt;I wanted to choose between a permutation like the following for the domain name:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;smashtraining.com&lt;/li&gt;
-  &lt;li&gt;ssbtraining.com&lt;/li&gt;
-  &lt;li&gt;smash.training&lt;/li&gt;
-  &lt;li&gt;ssb.training&lt;/li&gt;
-  &lt;li&gt;smash.fit&lt;/li&gt;
-  &lt;li&gt;ssb.fit&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;In the end, I used &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssb.fit&lt;/code&gt; because 1) &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;smash.training&lt;/code&gt; got taken (!) and 2) I wanted to optimize for typing it in on a mobile device, even though the name is less memorable. This lack of memorability unfortunately manifested in &lt;a href=&quot;https://www.reddit.com/r/CrazyHand/comments/gp9sem/wtf_was_that_smash_training_website_called/frkscwe/?context=3&quot;&gt;this Reddit thread titled “WTF was that smash training website called?”&lt;/a&gt;. However, another commenter writes “ssb.fit is better, short for mobile”, perhaps vindicating the original choice.&lt;/p&gt;
-
-&lt;p&gt;It’s unfortunate that the domain name and the website title don’t exactly match up. Many people seemed to address it as “ssb.fit” hence, so maybe that’s what the project should have been called too (rather than “Smash Training”).&lt;/p&gt;
-
-&lt;h2 id=&quot;user-studies-and-ui&quot;&gt;User studies and UI&lt;/h2&gt;
-
-&lt;p&gt;I conducted several user studies with friends and family, including some people who had played Smash before and some who hadn’t.&lt;/p&gt;
-
-&lt;h3 id=&quot;ui&quot;&gt;UI&lt;/h3&gt;
-
-&lt;p&gt;The first main thing I iterated on was the design of the exercise tracker widget. I originally based it off of the &lt;em&gt;Stronglifts&lt;/em&gt; app:&lt;/p&gt;
-
-&lt;figure class=&quot;figure&quot;&gt;
-        &lt;a href=&quot;/assets/posts/smash-training-retrospective/stronglifts.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/assets/posts/smash-training-retrospective/stronglifts.png&quot; alt=&quot;Advertisement screenshot of the Stronglifts workout app.&quot; title=&quot;Advertisement screenshot of the Stronglifts workout app.&quot; /&gt;&lt;/a&gt;
-        &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;Advertisement screenshot of the Stronglifts workout app.&lt;/p&gt;
-&lt;/figcaption&gt;
-      &lt;/figure&gt;
-
-&lt;p&gt;&lt;em&gt;Stronglifts&lt;/em&gt; has you note down how many repetitions of the exercise you succeeded at (out of five). However, the &lt;em&gt;Smash Training&lt;/em&gt; paradigm is different, and has you repeat the exercise for a length of time and rate your accuracy.&lt;/p&gt;
-
-&lt;p&gt;I experimented with a “smiley-face” UI rather than a rep-count UI, as in Stronglifts, along with a few other options. After a lot of feedback from friends, I arrived at a slider-based widget like this:&lt;/p&gt;
-
-&lt;figure class=&quot;figure&quot;&gt;
-        &lt;a href=&quot;/assets/posts/smash-training-retrospective/smash-training-exercise-widget.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/assets/posts/smash-training-retrospective/smash-training-exercise-widget.png&quot; alt=&quot;Screenshot of the Smash Training exercise widget.&quot; title=&quot;Screenshot of the Smash Training exercise widget.&quot; /&gt;&lt;/a&gt;
-        &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;Screenshot of the Smash Training exercise widget.&lt;/p&gt;
-&lt;/figcaption&gt;
-      &lt;/figure&gt;
-
-&lt;p&gt;This uses a slider approach (with five possible notches), and renders a description of what each notch corresponds to, i.e. “all or nearly all reps correct”.&lt;/p&gt;
-
-&lt;h3 id=&quot;documentation&quot;&gt;Documentation&lt;/h3&gt;
-
-&lt;p&gt;The second main thing was the ordering of the elements in the “Learn exercise” page. Each exercise has a step-by-step description of how to do the exercise, what controller inputs must be performed, background on the technique and its importance, a video tutorial, etc.&lt;/p&gt;
-
-&lt;p&gt;My assumption was that most people would read very little of it, so I should put the most important items first. However, various users disagreed on which item was the most important. There was no strong consensus, but the end result was this ordering:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Step-by-step exercise description.&lt;/li&gt;
-  &lt;li&gt;Controller inputs.&lt;/li&gt;
-  &lt;li&gt;Technique overview.&lt;/li&gt;
-  &lt;li&gt;The rest of the documentation elements (not as important).&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;There were also hints on these steps such as how to enter the Training Stage to perform the exercises. Some users missed these steps altogether, and were left confused on how to perform the exercise. Unfortunately, I was unable to design a UI that mitigated this problem.&lt;/p&gt;
-
-&lt;h2 id=&quot;tech-stack&quot;&gt;Tech stack&lt;/h2&gt;
-
-&lt;p&gt;I chose to write a web-app, since they are cross-platform and I already had some familiarity with the area. In particular, I didn’t want to spend money on an iOS developer license, but I also didn’t want to exclude iOS users. (Post-hoc analytics indicate that the ratio of Android-to-iOS users is about 2:1, which consitutes a significant cohort for iOS.)&lt;/p&gt;
-
-&lt;h3 id=&quot;build-system&quot;&gt;Build system&lt;/h3&gt;
-
-&lt;p&gt;All Javascript web-app bundling solutions are fundamentally terrible, and Webpack is no exception. But it works.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/arxanas/smashtraining/commit/f621f02af95da697435cb720563b590d57f38b87&quot;&gt;I encountered one mysterious bug in Babel during development&lt;/a&gt;, which I was unable to isolate. I worked around it by targeting only newer browsers, after which the problem disappeared.&lt;/p&gt;
-
-&lt;p&gt;I used &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vue-cli-service&lt;/code&gt; as a wrapper around the build, test, and lint actions, as recommended by Vue. But I found it hard to configure and debug. When I had an issue with tests not properly compiling an imported module, &lt;a href=&quot;https://github.com/arxanas/smashtraining/blame/d0c31a33ab880e8c58824c0f58247c8bd8f38485/src/utils.ts#L38-L44&quot;&gt;I gave up and reimplemented the function I needed myself&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;typescript&quot;&gt;TypeScript&lt;/h3&gt;
-
-&lt;p&gt;I also used &lt;a href=&quot;https://www.typescriptlang.org/&quot;&gt;TypeScript&lt;/a&gt;, since I find its static typing system useful for maintenance purposes.&lt;/p&gt;
-
-&lt;p&gt;TypeScript support for Vue was not ideal. Many Vue patterns are not easy to express in TypeScript. Libraries like &lt;a href=&quot;https://github.com/istrib/vuex-typescript&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vuex-typescript&lt;/code&gt;&lt;/a&gt; exist, but require a lot of boilerplate in order to get static typing support. The &lt;a href=&quot;https://github.com/paroi-tech/direct-vuex&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;direct-vuex&lt;/code&gt;&lt;/a&gt; library had less boilerplate, but &lt;a href=&quot;https://github.com/arxanas/smashtraining/commit/9a8c0c0baf05d048a564b11f62afdfafc9f66a62&quot;&gt;I couldn’t figure out how to test it&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;TypeScript was generally pleasant to work with, although in the project, I pushed it to its extremes and it was unable to keep pace. In my case, it was unable to track associated/mapped types adequately. It’s perhaps exemplified by this &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@ts-ignore&lt;/code&gt; comment:&lt;/p&gt;
-
-&lt;div class=&quot;language-ts highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;TechVariantOf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;T&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;TechId&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;c1&quot;&gt;// @ts-ignore &quot;Type 'x' cannot be used to index type 'AllTechVariants'.&quot;&lt;/span&gt;
-  &lt;span class=&quot;c1&quot;&gt;// Strangely, the correct type is calculated here anyways, and can be used for&lt;/span&gt;
-  &lt;span class=&quot;c1&quot;&gt;// exhaustiveness-checking later.&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;keyof&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;AllTechMetadata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;variants&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;AllTechVariants&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;I also ran into &lt;a href=&quot;https://github.com/microsoft/TypeScript/issues/13215#issuecomment-531632919&quot;&gt;this issue&lt;/a&gt; when working on the same thing.&lt;/p&gt;
-
-&lt;p&gt;Given that this is reasonably advanced type-level hackery, I was generally happy with TypeScript’s ability to describe the data domain.&lt;/p&gt;
-
-&lt;h3 id=&quot;vue&quot;&gt;Vue&lt;/h3&gt;
-
-&lt;p&gt;I chose to use &lt;a href=&quot;https://vuejs.org/&quot;&gt;Vue&lt;/a&gt; as the front-end web framework, since I had heard good things about it from &lt;a href=&quot;https://news.ycombinator.com/&quot;&gt;Hacker News&lt;/a&gt;. In particular, I wanted an opinionated framework, so as to spend less time configuring things myself.&lt;/p&gt;
-
-&lt;p&gt;When I used it, Vue promoted the &lt;a href=&quot;https://vuejs.org/v2/guide/single-file-components.html&quot;&gt;“single-file component”&lt;/a&gt; system, in which HTML, CSS, and Javascript are mixed into the same file. It was not a great experience:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;This complicates the build process, as something has to convert these single-file components into assets consumable by the browser.&lt;/li&gt;
-  &lt;li&gt;The mental model is an extra layer of indirection, as these single-file components are themselves compiled into Javascript classes, but also contain Javascript classes in the script portion of the file.&lt;/li&gt;
-  &lt;li&gt;The tooling support was poor. For example, go-to-definition doesn’t work on the HTML components, despite the fact that they’re ultimately backed by Javascript classes.&lt;/li&gt;
-  &lt;li&gt;TypeScript does not check the HTML components.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;I would have preferred to use a &lt;a href=&quot;https://www.typescriptlang.org/docs/handbook/jsx.html&quot;&gt;JSX&lt;/a&gt; solution, as it removes some of the indirection and has better tooling support.&lt;/p&gt;
-
-&lt;p&gt;I wish Vue had fewer ways to do things. For example, attributes on HTML elements can be set with the normal &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;=&lt;/code&gt; syntax, but also with a leading &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;:&lt;/code&gt; (expression evaluation) or a leading &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@&lt;/code&gt; (callback) for brevity. In comparison, React with JSX only has &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;=&lt;/code&gt; for all of these situations.&lt;/p&gt;
-
-&lt;h3 id=&quot;vuetify&quot;&gt;Vuetify&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://vuetifyjs.com/&quot;&gt;Vuetify&lt;/a&gt; is a library to provide Material Design UI for Vue. The presence of a solid, all-in-one Material Design library was one other reason why I chose to use Vue. The library and documentation are both very good, and I was able to prototype my app (from a UI perspective) effectively. I would strongly recommend it if you’re using Vue.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/vuetifyjs/vuetify/pull/8877&quot;&gt;I opened one pull request&lt;/a&gt; for the documentation, which was merged promptly, &lt;a href=&quot;https://github.com/vuetifyjs/vuetify/issues/10140&quot;&gt;and +1’d one documentation issue&lt;/a&gt;, which has a workaround but unfortunately remains unresolved.&lt;/p&gt;
-
-&lt;h3 id=&quot;netlify-for-hosting&quot;&gt;Netlify for hosting&lt;/h3&gt;
-
-&lt;p&gt;I used &lt;a href=&quot;https://www.netlify.com/&quot;&gt;Netlify&lt;/a&gt; to host the front-end of the website using its free tier, and stored data locally for the user. This worked well, as Netlify knew how to build and deploy my Vue project, and had good Github integrations.&lt;/p&gt;
-
-&lt;p&gt;Another option would have been Github Pages, which would have made the project dependent on fewer underlying services, but also would have required me to write a build step of my own.&lt;/p&gt;
-
-&lt;h3 id=&quot;custom-database&quot;&gt;Custom database&lt;/h3&gt;
-
-&lt;p&gt;I stored data locally on the client using the &lt;a href=&quot;https://developer.mozilla.org/docs/Web/API/Window/localStorage&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;localStorage&lt;/code&gt; APIs&lt;/a&gt;. I was careful to design the data schema such that it was append-only and such that each record had a unique ID, the idea being to make it easy to merge changes from multiple clients. However, this alone makes it difficult to delete records without some more thought.&lt;/p&gt;
-
-&lt;p&gt;I later discovered &lt;a href=&quot;https://couchdb.apache.org/&quot;&gt;CouchDB&lt;/a&gt; as a distributed document-store in exactly the manner I had already architected my application, but including sync and delete capabilities. I also discovered the &lt;a href=&quot;https://pouchdb.com/&quot;&gt;PouchDB&lt;/a&gt; library, which exposes a CouchDB interface and allows you to store your data locally or sync it remotely. It also supports more backends than just &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;localStorage&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;I wish I had used PouchDB from the beginning! Now I’m stuck with an inefficient, feature-lacking implementation of it, which would require some migration effort to move onto PouchDB.&lt;/p&gt;
-
-&lt;h3 id=&quot;github-as-a-static-data-store&quot;&gt;Github as a static data-store&lt;/h3&gt;
-
-&lt;p&gt;I scraped a public service called &lt;a href=&quot;https://www.elitegsp.com/&quot;&gt;Elite GSP&lt;/a&gt; to accumulate historical ranking data (called “Global Smash Power” or GSP), so that the user could track their ranking progress over time compared to others.&lt;/p&gt;
-
-&lt;p&gt;To avoid having to host a database somewhere, I decided to check in the records directly into source control, which would then be distributed by Netlify. I set up a job on my personal webserver to do so. In the worst case, if the webserver goes down and stops updating the Git repository, the stale data would still be reasonably useful, and the job could be started again at any time. Currently, the job runs once a day.&lt;/p&gt;
-
-&lt;p&gt;I wish I had known that it were possible to commit to the repo in question using Github Actions, as described in the post &lt;a href=&quot;https://simonwillison.net/2020/Oct/9/git-scraping/&quot;&gt;&lt;em&gt;Git scraping: track changes over time by scraping to a Git repository&lt;/em&gt;&lt;/a&gt;. I definitely would have done so rather than rely on my own webserver’s availability to do so.&lt;/p&gt;
-
-&lt;p&gt;All these automated commits caused the commit history to become rather polluted. I then made the choice to amend the most recent commit if it was a database-update commit, rather than make a new one.&lt;/p&gt;
-
-&lt;p&gt;This is rewriting public history and technically frowned upon, as it requires all downstream developers to rebase their changes onto master if the scraping job has run recently. But the rebases are typically conflict-free, as the rewritten commit only changes a machine-generated file, so this wasn’t a problem in practice.&lt;/p&gt;
-
-&lt;h2 id=&quot;conclusions&quot;&gt;Conclusions&lt;/h2&gt;
-
-&lt;p&gt;The zero-hosting web-app is pretty feasible for local-first web applications. I imagine it would be harder if your app required users to be able to interact with each other, and therefore support authentication/authorization for data access.&lt;/p&gt;
-
-&lt;p&gt;Most of my friction was around attempting to describe things statically:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Vue didn’t have good support for TypeScript.&lt;/li&gt;
-  &lt;li&gt;A couple pieces of Vuetify documentation were missing important information.&lt;/li&gt;
-  &lt;li&gt;Using automated hooks to run deployment services instead of my own webserver is a much more convenient and declarative approach, in that I don’t have to manage any machines myself.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;User studies proved invaluable. Thanks to all my friends who participated.&lt;/p&gt;
-
-&lt;p&gt;This project was a success for me, because 1) I solved a problem I had; 2) I solved a problem that others had; and 3) I reduced my maintenance burden to the absolute minimum — I haven’t had any deployment issues since launching it.&lt;/p&gt;
-
-&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
-
-&lt;ul&gt;
-
-&lt;li class=&quot;hacker-news&quot;&gt;&lt;a href=&quot;https://news.ycombinator.com/item?id=25387356 &quot;&gt;Discussion on Hacker News&lt;/a&gt;&lt;/li&gt;
-
-
-&lt;/ul&gt;
-
-&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
-&lt;script&gt;
-
-/**
- *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
- *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
-var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/smash-training-retrospective/&quot;;
-    this.page.identifier = &quot;smash-training-retrospective/&quot;;
-};
-
-(function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = '//waleedkhan-name.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-})();
-&lt;/script&gt;
-
-&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
-
-</description>
-        <pubDate>Sun, 06 Dec 2020 00:00:00 -0600</pubDate>
-        <link>https://blog.waleedkhan.name/smash-training-retrospective/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/smash-training-retrospective/</guid>
-        
-        <category>smash-bros</category>
         
         <category>software-engineering</category>
         
