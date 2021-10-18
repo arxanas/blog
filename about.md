@@ -4,17 +4,19 @@ title: About
 permalink: /about/
 ---
 
-I am a programmer in the Seattle area. I enjoy...
+I am a software engineer in the Seattle area who builds highly scalable developer tooling. I'm currently employed full-time to do so, and I also working on developer tooling projects such as [git-branchless](https://github.com/arxanas/git-branchless). How to reach me:
 
-  * stenography
-  * competitive Super Smash Bros.
-  * arrangement for piano
-  * recreational programming
-  * chess
-  * Magic: the Gathering
+* Email me at [me@waleedkhan.name](mailto:me@waleedkhan.name)
+* Follow me on [Twitter](https://twitter.com/arxanas)
+* Connect with me on [LinkedIn](https://www.linkedin.com/in/waleedkhan000/)
 
-You can contact me at [me@waleedkhan.name], and find my résumé at
-[resume.waleedkhan.name].
+On this blog, you'll find technical posts, typically around some of the following subjects:
 
-  [me@waleedkhan.name]: mailto:me@waleedkhan.name
-  [resume.waleedkhan.name]: //waleedkhan.name/resume
+* Compilers and programming languages
+* Developer tooling
+
+And posts about some of my hobbies:
+
+* Competitive [Super Smash Bros. Ultimate](https://en.wikipedia.org/wiki/Super_Smash_Bros._Ultimate)
+* [Machine stenography](https://en.wikipedia.org/wiki/Stenotype)
+* [Arrangement](https://en.wikipedia.org/wiki/Arrangement) for piano
