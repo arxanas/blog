@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-I am a software engineer in the Seattle area who builds highly scalable developer tooling. I'm currently employed full-time to do so, and I also working on developer tooling projects such as [git-branchless](https://github.com/arxanas/git-branchless). How to reach me:
+I am a software engineer in the Seattle area who builds highly scalable developer tooling. I'm currently employed full-time to do so, and I am also working on developer tooling projects such as [git-branchless](https://github.com/arxanas/git-branchless). How to reach me:
 
 * Email me at [me@waleedkhan.name](mailto:me@waleedkhan.name)
 * Follow me on [Twitter](https://twitter.com/arxanas)
