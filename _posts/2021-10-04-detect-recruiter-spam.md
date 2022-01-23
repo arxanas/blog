@@ -17,13 +17,13 @@ If you just want to see the results, skip to [Results](#results).
 
 ## Introduction
 
-Many software engineers I know complain about the frequency of "recruiter spam" emails. These emails are obviously generic emails sent in an attempt to hire someone. Clearly, the recruiters are generating and sending the emails with the press of a button, and the recipients are deleting these emails just as quickly.
+Many software engineers I know complain about the frequency of "recruiter spam" emails. These emails are unsolicited, obviously-generic emails sent in an attempt to push engineers through their hiring pipelines, regardless of whether they would be a good fit for the job in question.
 
-It’s understandable. In the current climate, job-seeking is a numbers game (I live in the US). Job seekers blast countless job sites with their résumés, while recruiters browse through LinkedIn wielding a mouse in one hand and a templated introduction in the other.
+It’s understandable. In the current climate (I live in the US), job-seeking is a numbers game. Job seekers blast countless job sites with their résumés, while recruiters browse through LinkedIn wielding a mouse in one hand and a templated introduction in the other.
 
 So why engage with these recruiters? Well, as a college graduate, I interviewed at Microsoft, thinking that I would never accept a job offer from them. But the recruiter really astounded me with the whole experience, and Microsoft changed from being barely a contender to one of my top choices. Since then, I have a policy of at least giving companies a chance to impress me.
 
-One the one hand, I don’t want to miss out on a potential opportunity, but on the other hand, I don’t want to waste time on low-quality recruiter interactions. So I decided that further automated emailing must be the solution.
+So I don’t want to miss out on a potential opportunity, but on the other hand, I don’t want to waste time on low-quality recruiter interactions. So I decided that further automated emailing must be the solution.
 
 ## Bayesian filtering
 
