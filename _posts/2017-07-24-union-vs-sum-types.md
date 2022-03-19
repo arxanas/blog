@@ -387,7 +387,7 @@ let takes_a_foo_or_bar foo_or_bar =
 This can be worked around with so-called [polymorphic variants] in OCaml, but
 they are not a general staple of ML-family languages. (SML doesn't have them.)
 
-  [polymorphic variants]: https://realworldocaml.org/v1/en/html/variants.html#polymorphic-variants
+  [polymorphic variants]: https://dev.realworldocaml.org/variants.html#polymorphic-variants
 
 ### Adding fields to an existing record type
 

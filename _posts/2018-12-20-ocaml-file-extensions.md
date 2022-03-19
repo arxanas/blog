@@ -18,12 +18,16 @@ There are a lot of pages on the internet that specify *some* of the extensions
 that I've encountered in practice, but no single page documents all of them.
 I'm documenting here what I've found about each of them.
 
+**Update 2022-03-18**: The online book *Real World OCaml* now has [a summary of file extensions][rwo-file-extensions].
+
+  [rwo-file-extensions]: https://dev.realworldocaml.org/compiler-backend.html#scrollNav-4
+
 ## Bytecode vs native
 
 OCaml can be compiled to bytecode or native code. See [Real World OCaml, Chapter
 23][rwo-bytecode-native-code] for more detail.
 
-  [rwo-bytecode-native-code]: https://v1.realworldocaml.org/v1/en/html/the-compiler-backend-byte-code-and-native-code.html
+  [rwo-bytecode-native-code]: https://dev.realworldocaml.org/compiler-backend.html
 
 Bytecode:
 
