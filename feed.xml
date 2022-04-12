@@ -7,8 +7,8 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 18 Mar 2022 19:52:39 -0500</pubDate>
-    <lastBuildDate>Fri, 18 Mar 2022 19:52:39 -0500</lastBuildDate>
+    <pubDate>Tue, 12 Apr 2022 15:01:56 -0500</pubDate>
+    <lastBuildDate>Tue, 12 Apr 2022 15:01:56 -0500</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
@@ -200,10 +200,10 @@ var disqus_config = function () {
     this.page.identifier = &quot;in-memory-rebases/&quot;;
 };
 
-(function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = '//waleedkhan-name.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
     (d.head || d.body).appendChild(s);
 })();
 &lt;/script&gt;
@@ -262,7 +262,7 @@ var disqus_config = function () {
 
 &lt;p&gt;It’s understandable. In the current climate (I live in the US), job-seeking is a numbers game. Job seekers blast countless job sites with their résumés, while recruiters browse through LinkedIn wielding a mouse in one hand and a templated introduction in the other.&lt;/p&gt;
 
-&lt;p&gt;So why engage with these recruiters? Well, as a college graduate, I interviewed at Microsoft, thinking that I would never accept a job offer from them. But the recruiter really astounded me with the whole experience, and Microsoft changed from being barely a contender to one of my top choices. Since then, I have a policy of at least giving companies a chance to impress me.&lt;/p&gt;
+&lt;p&gt;So why engage with these recruiters? Well, as a college graduate, I interviewed at a certain company, thinking that I would never accept a job offer from them. But the recruiter really astounded me with the whole experience, and that company changed from being barely a contender to one of my top choices. Since then, I have a policy of at least giving companies a chance to impress me.&lt;/p&gt;
 
 &lt;p&gt;So I don’t want to miss out on a potential opportunity, but on the other hand, I don’t want to waste time on low-quality recruiter interactions. So I decided that further automated emailing must be the solution.&lt;/p&gt;
 
@@ -537,7 +537,7 @@ Technical Recruiter at Amazon&lt;/p&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
       &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/dot-name-email-address/&quot;&gt;Is having a '.name' email address a good idea?&lt;/a&gt;
+    &lt;td&gt;&lt;a href=&quot;/dot-name-email-address/&quot;&gt;Is having a &apos;.name&apos; email address a good idea?&lt;/a&gt;
     &lt;/td&gt;
   &lt;/tr&gt;
 
@@ -602,10 +602,10 @@ var disqus_config = function () {
     this.page.identifier = &quot;detect-recruiter-spam/&quot;;
 };
 
-(function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = '//waleedkhan-name.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
     (d.head || d.body).appendChild(s);
 })();
 &lt;/script&gt;
@@ -652,7 +652,7 @@ var disqus_config = function () {
 &lt;p&gt;I’ve written an example &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;expect&lt;/code&gt; script below. Note that the script displays some junk while it’s running — it looks like the demo, but it isn’t. However, at the beginning of the output, a message like this is displayed:&lt;/p&gt;
 
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;asciinema: recording asciicast to /var/folders/gn/gdp9z_g968b9nx7c9lvgy8y00000gp/T/tmpcpublyyb-ascii.cast
-asciinema: press &amp;lt;ctrl-d&amp;gt; or type &quot;exit&quot; when you're done
+asciinema: press &amp;lt;ctrl-d&amp;gt; or type &quot;exit&quot; when you&apos;re done
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;You can then pass the above path to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;asciinema play&lt;/code&gt; or &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;asciinema upload&lt;/code&gt; to access the actual demo.&lt;/p&gt;
@@ -714,10 +714,10 @@ var disqus_config = function () {
     this.page.identifier = &quot;automating-terminal-demos/&quot;;
 };
 
-(function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = '//waleedkhan-name.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
     (d.head || d.body).appendChild(s);
 })();
 &lt;/script&gt;
@@ -847,10 +847,10 @@ var disqus_config = function () {
     this.page.identifier = &quot;git-undo/&quot;;
 };
 
-(function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = '//waleedkhan-name.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
     (d.head || d.body).appendChild(s);
 })();
 &lt;/script&gt;
@@ -947,7 +947,7 @@ var disqus_config = function () {
     &lt;td class=&quot;this-post&quot;&gt;
       
       &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/lan-adapter/&quot;&gt;A LAN adapter isn't everything&lt;/a&gt;
+    &lt;td&gt;&lt;a href=&quot;/lan-adapter/&quot;&gt;A LAN adapter isn&apos;t everything&lt;/a&gt;
     &lt;/td&gt;
   &lt;/tr&gt;
 
@@ -1014,10 +1014,10 @@ var disqus_config = function () {
     this.page.identifier = &quot;smash-mistakes/&quot;;
 };
 
-(function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = '//waleedkhan-name.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
     (d.head || d.body).appendChild(s);
 })();
 &lt;/script&gt;
@@ -1301,7 +1301,7 @@ the status of an event at a time in the past, but instead checked the current
 status). Detected by tests.&lt;/li&gt;
   &lt;li&gt;Double bug: name mixup for two string fields in Rust; and off-by-one error
 when translating reverse iteration in Python to Rust.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TypeError: argument 'main_branch_oid': 'Oid' object cannot be converted to 'PyString'&lt;/code&gt; (immediately caught by tests). Legitimate type mismatch
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TypeError: argument &apos;main_branch_oid&apos;: &apos;Oid&apos; object cannot be converted to &apos;PyString&apos;&lt;/code&gt; (immediately caught by tests). Legitimate type mismatch
 between Python and Rust type signatures.&lt;/li&gt;
   &lt;li&gt;TypeError: accidentally wrote list of bytes to TextIO instead of str.&lt;/li&gt;
   &lt;li&gt;Defaulted a configuration setting to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;false&lt;/code&gt; instead of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;true&lt;/code&gt;, causing
@@ -1418,7 +1418,7 @@ test failures.&lt;/li&gt;
 
 &lt;p&gt;The Rust version has significantly more lines of code. A portion of that can be attributed to “line noise” (lines which only consist of whitespace and closing delimiters). I calculated the amount of line noise with this command:&lt;/p&gt;
 
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;find &amp;lt;dir&amp;gt; -name '*.rs' -exec egrep '^[ });,]+$' {} \; | wc -l
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;find &amp;lt;dir&amp;gt; -name &apos;*.rs&apos; -exec egrep &apos;^[ });,]+$&apos; {} \; | wc -l
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;The rest is probably due to more verbose idioms, such as the following:&lt;/p&gt;
@@ -1522,10 +1522,10 @@ var disqus_config = function () {
     this.page.identifier = &quot;port-python-to-rust/&quot;;
 };
 
-(function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = '//waleedkhan-name.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
     (d.head || d.body).appendChild(s);
 })();
 &lt;/script&gt;
@@ -1795,7 +1795,7 @@ var disqus_config = function () {
     &lt;td class=&quot;this-post&quot;&gt;
       
       &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/lan-adapter/&quot;&gt;A LAN adapter isn't everything&lt;/a&gt;
+    &lt;td&gt;&lt;a href=&quot;/lan-adapter/&quot;&gt;A LAN adapter isn&apos;t everything&lt;/a&gt;
     &lt;/td&gt;
   &lt;/tr&gt;
 
@@ -1860,10 +1860,10 @@ var disqus_config = function () {
     this.page.identifier = &quot;hours-invested-vs-percentile-rank/&quot;;
 };
 
-(function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = '//waleedkhan-name.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
     (d.head || d.body).appendChild(s);
 })();
 &lt;/script&gt;
@@ -1982,7 +1982,7 @@ var disqus_config = function () {
     &lt;td class=&quot;this-post&quot;&gt;
       
       &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/lan-adapter/&quot;&gt;A LAN adapter isn't everything&lt;/a&gt;
+    &lt;td&gt;&lt;a href=&quot;/lan-adapter/&quot;&gt;A LAN adapter isn&apos;t everything&lt;/a&gt;
     &lt;/td&gt;
   &lt;/tr&gt;
 
@@ -2049,10 +2049,10 @@ var disqus_config = function () {
     this.page.identifier = &quot;pro-controller-stick-drift/&quot;;
 };
 
-(function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = '//waleedkhan-name.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
     (d.head || d.body).appendChild(s);
 })();
 &lt;/script&gt;
@@ -2105,10 +2105,10 @@ var disqus_config = function () {
     this.page.identifier = &quot;the-usb-c-dream/&quot;;
 };
 
-(function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = '//waleedkhan-name.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
     (d.head || d.body).appendChild(s);
 })();
 &lt;/script&gt;
