@@ -35,7 +35,7 @@ I installed PyQt 5 and Qt Designer using [Homebrew] and [Homebrew Cask]. In
 short, I issued these commands:
 
   [homebrew]: http://brew.sh/
-  [homebrew cask]: https://caskroom.github.io/
+  [homebrew cask]: https://github.com/Homebrew/homebrew-cask
 
 ```sh
 $ brew install pyqt5 --with-python --without-python3
