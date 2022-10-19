@@ -7,7 +7,7 @@ tags:
   - git
 ---
 
-My team and I recently gave a talk at Git Merge 2022 on our tool [Focus](https://github.com/twitter/focus), which integrates Git sparse checkouts with the Bazel build system.
+My team and I recently gave a talk at [Git Merge 2022](https://github.blog/2022-06-15-git-merge-2022/) on our tool [Focus](https://github.com/twitter/focus), which integrates Git sparse checkouts with the Bazel build system.
 
 Talk recording (~15 minutes):
 
