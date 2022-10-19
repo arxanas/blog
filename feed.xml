@@ -7,9 +7,38 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 23 Jul 2022 16:50:40 -0500</pubDate>
-    <lastBuildDate>Sat, 23 Jul 2022 16:50:40 -0500</lastBuildDate>
+    <pubDate>Wed, 19 Oct 2022 15:51:19 -0500</pubDate>
+    <lastBuildDate>Wed, 19 Oct 2022 15:51:19 -0500</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
+    
+      <item>
+        <title>Build-aware sparse checkouts</title>
+        <description>&lt;p&gt;My team and I recently gave a talk at Git Merge 2022 on our tool &lt;a href=&quot;https://github.com/twitter/focus&quot;&gt;Focus&lt;/a&gt;, which integrates Git sparse checkouts with the Bazel build system.&lt;/p&gt;
+
+&lt;p&gt;Talk recording (~15 minutes):&lt;/p&gt;
+
+&lt;div class=&quot;iframe-container&quot;&gt;
+&lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube-nocookie.com/embed/OsIJ99lkSdM&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;And here are some slides I published internally. These go into the technical details of content-hashing, and also have doodles:&lt;/p&gt;
+
+&lt;div class=&quot;iframe-container&quot;&gt;
+&lt;iframe src=&quot;https://docs.google.com/presentation/d/e/2PACX-1vTdh_U9FagMX_9rdto9qewcczWwrMnvTzuVkqqQEp0C2U5jG5dqFi6rMoQJlpno0Q/embed?start=false&amp;amp;loop=false&amp;amp;delayms=3000&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;true&quot; mozallowfullscreen=&quot;true&quot; webkitallowfullscreen=&quot;true&quot;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Wed, 19 Oct 2022 00:00:00 -0500</pubDate>
+        <link>https://blog.waleedkhan.name/build-aware-sparse-checkouts</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/build-aware-sparse-checkouts</guid>
+        
+        <category>bazel</category>
+        
+        <category>git</category>
+        
+        
+      </item>
     
       <item>
         <title>Functions are constants too</title>
@@ -1917,191 +1946,6 @@ var disqus_config = function () {
         <category>chess</category>
         
         <category>deliberate-practice</category>
-        
-        <category>smash-bros</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>On Pro Controller stick drift</title>
-        <description>&lt;p&gt;The Nintendo Switch Pro Controller is one of the main controllers used for competitive &lt;em&gt;Smash Bros.&lt;/em&gt; play. Most players use either the Pro Controller or a GameCube controller.&lt;/p&gt;
-
-&lt;p&gt;These controllers are prone to &lt;em&gt;stick drift&lt;/em&gt;: a phenomenon where inputs are registered for a control stick in a certain direction, despite the control stick being pressed in a different direction or not at all. As one can expect, this would significantly impair gameplay at the competitive level, and is frustrating at even the casual level.&lt;/p&gt;
-
-&lt;p&gt;This post is a brief summary of stick drift problems, which may be relevant to those interested in playing &lt;em&gt;Smash Bros.&lt;/em&gt; (particularly &lt;em&gt;Ultimate&lt;/em&gt;) competitively.&lt;/p&gt;
-
-&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#reputation&quot; id=&quot;markdown-toc-reputation&quot;&gt;Reputation&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#warranty&quot; id=&quot;markdown-toc-warranty&quot;&gt;Warranty&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#my-experience&quot; id=&quot;markdown-toc-my-experience&quot;&gt;My experience&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#possible-causes&quot; id=&quot;markdown-toc-possible-causes&quot;&gt;Possible causes&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#prevention&quot; id=&quot;markdown-toc-prevention&quot;&gt;Prevention&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#manual-repair&quot; id=&quot;markdown-toc-manual-repair&quot;&gt;Manual repair&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#related-posts&quot; id=&quot;markdown-toc-related-posts&quot;&gt;Related posts&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;reputation&quot;&gt;Reputation&lt;/h2&gt;
-
-&lt;p&gt;Original GameCube controllers, produced contemporaneously with the original GameCube, have a reputation of rock-solid reliability. Many players use their old GameCube controllers to this day. At the time of this writing, such controllers sell for USD ~70 used or USD ~200 new on eBay and Amazon, which is significantly more than their original MSRP.&lt;/p&gt;
-
-&lt;p&gt;Unfortunately, both modern Pro Controllers and GameCube controllers are plagued with reliability issues. The build quality in Nintendo’s controller manufacturing processes seems to have dropped significantly since the time of the original GameCube controller.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.reddit.com/r/NintendoSwitch/comments/cj0au7/has_anyone_experienced_drift_on_the_pro_controller/&quot;&gt;Anecdotal experiences with Pro Controller stick drift&lt;/a&gt; vary from “no issues after several hundred hours of use” to “several of my pro controllers have drift”. Generally, issues arise with the left control stick, which sees more use. See also &lt;a href=&quot;#my-experience&quot;&gt;My experience&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;One could try a third-party controller. However, they are generally cheaper and have a reputation of inferior build quality, battery life, etc. They also tend to feel different than first-party Pro Controllers, so it may take a while to adjust when switching between them.&lt;/p&gt;
-
-&lt;h2 id=&quot;warranty&quot;&gt;Warranty&lt;/h2&gt;
-
-&lt;p&gt;In the US, the Pro Controller’s warrant period is only 30 days. This is a shameful support period time for a device that should last several years.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.beuc.eu/publications/beuc-x-2021-002_nintendo_-_premature_obsolescence_complaint_to_the_ec.pdf&quot;&gt;Complaints have been filed in the EU&lt;/a&gt; about Nintendo’s shoddy controllers, suggesting that controllers should last approximately the lifetime of the console itself:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Nintendo is thus artificially creating an aftermarket in a sector in which this should not be the case, in a sector in which the average consumer should not expect the lifespan for the game controllers to be more limited than that of the console and does in any event not take into account the eventual cost of repair or replacement of game controllers when buying the console.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;You can opt to have Nintendo repair a malfunctioning Pro Controller for around USD 30, or half the MSRP. Some players report that the problems persist even after sending their controller to Nintendo. At these prices, it may not make sense to risk a repair that might not fix the problem.&lt;/p&gt;
-
-&lt;p&gt;Some vendors sell additional insurance for a small fee on top of the controller. Walmart offers up to 3 years of insurance for USD 7, which is a significantly better price than Nintendo’s offered repair price. I recently purchased a new Pro Controller from Target with the same insurance plan, but I have not yet filed a claim with it. This may be more economical than suffering through the official repair process. At my controller failure rates, this should be a good investment (see &lt;a href=&quot;#my-experience&quot;&gt;My experience&lt;/a&gt;).&lt;/p&gt;
-
-&lt;h2 id=&quot;my-experience&quot;&gt;My experience&lt;/h2&gt;
-
-&lt;p&gt;I have now purchased three Pro controllers, all of which have started exhibiting downward drifting of the left control stick by the 900-hour mark in &lt;em&gt;Smash Ultimate&lt;/em&gt;. So I go through them at a rate of about one controller (USD 60) per 300 hours.&lt;/p&gt;
-
-&lt;p&gt;By now, they are all in various states of usability. One is completely unusable (the stick drifts down at all times), one has frequent stick drift (which makes it only reasonable for casual play), and one has mild stick drift (which I can use to practice, but which sometimes causes premature deaths anyways).&lt;/p&gt;
-
-&lt;h2 id=&quot;possible-causes&quot;&gt;Possible causes&lt;/h2&gt;
-
-&lt;p&gt;There are two main theories for stick drift in the Pro controller:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;The analog stick sensor wheel component used in modern controllers is simply not durable compared to older controllers.&lt;/li&gt;
-  &lt;li&gt;The grinding of the stick against the enclosure, particularly during mashing, causes an accumulation of white dust which impairs the sensor.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Both are consistent with the left control stick being particularly vulnerable, since it sees significantly more use than the right control stick during normal play.&lt;/p&gt;
-
-&lt;h2 id=&quot;prevention&quot;&gt;Prevention&lt;/h2&gt;
-
-&lt;p&gt;To prevent the first issue, one could in principle replace the analog sensor immediately with a more reliable one, but I had difficulty doing this (see &lt;a href=&quot;#manual-repair&quot;&gt;Manual repair&lt;/a&gt;).&lt;/p&gt;
-
-&lt;p&gt;To prevent the second issue, one can wrap the left control stick with a piece of tape, so that it doesn’t produce dust when grinding against its enclosure.&lt;/p&gt;
-
-&lt;p&gt;I have also taken to labeling my controllers and using only a certain controller for competitive play. This ensures that load is primarily focused on one controller so as to diagnose stick drift more easily, as it starts out sporadically at first. It also leaves a maximum number of functioning controllers available for multiplayer casual play.&lt;/p&gt;
-
-&lt;p&gt;One could also use one of the known-good controllers for tournaments to ensure there’s no stick drift at the least opportune time, while using one of the heavily-loaded controllers for practice, when it’s less of an issue.&lt;/p&gt;
-
-&lt;h2 id=&quot;manual-repair&quot;&gt;Manual repair&lt;/h2&gt;
-
-&lt;p&gt;To resolve the first issue by replacing the analog stick sensor wheel, I followed the guide at &lt;a href=&quot;https://www.reddit.com/r/NintendoSwitch/comments/bscoz9/nintendo_switch_pro_controller_analog_stick/&quot;&gt;Nintendo Switch Pro Controller PERMANENT Fix&lt;/a&gt;, but it &lt;strong&gt;did not&lt;/strong&gt; work for me. It claimed that the analog stick sensor wheel would not be soldered into place, and could be easily replaced. However, when I opened up my Pro Controller, I found that it was indeed soldered into place, so I couldn’t remove it.&lt;/p&gt;
-
-&lt;p&gt;Nonetheless, the above document is still a good reference for Pro Controller internals and repair, as it includes instructions to open the Pro Controller and a discussion of the relevant components, with many pictures.&lt;/p&gt;
-
-&lt;p&gt;To resolve the second issue, one can clean out dust and debris using electric contact cleaner or compressed air. This is a relatively cheap and simple fix to carry out, and many people have reported that it fixes their stick drift for a reasonable length of time.&lt;/p&gt;
-
-&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
-
-&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
-
-&lt;table class=&quot;related-posts&quot;&gt;
-&lt;thead&gt;
-  &lt;tr&gt;
-    &lt;th&gt;Date&lt;/th&gt;
-    &lt;th&gt;&lt;/th&gt;
-    &lt;th&gt;Title&lt;/th&gt;
-  &lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;30&amp;nbsp;July&amp;nbsp;2020&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/lan-adapter/&quot;&gt;A LAN adapter isn&apos;t everything&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;04&amp;nbsp;August&amp;nbsp;2020&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/smash-bros-parabola-rule/&quot;&gt;Smash Bros: the parabola rule&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;10&amp;nbsp;March&amp;nbsp;2021&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      (this&amp;nbsp;post)
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/pro-controller-stick-drift/&quot;&gt;On Pro Controller stick drift&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;02&amp;nbsp;April&amp;nbsp;2021&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/hours-invested-vs-percentile-rank/&quot;&gt;Anecdata: hours invested vs percentile rank&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;08&amp;nbsp;June&amp;nbsp;2021&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/smash-mistakes/&quot;&gt;My easiest-to-fix Smash mistakes&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
-
-&lt;ul&gt;
-
-
-&lt;li&gt;&lt;a href=&quot;https://www.reddit.com/r/CrazyHand/comments/m2599t/on_pro_controller_stick_drift/ &quot;&gt;Discussion on Reddit&lt;/a&gt;&lt;/li&gt;
-
-&lt;/ul&gt;
-
-&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
-&lt;script&gt;
-
-/**
- *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
- *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
-var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/pro-controller-stick-drift/&quot;;
-    this.page.identifier = &quot;pro-controller-stick-drift/&quot;;
-};
-
-(function() { // DON&apos;T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement(&apos;script&apos;);
-    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
-    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
-    (d.head || d.body).appendChild(s);
-})();
-&lt;/script&gt;
-
-&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
-
-</description>
-        <pubDate>Wed, 10 Mar 2021 00:00:00 -0600</pubDate>
-        <link>https://blog.waleedkhan.name/pro-controller-stick-drift/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/pro-controller-stick-drift/</guid>
         
         <category>smash-bros</category>
         
