@@ -7,8 +7,8 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 19 Oct 2022 15:55:30 -0500</pubDate>
-    <lastBuildDate>Wed, 19 Oct 2022 15:55:30 -0500</lastBuildDate>
+    <pubDate>Wed, 19 Oct 2022 15:58:41 -0500</pubDate>
+    <lastBuildDate>Wed, 19 Oct 2022 15:58:41 -0500</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
@@ -21,17 +21,93 @@ employers.</description>
 &lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube-nocookie.com/embed/OsIJ99lkSdM&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
 &lt;p&gt;And here are some slides I published internally. These go into the technical details of content-hashing, and also have doodles:&lt;/p&gt;
 
 &lt;div class=&quot;iframe-container&quot;&gt;
 &lt;iframe src=&quot;https://docs.google.com/presentation/d/e/2PACX-1vTdh_U9FagMX_9rdto9qewcczWwrMnvTzuVkqqQEp0C2U5jG5dqFi6rMoQJlpno0Q/embed?start=false&amp;amp;loop=false&amp;amp;delayms=3000&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;true&quot; mozallowfullscreen=&quot;true&quot; webkitallowfullscreen=&quot;true&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
+
+&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
+
+&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
+
+&lt;table class=&quot;related-posts&quot;&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Date&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;19&amp;nbsp;June&amp;nbsp;2021&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/git-undo/&quot;&gt;git undo: We can do better&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;12&amp;nbsp;October&amp;nbsp;2021&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/in-memory-rebases/&quot;&gt;Lightning-fast rebases with git-move&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;19&amp;nbsp;October&amp;nbsp;2022&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      (this&amp;nbsp;post)
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/build-aware-sparse-checkouts/&quot;&gt;Build-aware sparse checkouts&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+&lt;/ul&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/build-aware-sparse-checkouts/&quot;;
+    this.page.identifier = &quot;build-aware-sparse-checkouts/&quot;;
+};
+
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
 </description>
         <pubDate>Wed, 19 Oct 2022 00:00:00 -0500</pubDate>
-        <link>https://blog.waleedkhan.name/build-aware-sparse-checkouts</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/build-aware-sparse-checkouts</guid>
+        <link>https://blog.waleedkhan.name/build-aware-sparse-checkouts/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/build-aware-sparse-checkouts/</guid>
         
         <category>bazel</category>
         
@@ -242,6 +318,15 @@ employers.</description>
       
       &lt;/td&gt;
     &lt;td&gt;&lt;a href=&quot;/in-memory-rebases/&quot;&gt;Lightning-fast rebases with git-move&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;19&amp;nbsp;October&amp;nbsp;2022&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/build-aware-sparse-checkouts/&quot;&gt;Build-aware sparse checkouts&lt;/a&gt;
     &lt;/td&gt;
   &lt;/tr&gt;
 
@@ -887,6 +972,15 @@ var disqus_config = function () {
       
       &lt;/td&gt;
     &lt;td&gt;&lt;a href=&quot;/in-memory-rebases/&quot;&gt;Lightning-fast rebases with git-move&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;19&amp;nbsp;October&amp;nbsp;2022&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/build-aware-sparse-checkouts/&quot;&gt;Build-aware sparse checkouts&lt;/a&gt;
     &lt;/td&gt;
   &lt;/tr&gt;
 
