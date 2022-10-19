@@ -7,13 +7,13 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 19 Oct 2022 15:51:19 -0500</pubDate>
-    <lastBuildDate>Wed, 19 Oct 2022 15:51:19 -0500</lastBuildDate>
+    <pubDate>Wed, 19 Oct 2022 15:55:30 -0500</pubDate>
+    <lastBuildDate>Wed, 19 Oct 2022 15:55:30 -0500</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
         <title>Build-aware sparse checkouts</title>
-        <description>&lt;p&gt;My team and I recently gave a talk at Git Merge 2022 on our tool &lt;a href=&quot;https://github.com/twitter/focus&quot;&gt;Focus&lt;/a&gt;, which integrates Git sparse checkouts with the Bazel build system.&lt;/p&gt;
+        <description>&lt;p&gt;My team and I recently gave a talk at &lt;a href=&quot;https://github.blog/2022-06-15-git-merge-2022/&quot;&gt;Git Merge 2022&lt;/a&gt; on our tool &lt;a href=&quot;https://github.com/twitter/focus&quot;&gt;Focus&lt;/a&gt;, which integrates Git sparse checkouts with the Bazel build system.&lt;/p&gt;
 
 &lt;p&gt;Talk recording (~15 minutes):&lt;/p&gt;
 
