@@ -59,3 +59,4 @@ related_posts:
   - - git-undo/
     - in-memory-rebases/
     - build-aware-sparse-checkouts/
+    - bringing-revsets-to-git/

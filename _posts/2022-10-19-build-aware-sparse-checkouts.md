@@ -22,4 +22,3 @@ And here are some slides I published internally. These go into the technical det
 </div>
 
 {% include end_matter.md %}
-
