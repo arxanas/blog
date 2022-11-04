@@ -3,6 +3,7 @@ layout: post
 title: 'On Pro Controller stick drift'
 permalink: pro-controller-stick-drift/
 tags:
+  - gaming
   - smash-bros
 reddit: https://www.reddit.com/r/CrazyHand/comments/m2599t/on_pro_controller_stick_drift/
 ---

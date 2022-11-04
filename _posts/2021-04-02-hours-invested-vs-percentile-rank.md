@@ -5,6 +5,7 @@ permalink: hours-invested-vs-percentile-rank/
 tags:
   - chess
   - deliberate-practice
+  - gaming
   - smash-bros
 ---
 
