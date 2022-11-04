@@ -6,11 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>My easiest-to-fix Smash mistakes</title>
-  <meta name="description" content="">
+  <title>Playing Elden Ring in the cloud</title>
+  <meta name="description" content="Playing Elden Ring in the cloud">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="https://blog.waleedkhan.name/smash-mistakes/">
+  <link rel="canonical" href="https://blog.waleedkhan.name/playing-elden-ring-in-the-cloud/">
   <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
 </head>
@@ -60,65 +60,100 @@
         <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">My easiest-to-fix Smash mistakes</h1>
-    <p class="post-meta"><time datetime="2021-06-08T00:00:00-05:00" itemprop="datePublished">Jun 8, 2021</time></p>
+    <h1 class="post-title" itemprop="name headline">Playing Elden Ring in the cloud</h1>
+    <p class="post-meta"><time datetime="2022-11-04T00:00:00-05:00" itemprop="datePublished">Nov 4, 2022</time></p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
     
-    <ul id="markdown-toc">
-  <li><a href="#not-jumping-out-of-shield" id="markdown-toc-not-jumping-out-of-shield">Not jumping out of shield</a></li>
-  <li><a href="#not-jumping-all-the-way" id="markdown-toc-not-jumping-all-the-way">Not jumping all the way</a></li>
-  <li><a href="#not-holding-a-direction-in-the-air" id="markdown-toc-not-holding-a-direction-in-the-air">Not holding a direction in the air</a></li>
-  <li><a href="#not-lsi-ing-down" id="markdown-toc-not-lsi-ing-down">Not LSI-ing down</a></li>
-  <li><a href="#not-full-hopping-to-follow-up-after-a-throw" id="markdown-toc-not-full-hopping-to-follow-up-after-a-throw">Not full-hopping to follow up after a throw</a></li>
-  <li><a href="#pummeling-after-grab-when-seeking-a-follow-up" id="markdown-toc-pummeling-after-grab-when-seeking-a-follow-up">Pummeling after grab when seeking a follow-up</a></li>
-  <li><a href="#related-posts" id="markdown-toc-related-posts">Related posts</a></li>
-  <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
-</ul>
+    <h2 id="playing-elden-ring-in-the-cloud">Playing Elden Ring in the cloud</h2>
 
-<p>These are the easiest-to-fix mistakes that I’d been making in Smash so far, even well into Elite Smash. I main Chrom, but these are largely character-agnostic. I’m curious to hear yours in the comments as well.</p>
+<p><em><a href="https://en.wikipedia.org/wiki/Elden_Ring">Elden Ring</a></em> was recently released for Windows, Playstation, and Xbox. I don’t own any of those platforms (and don’t want to buy one), but I still wanted to play, so I decided to run the game remotely and stream it to my household.</p>
 
-<h2 id="not-jumping-out-of-shield">Not jumping out of shield</h2>
+<aside class="aside" id="what-about-the-latency">
+          <header class="aside-header"><a href="#what-about-the-latency">What about the latency?</a></header>
+          <div class="aside-contents"><p>There’s necessarily more latency when streaming games than when playing locally. I can expect an additional ~50ms round-trip to my nearest AWS datacenter (us-west-2). Elden Ring doesn’t require much in terms of low latency: during combat, most attacks have long startup animations during which you can react, for which 50ms is not noticeable. But various other real-time games are sensitive to that amount of latency to the point where it would not be reasonable to play competitively via stream.</p>
+</div>
+        </aside>
 
-<p>When you’re in shield and release the shield button, <a href="https://www.ssbwiki.com/Out_of_shield">it takes 11 frames for the animation</a> to complete. However, you can initiate a jump immediately out of shield, without incurring the shield-drop animation penalty.</p>
+<h3 id="managed-gaming-services">Managed gaming services</h3>
 
-<p>I used to correctly do rising aerial attacks out of shield without dropping shield, but when retreating, I would drop shield and then input jump backwards. The 11-frame penalty is severe, which means I got hit a lot when I could have escaped safely.</p>
-
-<h2 id="not-jumping-all-the-way">Not jumping all the way</h2>
-
-<p>When jumping away from the opponent, especially out of shield, I would oftentimes only input a 45-degree control stick input. I had gotten in the habit of not pressing directly left or right, because while in shield, I often rolled instead of jumping.</p>
-
-<p>However, it means that my jump goes much less far than it could, and I often didn’t escape shield pressure. I had to practice pressing the jump button and slamming the control stick all the way backward without inducing a roll.</p>
-
-<h2 id="not-holding-a-direction-in-the-air">Not holding a direction in the air</h2>
-
-<p>If you hold a horizontal direction while you’re moving, you accelerate in that direction. But I assumed I could let go of the control stick once I reached my character’s maximum horizontal airspeed. It appears that this is not the case: you’ll slow down slightly once you let go of the control stick, so you have to keep holding it. This is important when you’re trying to recover from above and want to avoid the enemy’s attacks from below.</p>
-
-<h2 id="not-lsi-ing-down">Not LSI-ing down</h2>
-
-<p><a href="https://www.ssbwiki.com/Directional_influence#In_Super_Smash_Bros._Ultimate">Directional Influence (DI)</a> is the act of holding a direction when you get launched to change the angle, which can help you survive for longer. I heeded the typical advice of DI-ing towards the corner to maximize my flight path length. However, <em>Smash Ultimate</em> also features <a href="https://www.ssbwiki.com/Directional_influence#In_Super_Smash_Bros._Ultimate">Launch Speed Influence (LSI)</a>, which lets you decrease the amount of knockback when getting launched by adding a downward component to your DI.</p>
-
-<p>In many cases, LSI-ing straight down is the best option. For example, Bowser’s side-special, Ike’s up-special, and Luigi’s down-special launch you towards the corner anyways, so you benefit more from LSI-ing straight down than DI-ing towards the corner. There are a lot of situations which are improved by LSI-ing down instead of DI-ing up, so try it out if you haven’t been already.</p>
-
-<p>Note that LSI doesn’t reduce the knockback for moves which launch you straight up.</p>
-
-<h2 id="not-full-hopping-to-follow-up-after-a-throw">Not full-hopping to follow up after a throw</h2>
-
-<p>This one is a little silly. I practiced my down-throw to up-air combo (as Chrom), which only works at low percents. To execute it as a true combo, you have to input a short-hop aerial. For whatever reason, it never occurred to me that at higher percents, you could just… jump higher, and still go for a follow-up (non-guaranteed). As Chrom, you can still get a follow-up even at 60% or so if you full-hop and read the opponent’s DI. Of course, the advice applies to most characters which have a grab combo. This revelation made throws dramatically more useful!</p>
-
-<h2 id="pummeling-after-grab-when-seeking-a-follow-up">Pummeling after grab when seeking a follow-up</h2>
-
-<p>I used to always pummel the maximum number of times as I could manage when grabbing. But this allows your opponent to react to the grab and input DI. If you’re seeking an immediate follow-up at low- to mid-percents, then it makes sense to throw them immediately, before they can input DI.</p>
-
-<p>It does make sense to pummel sometimes:</p>
+<p>I evaluated a number of managed services for on-demand gaming. I would prefer to buy Elden Ring for PC since that’s most likely to let me retain ownership even across devices or platforms, but I would play on a console or rent the game if the experience was good.</p>
 
 <ul>
-  <li>When you only care about the damage, because you know you’re not going to get a follow-up anyways.</li>
-  <li>When you want to <a href="https://www.ssbwiki.com/Stale-move_negation">un-stale</a> a different move (e.g. back-air as a kill option).</li>
+  <li><a href="https://www.xbox.com/en-US/xbox-game-pass">Xbox Game Pass</a>
+    <ul>
+      <li>The game selection is limited, and it doesn’t support Elden Ring.</li>
+    </ul>
+  </li>
+  <li><a href="https://www.playstation.com/en-us/ps-now/">Playstation Now</a>
+    <ul>
+      <li>The game selection is limited, and it doesn’t support Elden Ring.</li>
+      <li>I had also previously tried it for a PS2 game and the experience was laggy and buggy.</li>
+    </ul>
+  </li>
+  <li><a href="https://www.amazon.com/luna/landing-page">Amazon Luna</a>
+    <ul>
+      <li>The game selection is limited, and it doesn’t support Elden Ring.</li>
+    </ul>
+  </li>
+  <li><a href="https://stadia.google.com/">Google Stadia</a>
+    <ul>
+      <li>The game selection is limited, and it doesn’t support Elden Ring.</li>
+      <li>Google has since announced that Stadia is shutting down.</li>
+    </ul>
+  </li>
+  <li><a href="https://www.nvidia.com/en-us/geforce-now/">Nvidia GeForce Now</a>
+    <ul>
+      <li>The game selection is limited. Despite supporting many PC games, it doesn’t support Elden Ring.</li>
+    </ul>
+  </li>
 </ul>
 
-<p><em>Want to improve your Smash? I made <a href="https://ssb.fit">the Smash Training app</a> to help you improve your technical skills for free.</em></p>
+<p>So none of these options were suitable, which was disappointing. The latest summary of cloud availability can be found at <a href="https://cloudbase.gg/g/elden-ring/">https://cloudbase.gg/g/elden-ring/</a>.</p>
+
+<h3 id="renting-directly-from-cloud-providers">Renting directly from cloud providers</h3>
+
+<p>I’d probably have to use general-purpose computing to play specific PC games I owned. You can rent GPUs and Windows machines on-demand, so surely you can use them to play video games, too?</p>
+
+<p>I found the <a href="https://www.reddit.com/r/cloudygamer/">CloudyGamer</a> community focused on tackling the same problem. One solution was <a href="https://cloudygamer.com/">cloudygamer.com</a>: a self-service app to start and stop a gaming <a href="https://en.wikipedia.org/wiki/Virtual_machine">virtual machine</a> on <a href="https://en.wikipedia.org/wiki/Amazon_Web_Services">AWS</a>. This looked promising, and I spent a considerable amount of time trying to provision a virtual machine using it. But in the end, I wasn’t able to provision a suitable VM even directly from the AWS web interface — I have no idea why. I wrote up details at <a href="https://github.com/lg/cloudy-gamer/issues/35">https://github.com/lg/cloudy-gamer/issues/35</a>.</p>
+
+<h3 id="managed-cloud-pc-services">Managed cloud PC services</h3>
+
+<p>Instead, I ended up trying several cloud PC services:</p>
+
+<ul>
+  <li><a href="https://shadow.tech/">Shadow</a>
+    <ul>
+      <li>Pricing: $30/month for unlimited usage.</li>
+      <li>However, your connection times out after 30 minutes of inactivity, as measured by the custom streaming client. Thus, using an alternate client such as Steam Remote Play will cause you to get disconnected unless you periodically perform manual inputs at your computer.</li>
+      <li>Most recently, forwarding my <a href="https://www.nintendo.com/store/products/pro-controller/">Nintendo Switch Pro Controller</a> over USB via the streaming client doesn’t work; however, I can use Steam Remote Play to successfully forward the controller inputs. That means that I have two concurrent streams to my computer while playing.</li>
+    </ul>
+  </li>
+  <li><a href="https://shrine.app/">Shrine</a>
+    <ul>
+      <li>Usage pricing: Between $0.65/hour and $1.90/hour (depending on machine specs). Storage pricing: $0.01/100 GB/hour (~$7.30/100 GB/month).</li>
+      <li>The pricing and usage model has changed several times since I started using it.</li>
+      <li>Most recently, it had somewhat poor latency from US-West Las Vegas (to Seattle).</li>
+    </ul>
+  </li>
+  <li><a href="https://airgpu.com/">Airgpu</a>
+    <ul>
+      <li>Usage pricing: Between $0.65/hour and $1.15/hour (depending on machine specs). Storage pricing: $3.50/50 GB/month ($7.00/100 GB/month).</li>
+      <li>Most recently, audio doesn’t work when used with Steam Remote Play.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>All of these services have been problematic in one way or another. Software solutions that used to work tend to later break. Shadow has been the most reliable overall, but it’s also the most limited since you have to use their streaming client.</p>
+
+<h3 id="playing-in-the-living-room">Playing in the living room</h3>
+
+<p>Next, I wanted to stream to my living room TV. I had a <a href="https://en.wikipedia.org/wiki/Steam_Link">Steam Link</a> device which I purchased a long time ago, which I connected to my Steam account. I paired my Pro Controller and used Steam Remote Play to connect to the remote machine, which worked reasonably well.</p>
+
+<p>Overall, it takes 1-2 minutes to boot the cloud PC, and perhaps a minute more to launch Steam Remote Play. This is longer than with a dedicated console or PC, but overall acceptable given that typical gaming session time would be 1-2 hours.</p>
+
+<p>Cloud gaming has a long way to go before it’s convenient!</p>
 
 <h2 id="related-posts">Related posts</h2>
 
@@ -175,8 +210,6 @@
     <td>08&nbsp;June&nbsp;2021</td>
     <td class="this-post">
       
-      (this&nbsp;post)
-      
       </td>
     <td><a href="/smash-mistakes/">My easiest-to-fix Smash mistakes</a>
     </td>
@@ -185,6 +218,8 @@
   <tr>
     <td>04&nbsp;November&nbsp;2022</td>
     <td class="this-post">
+      
+      (this&nbsp;post)
       
       </td>
     <td><a href="/playing-elden-ring-in-the-cloud/">Playing Elden Ring in the cloud</a>
@@ -201,8 +236,6 @@
 <ul>
 
 
-<li><a href="https://www.reddit.com/r/CrazyHand/comments/nv7hv5/my_easiesttofix_smash_mistakes/ ">Discussion on Reddit</a></li>
-
 </ul>
 
 <div id="disqus_thread"></div>
@@ -212,8 +245,8 @@
  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
 var disqus_config = function () {
-    this.page.url = "https://blog.waleedkhan.name/smash-mistakes/";
-    this.page.identifier = "smash-mistakes/";
+    this.page.url = "https://blog.waleedkhan.name/playing-elden-ring-in-the-cloud/";
+    this.page.identifier = "playing-elden-ring-in-the-cloud/";
 };
 
 (function() { // DON'T EDIT BELOW THIS LINE
