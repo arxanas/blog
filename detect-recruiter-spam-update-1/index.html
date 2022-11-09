@@ -6,11 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>I used to run my own mail server</title>
-  <meta name="description" content="I used to run my own mail server on this domain. That’s because I receive email at this domain, and being a student at the time, I didn’t want to pay an addi...">
+  <title>Update #1: Automatically detecting and replying to recruiter spam</title>
+  <meta name="description" content="In Automatically detecting and replying to recruiter spam, I discussed an approach to automatically classifying and detecting unsolicited recruiter messages....">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="https://blog.waleedkhan.name/mail-server/">
+  <link rel="canonical" href="https://blog.waleedkhan.name/detect-recruiter-spam-update-1/">
   <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
 </head>
@@ -60,36 +60,22 @@
         <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">I used to run my own mail server</h1>
-    <p class="post-meta"><time datetime="2020-04-29T00:00:00-05:00" itemprop="datePublished">Apr 29, 2020</time></p>
+    <h1 class="post-title" itemprop="name headline">Update #1: Automatically detecting and replying to recruiter spam</h1>
+    <p class="post-meta"><time datetime="2022-11-09T00:00:00-06:00" itemprop="datePublished">Nov 9, 2022</time></p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
     
-    <p>I used to run my own mail server on this domain. That’s because I receive email at this domain, and being a student at the time, I didn’t want to pay an additional cost for an email service on top of the domain and hosting costs.</p>
+    <p>In <em>Automatically detecting and replying to recruiter spam</em>, I discussed an approach to automatically classifying and detecting unsolicited recruiter messages. Since then:</p>
 
-<p>It was surprisingly complex. After a lot of frustrating debugging, I installed and configured Postfix and Dovecot. Looking back at it now, maybe I can understand a little of the awful mail situation that the authors of <a href="https://web.mit.edu/~simsong/www/ugh.pdf">The UNIX-HATERS Handbook</a> lamented.</p>
-
-<p>I also had Logwatch configured on my server, which sends daily log digests to my personal Gmail address. One day, I got a much larger email than usual, with about 500 entries of this form:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=100, msgid=&lt;1916378978.228657.1422669964925.JavaMail.s605113@s605113nj3cu23.uspswy6.savv..., size=3846: 1 Time(s)
-dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=101, msgid=&lt;1249814308.228946.1422670382174.JavaMail.s605113@s605113nj3cu23.uspswy6.savv..., size=5784: 1 Time(s)
-dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=102, msgid=&lt;601365427.63734562.1422671000015.JavaMail.jobnotification@noreply.jobs2web.com&gt;, size=3576: 1 Time(s)
-dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=103, msgid=&lt;87573488.39381.1422671386061.JavaMail.rcc@127.0.0.1&gt;, size=8427: 1 Time(s)
-dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=104, msgid=&lt;1193028303.63734619.1422671449632.JavaMail.jobnotification@noreply.jobs2web...., size=8061: 1 Time(s)
-dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=105, msgid=&lt;1643814520.773962.1422671831522.JavaMail.app@ltx1-app10243.prod&gt;, size=28350: 1 Time(s)
-dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=106, msgid=&lt;30128166.20150131023820.54cc401cc8ef84.75123093@mail149.wdc04.mandrillapp.com&gt;, size=25278: 1 Time(s)
-dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=107, msgid=&lt;d33d663bb8154e91ad366791d6415e4c@verona-exch-2.epic.com&gt;, size=8389: 1 Time(s)
-dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=108, msgid=&lt;201502030243.t132hp8Q025750@goon4.epic.com&gt;, size=2416: 1 Time(s)
-dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=109, msgid=&lt;20150203183535.BD0B2AF0001@prod-batch01.recsolu.com&gt;, size=11568: 1 Time(s)
-dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=110, msgid=&lt;1968774189.2003704.1422991430758.JavaMail.app@lva1-app3310.prod&gt;, size=27061: 1 Time(s)
-</code></pre></div></div>
-
-<p>I didn’t really know what “expunge” means in technical terms, except that it sounds like deletion, and I certainly didn’t know what triggered 500 of them. (I still don’t.) When I feverishly logged into my email account, I found that a huge chunk of mail indeed seemed to be missing. I wasn’t able to recover them from my server’s disk. I thought I had backups, but I discovered that day that I had apparently failed to enable DigitalOcean’s backup service for my server.</p>
-
-<p>At the time, I was interviewing for internships. In fact, I lost the offer letter I had intended to accept, and had to ask the recruiter to re-send it. I imagine it wasn’t a very professional look!</p>
-
-<p>I tried to be a responsible system administrator, but clearly I didn’t have the time or attention to do so effectively. Now I happily pay $5 a month for a professional service to manage my email — reliably.</p>
+<ul>
+  <li>I received a message from a recruiter, which was automatically replied to by my recruiter bot. This led me to leave my old job and accept a new offer at around twice the total compensation.</li>
+  <li>In <a href="https://github.com/arxanas/detect-recruiter-spam/commit/47f4106cac9067958c3e2679c486a052f9794f25"><code class="language-plaintext highlighter-rouge">Support responding via Gmail</code></a>, I got the bot to successfully reply to LinkedIn emails, and therefore send replies on my behalf on LinkedIn.
+    <ul>
+      <li>However, I believe this to be counterproductive. In my understanding, LinkedIn keeps an activity/response timeliness score for users to determine if a given user is likely to be open to new opportunities on LinkedIn. Automatically responding to LinkedIn messages would raise this score. As a consequence, this positive feedback loop has caused me to receive <em>more</em> LinkedIn messages than ever before! So I disabled auto-replies to LinkedIn emails.</li>
+    </ul>
+  </li>
+</ul>
 
 <h2 id="related-posts">Related posts</h2>
 
@@ -128,8 +114,6 @@ dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=110, msgid=&lt;196877
     <td>29&nbsp;April&nbsp;2020</td>
     <td class="this-post">
       
-      (this&nbsp;post)
-      
       </td>
     <td><a href="/mail-server/">I used to run my own mail server</a>
     </td>
@@ -147,6 +131,8 @@ dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=110, msgid=&lt;196877
   <tr>
     <td>09&nbsp;November&nbsp;2022</td>
     <td class="this-post">
+      
+      (this&nbsp;post)
       
       </td>
     <td><a href="/detect-recruiter-spam-update-1/">Update #1: Automatically detecting and replying to recruiter spam</a>
@@ -172,8 +158,8 @@ dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=110, msgid=&lt;196877
  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
 var disqus_config = function () {
-    this.page.url = "https://blog.waleedkhan.name/mail-server/";
-    this.page.identifier = "mail-server/";
+    this.page.url = "https://blog.waleedkhan.name/detect-recruiter-spam-update-1/";
+    this.page.identifier = "detect-recruiter-spam-update-1/";
 };
 
 (function() { // DON'T EDIT BELOW THIS LINE

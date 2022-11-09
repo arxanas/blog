@@ -7,9 +7,131 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 04 Nov 2022 15:19:24 -0500</pubDate>
-    <lastBuildDate>Fri, 04 Nov 2022 15:19:24 -0500</lastBuildDate>
+    <pubDate>Wed, 09 Nov 2022 11:56:25 -0600</pubDate>
+    <lastBuildDate>Wed, 09 Nov 2022 11:56:25 -0600</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
+    
+      <item>
+        <title>Update #1: Automatically detecting and replying to recruiter spam</title>
+        <description>&lt;p&gt;In &lt;em&gt;Automatically detecting and replying to recruiter spam&lt;/em&gt;, I discussed an approach to automatically classifying and detecting unsolicited recruiter messages. Since then:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;I received a message from a recruiter, which was automatically replied to by my recruiter bot. This led me to leave my old job and accept a new offer at around twice the total compensation.&lt;/li&gt;
+  &lt;li&gt;In &lt;a href=&quot;https://github.com/arxanas/detect-recruiter-spam/commit/47f4106cac9067958c3e2679c486a052f9794f25&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Support responding via Gmail&lt;/code&gt;&lt;/a&gt;, I got the bot to successfully reply to LinkedIn emails, and therefore send replies on my behalf on LinkedIn.
+    &lt;ul&gt;
+      &lt;li&gt;However, I believe this to be counterproductive. In my understanding, LinkedIn keeps an activity/response timeliness score for users to determine if a given user is likely to be open to new opportunities on LinkedIn. Automatically responding to LinkedIn messages would raise this score. As a consequence, this positive feedback loop has caused me to receive &lt;em&gt;more&lt;/em&gt; LinkedIn messages than ever before! So I disabled auto-replies to LinkedIn emails.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
+
+&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
+
+&lt;table class=&quot;related-posts&quot;&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Date&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;19&amp;nbsp;September&amp;nbsp;2016&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/dot-name-email-address/&quot;&gt;Is having a &apos;.name&apos; email address a good idea?&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;13&amp;nbsp;October&amp;nbsp;2016&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/messenger-conversation-macros/&quot;&gt;Analyzing all of my Messenger conversations to create conversational macros&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;29&amp;nbsp;April&amp;nbsp;2020&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/mail-server/&quot;&gt;I used to run my own mail server&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;04&amp;nbsp;October&amp;nbsp;2021&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/detect-recruiter-spam/&quot;&gt;Automatically detecting and replying to recruiter spam&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;09&amp;nbsp;November&amp;nbsp;2022&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      (this&amp;nbsp;post)
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/detect-recruiter-spam-update-1/&quot;&gt;Update #1: Automatically detecting and replying to recruiter spam&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+&lt;/ul&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/detect-recruiter-spam-update-1/&quot;;
+    this.page.identifier = &quot;detect-recruiter-spam-update-1/&quot;;
+};
+
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
+</description>
+        <pubDate>Wed, 09 Nov 2022 00:00:00 -0600</pubDate>
+        <link>https://blog.waleedkhan.name/detect-recruiter-spam-update-1/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/detect-recruiter-spam-update-1/</guid>
+        
+        <category>career</category>
+        
+        <category>machine-learning</category>
+        
+        <category>python</category>
+        
+        
+      </item>
     
       <item>
         <title>Playing Elden Ring in the cloud</title>
@@ -1059,6 +1181,15 @@ Technical Recruiter at Amazon&lt;/p&gt;
     &lt;/td&gt;
   &lt;/tr&gt;
 
+  &lt;tr&gt;
+    &lt;td&gt;09&amp;nbsp;November&amp;nbsp;2022&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/detect-recruiter-spam-update-1/&quot;&gt;Update #1: Automatically detecting and replying to recruiter spam&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
 &lt;/tbody&gt;
 &lt;/table&gt;
 
@@ -1365,180 +1496,6 @@ var disqus_config = function () {
         <category>rust</category>
         
         <category>software-engineering</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>My easiest-to-fix Smash mistakes</title>
-        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#not-jumping-out-of-shield&quot; id=&quot;markdown-toc-not-jumping-out-of-shield&quot;&gt;Not jumping out of shield&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#not-jumping-all-the-way&quot; id=&quot;markdown-toc-not-jumping-all-the-way&quot;&gt;Not jumping all the way&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#not-holding-a-direction-in-the-air&quot; id=&quot;markdown-toc-not-holding-a-direction-in-the-air&quot;&gt;Not holding a direction in the air&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#not-lsi-ing-down&quot; id=&quot;markdown-toc-not-lsi-ing-down&quot;&gt;Not LSI-ing down&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#not-full-hopping-to-follow-up-after-a-throw&quot; id=&quot;markdown-toc-not-full-hopping-to-follow-up-after-a-throw&quot;&gt;Not full-hopping to follow up after a throw&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#pummeling-after-grab-when-seeking-a-follow-up&quot; id=&quot;markdown-toc-pummeling-after-grab-when-seeking-a-follow-up&quot;&gt;Pummeling after grab when seeking a follow-up&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#related-posts&quot; id=&quot;markdown-toc-related-posts&quot;&gt;Related posts&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;These are the easiest-to-fix mistakes that I’d been making in Smash so far, even well into Elite Smash. I main Chrom, but these are largely character-agnostic. I’m curious to hear yours in the comments as well.&lt;/p&gt;
-
-&lt;h2 id=&quot;not-jumping-out-of-shield&quot;&gt;Not jumping out of shield&lt;/h2&gt;
-
-&lt;p&gt;When you’re in shield and release the shield button, &lt;a href=&quot;https://www.ssbwiki.com/Out_of_shield&quot;&gt;it takes 11 frames for the animation&lt;/a&gt; to complete. However, you can initiate a jump immediately out of shield, without incurring the shield-drop animation penalty.&lt;/p&gt;
-
-&lt;p&gt;I used to correctly do rising aerial attacks out of shield without dropping shield, but when retreating, I would drop shield and then input jump backwards. The 11-frame penalty is severe, which means I got hit a lot when I could have escaped safely.&lt;/p&gt;
-
-&lt;h2 id=&quot;not-jumping-all-the-way&quot;&gt;Not jumping all the way&lt;/h2&gt;
-
-&lt;p&gt;When jumping away from the opponent, especially out of shield, I would oftentimes only input a 45-degree control stick input. I had gotten in the habit of not pressing directly left or right, because while in shield, I often rolled instead of jumping.&lt;/p&gt;
-
-&lt;p&gt;However, it means that my jump goes much less far than it could, and I often didn’t escape shield pressure. I had to practice pressing the jump button and slamming the control stick all the way backward without inducing a roll.&lt;/p&gt;
-
-&lt;h2 id=&quot;not-holding-a-direction-in-the-air&quot;&gt;Not holding a direction in the air&lt;/h2&gt;
-
-&lt;p&gt;If you hold a horizontal direction while you’re moving, you accelerate in that direction. But I assumed I could let go of the control stick once I reached my character’s maximum horizontal airspeed. It appears that this is not the case: you’ll slow down slightly once you let go of the control stick, so you have to keep holding it. This is important when you’re trying to recover from above and want to avoid the enemy’s attacks from below.&lt;/p&gt;
-
-&lt;h2 id=&quot;not-lsi-ing-down&quot;&gt;Not LSI-ing down&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.ssbwiki.com/Directional_influence#In_Super_Smash_Bros._Ultimate&quot;&gt;Directional Influence (DI)&lt;/a&gt; is the act of holding a direction when you get launched to change the angle, which can help you survive for longer. I heeded the typical advice of DI-ing towards the corner to maximize my flight path length. However, &lt;em&gt;Smash Ultimate&lt;/em&gt; also features &lt;a href=&quot;https://www.ssbwiki.com/Directional_influence#In_Super_Smash_Bros._Ultimate&quot;&gt;Launch Speed Influence (LSI)&lt;/a&gt;, which lets you decrease the amount of knockback when getting launched by adding a downward component to your DI.&lt;/p&gt;
-
-&lt;p&gt;In many cases, LSI-ing straight down is the best option. For example, Bowser’s side-special, Ike’s up-special, and Luigi’s down-special launch you towards the corner anyways, so you benefit more from LSI-ing straight down than DI-ing towards the corner. There are a lot of situations which are improved by LSI-ing down instead of DI-ing up, so try it out if you haven’t been already.&lt;/p&gt;
-
-&lt;p&gt;Note that LSI doesn’t reduce the knockback for moves which launch you straight up.&lt;/p&gt;
-
-&lt;h2 id=&quot;not-full-hopping-to-follow-up-after-a-throw&quot;&gt;Not full-hopping to follow up after a throw&lt;/h2&gt;
-
-&lt;p&gt;This one is a little silly. I practiced my down-throw to up-air combo (as Chrom), which only works at low percents. To execute it as a true combo, you have to input a short-hop aerial. For whatever reason, it never occurred to me that at higher percents, you could just… jump higher, and still go for a follow-up (non-guaranteed). As Chrom, you can still get a follow-up even at 60% or so if you full-hop and read the opponent’s DI. Of course, the advice applies to most characters which have a grab combo. This revelation made throws dramatically more useful!&lt;/p&gt;
-
-&lt;h2 id=&quot;pummeling-after-grab-when-seeking-a-follow-up&quot;&gt;Pummeling after grab when seeking a follow-up&lt;/h2&gt;
-
-&lt;p&gt;I used to always pummel the maximum number of times as I could manage when grabbing. But this allows your opponent to react to the grab and input DI. If you’re seeking an immediate follow-up at low- to mid-percents, then it makes sense to throw them immediately, before they can input DI.&lt;/p&gt;
-
-&lt;p&gt;It does make sense to pummel sometimes:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;When you only care about the damage, because you know you’re not going to get a follow-up anyways.&lt;/li&gt;
-  &lt;li&gt;When you want to &lt;a href=&quot;https://www.ssbwiki.com/Stale-move_negation&quot;&gt;un-stale&lt;/a&gt; a different move (e.g. back-air as a kill option).&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;em&gt;Want to improve your Smash? I made &lt;a href=&quot;https://ssb.fit&quot;&gt;the Smash Training app&lt;/a&gt; to help you improve your technical skills for free.&lt;/em&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
-
-&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
-
-&lt;table class=&quot;related-posts&quot;&gt;
-&lt;thead&gt;
-  &lt;tr&gt;
-    &lt;th&gt;Date&lt;/th&gt;
-    &lt;th&gt;&lt;/th&gt;
-    &lt;th&gt;Title&lt;/th&gt;
-  &lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;30&amp;nbsp;July&amp;nbsp;2020&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/lan-adapter/&quot;&gt;A LAN adapter isn&apos;t everything&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;04&amp;nbsp;August&amp;nbsp;2020&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/smash-bros-parabola-rule/&quot;&gt;Smash Bros: the parabola rule&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;10&amp;nbsp;March&amp;nbsp;2021&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/pro-controller-stick-drift/&quot;&gt;On Pro Controller stick drift&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;02&amp;nbsp;April&amp;nbsp;2021&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/hours-invested-vs-percentile-rank/&quot;&gt;Anecdata: hours invested vs percentile rank&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;08&amp;nbsp;June&amp;nbsp;2021&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      (this&amp;nbsp;post)
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/smash-mistakes/&quot;&gt;My easiest-to-fix Smash mistakes&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;04&amp;nbsp;November&amp;nbsp;2022&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/playing-elden-ring-in-the-cloud/&quot;&gt;Playing Elden Ring in the cloud&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
-
-&lt;ul&gt;
-
-
-&lt;li&gt;&lt;a href=&quot;https://www.reddit.com/r/CrazyHand/comments/nv7hv5/my_easiesttofix_smash_mistakes/ &quot;&gt;Discussion on Reddit&lt;/a&gt;&lt;/li&gt;
-
-&lt;/ul&gt;
-
-&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
-&lt;script&gt;
-
-/**
- *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
- *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
-var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/smash-mistakes/&quot;;
-    this.page.identifier = &quot;smash-mistakes/&quot;;
-};
-
-(function() { // DON&apos;T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement(&apos;script&apos;);
-    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
-    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
-    (d.head || d.body).appendChild(s);
-})();
-&lt;/script&gt;
-
-&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
-
-</description>
-        <pubDate>Tue, 08 Jun 2021 00:00:00 -0500</pubDate>
-        <link>https://blog.waleedkhan.name/smash-mistakes/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/smash-mistakes/</guid>
-        
-        <category>gaming</category>
-        
-        <category>smash-bros</category>
         
         
       </item>
