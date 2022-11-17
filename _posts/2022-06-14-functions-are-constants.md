@@ -36,3 +36,5 @@ Or alternatively --- constants are essentially zero-ary functions. This is more 
 let foo = 3      (* constant binding *)
 let bar baz = 4  (* function which takes one argument *)
 ```
+
+{% include end_matter.md %}
