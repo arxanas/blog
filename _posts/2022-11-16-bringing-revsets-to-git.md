@@ -4,6 +4,9 @@ title: Bringing revsets to Git
 permalink: bringing-revsets-to-git/
 tags:
   - git
+hn: https://news.ycombinator.com/item?id=33641952
+lobsters: https://lobste.rs/s/4lp2pz/bringing_revsets_git
+reddit: https://www.reddit.com/r/programming/comments/yxvoy1/bringing_revsets_to_git/
 ---
 
 [Revsets are a declarative language from the Mercurial version control system](https://www.mercurial-scm.org/repo/hg/help/revsets). Most commands in Mercurial that accept a commit can instead accept a revset expression to specify one or more commits meeting certain criteria. The [git-branchless](https://github.com/arxanas/git-branchless) suite of tools introduces its own revset language which can be used with Git.
