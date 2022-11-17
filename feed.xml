@@ -7,8 +7,8 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 16 Nov 2022 22:01:36 -0600</pubDate>
-    <lastBuildDate>Wed, 16 Nov 2022 22:01:36 -0600</lastBuildDate>
+    <pubDate>Thu, 17 Nov 2022 14:40:51 -0600</pubDate>
+    <lastBuildDate>Thu, 17 Nov 2022 14:40:51 -0600</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
@@ -255,6 +255,13 @@ employers.</description>
 
 &lt;ul&gt;
 
+&lt;li&gt;&lt;a class=&quot;icon-hacker-news&quot; href=&quot;https://news.ycombinator.com/item?id=33641952 &quot;&gt;Discussion on Hacker News&lt;/a&gt;&lt;/li&gt;
+
+
+&lt;li&gt;&lt;a class=&quot;icon-lobsters&quot; href=&quot;https://lobste.rs/s/4lp2pz/bringing_revsets_git &quot;&gt;Discussion on Lobsters&lt;/a&gt;&lt;/li&gt;
+
+
+&lt;li&gt;&lt;a class=&quot;icon-reddit&quot; href=&quot;https://www.reddit.com/r/programming/comments/yxvoy1/bringing_revsets_to_git/ &quot;&gt;Discussion on Reddit&lt;/a&gt;&lt;/li&gt;
 
 &lt;/ul&gt;
 
@@ -372,6 +379,7 @@ var disqus_config = function () {
 &lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
 
 &lt;ul&gt;
+
 
 
 &lt;/ul&gt;
@@ -592,6 +600,7 @@ var disqus_config = function () {
 &lt;ul&gt;
 
 
+
 &lt;/ul&gt;
 
 &lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
@@ -704,6 +713,7 @@ var disqus_config = function () {
 &lt;ul&gt;
 
 
+
 &lt;/ul&gt;
 
 &lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
@@ -774,6 +784,7 @@ var disqus_config = function () {
 &lt;ul&gt;
 
 
+
 &lt;/ul&gt;
 
 &lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
@@ -838,6 +849,7 @@ var disqus_config = function () {
 &lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
 
 &lt;ul&gt;
+
 
 
 &lt;/ul&gt;
@@ -1029,6 +1041,7 @@ var disqus_config = function () {
 &lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
 
 &lt;ul&gt;
+
 
 
 &lt;/ul&gt;
@@ -1442,6 +1455,7 @@ Technical Recruiter at Amazon&lt;/p&gt;
 &lt;ul&gt;
 
 
+
 &lt;/ul&gt;
 
 &lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
@@ -1552,6 +1566,7 @@ send &lt;span class=&quot;s2&quot;&gt;&quot;exit&quot;&lt;/span&gt;
 &lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
 
 &lt;ul&gt;
+
 
 
 &lt;/ul&gt;
@@ -1702,7 +1717,8 @@ var disqus_config = function () {
 
 &lt;ul&gt;
 
-&lt;li class=&quot;hacker-news&quot;&gt;&lt;a href=&quot;https://news.ycombinator.com/item?id=27579701 &quot;&gt;Discussion on Hacker News&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&quot;icon-hacker-news&quot; href=&quot;https://news.ycombinator.com/item?id=27579701 &quot;&gt;Discussion on Hacker News&lt;/a&gt;&lt;/li&gt;
+
 
 
 &lt;/ul&gt;

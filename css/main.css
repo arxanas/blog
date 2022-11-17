@@ -75,7 +75,13 @@ pre > code { border: 0; padding-right: 0; padding-left: 0; }
 
 .post .caption { display: block; text-align: center; }
 
-.hacker-news:before { background-color: #FF6600; color: white; content: 'Y'; display: inline-block; font-size: 16px; height: 24px; margin-right: 5px; text-align: center; width: 24px; }
+.icon-hacker-news:before, .icon-lobsters:before, .icon-reddit:before { display: inline-block; font-size: 16px; height: 24px; margin-right: 5px; text-align: center; width: 24px; }
+
+.icon-hacker-news:before { background-color: #FF6600; color: white; content: 'Y'; }
+
+.icon-lobsters:before { background-color: #ac130d; color: white; content: 'L'; font-family: Georgia, 'Times New Roman', Times, serif; font-weight: bold; }
+
+.icon-reddit:before { content: url(iconmonster-reddit-4.svg); /* Couldn't figure out how to center the icon with respect to the text following it, so just added extra margin here to kind-of center it. */ width: 20px; margin-left: 2px; margin-right: 7px; }
 
 table { width: 100%; }
 
