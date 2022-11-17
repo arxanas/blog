@@ -11,16 +11,28 @@
   }
 }
 
-.hacker-news:before {
-  background-color: #FF6600;
-  color: white;
-  content: 'Y';
+.icon-hacker-news:before, .icon-reddit:before {
   display: inline-block;
   font-size: $base-font-size;
   height: $base-line-height * $base-font-size;
   margin-right: 5px;
   text-align: center;
   width: $base-line-height * $base-font-size;
+}
+
+.icon-hacker-news:before {
+  background-color: #FF6600;
+  color: white;
+  content: 'Y';
+}
+
+.icon-reddit:before {
+  content: url(iconmonster-reddit-4.svg);
+  /* Couldn't figure out how to center the icon with respect to the text
+   * following it, so just added extra margin here to kind-of center it. */
+  width: $base-line-height * $base-font-size - 4px;
+  margin-left: 2px;
+  margin-right: 5px + 2px;
 }
 
 table {

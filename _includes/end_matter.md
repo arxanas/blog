@@ -35,10 +35,10 @@ Want to see more of my posts? Follow me <a href="https://twitter.com/arxanas">on
 
 <ul>
 {% if page.hn %}
-<li class="hacker-news"><a href="{{ page.hn }} ">Discussion on Hacker News</a></li>
+<li><a class="icon-hacker-news" href="{{ page.hn }} ">Discussion on Hacker News</a></li>
 {% endif %}
 {% if page.reddit %}
-<li><a href="{{ page.reddit }} ">Discussion on Reddit</a></li>
+<li><a class="icon-reddit" href="{{ page.reddit }} ">Discussion on Reddit</a></li>
 {% endif %}
 </ul>
 
