@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Playing Elden Ring in the cloud</title>
-  <meta name="description" content="Playing Elden Ring in the cloud">
+  <meta name="description" content="Elden Ring was recently released for Windows, Playstation, and Xbox. I don’t own any of those platforms (and don’t want to buy one), but I still wanted to pl...">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://blog.waleedkhan.name/playing-elden-ring-in-the-cloud/">
@@ -66,15 +66,24 @@
 
   <div class="post-content" itemprop="articleBody">
     
-    <h2 id="playing-elden-ring-in-the-cloud">Playing Elden Ring in the cloud</h2>
-
-<p><em><a href="https://en.wikipedia.org/wiki/Elden_Ring">Elden Ring</a></em> was recently released for Windows, Playstation, and Xbox. I don’t own any of those platforms (and don’t want to buy one), but I still wanted to play, so I decided to run the game remotely and stream it to my household.</p>
+    <p><em><a href="https://en.wikipedia.org/wiki/Elden_Ring">Elden Ring</a></em> was recently released for Windows, Playstation, and Xbox. I don’t own any of those platforms (and don’t want to buy one), but I still wanted to play, so I decided to run the game remotely and stream it to my household.</p>
 
 <aside class="aside" id="what-about-the-latency">
           <header class="aside-header"><a href="#what-about-the-latency">What about the latency?</a></header>
           <div class="aside-contents"><p>There’s necessarily more latency when streaming games than when playing locally. I can expect an additional ~50ms round-trip to my nearest AWS datacenter (us-west-2). Elden Ring doesn’t require much in terms of low latency: during combat, most attacks have long startup animations during which you can react, for which 50ms is not noticeable. But various other real-time games are sensitive to that amount of latency to the point where it would not be reasonable to play competitively via stream.</p>
 </div>
         </aside>
+
+<hr />
+
+<ul id="markdown-toc">
+  <li><a href="#managed-gaming-services" id="markdown-toc-managed-gaming-services">Managed gaming services</a></li>
+  <li><a href="#renting-directly-from-cloud-providers" id="markdown-toc-renting-directly-from-cloud-providers">Renting directly from cloud providers</a></li>
+  <li><a href="#managed-cloud-pc-services" id="markdown-toc-managed-cloud-pc-services">Managed cloud PC services</a></li>
+  <li><a href="#playing-in-the-living-room" id="markdown-toc-playing-in-the-living-room">Playing in the living room</a></li>
+  <li><a href="#related-posts" id="markdown-toc-related-posts">Related posts</a></li>
+  <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
+</ul>
 
 <h3 id="managed-gaming-services">Managed gaming services</h3>
 
