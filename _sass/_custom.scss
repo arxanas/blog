@@ -11,7 +11,7 @@
   }
 }
 
-.icon-hacker-news:before, .icon-reddit:before {
+.icon-hacker-news:before, .icon-lobsters:before, .icon-reddit:before {
   display: inline-block;
   font-size: $base-font-size;
   height: $base-line-height * $base-font-size;
@@ -24,6 +24,14 @@
   background-color: #FF6600;
   color: white;
   content: 'Y';
+}
+
+.icon-lobsters:before {
+  background-color: #ac130d;
+  color: white;
+  content: 'L';
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-weight: bold;
 }
 
 .icon-reddit:before {
