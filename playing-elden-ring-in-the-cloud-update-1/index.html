@@ -6,11 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Smash Bros: the parabola rule</title>
-  <meta name="description" content="This is a simple mistake that I used to make as a beginner. It took surprisingly long to realize the precise nature of the mistake, so I’m posting about it h...">
+  <title>Update #1: Playing Elden Ring in the cloud</title>
+  <meta name="description" content="In Playing Elden Ring in the cloud, I went through a lot of trouble setting up a cloud PC gaming server. Since then, I bought a Steam Deck. Overall, I’ve bee...">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="https://blog.waleedkhan.name/smash-bros-parabola-rule/">
+  <link rel="canonical" href="https://blog.waleedkhan.name/playing-elden-ring-in-the-cloud-update-1/">
   <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
 </head>
@@ -60,71 +60,17 @@
         <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">Smash Bros: the parabola rule</h1>
-    <p class="post-meta"><time datetime="2020-08-04T00:00:00-05:00" itemprop="datePublished">Aug 4, 2020</time></p>
+    <h1 class="post-title" itemprop="name headline">Update #1: Playing Elden Ring in the cloud</h1>
+    <p class="post-meta"><time datetime="2023-01-01T00:00:00-06:00" itemprop="datePublished">Jan 1, 2023</time></p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
     
-    <p>This is a simple mistake that I used to make as a beginner. It took surprisingly long to realize the precise nature of the mistake, so I’m posting about it here.</p>
+    <p>In <a href="/playing-elden-ring-in-the-cloud/"><em>Playing Elden Ring in the cloud</em></a>, I went through a lot of trouble setting up a cloud PC gaming server. Since then, I bought a <a href="https://store.steampowered.com/steamdeck">Steam Deck</a>. Overall, I’ve been enjoying this solution a lot more. It works offline (on the plane) and for latency-sensitive games.</p>
 
-<p>Suppose you’re landing and trying to avoid an opponent. You want to avoid their “threat bubble” while landing: the maximum range that their attacks can reach in the time it takes you to land.</p>
+<p>It’s also substantially easier for my wife to pick up and start playing something, compared to launching an entire cloud PC and connecting via Steam Remote Play. And there’s something to be said for playing on the couch next to my loved ones, rather than in our <del>dungeon</del> home office.</p>
 
-<figure class="figure">
-        <a href="/assets/posts/smash-bros-the-parabola-rule/1-threat-bubble.png"><img class="center-image" src="/assets/posts/smash-bros-the-parabola-rule/1-threat-bubble.png" alt="The red player is in the air, while the blue player is on the ground, projecting a threat bubble." title="The red player is in the air, while the blue player is on the ground, projecting a threat bubble." /></a>
-        <figcaption class="caption"><p>The red player is in the air, while the blue player is on the ground, projecting a threat bubble.</p>
-</figcaption>
-      </figure>
-
-<p>So naturally, you drift to the side to avoid their threat bubble.</p>
-
-<figure class="figure">
-        <a href="/assets/posts/smash-bros-the-parabola-rule/2-landing-arc.png"><img class="center-image" src="/assets/posts/smash-bros-the-parabola-rule/2-landing-arc.png" alt="Red player&apos;s planned trajectory, drifting to the side to avoid the blue player." title="Red player&apos;s planned trajectory, drifting to the side to avoid the blue player." /></a>
-        <figcaption class="caption"><p>Red player&#8217;s planned trajectory, drifting to the side to avoid the blue player.</p>
-</figcaption>
-      </figure>
-
-<p>The ideal landing position would be as close to center stage as possible, while still staying outside of their threat bubble.</p>
-
-<figure class="figure">
-        <a href="/assets/posts/smash-bros-the-parabola-rule/3-threat-bubble-and-circular-arc.png"><img class="center-image" src="/assets/posts/smash-bros-the-parabola-rule/3-threat-bubble-and-circular-arc.png" alt="The red player&apos;s expected trajectory is tangent to the blue player&apos;s threat bubble. The trajectory does not pass through the threat bubble, meaning that it&apos;s a safe landing: the blue player cannot reach the red player and hit them as they land." title="The red player&apos;s expected trajectory is tangent to the blue player&apos;s threat bubble. The trajectory does not pass through the threat bubble, meaning that it&apos;s a safe landing: the blue player cannot reach the red player and hit them as they land." /></a>
-        <figcaption class="caption"><p>The red player&#8217;s expected trajectory is tangent to the blue player&#8217;s threat bubble. The trajectory does not pass through the threat bubble, meaning that it&#8217;s a safe landing: the blue player cannot reach the red player and hit them as they land.</p>
-</figcaption>
-      </figure>
-
-<p>So what’s wrong with this image? It’s hard to tell, but the problem is that it depicts a <strong>circular landing arc</strong>. But characters in <em>Smash Bros.</em> don’t typically travel in circular arcs. At the top of the arc, your velocity will be close to zero horizontally, and you’ll be increasing it as gravity pulls you downward. With a circle, your velocity stays the same, but your direction changes the entire way down.</p>
-
-<p>The actual trajectory of the player is closer to a parabola. Let’s look at what a parabolic arc might look like.</p>
-
-<figure class="figure">
-        <a href="/assets/posts/smash-bros-the-parabola-rule/4-threat-bubble-and-parabolic-arc.png"><img class="center-image" src="/assets/posts/smash-bros-the-parabola-rule/4-threat-bubble-and-parabolic-arc.png" alt="The red player&apos;s *actual* trajectory is a wider arc. Notice that the landing position is farther away from the blue player than in the previous diagram." title="The red player&apos;s *actual* trajectory is a wider arc. Notice that the landing position is farther away from the blue player than in the previous diagram." /></a>
-        <figcaption class="caption"><p>The red player&#8217;s <em>actual</em> trajectory is a wider arc. Notice that the landing position is farther away from the blue player than in the previous diagram.</p>
-</figcaption>
-      </figure>
-
-<p>There’s a constant downward force provided by gravity, accelerating you to a maximum downward velocity. However, your horizontal velocity increases as you go farther down. Furthermore, as you pass the point where your trajectory intersects the threat bubble, you’ll want to reverse your acceleration to be <em>towards</em> center stage, so that you give up as little space as possible to the opponent.</p>
-
-<p>If we thought that our trajectory was circular, not parabolic, and tried to aim towards the same “safe” spot on the ground as in the previous circular arc diagram, we would actually slightly enter the opponent’s threat bubble:</p>
-
-<figure class="figure">
-        <a href="/assets/posts/smash-bros-the-parabola-rule/5-threat-bubble-and-real-circular-arc.png"><img class="center-image" src="/assets/posts/smash-bros-the-parabola-rule/5-threat-bubble-and-real-circular-arc.png" alt="If the red player aims towards the circular arc&apos;s landing position, but actually has a parabolic arc, then they&apos;ll slightly pass through the blue player&apos;s threat bubble." title="If the red player aims towards the circular arc&apos;s landing position, but actually has a parabolic arc, then they&apos;ll slightly pass through the blue player&apos;s threat bubble." /></a>
-        <figcaption class="caption"><p>If the red player aims towards the circular arc&#8217;s landing position, but actually has a parabolic arc, then they&#8217;ll slightly pass through the blue player&#8217;s threat bubble.</p>
-</figcaption>
-      </figure>
-
-<p>This difference is so minute, it’s easy to not realize what’s going on with your player’s trajectory, and get hit while landing.</p>
-
-<p>To fix this problem, we need to apply <strong>the parabola rule</strong>:</p>
-
-<ul>
-  <li>Aim for a spot farther away on the ground than you think is appropriate (until you’ve internalized how far away is actually appropriate).</li>
-  <li>DI outwards all the way down, until you reach the tangent point between your arc and your opponent’s threat bubble. Then you are free to start DI-ing inwards.</li>
-  <li>Do not fast-fall until you’ve cleared the tangent point! Otherwise, you may accidentally fall through the threat bubble earlier than expected.
-    <ul>
-      <li>This issue is something I’m still working on. Fast-falling gets you to the ground faster, so it intuitively feels safer (particularly considering that I main a fast-falling character). But it can actually be a worse choice than drifting as far as possible away from the opponent, and not fast-falling at all.</li>
-    </ul>
-  </li>
-</ul>
+<p>Additionally, I recently beat the final boss in <a href="https://enterthegungeon.com/"><em>Enter the Gungeon</em></a> after much longer than I expected given my general skill level: ~90 (!) hours via cloud PC followed by ~10 hours via Steam Deck. Being a “bullet hell” game, it’s much more latency-sensitive than games in other genres, so I wonder if the additional latency of the cloud PC was hindering my performance. Alternatively, maybe I just got good.</p>
 
 <h2 id="related-posts">Related posts</h2>
 
@@ -153,8 +99,6 @@
   <tr>
     <td>04&nbsp;August&nbsp;2020</td>
     <td class="this-post">
-      
-      (this&nbsp;post)
       
       </td>
     <td><a href="/smash-bros-parabola-rule/">Smash Bros: the parabola rule</a>
@@ -201,6 +145,8 @@
     <td>01&nbsp;January&nbsp;2023</td>
     <td class="this-post">
       
+      (this&nbsp;post)
+      
       </td>
     <td><a href="/playing-elden-ring-in-the-cloud-update-1/">Update #1: Playing Elden Ring in the cloud</a>
     </td>
@@ -226,8 +172,8 @@
  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
 var disqus_config = function () {
-    this.page.url = "https://blog.waleedkhan.name/smash-bros-parabola-rule/";
-    this.page.identifier = "smash-bros-parabola-rule/";
+    this.page.url = "https://blog.waleedkhan.name/playing-elden-ring-in-the-cloud-update-1/";
+    this.page.identifier = "playing-elden-ring-in-the-cloud-update-1/";
 };
 
 (function() { // DON'T EDIT BELOW THIS LINE
