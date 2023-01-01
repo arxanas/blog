@@ -8,7 +8,9 @@ tags:
   - python
 ---
 
-In *Automatically detecting and replying to recruiter spam*, I discussed an approach to automatically classifying and detecting unsolicited recruiter messages. Since then:
+In [*Automatically detecting and replying to recruiter spam*][detect-recruiter-spam], I discussed an approach to automatically classifying and detecting unsolicited recruiter messages. Since then:
+
+  [detect-recruiter-spam]: {% permalink detect-recruiter-spam %}
 
 - I received a message from a recruiter, which was automatically replied to by my recruiter bot. This led me to leave my old job and accept a new offer at around twice the total compensation.
 - In [`Support responding via Gmail`](https://github.com/arxanas/detect-recruiter-spam/commit/47f4106cac9067958c3e2679c486a052f9794f25), I got the bot to successfully reply to LinkedIn emails, and therefore send replies on my behalf on LinkedIn.
