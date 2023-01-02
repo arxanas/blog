@@ -85,6 +85,22 @@ pre > code { border: 0; padding-right: 0; padding-left: 0; }
 
 table { width: 100%; }
 
+/* See github-comment-link.js for the code that creates these nodes. */
+.github-comment-link { display: none; font-size: 16px; margin-bottom: 1.5; background-color: #e8e8e8; }
+
+/* Keep tag list in sync with tag list in github-comment-link.js file. */
+:is(p, li, figure):has(> .github-comment-link) { display: block; position: relative; margin-left: 1em; }
+
+:is(p, li, figure):hover > .github-comment-link { display: block; position: absolute; background-color: #e8e8e8; border: 1px solid #828282; margin-top: -24px; }
+
+.github-comments::before { content: "Comments"; display: block; font-weight: bold; }
+
+.github-comments::after { content: ""; display: table; clear: both; }
+
+.github-comments { margin-left: 3em; background-color: #e8e8e8; padding: 1em; }
+
+.github-comments-num-replies { float: right; background-color: #e8e8e8; right: 0; }
+
 /* This code from https://www.benmarshall.me/responsive-iframes/ */
 .iframe-container { overflow: hidden; padding-top: 56.25%; /* 16:9 */ position: relative; margin-bottom: 20px; }
 
