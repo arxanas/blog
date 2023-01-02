@@ -46,3 +46,50 @@
 table {
   width: 100%;
 }
+
+/* See github-comment-link.js for the code that creates these nodes. */
+.github-comment-link {
+  display: none;
+  font-size: $base-font-size;
+  margin-bottom: $base-line-height;
+  background-color: $grey-color-light;
+}
+
+/* Keep tag list in sync with tag list in github-comment-link.js file. */
+:is(p, li, figure):has(> .github-comment-link) {
+  display: block;
+  position: relative;
+  margin-left: 1em;
+}
+
+:is(p, li, figure):hover > .github-comment-link {
+  display: block;
+  position: absolute;
+  background-color: $grey-color-light;
+  border: 1px solid $grey-color;
+  margin-top: -1 * ($base-line-height * $base-font-size);
+}
+
+.github-comments::before {
+  content: "Comments";
+  display: block;
+  font-weight: bold;
+}
+
+.github-comments::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.github-comments {
+  margin-left: 3em;
+  background-color: $grey-color-light;
+  padding: 1em;
+}
+
+.github-comments-num-replies {
+  float: right;
+  background-color: $grey-color-light;
+  right: 0;
+}
