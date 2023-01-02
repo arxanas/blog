@@ -7,9 +7,106 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 01 Jan 2023 12:28:24 -0600</pubDate>
-    <lastBuildDate>Sun, 01 Jan 2023 12:28:24 -0600</lastBuildDate>
+    <pubDate>Mon, 02 Jan 2023 12:29:50 -0600</pubDate>
+    <lastBuildDate>Mon, 02 Jan 2023 12:29:50 -0600</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
+    
+      <item>
+        <title>On bullet points</title>
+        <description>&lt;p&gt;&lt;em&gt;This is a draft article. Your commentary is appreciated, but please don’t disseminate this article widely yet.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In 1972&lt;sup id=&quot;fnref:1&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, the first “computer” was created. This has made a lot of people very angry and been widely regarded as a bad move.&lt;/p&gt;
+
+&lt;p&gt;One of the original uses for “computers” was to write documents. They promised us a novel way to read and write documents: &lt;a href=&quot;https://en.wikipedia.org/wiki/Hypermedia&quot;&gt;&lt;em&gt;hypermedia&lt;/em&gt;&lt;/a&gt;. A brilliant, “nonlinear” presentation of information. We could write documents more like a &lt;em&gt;conversation&lt;/em&gt;. We could embed references to other media, or take tangents and then return to the main topic, but only if the reader &lt;em&gt;wanted&lt;/em&gt; to.&lt;/p&gt;
+
+&lt;p&gt;And then every article written on the Internet since then has been in a linear, &lt;em&gt;boring&lt;/em&gt; fashion.&lt;/p&gt;
+
+&lt;p&gt;We’ve been had.&lt;/p&gt;
+
+&lt;p&gt;I have several “notes” documents in &lt;a href=&quot;https://docs.google.com&quot;&gt;Google Docs&lt;/a&gt; with ideas for writings that I haven’t fleshed out into proper blog posts. Recently, I took one and
+asked &lt;a href=&quot;https://chat.openai.com/&quot;&gt;ChatGPT&lt;/a&gt; to make an article out of it. And it did! It successfully inserted enough transition words into the article to resemble a linear, &lt;em&gt;boring&lt;/em&gt; article.&lt;/p&gt;
+
+&lt;p&gt;Then I realized that the reader then has to ingest all of those useful words and transform them back into bullet points of takeaways in their heads. Hell, maybe you’ll feed &lt;em&gt;this&lt;/em&gt; article into a auto-summarization bot and get a list of succinct bullet points out of it.&lt;/p&gt;
+
+&lt;p&gt;How incredible! With the power of AI, we’ve come full circle: I can write bullet points, a bot can turn it into an article, then another bot can turn them back into bullet points, and you can quickly skim the bullet points. What a time to be alive.&lt;/p&gt;
+
+&lt;p&gt;I’m just going to publish the bullet points directly. And you know what bullet points can do? Represent information &lt;em&gt;succinctly&lt;/em&gt; and &lt;em&gt;non-linearly&lt;/em&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;You can skip all those transition words.
+    &lt;ul&gt;&lt;li&gt;Especially the
+    &lt;span style=&quot;display: inline-block; height: 2em&quot;&gt;&lt;u style=&quot;font-family: &apos;Comic Sans MS&apos;, &apos;Comic Sans&apos;, sans-serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;fluffy&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/u&gt;&lt;br /&gt;&lt;span aria-label=&quot;&quot; style=&quot;margin-top: -0.5em; margin-left: 0.75em; font-variant: small-caps; font-size: smaller; position: absolute&quot;&gt;adjective&lt;/span&gt;&lt;/span&gt;
+    &lt;span style=&quot;display: inline-block; width: auto; height: 2em&quot;&gt;&lt;u style=&quot;font-family: &apos;Comic Sans MS&apos;, &apos;Comic Sans&apos;, sans-serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;redundant&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/u&gt;&lt;br /&gt;&lt;span aria-label=&quot;&quot; style=&quot;margin-top: -0.5em; margin-left: 2em; font-variant: small-caps; font-size: smaller; position: absolute&quot;&gt;adjective&lt;/span&gt;&lt;/span&gt;
+    ones, which I can delegate to sub-points, if desired.&lt;/li&gt;&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;You can skip over sub-points for topics you don&apos;t care about.
+    &lt;ul&gt;&lt;li&gt;Like if I waste your time with this sub-point!&lt;/li&gt;&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;You can construct a concept map directly in your head by absorbing the bullet point structure.
+    &lt;table style=&quot;margin-top: 1em; text-align: center&quot;&gt;
+    &lt;thead&gt;
+    &lt;tr&gt;&lt;th&gt;Before&lt;/th&gt;&lt;th&gt;&lt;/th&gt;&lt;th&gt;After&lt;/th&gt;&lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody style=&quot;padding: 0&quot;&gt;
+    &lt;tr&gt;
+    &lt;td style=&quot;padding-top: 0&quot;&gt;You&apos;d have to reconstruct it from a block of text.&lt;/td&gt;
+    &lt;td style=&quot;padding-top: 0; font-size: 300%; padding-left: 1em; padding-right: 1em&quot;&gt;⇨&lt;/td&gt;
+    &lt;td style=&quot;padding-top: 0&quot;&gt;I can guide you along my argumentation using the literal structure of the text on the page.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;/tbody&gt;
+    &lt;/table&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I’ll reserve long-form, &lt;em&gt;boring&lt;/em&gt; articles for &lt;em&gt;stories&lt;/em&gt; and &lt;em&gt;rants&lt;/em&gt; where I don’t &lt;em&gt;want&lt;/em&gt; you to consume the information efficiently. Where I’ll &lt;a href=&quot;https://tvtropes.org/pmwiki/pmwiki.php/Main/BoldInflation&quot;&gt;insert lots of &lt;em&gt;italics&lt;/em&gt;&lt;/a&gt; so that you have to read it with my tone of &lt;em&gt;cynicism&lt;/em&gt;!&lt;/p&gt;
+
+&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+
+&lt;/ul&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/on-bullet-points/&quot;;
+    this.page.identifier = &quot;on-bullet-points/&quot;;
+};
+
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
+&lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;For more information, refer to &lt;a href=&quot;https://james-iry.blogspot.com/2009/05/brief-incomplete-and-mostly-wrong.html&quot;&gt;&lt;em&gt;A Brief, Incomplete, and Mostly Wrong History of Programming Languages&lt;/em&gt;&lt;/a&gt; for the history of the C programming language, for which the first computer was originally created, despite its lack of tail call recursion and concurrency support. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Mon, 02 Jan 2023 00:00:00 -0600</pubDate>
+        <link>https://blog.waleedkhan.name/on-bullet-points/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/on-bullet-points/</guid>
+        
+        <category>rant</category>
+        
+        <category>writing</category>
+        
+        
+      </item>
     
       <item>
         <title>Update #1: Playing Elden Ring in the cloud</title>
@@ -1630,115 +1727,6 @@ var disqus_config = function () {
         <category>machine-learning</category>
         
         <category>python</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Automating terminal demos</title>
-        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#problem&quot; id=&quot;markdown-toc-problem&quot;&gt;Problem&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#solution&quot; id=&quot;markdown-toc-solution&quot;&gt;Solution&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;problem&quot;&gt;Problem&lt;/h2&gt;
-
-&lt;p&gt;I needed to automate a terminal demo to post in another blog article. There are several solutions for automating terminal demos, but they have some problems for my use-case:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;I want my demos to be hands-off. Most solutions are meant for live demos, and have you type to advance the script.&lt;/li&gt;
-  &lt;li&gt;I want to be able to manually adjust timings. (Reviewers of my demos have commented that I tend to go too fast.)&lt;/li&gt;
-  &lt;li&gt;I need to support interactive programs like Vim.&lt;/li&gt;
-  &lt;li&gt;I need to export something which can be embedded in a webpage.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;solution&quot;&gt;Solution&lt;/h2&gt;
-
-&lt;p&gt;I used &lt;a href=&quot;https://en.wikipedia.org/wiki/Expect&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;expect&lt;/code&gt;&lt;/a&gt; in combination with &lt;a href=&quot;https://asciinema.org/&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;asciinema rec&lt;/code&gt;&lt;/a&gt; to meet the above requirements. The trick is to run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;spawn asciinema rec&lt;/code&gt; inside the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;expect&lt;/code&gt; script.&lt;/p&gt;
-
-&lt;p&gt;I’ve written an example &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;expect&lt;/code&gt; script below. Note that the script displays some junk while it’s running — it looks like the demo, but it isn’t. However, at the beginning of the output, a message like this is displayed:&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;asciinema: recording asciicast to /var/folders/gn/gdp9z_g968b9nx7c9lvgy8y00000gp/T/tmpcpublyyb-ascii.cast
-asciinema: press &amp;lt;ctrl-d&amp;gt; or type &quot;exit&quot; when you&apos;re done
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;You can then pass the above path to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;asciinema play&lt;/code&gt; or &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;asciinema upload&lt;/code&gt; to access the actual demo.&lt;/p&gt;
-
-&lt;p&gt;Script:&lt;/p&gt;
-
-&lt;div class=&quot;language-tcl highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;#!/usr/bin/env expect -f&lt;/span&gt;
-set timeout 1
-set send_human &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;0.1 0.3 1 0.05 1&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-set CTRLC &lt;span class=&quot;se&quot;&gt;\003&lt;/span&gt;
-
-proc expect_prompt &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    expect &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;$&lt;span class=&quot;s2&quot;&gt; &quot;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-proc run_command &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;cmd&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    send -h &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$cmd&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-    sleep 3
-    send &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\r&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-    expect -timeout 1
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-proc send_keystroke_to_interactive_process &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;key &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;addl_sleep 2&lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    send &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$key&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-    expect -timeout 1
-    sleep $addl_sleep
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-spawn asciinema rec
-expect_prompt
-
-run_command &lt;span class=&quot;s2&quot;&gt;&quot;echo Hello, world!&quot;&lt;/span&gt;
-run_command &lt;span class=&quot;s2&quot;&gt;&quot;vim foo.txt&quot;&lt;/span&gt;
-
-send_keystroke_to_interactive_process &lt;span class=&quot;s2&quot;&gt;&quot;i&quot;&lt;/span&gt;
-send -h &lt;span class=&quot;s2&quot;&gt;&quot;Example text&quot;&lt;/span&gt;
-send_keystroke_to_interactive_process &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;$&lt;span class=&quot;s2&quot;&gt;CTRLC&quot;&lt;/span&gt;
-send -h &lt;span class=&quot;s2&quot;&gt;&quot;:wq&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\r&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-expect_prompt
-
-send &lt;span class=&quot;s2&quot;&gt;&quot;exit&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
-
-&lt;ul&gt;
-
-
-
-&lt;/ul&gt;
-
-&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
-&lt;script&gt;
-
-/**
- *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
- *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
-var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/automating-terminal-demos/&quot;;
-    this.page.identifier = &quot;automating-terminal-demos/&quot;;
-};
-
-(function() { // DON&apos;T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement(&apos;script&apos;);
-    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
-    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
-    (d.head || d.body).appendChild(s);
-})();
-&lt;/script&gt;
-
-&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
-
-</description>
-        <pubDate>Sun, 20 Jun 2021 00:00:00 -0500</pubDate>
-        <link>https://blog.waleedkhan.name/automating-terminal-demos/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/automating-terminal-demos/</guid>
-        
-        <category>software-engineering</category>
         
         
       </item>
