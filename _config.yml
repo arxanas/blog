@@ -63,3 +63,4 @@ related_posts:
     - in-memory-rebases/
     - build-aware-sparse-checkouts/
     - bringing-revsets-to-git/
+    - git-ui-features/
