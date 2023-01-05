@@ -15,7 +15,7 @@ The following are hand-curated posts which you might find interesting.
 <tbody>
 {% for related_post in page.related_posts %}
   <tr>
-    <td>{{ related_post.date | date: "%d&nbsp;%B&nbsp;%Y" }}</td>
+    <td>{{ related_post.date | date: "%d&nbsp;%b&nbsp;%Y" }}</td>
     <td class="this-post">
       {% if related_post.permalink == page.permalink %}
       (this&nbsp;post)
