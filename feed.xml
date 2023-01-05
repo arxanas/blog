@@ -7,9 +7,393 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 02 Jan 2023 15:12:41 -0600</pubDate>
-    <lastBuildDate>Mon, 02 Jan 2023 15:12:41 -0600</lastBuildDate>
+    <pubDate>Thu, 05 Jan 2023 17:25:09 -0600</pubDate>
+    <lastBuildDate>Thu, 05 Jan 2023 17:25:09 -0600</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
+    
+      <item>
+        <title>Where are my Git UI features from the future?</title>
+        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#git-sucks&quot; id=&quot;markdown-toc-git-sucks&quot;&gt;Git sucks&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#rubric&quot; id=&quot;markdown-toc-rubric&quot;&gt;Rubric&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#clients&quot; id=&quot;markdown-toc-clients&quot;&gt;Clients&lt;/a&gt;    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#git-cli&quot; id=&quot;markdown-toc-git-cli&quot;&gt;Git CLI&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#gitkraken&quot; id=&quot;markdown-toc-gitkraken&quot;&gt;GitKraken&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#fork&quot; id=&quot;markdown-toc-fork&quot;&gt;Fork&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#sourcetree&quot; id=&quot;markdown-toc-sourcetree&quot;&gt;Sourcetree&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#sublime-merge&quot; id=&quot;markdown-toc-sublime-merge&quot;&gt;Sublime Merge&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#smartgit&quot; id=&quot;markdown-toc-smartgit&quot;&gt;SmartGit&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#gitup&quot; id=&quot;markdown-toc-gitup&quot;&gt;GitUp&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#magit&quot; id=&quot;markdown-toc-magit&quot;&gt;Magit&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#lazygit&quot; id=&quot;markdown-toc-lazygit&quot;&gt;Lazygit&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#gitui&quot; id=&quot;markdown-toc-gitui&quot;&gt;Gitui&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#git-branchless&quot; id=&quot;markdown-toc-git-branchless&quot;&gt;git-branchless&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#commendations&quot; id=&quot;markdown-toc-commendations&quot;&gt;Commendations&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#related-posts&quot; id=&quot;markdown-toc-related-posts&quot;&gt;Related posts&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;git-sucks&quot;&gt;Git sucks&lt;/h2&gt;
+
+&lt;p&gt;The &lt;a href=&quot;https://git-scm.com/&quot;&gt;Git version control system&lt;/a&gt; has been causing us misery for 15+ years. Since its inception, a thousand people have tried to make new clients for Git to improve usability.&lt;/p&gt;
+
+&lt;p&gt;But practically everyone has focused on providing a pretty facade to do more or less the same operations as Git on the command-line — as if Git’s command-line interface were already the pinnacle of usability.&lt;/p&gt;
+
+&lt;p&gt;No one bothers to consider: what are the &lt;em&gt;workflows&lt;/em&gt; that people actually want to do? What are the &lt;em&gt;features&lt;/em&gt; that would make those workflows easier? So instead we get clients which think that &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase -i&lt;/code&gt; as the best possible way to reword a commit message, or edit an old commit, or split a commit, or even worth exposing in the UI.&lt;/p&gt;
+
+&lt;h2 id=&quot;rubric&quot;&gt;Rubric&lt;/h2&gt;
+
+&lt;p&gt;I thought about some of the workflows I carry out frequently, and examined several Git clients (some of which are &lt;a href=&quot;https://en.wikipedia.org/wiki/Graphical_user_interface&quot;&gt;GUIs&lt;/a&gt; and some of which are &lt;a href=&quot;https://en.wikipedia.org/wiki/Text-based_user_interface&quot;&gt;TUIs&lt;/a&gt;) to see how well they supported these workflows.&lt;/p&gt;
+
+&lt;p&gt;Many of my readers won’t care for these workflows, but it’s not just about the workflows themselves; it’s about the resolve to improve workflows by not using the faulty set of primitives offered by Git. I do not care to argue about which workflows are best or should be supported.&lt;/p&gt;
+
+&lt;p&gt;Workflows:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt;&lt;/strong&gt;: It should be possible to update the commit message of a commit which isn’t currently checked out.
+    &lt;ul&gt;
+      &lt;li&gt;It should also be possible to reword a commit which is the ancestor of multiple branches without abandoning some of those branches, but let’s not get our hopes up…&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sync&lt;/code&gt;&lt;/strong&gt;: It should be possible to sync &lt;em&gt;all&lt;/em&gt; of my branches (or some subset) via merge or rebase, in a single operation.
+    &lt;ul&gt;
+      &lt;li&gt;I do this all the time! Practically the first thing every morning when coming into work.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;split&lt;/code&gt;&lt;/strong&gt;: There should be a specific command to split a commit into two or more commits, including commits which aren’t currently checked out.
+    &lt;ul&gt;
+      &lt;li&gt;Splitting a commit is guaranteed to not cause a merge conflict, so requiring that the commit be checked out is unnecessary.&lt;/li&gt;
+      &lt;li&gt;Not accepting &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase -i&lt;/code&gt; solutions, as it’s very confusing to examine the state of the repository during a rebase.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;preview&lt;/code&gt;&lt;/strong&gt;: Before carrying out a merge or rebase, it should be possible to preview the result, including any conflicts that would arise.
+    &lt;ul&gt;
+      &lt;li&gt;That way, I don’t have to start the merge/rebase operation in order to see if it will succeed or whether it will be hard to resolve conflicts.&lt;/li&gt;
+      &lt;li&gt;Merge conflicts are perhaps the worst part about using Git, so it should be much easier to work with them (and avoid dealing with them!).&lt;/li&gt;
+      &lt;li&gt;The only people who seem to want this feature are people who come from other version control systems.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;undo&lt;/code&gt;&lt;/strong&gt;: I should be able to undo arbitrary operations, ideally including tracked but uncommitted changes.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-load&lt;/code&gt;&lt;/strong&gt;: The UI should load large repositories quickly.
+    &lt;ul&gt;
+      &lt;li&gt;The program is allowed to be slow on the first invocation to build any caches, but must be responsive on subsequent invocations. The UI shouldn’t hang at any point, although it may take a while to show useful information.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-ops&lt;/code&gt;&lt;/strong&gt;: The UI should be responsive when carring out various operations, such as examining commits and branches, or merging or rebasing.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Honor:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;I will award &lt;strong&gt;honorary negative points&lt;/strong&gt; for any client which dares to treat &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase -i&lt;/code&gt; as if it were a fundamental primitive.&lt;/li&gt;
+  &lt;li&gt;I will award &lt;strong&gt;honorary bonus points&lt;/strong&gt; for any client which seems to respect the empirical usability research for Git (or other VCSes). Examples:
+    &lt;ul&gt;
+      &lt;li&gt;Gitless: &lt;a href=&quot;https://gitless.com/&quot;&gt;https://gitless.com/&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;IASGE: &lt;a href=&quot;https://investigating-archiving-git.gitlab.io/&quot;&gt;https://investigating-archiving-git.gitlab.io/&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Since I didn’t note down the honor scoring in this article, these are just so that any vendors of these clients can know whether I am impressed or disappointed by them.&lt;/p&gt;
+
+&lt;h2 id=&quot;clients&quot;&gt;Clients&lt;/h2&gt;
+
+&lt;p&gt;I picked some clients arbitrarily from &lt;a href=&quot;https://git-scm.com/downloads/guis&quot;&gt;this list of clients&lt;/a&gt;. I am surely wrong about some of these points (or they’ve changed since I last looked), so leave a comment or inline comment (hover/tap and click “comment”) to correct me.&lt;/p&gt;
+
+&lt;h3 id=&quot;git-cli&quot;&gt;Git CLI&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://git-scm.com/&quot;&gt;Git CLI&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt;: no
+    &lt;ul&gt;
+      &lt;li&gt;You can do it via &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase -i&lt;/code&gt;, but it’s not ergonomic, and it only works for commits reachable from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HEAD&lt;/code&gt; instead of from other branches.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sync&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;split&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;preview&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;undo&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-load&lt;/code&gt;: we’ll consider this the baseline for operations on large repositories, even though Git itself struggles at present with some operations.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-ops&lt;/code&gt;: likewise.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;gitkraken&quot;&gt;GitKraken&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.gitkraken.com/&quot;&gt;GitKraken&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sync&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;split&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;preview&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;undo&lt;/code&gt;: yes&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-load&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-ops&lt;/code&gt;: no&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;fork&quot;&gt;Fork&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://git-fork.com/&quot;&gt;Fork&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sync&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;split&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;preview&lt;/code&gt;: partial
+    &lt;ul&gt;
+      &lt;li&gt;Shows if merge is fast-forward or not.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;undo&lt;/code&gt;: ?&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-load&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-ops&lt;/code&gt;: no&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;sourcetree&quot;&gt;Sourcetree&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.sourcetreeapp.com/&quot;&gt;Sourcetree&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sync&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;split&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;preview&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;undo&lt;/code&gt;: yes&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-load&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-ops&lt;/code&gt;: yes&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;sublime-merge&quot;&gt;Sublime Merge&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.sublimemerge.com/&quot;&gt;Sublime Merge&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sync&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;split&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;preview&lt;/code&gt;: partial
+    &lt;ul&gt;
+      &lt;li&gt;Shows if merge is fast-forward or not.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;undo&lt;/code&gt;: yes&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-load&lt;/code&gt;: yes&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-ops&lt;/code&gt;: yes&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;smartgit&quot;&gt;SmartGit&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.syntevo.com/smartgit/&quot;&gt;SmartGit&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sync&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;split&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;preview&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-load&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-ops&lt;/code&gt;: no&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;gitup&quot;&gt;GitUp&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://gitup.co/&quot;&gt;GitUp&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt;: yes&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sync&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;split&lt;/code&gt;: yes&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;preview&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;undo&lt;/code&gt;: yes&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-load&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-ops&lt;/code&gt;: yes&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;magit&quot;&gt;Magit&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://magit.vc/&quot;&gt;Magit&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sync&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;split&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;preview&lt;/code&gt;: yes
+    &lt;ul&gt;
+      &lt;li&gt;Via magit-merge-preview.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;undo&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-load&lt;/code&gt;: probably baseline&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-ops&lt;/code&gt;: probably baseline&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;lazygit&quot;&gt;Lazygit&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/jesseduffield/lazygit&quot;&gt;Lazygit&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sync&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;split&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;preview&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;undo&lt;/code&gt;: yes
+    &lt;ul&gt;
+      &lt;li&gt;experimental, via reflog&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-load&lt;/code&gt;: yes&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-ops&lt;/code&gt;: yes&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;gitui&quot;&gt;Gitui&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/extrawurst/gitui&quot;&gt;Gitui&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sync&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;split&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;preview&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;undo&lt;/code&gt;: no&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-load&lt;/code&gt;: yes&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-ops&lt;/code&gt;: yes&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;git-branchless&quot;&gt;git-branchless&lt;/h3&gt;
+
+&lt;p&gt;This is my own project, so it doesn’t really count as an example of innovation in the industry. I’m including it to demonstrate that many of these workflows are very much possible.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt;: yes&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sync&lt;/code&gt;: yes&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;split&lt;/code&gt;: no
+    &lt;ul&gt;
+      &lt;li&gt;One day…&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;preview&lt;/code&gt;: partial
+    &lt;ul&gt;
+      &lt;li&gt;If an operation would cause a merge conflict, and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--merge&lt;/code&gt; was not passed, instead aborts and shows which files were conflicting.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;undo&lt;/code&gt;: yes&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-load&lt;/code&gt;: yes&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-ops&lt;/code&gt;: yes&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;commendations&quot;&gt;Commendations&lt;/h2&gt;
+
+&lt;p&gt;Commendations:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;GitUp: the most innovative Git GUI of the above.&lt;/li&gt;
+  &lt;li&gt;GitKraken: innovating in some spaces, such as improved support for centralized workflows via warning about concurrently-edited files.&lt;/li&gt;
+  &lt;li&gt;Sublime Merge: incredibly responsive, as to be expected from the folks responsible for &lt;a href=&quot;https://www.sublimetext.com/&quot;&gt;Sublime Text&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
+
+&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
+
+&lt;table class=&quot;related-posts&quot;&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Date&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;19&amp;nbsp;Jun&amp;nbsp;2021&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/git-undo/&quot;&gt;git undo: We can do better&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;12&amp;nbsp;Oct&amp;nbsp;2021&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/in-memory-rebases/&quot;&gt;Lightning-fast rebases with git-move&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;19&amp;nbsp;Oct&amp;nbsp;2022&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/build-aware-sparse-checkouts/&quot;&gt;Build-aware sparse checkouts&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;16&amp;nbsp;Nov&amp;nbsp;2022&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/bringing-revsets-to-git/&quot;&gt;Bringing revsets to Git&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;05&amp;nbsp;Jan&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      (this&amp;nbsp;post)
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/git-ui-features/&quot;&gt;Where are my Git UI features from the future?&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+
+&lt;/ul&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/git-ui-features/&quot;;
+    this.page.identifier = &quot;git-ui-features/&quot;;
+};
+
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
+</description>
+        <pubDate>Thu, 05 Jan 2023 00:00:00 -0600</pubDate>
+        <link>https://blog.waleedkhan.name/git-ui-features/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/git-ui-features/</guid>
+        
+        <category>git</category>
+        
+        <category>rant</category>
+        
+        <category>software-engineering</category>
+        
+        
+      </item>
     
       <item>
         <title>On bullet points</title>
@@ -134,7 +518,7 @@ var disqus_config = function () {
 &lt;tbody&gt;
 
   &lt;tr&gt;
-    &lt;td&gt;30&amp;nbsp;July&amp;nbsp;2020&lt;/td&gt;
+    &lt;td&gt;30&amp;nbsp;Jul&amp;nbsp;2020&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
       &lt;/td&gt;
@@ -143,16 +527,7 @@ var disqus_config = function () {
   &lt;/tr&gt;
 
   &lt;tr&gt;
-    &lt;td&gt;04&amp;nbsp;August&amp;nbsp;2020&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/smash-bros-parabola-rule/&quot;&gt;Smash Bros: the parabola rule&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;10&amp;nbsp;March&amp;nbsp;2021&lt;/td&gt;
+    &lt;td&gt;10&amp;nbsp;Mar&amp;nbsp;2021&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
       &lt;/td&gt;
@@ -161,25 +536,7 @@ var disqus_config = function () {
   &lt;/tr&gt;
 
   &lt;tr&gt;
-    &lt;td&gt;02&amp;nbsp;April&amp;nbsp;2021&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/hours-invested-vs-percentile-rank/&quot;&gt;Anecdata: hours invested vs percentile rank&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;08&amp;nbsp;June&amp;nbsp;2021&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/smash-mistakes/&quot;&gt;My easiest-to-fix Smash mistakes&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;04&amp;nbsp;November&amp;nbsp;2022&lt;/td&gt;
+    &lt;td&gt;04&amp;nbsp;Nov&amp;nbsp;2022&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
       &lt;/td&gt;
@@ -188,7 +545,7 @@ var disqus_config = function () {
   &lt;/tr&gt;
 
   &lt;tr&gt;
-    &lt;td&gt;01&amp;nbsp;January&amp;nbsp;2023&lt;/td&gt;
+    &lt;td&gt;01&amp;nbsp;Jan&amp;nbsp;2023&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
       (this&amp;nbsp;post)
@@ -442,7 +799,7 @@ var disqus_config = function () {
 &lt;tbody&gt;
 
   &lt;tr&gt;
-    &lt;td&gt;19&amp;nbsp;June&amp;nbsp;2021&lt;/td&gt;
+    &lt;td&gt;19&amp;nbsp;Jun&amp;nbsp;2021&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
       &lt;/td&gt;
@@ -451,7 +808,7 @@ var disqus_config = function () {
   &lt;/tr&gt;
 
   &lt;tr&gt;
-    &lt;td&gt;12&amp;nbsp;October&amp;nbsp;2021&lt;/td&gt;
+    &lt;td&gt;12&amp;nbsp;Oct&amp;nbsp;2021&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
       &lt;/td&gt;
@@ -460,7 +817,7 @@ var disqus_config = function () {
   &lt;/tr&gt;
 
   &lt;tr&gt;
-    &lt;td&gt;19&amp;nbsp;October&amp;nbsp;2022&lt;/td&gt;
+    &lt;td&gt;19&amp;nbsp;Oct&amp;nbsp;2022&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
       &lt;/td&gt;
@@ -469,13 +826,22 @@ var disqus_config = function () {
   &lt;/tr&gt;
 
   &lt;tr&gt;
-    &lt;td&gt;16&amp;nbsp;November&amp;nbsp;2022&lt;/td&gt;
+    &lt;td&gt;16&amp;nbsp;Nov&amp;nbsp;2022&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
       (this&amp;nbsp;post)
       
       &lt;/td&gt;
     &lt;td&gt;&lt;a href=&quot;/bringing-revsets-to-git/&quot;&gt;Bringing revsets to Git&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;05&amp;nbsp;Jan&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/git-ui-features/&quot;&gt;Where are my Git UI features from the future?&lt;/a&gt;
     &lt;/td&gt;
   &lt;/tr&gt;
 
@@ -560,7 +926,7 @@ var disqus_config = function () {
 &lt;tbody&gt;
 
   &lt;tr&gt;
-    &lt;td&gt;19&amp;nbsp;September&amp;nbsp;2016&lt;/td&gt;
+    &lt;td&gt;19&amp;nbsp;Sep&amp;nbsp;2016&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
       &lt;/td&gt;
@@ -569,7 +935,7 @@ var disqus_config = function () {
   &lt;/tr&gt;
 
   &lt;tr&gt;
-    &lt;td&gt;13&amp;nbsp;October&amp;nbsp;2016&lt;/td&gt;
+    &lt;td&gt;13&amp;nbsp;Oct&amp;nbsp;2016&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
       &lt;/td&gt;
@@ -578,7 +944,7 @@ var disqus_config = function () {
   &lt;/tr&gt;
 
   &lt;tr&gt;
-    &lt;td&gt;29&amp;nbsp;April&amp;nbsp;2020&lt;/td&gt;
+    &lt;td&gt;29&amp;nbsp;Apr&amp;nbsp;2020&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
       &lt;/td&gt;
@@ -587,7 +953,7 @@ var disqus_config = function () {
   &lt;/tr&gt;
 
   &lt;tr&gt;
-    &lt;td&gt;04&amp;nbsp;October&amp;nbsp;2021&lt;/td&gt;
+    &lt;td&gt;04&amp;nbsp;Oct&amp;nbsp;2021&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
       &lt;/td&gt;
@@ -596,7 +962,7 @@ var disqus_config = function () {
   &lt;/tr&gt;
 
   &lt;tr&gt;
-    &lt;td&gt;09&amp;nbsp;November&amp;nbsp;2022&lt;/td&gt;
+    &lt;td&gt;09&amp;nbsp;Nov&amp;nbsp;2022&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
       (this&amp;nbsp;post)
@@ -772,7 +1138,7 @@ var disqus_config = function () {
 &lt;tbody&gt;
 
   &lt;tr&gt;
-    &lt;td&gt;30&amp;nbsp;July&amp;nbsp;2020&lt;/td&gt;
+    &lt;td&gt;30&amp;nbsp;Jul&amp;nbsp;2020&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
       &lt;/td&gt;
@@ -781,16 +1147,7 @@ var disqus_config = function () {
   &lt;/tr&gt;
 
   &lt;tr&gt;
-    &lt;td&gt;04&amp;nbsp;August&amp;nbsp;2020&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/smash-bros-parabola-rule/&quot;&gt;Smash Bros: the parabola rule&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;10&amp;nbsp;March&amp;nbsp;2021&lt;/td&gt;
+    &lt;td&gt;10&amp;nbsp;Mar&amp;nbsp;2021&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
       &lt;/td&gt;
@@ -799,25 +1156,7 @@ var disqus_config = function () {
   &lt;/tr&gt;
 
   &lt;tr&gt;
-    &lt;td&gt;02&amp;nbsp;April&amp;nbsp;2021&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/hours-invested-vs-percentile-rank/&quot;&gt;Anecdata: hours invested vs percentile rank&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;08&amp;nbsp;June&amp;nbsp;2021&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/smash-mistakes/&quot;&gt;My easiest-to-fix Smash mistakes&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;04&amp;nbsp;November&amp;nbsp;2022&lt;/td&gt;
+    &lt;td&gt;04&amp;nbsp;Nov&amp;nbsp;2022&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
       (this&amp;nbsp;post)
@@ -828,7 +1167,7 @@ var disqus_config = function () {
   &lt;/tr&gt;
 
   &lt;tr&gt;
-    &lt;td&gt;01&amp;nbsp;January&amp;nbsp;2023&lt;/td&gt;
+    &lt;td&gt;01&amp;nbsp;Jan&amp;nbsp;2023&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
       &lt;/td&gt;
@@ -914,7 +1253,7 @@ var disqus_config = function () {
 &lt;tbody&gt;
 
   &lt;tr&gt;
-    &lt;td&gt;19&amp;nbsp;June&amp;nbsp;2021&lt;/td&gt;
+    &lt;td&gt;19&amp;nbsp;Jun&amp;nbsp;2021&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
       &lt;/td&gt;
@@ -923,7 +1262,7 @@ var disqus_config = function () {
   &lt;/tr&gt;
 
   &lt;tr&gt;
-    &lt;td&gt;12&amp;nbsp;October&amp;nbsp;2021&lt;/td&gt;
+    &lt;td&gt;12&amp;nbsp;Oct&amp;nbsp;2021&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
       &lt;/td&gt;
@@ -932,7 +1271,7 @@ var disqus_config = function () {
   &lt;/tr&gt;
 
   &lt;tr&gt;
-    &lt;td&gt;19&amp;nbsp;October&amp;nbsp;2022&lt;/td&gt;
+    &lt;td&gt;19&amp;nbsp;Oct&amp;nbsp;2022&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
       (this&amp;nbsp;post)
@@ -943,11 +1282,20 @@ var disqus_config = function () {
   &lt;/tr&gt;
 
   &lt;tr&gt;
-    &lt;td&gt;16&amp;nbsp;November&amp;nbsp;2022&lt;/td&gt;
+    &lt;td&gt;16&amp;nbsp;Nov&amp;nbsp;2022&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
       &lt;/td&gt;
     &lt;td&gt;&lt;a href=&quot;/bringing-revsets-to-git/&quot;&gt;Bringing revsets to Git&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;05&amp;nbsp;Jan&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/git-ui-features/&quot;&gt;Where are my Git UI features from the future?&lt;/a&gt;
     &lt;/td&gt;
   &lt;/tr&gt;
 
@@ -1250,7 +1598,7 @@ var disqus_config = function () {
 &lt;tbody&gt;
 
   &lt;tr&gt;
-    &lt;td&gt;19&amp;nbsp;June&amp;nbsp;2021&lt;/td&gt;
+    &lt;td&gt;19&amp;nbsp;Jun&amp;nbsp;2021&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
       &lt;/td&gt;
@@ -1259,7 +1607,7 @@ var disqus_config = function () {
   &lt;/tr&gt;
 
   &lt;tr&gt;
-    &lt;td&gt;12&amp;nbsp;October&amp;nbsp;2021&lt;/td&gt;
+    &lt;td&gt;12&amp;nbsp;Oct&amp;nbsp;2021&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
       (this&amp;nbsp;post)
@@ -1270,7 +1618,7 @@ var disqus_config = function () {
   &lt;/tr&gt;
 
   &lt;tr&gt;
-    &lt;td&gt;19&amp;nbsp;October&amp;nbsp;2022&lt;/td&gt;
+    &lt;td&gt;19&amp;nbsp;Oct&amp;nbsp;2022&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
       &lt;/td&gt;
@@ -1279,11 +1627,20 @@ var disqus_config = function () {
   &lt;/tr&gt;
 
   &lt;tr&gt;
-    &lt;td&gt;16&amp;nbsp;November&amp;nbsp;2022&lt;/td&gt;
+    &lt;td&gt;16&amp;nbsp;Nov&amp;nbsp;2022&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
       &lt;/td&gt;
     &lt;td&gt;&lt;a href=&quot;/bringing-revsets-to-git/&quot;&gt;Bringing revsets to Git&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;05&amp;nbsp;Jan&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/git-ui-features/&quot;&gt;Where are my Git UI features from the future?&lt;/a&gt;
     &lt;/td&gt;
   &lt;/tr&gt;
 
@@ -1333,420 +1690,6 @@ var disqus_config = function () {
         <category>rust</category>
         
         <category>software-engineering</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Automatically detecting and replying to recruiter spam</title>
-        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#introduction&quot; id=&quot;markdown-toc-introduction&quot;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#bayesian-filtering&quot; id=&quot;markdown-toc-bayesian-filtering&quot;&gt;Bayesian filtering&lt;/a&gt;    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#approach&quot; id=&quot;markdown-toc-approach&quot;&gt;Approach&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#properties&quot; id=&quot;markdown-toc-properties&quot;&gt;Properties&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#training&quot; id=&quot;markdown-toc-training&quot;&gt;Training&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#deployment&quot; id=&quot;markdown-toc-deployment&quot;&gt;Deployment&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#automatic-salary-negotiation&quot; id=&quot;markdown-toc-automatic-salary-negotiation&quot;&gt;Automatic salary negotiation&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#results&quot; id=&quot;markdown-toc-results&quot;&gt;Results&lt;/a&gt;    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#example&quot; id=&quot;markdown-toc-example&quot;&gt;Example&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#efficacy&quot; id=&quot;markdown-toc-efficacy&quot;&gt;Efficacy&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#responses&quot; id=&quot;markdown-toc-responses&quot;&gt;Responses&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#selected-amusing-keywords&quot; id=&quot;markdown-toc-selected-amusing-keywords&quot;&gt;Selected amusing keywords&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#bugs&quot; id=&quot;markdown-toc-bugs&quot;&gt;Bugs&lt;/a&gt;    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#non-existent-words&quot; id=&quot;markdown-toc-non-existent-words&quot;&gt;Non-existent words&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#email-delivery&quot; id=&quot;markdown-toc-email-delivery&quot;&gt;Email delivery&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#related-posts&quot; id=&quot;markdown-toc-related-posts&quot;&gt;Related posts&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;The code for this post is at my Github repository: &lt;a href=&quot;https://github.com/arxanas/detect-recruiter-spam&quot;&gt;github.com/arxanas/detect-recruiter-spam&lt;/a&gt;. However, I have not included my pre-trained model, since it contains sensitive information derived from  my email inbox. If you would like to use my API endpoint, send me an email.&lt;/p&gt;
-
-&lt;p&gt;If you just want to see the results, skip to &lt;a href=&quot;#results&quot;&gt;Results&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
-
-&lt;p&gt;Many software engineers I know complain about the frequency of “recruiter spam” emails. These emails are unsolicited, obviously-generic emails sent in an attempt to push engineers through their hiring pipelines, regardless of whether they would be a good fit for the job in question.&lt;/p&gt;
-
-&lt;p&gt;It’s understandable. In the current climate (I live in the US), job-seeking is a numbers game. Job seekers blast countless job sites with their résumés, while recruiters browse through LinkedIn wielding a mouse in one hand and a templated introduction in the other.&lt;/p&gt;
-
-&lt;p&gt;So why engage with these recruiters? Well, as a college graduate, I interviewed at a certain company, thinking that I would never accept a job offer from them. But the recruiter really astounded me with the whole experience, and that company changed from being barely a contender to one of my top choices. Since then, I have a policy of at least giving companies a chance to impress me.&lt;/p&gt;
-
-&lt;p&gt;So I don’t want to miss out on a potential opportunity, but on the other hand, I don’t want to waste time on low-quality recruiter interactions. So I decided that further automated emailing must be the solution.&lt;/p&gt;
-
-&lt;h2 id=&quot;bayesian-filtering&quot;&gt;Bayesian filtering&lt;/h2&gt;
-
-&lt;p&gt;A Bayesian spam filter is a simple binary classification model, often used as a first project in a machine learning course. It accepts a document and returns whether it thinks that the document is spam or not. I used the &lt;a href=&quot;https://scikit-learn.org/stable/&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scikit-learn&lt;/code&gt;&lt;/a&gt; library to build my model.&lt;/p&gt;
-
-&lt;h3 id=&quot;approach&quot;&gt;Approach&lt;/h3&gt;
-
-&lt;p&gt;The idea is to encode each message as a vector of zeros and ones. To do this, we first accumulate all of the different words across all of the different messages (with some normalization applied, such as lowercasing, removing punctuation, lemmatizing, etc.). Then we assign each unique word a different index, starting from zero. For each unique word in a given message, we set the entry at that word’s index to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;1&lt;/code&gt; in its corresponding vector. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scikit-learn&lt;/code&gt; includes the convenient &lt;a href=&quot;https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.CountVectorizer.html&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CountVectorizer&lt;/code&gt;&lt;/a&gt; class for this purpose.&lt;/p&gt;
-
-&lt;p&gt;Then we just feed the result into a pre-made Bayesian classifier model. I used &lt;a href=&quot;https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.MultinomialNB.html&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MultinomialNB&lt;/code&gt;&lt;/a&gt; from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scikit-learn&lt;/code&gt;. (This model actually accepts a vector of not just zeros and ones, but word frequency counts.)&lt;/p&gt;
-
-&lt;p&gt;The code is relatively simple, available here: &lt;a href=&quot;https://github.com/arxanas/detect-recruiter-spam/blob/main/recruiterspam/train.py&quot;&gt;https://github.com/arxanas/detect-recruiter-spam/blob/main/recruiterspam/train.py&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;properties&quot;&gt;Properties&lt;/h3&gt;
-
-&lt;p&gt;A Bayesian filter is a decent general-purpose classifier for this use-case. However, it’s worth noting some of its limitations:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;It isn’t able to deal with words that didn’t appear in the training set.&lt;/li&gt;
-  &lt;li&gt;If the training set has few positive or negative examples, it may not be trained very accurately.
-    &lt;ul&gt;
-      &lt;li&gt;For example, if your training set has 0.01% spam messages, then a classifier which always outputs “not spam” will be accurate for the vast majority of the inputs, but such a model is useless.&lt;/li&gt;
-      &lt;li&gt;According to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scikit-learn&lt;/code&gt; documentation, there are some tricks that can be done to improve the accuracy in these cases, such as by training classification against the complement of the desired output classes.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;In real life, a false positive (detecting an email as spam when it’s not) is particularly bad if it results in the loss of important communication, while a false negative (failing to detect a spam email) is mostly an annoyance. Thus, a typical Bayesian classifier probably wants to optimize to reduce false positives.&lt;/p&gt;
-
-&lt;p&gt;In our case, I don’t mind if the classifier occasionally returns false positives, because the resulting emails won’t be deleted — the recipient will just receive an automated email, which they can ignore. Thus, we can afford to optimize the classifier towards decreasing false negatives.&lt;/p&gt;
-
-&lt;h2 id=&quot;training&quot;&gt;Training&lt;/h2&gt;
-
-&lt;p&gt;To actually train the model, I went through all of my email and manually tagged recruiter spam emails as such. This wasn’t too bad, as I was able to filter out most of the automated email in my inbox pretty easily during manual annotation.&lt;/p&gt;
-
-&lt;p&gt;The repository includes two scripts to download your mailbox. One works by reading each message over IMAP, while the other works by reading a local &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.mbox&lt;/code&gt; file. (For Gmail, you can get an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.mbox&lt;/code&gt; file by using the Google Takeout feature.)&lt;/p&gt;
-
-&lt;p&gt;My training set consisted of:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;16752 messages,&lt;/li&gt;
-  &lt;li&gt;182 of which were spam,&lt;/li&gt;
-  &lt;li&gt;resulting in an accuracy of 95.2%,&lt;/li&gt;
-  &lt;li&gt;and a false positive rate of 4.7%.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;For an actual spam filter, these numbers would be abysmal, but they’re fine for my purposes.&lt;/p&gt;
-
-&lt;h2 id=&quot;deployment&quot;&gt;Deployment&lt;/h2&gt;
-
-&lt;p&gt;The model is deployed as a REST API endpoint. I tried really hard to deploy the model to AWS Lambda, but despite my packaging everything up into a Docker container, I had inscrutable differences between my local testing environment and the cloud one, and I couldn’t get it to work. In the end, I gave up and used a Heroku instance ($7 per month), which is significantly more expensive, but at least works without hassle.&lt;/p&gt;
-
-&lt;p&gt;To connect the model to my email account and have it be able to reply on my behalf, I first tried using services like Zapier and IFTTT. However, they didn’t have useful integrations at the free tier, and the paid tier would cost $25+ per month, which was more than I wanted to pay.&lt;/p&gt;
-
-&lt;p&gt;Instead, I used &lt;a href=&quot;https://www.cloudmailin.com/&quot;&gt;CloudMailIn&lt;/a&gt;. They have a usable free tier, helpful documentation, and customer support even helped me with a coding issue I had during development.&lt;/p&gt;
-
-&lt;p&gt;I simply set up a Gmail filter to forward email to CloudMailIn, which forwarded it to the Heroku service. The service would then call back into CloudMailIn to send a reply email using my email address, if necessary.&lt;/p&gt;
-
-&lt;h2 id=&quot;automatic-salary-negotiation&quot;&gt;Automatic salary negotiation&lt;/h2&gt;
-
-&lt;p&gt;Large companies have well-defined levels with associated compensation ranges. In my script, if I was able to determine the company that the recruiter represented, I cross-referenced the recruiter’s company with data from &lt;a href=&quot;https://www.levels.fyi/&quot;&gt;Levels.fyi&lt;/a&gt; and compared it to my current company’s level and salary, and used that information to propose a level to interview at. (I’ve been bitten a couple of times by not clarifying the salary ranges up-front with recruiters, so I figure it’s best to automate it.)&lt;/p&gt;
-
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
-
-&lt;h3 id=&quot;example&quot;&gt;Example&lt;/h3&gt;
-
-&lt;p&gt;Here’s an example exchange with Amazon:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Dear Waleed,&lt;/p&gt;
-
-  &lt;p&gt;I came across your LinkedIn profile and am so impressed with your skill set! I’m looking for great people with your background for our AZ, OR, TX, TN, NY, CA and Canada locations for SDEII (80% coding and 20% System design).&lt;/p&gt;
-
-  &lt;p&gt;IF YOU ARE CURRENTLY WORKING OR HAS APPLIED FOR ANY POSITION WITH AMAZON IN THE LAST 3 MONTHS. PLEASE LET ME KNOW&lt;/p&gt;
-
-  &lt;p&gt;If not, I was wondering if you would like to connect and discuss possibilities?&lt;/p&gt;
-
-  &lt;p&gt;Qualifications&lt;/p&gt;
-
-  &lt;ul&gt;
-    &lt;li&gt;3+ years of non-internship professional software development experience&lt;/li&gt;
-    &lt;li&gt;Programming experience with at least one modern language such as Java, C++, or C# including object-oriented design&lt;/li&gt;
-    &lt;li&gt;1+ years of experience contributing to the architecture and design (architecture, design patterns, reliability and scaling) of new and current systems.&lt;/li&gt;
-    &lt;li&gt;Experience building complex software systems that have been successfully delivered to customers&lt;/li&gt;
-    &lt;li&gt;Knowledge of professional software engineering practices and best practices for the full software development lifecycle, including coding standards, code reviews, source control management, build processes, testing, and operations&lt;/li&gt;
-    &lt;li&gt;Ability to take a project from scoping requirements through actual launch of the project&lt;/li&gt;
-    &lt;li&gt;Experience in communicating with users, other technical teams, and management to collect requirements, describe software product features, and technical designs.&lt;/li&gt;
-  &lt;/ul&gt;
-
-  &lt;p&gt;If interested, please reply back to me along with contact details and email.&lt;/p&gt;
-
-  &lt;p&gt;[Recruiter name]&lt;br /&gt;
-Technical Recruiter at Amazon&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;And here’s the automated response:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Hello,&lt;/p&gt;
-
-  &lt;p&gt;I am always open to the right opportunity, but since I receive so much email from recruiters, I don’t have time to individually follow up on every message.&lt;/p&gt;
-
-  &lt;p&gt;To make things easier for us both, please include the following in your reply:&lt;/p&gt;
-
-  &lt;ul&gt;
-    &lt;li&gt;The location of the position.&lt;/li&gt;
-    &lt;li&gt;Whether your company supports remote work.&lt;/li&gt;
-    &lt;li&gt;The team which is hiring.&lt;/li&gt;
-    &lt;li&gt;How my experience relates to the team in question.&lt;/li&gt;
-    &lt;li&gt;When you are looking to fill the position.&lt;/li&gt;
-  &lt;/ul&gt;
-
-  &lt;p&gt;I enjoy competitive compensation at my current company, TWITTER. I’ve automatically looked up the compensation details for the company you appear to represent, AMAZON, and it seems like I would have to receive an offer at the below level to be compensated competitively.&lt;/p&gt;
-
-  &lt;p&gt;Company name: AMAZON&lt;/p&gt;
-
-  &lt;p&gt;Compensation rating: C&lt;/p&gt;
-
-  &lt;p&gt;Suggested level for competitive compensation: PRINCIPAL SDE/L7&lt;/p&gt;
-
-  &lt;p&gt;Can you confirm that you can offer the position at the above level?&lt;/p&gt;
-
-  &lt;p&gt;The following are the details of why your message was flagged as a recruiting message. If this email was sent in error, you can ignore it.&lt;/p&gt;
-
-  &lt;p&gt;Probability: &amp;gt;99%&lt;/p&gt;
-
-  &lt;p&gt;Top keywords: SCOPING, OBJECTORIENTED, CONTRIBUTING, LIFECYCLE, COMMUNICATING&lt;/p&gt;
-
-  &lt;p&gt;Best,&lt;/p&gt;
-
-  &lt;p&gt;Recruiter Reply Bot&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;The recruiter did not reply in this case (see &lt;a href=&quot;#email-delivery&quot;&gt;Bugs&lt;/a&gt;).&lt;/p&gt;
-
-&lt;h3 id=&quot;efficacy&quot;&gt;Efficacy&lt;/h3&gt;
-
-&lt;p&gt;The bot correctly detected 36 recruiter emails over a 3-month period, out of which 6 emails led to further conversation.&lt;/p&gt;
-
-&lt;p&gt;At the rate of $7.72 per month,&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;That’s $0.64 per response,&lt;/li&gt;
-  &lt;li&gt;or $3.86 per thread which led to actual discussion.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;That price could definitely be reduced (such as by using serverless computing), but considering that I stand to make tens of thousands dollars more per year if I actually do accept a new position, I don’t consider it a bad price to generate “real” leads with recruiters.&lt;/p&gt;
-
-&lt;p&gt;The bot also produced 12 false positive replies:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;1 false positive to a “real” person who was trying to sell me SEO services.&lt;/li&gt;
-  &lt;li&gt;4 false positives to a correspondent who writes their emails in Polish, due to a serious bug (see &lt;a href=&quot;#non-existent-words&quot;&gt;Bugs&lt;/a&gt;). I removed this person from the email forwarding filter after that, so the real incidence would have been higher.&lt;/li&gt;
-  &lt;li&gt;4 false positives in response to Facebook Pay automated emails written in Polish, due to the same bug. There were many more automated emails written in Polish from the same service, so it’s not clear to me why only some of them triggered a reply.&lt;/li&gt;
-  &lt;li&gt;2 false positives to LinkedIn email notifications, which would probably be difficult to accurately detect given its nature as a recruiting service.&lt;/li&gt;
-  &lt;li&gt;1 false positive to an automated newsletter from a miscellaneous service.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;There were 29 further false positive replies which were caused by silly bugs, such as replying to emails even when the prediction probability was 0%, which I didn’t include in the above list.&lt;/p&gt;
-
-&lt;h3 id=&quot;responses&quot;&gt;Responses&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;Response #1 (from a recruiter firm): They represented an early-stage startup in Canada. They gave a salary range, but I declined because they couldn’t meet my US-centric salary expectations.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Response #2 (from a recruiter for finance): They responded with “Thank you for responding to my email, automated though it may be.”, being the only person who acknowledged the automated nature of my response. They gave me useful information with the role and location, but only said that compensation “a minimum of 30% more than what you’re making now”. I declined because I was interested in working in functional programming languages, rather than C++ and Python.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Response #3 (from a recruiting firm): I asked for a salary range in advance, and they declined to give it (after a 10-email thread!), so we stopped communication.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Response #4 (from an early-stage startup): I asked for a salary range in advance, and they declined to give it, so we stopped communication.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Response #5 (from a late-stage startup): I actually proceeded to a phone call with the recruiter. They had an interesting team, but I declined to move forward with an interview, since it wouldn’t be a substantial compensation increase, and the equity portion would be illiquid, as the company was not public.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Response #6 (from an early-stage startup): They just responded “Okay, thank you!” to my automated reply, which I assume means that they did not want to share salary information.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;selected-amusing-keywords&quot;&gt;Selected amusing keywords&lt;/h3&gt;
-
-&lt;p&gt;Recruiters use a lot of common buzzwords in their emails, which is the premise for detecting those emails automatically. Here are some of the keywords which I found amusing. (Each of the following keywords &lt;a href=&quot;https://github.com/arxanas/detect-recruiter-spam/blob/829b2ed18394388fe977ce39f407107c88f16a66/recruiterspam/train.py#L141-L142&quot;&gt;had to appear in more than one email in the training set&lt;/a&gt; to be flagged.)&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PROFITABLE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ACTIONABLE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MOBILIZE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RAPIDLY&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;COGNITIVE&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AMAZONIANS&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INNOVATE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PURSUING&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RAPIDLY&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SKILLED&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ARLINGTON&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MICROSERVICES&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FINTECH&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;JERSEY&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;STRIVING&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PIQUED&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FOREFRONT&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;COMPLIANT&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RAPIDLY&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HEALTHTECH&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ENG&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;COMPELLING&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CERTAINTY&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;OWNING&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TALENTED&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FINTECH&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SOURCER&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;COLLABORATIVE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;IMPRESSED&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;OUTDATED&lt;/code&gt;
-    &lt;ul&gt;
-      &lt;li&gt;“Sourcer” is part of the sender’s signature, rather than the email body.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AUTONOMOUS&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SOURCER&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ACCELERATION&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CRUISE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TALENTED&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RECONNECT&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CAREERSGOOGLECOM&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LATELY&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;IMAGINE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ACCOMMODATION&lt;/code&gt;
-    &lt;ul&gt;
-      &lt;li&gt;Obviously, this one was from Google. The punctuation in the URL has been removed as part of preprocessing.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SCOPING&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;OBJECTORIENTED&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CONTRIBUTING&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LIFECYCLE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;COMMUNICATING&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;250K&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FINTECH&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HYPERGROWTH&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LUCRATIVE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RAPIDLY&lt;/code&gt;
-    &lt;ul&gt;
-      &lt;li&gt;Apparently $250k is a common number mentioned in recruiting emails?&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SIGMA&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AMIDST&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CHEERS&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SELECTIVE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SHAW&lt;/code&gt;
-    &lt;ul&gt;
-      &lt;li&gt;“Sigma” refers to “Two Sigma” and “Shaw” refers to “DE Shaw”, both finance firms.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AMIDST&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SELECTIVE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SHAW&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;REVOLUTIONIZE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;QUANTITATIVE&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;bugs&quot;&gt;Bugs&lt;/h2&gt;
-
-&lt;h3 id=&quot;non-existent-words&quot;&gt;Non-existent words&lt;/h3&gt;
-
-&lt;p&gt;Strangely, the filter triggers often on email which contain words that don’t appear in the training corpus. The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CountVectorizer&lt;/code&gt; should have removed these words from the input vector, and if the vector were entirely empty in the end, then the output should have taken on the prior probability of ~1%, which is not enough to trigger a response.&lt;/p&gt;
-
-&lt;p&gt;For example, an email with the following keywords was triggered:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Probability: &amp;gt;99%&lt;/p&gt;
-
-  &lt;p&gt;Top keywords: MIDZY, UKASZ, MINUT, DZISIEJSZE, PAR&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;None of these words appeared in the training set, so they should not have contributed to the classification.&lt;/p&gt;
-
-&lt;p&gt;T/L note: non-ASCII letters were removed as part of pre-processing. Here is the translation table for the above words:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;“MIDZY” = “między”, meaning “during”;&lt;/li&gt;
-  &lt;li&gt;“UKASZ” = “Łukasz”, a given name;&lt;/li&gt;
-  &lt;li&gt;“MINUT” means “minute”;&lt;/li&gt;
-  &lt;li&gt;“DZISIEJSZE” means “today’s”;&lt;/li&gt;
-  &lt;li&gt;“PAR” = “parę”, meaning “couple”.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;email-delivery&quot;&gt;Email delivery&lt;/h3&gt;
-
-&lt;p&gt;When receiving an email from LinkedIn, it says at the bottom that I can reply to the email directly. However, it appears that all of the reply emails bounced with the error “550 5.7.1 sender not authorised to email this recipient”. I assume that this is because I haven’t set up SPF on my domain. I could either set it up, or route my emails directly through Gmail.&lt;/p&gt;
-
-&lt;p&gt;Additionally, I never received a response from any Microsoft or Amazon recruiter, despite them making up the vast majority of incoming recruiter emails. The logs indicate that email delivery succeeded, but they’re using custom recruiting management solutions, so perhaps the email was rejected at some later step in the process.&lt;/p&gt;
-
-&lt;p&gt;Or alternatively, maybe they’ve decided not to waste their time with my automated emails, just like I decided not to waste my time with theirs?&lt;/p&gt;
-
-&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
-
-&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
-
-&lt;table class=&quot;related-posts&quot;&gt;
-&lt;thead&gt;
-  &lt;tr&gt;
-    &lt;th&gt;Date&lt;/th&gt;
-    &lt;th&gt;&lt;/th&gt;
-    &lt;th&gt;Title&lt;/th&gt;
-  &lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;19&amp;nbsp;September&amp;nbsp;2016&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/dot-name-email-address/&quot;&gt;Is having a &apos;.name&apos; email address a good idea?&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;13&amp;nbsp;October&amp;nbsp;2016&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/messenger-conversation-macros/&quot;&gt;Analyzing all of my Messenger conversations to create conversational macros&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;12&amp;nbsp;September&amp;nbsp;2018&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/getting-a-job-in-pl/&quot;&gt;How to get a job in programming languages&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;29&amp;nbsp;April&amp;nbsp;2020&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/mail-server/&quot;&gt;I used to run my own mail server&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;04&amp;nbsp;October&amp;nbsp;2021&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      (this&amp;nbsp;post)
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/detect-recruiter-spam/&quot;&gt;Automatically detecting and replying to recruiter spam&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;09&amp;nbsp;November&amp;nbsp;2022&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/detect-recruiter-spam-update-1/&quot;&gt;Update #1: Automatically detecting and replying to recruiter spam&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
-
-&lt;ul&gt;
-
-
-
-&lt;/ul&gt;
-
-&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
-
-&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
-&lt;script&gt;
-
-/**
- *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
- *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
-var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/detect-recruiter-spam/&quot;;
-    this.page.identifier = &quot;detect-recruiter-spam/&quot;;
-};
-
-(function() { // DON&apos;T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement(&apos;script&apos;);
-    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
-    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
-    (d.head || d.body).appendChild(s);
-})();
-&lt;/script&gt;
-
-&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
-
-</description>
-        <pubDate>Mon, 04 Oct 2021 00:00:00 -0500</pubDate>
-        <link>https://blog.waleedkhan.name/detect-recruiter-spam/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/detect-recruiter-spam/</guid>
-        
-        <category>career</category>
-        
-        <category>machine-learning</category>
-        
-        <category>python</category>
         
         
       </item>
