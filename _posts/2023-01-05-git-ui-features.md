@@ -230,9 +230,8 @@ Notes:
 * <sup>2</sup> Partial support; it can show whether the merge is fast-forward or not, but no additional details.
 * <sup>3</sup> Can be done via `magit-merge-preview`.
 * <sup>4</sup> Partial support; if an operation would cause a merge conflict and `--merge` wasn't passed, then instead aborts and shows the number of files that would conflict.
-
 * <sup>5</sup> Jujutsu doesn't let you preview merge conflicts *per se*, but merges and rebases always succeed and the conflicts are stored in the commit, and then you can undo the operation if you don't want to deal with the merge conflicts. You can even restore the old version of the commit well after you carried out the merge/rebase, if desired. This avoids interrupting your workflow, which is the ultimate goal of this feature, so I'm scoring it as a pass for this category.
-* <sup>5</sup> Undo support is experimental and based on the reflog, [which can't undo all types of operations](https://github.com/arxanas/git-branchless/wiki/Architecture#comparison-with-the-reflog).
+* <sup>6</sup> Undo support is experimental and based on the reflog, [which can't undo all types of operations](https://github.com/arxanas/git-branchless/wiki/Architecture#comparison-with-the-reflog).
 * <sup>7</sup> Git struggles with some operations on large repositories and can be improved upon, but we'll consider this to be the baseline performance for large repositories.
 * <sup>8</sup> Presumably Magit has the same performance as Git, but I didn't check because I don't use Emacs.
 
