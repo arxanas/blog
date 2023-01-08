@@ -69,21 +69,8 @@
     <ul id="markdown-toc">
   <li><a href="#git-sucks" id="markdown-toc-git-sucks">Git sucks</a></li>
   <li><a href="#rubric" id="markdown-toc-rubric">Rubric</a></li>
-  <li><a href="#clients" id="markdown-toc-clients">Clients</a>    <ul>
-      <li><a href="#git-cli" id="markdown-toc-git-cli">Git CLI</a></li>
-      <li><a href="#gitkraken" id="markdown-toc-gitkraken">GitKraken</a></li>
-      <li><a href="#fork" id="markdown-toc-fork">Fork</a></li>
-      <li><a href="#sourcetree" id="markdown-toc-sourcetree">Sourcetree</a></li>
-      <li><a href="#sublime-merge" id="markdown-toc-sublime-merge">Sublime Merge</a></li>
-      <li><a href="#smartgit" id="markdown-toc-smartgit">SmartGit</a></li>
-      <li><a href="#gitup" id="markdown-toc-gitup">GitUp</a></li>
-      <li><a href="#magit" id="markdown-toc-magit">Magit</a></li>
-      <li><a href="#lazygit" id="markdown-toc-lazygit">Lazygit</a></li>
-      <li><a href="#gitui" id="markdown-toc-gitui">Gitui</a></li>
-      <li><a href="#git-branchless" id="markdown-toc-git-branchless">git-branchless</a></li>
-    </ul>
-  </li>
-  <li><a href="#commendations" id="markdown-toc-commendations">Commendations</a></li>
+  <li><a href="#clients" id="markdown-toc-clients">Clients</a></li>
+  <li><a href="#awards" id="markdown-toc-awards">Awards</a></li>
   <li><a href="#related-posts" id="markdown-toc-related-posts">Related posts</a></li>
   <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
 </ul>
@@ -106,6 +93,7 @@
 <ul>
   <li><strong><code class="language-plaintext highlighter-rouge">reword</code></strong>: It should be possible to update the commit message of a commit which isn’t currently checked out.
     <ul>
+      <li>Rewording a commit is guaranteed to not cause a merge conflict, so requiring that the commit be checked out is unnecessary.</li>
       <li>It should also be possible to reword a commit which is the ancestor of multiple branches without abandoning some of those branches, but let’s not get our hopes up…</li>
     </ul>
   </li>
@@ -127,16 +115,21 @@
       <li>The only people who seem to want this feature are people who come from other version control systems.</li>
     </ul>
   </li>
-  <li><strong><code class="language-plaintext highlighter-rouge">undo</code></strong>: I should be able to undo arbitrary operations, ideally including tracked but uncommitted changes.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">undo</code></strong>: I should be able to undo arbitrary operations, ideally including tracked but uncommitted changes.
+    <ul>
+      <li>This is <em>not</em> the same as reverting a commit. Reverting a commit creates an altogether new commit with the inverse changes, whereas undoing an operation should restore the repository to the state it was in before the operation was carried out, so there would be no original commit to revert.</li>
+    </ul>
+  </li>
   <li><strong><code class="language-plaintext highlighter-rouge">large-load</code></strong>: The UI should load large repositories quickly.
     <ul>
-      <li>The program is allowed to be slow on the first invocation to build any caches, but must be responsive on subsequent invocations. The UI shouldn’t hang at any point, although it may take a while to show useful information.</li>
+      <li>The UI shouldn’t hang at any point, and should show useful information as soon as it’s loaded. You shouldn’t have to wait for the entire repository to load before you can examine commits or branches.</li>
+      <li>The program is allowed to be slow on the first invocation to build any necessary caches, but must be responsive on subsequent invocations.</li>
     </ul>
   </li>
   <li><strong><code class="language-plaintext highlighter-rouge">large-ops</code></strong>: The UI should be responsive when carring out various operations, such as examining commits and branches, or merging or rebasing.</li>
 </ul>
 
-<p>Honor:</p>
+<p>Extra points:</p>
 
 <ul>
   <li>I will award <strong>honorary negative points</strong> for any client which dares to treat <code class="language-plaintext highlighter-rouge">git rebase -i</code> as if it were a fundamental primitive.</li>
@@ -148,192 +141,206 @@
   </li>
 </ul>
 
-<p>Since I didn’t note down the honor scoring in this article, these are just so that any vendors of these clients can know whether I am impressed or disappointed by them.</p>
+<p>Since I didn’t actually note down any of this, these criteria are just so that any vendors of these clients can know whether I am impressed or disappointed by them.</p>
 
 <h2 id="clients">Clients</h2>
 
-<p>I picked some clients arbitrarily from <a href="https://git-scm.com/downloads/guis">this list of clients</a>. I am surely wrong about some of these points (or they’ve changed since I last looked), so leave a comment or inline comment (hover/tap and click “comment”) to correct me.</p>
+<p>I picked some clients arbitrarily from <a href="https://git-scm.com/downloads/guis">this list of clients</a>. I am surely wrong about some of these points (or they’ve changed since I last looked), so leave a comment.</p>
 
-<h3 id="git-cli">Git CLI</h3>
+<p>I included my own project <a href="https://github.com/arxanas/git-branchless">git-branchless</a>, so it doesn’t really count as an example of innovation in the industry. I’m including it to demonstrate that many of these workflows are very much possible.</p>
 
-<p><a href="https://git-scm.com/">Git CLI</a>:</p>
+<style type="text/css">
+th.rotate {
+  /* Something you can count on */
+  height: 140px;
+  white-space: nowrap;
+}
+
+th.rotate > div {
+  transform: 
+    /* Magic Numbers */
+    translate(25px, 51px)
+    /* 45 is really 360 - 45 */
+    rotate(315deg);
+  width: 30px;
+}
+th.rotate > div > span {
+  border-bottom: 1px solid #eee;
+  padding: 5px 10px;
+}
+
+#data th:nth-child(even) > div > span {
+  border-bottom: 3px solid #eee;
+}
+
+#data td:nth-child(even) {
+  background-color: #eee;
+}
+
+</style>
+
+<table id="data">
+<thead>
+  <tr>
+    <th></th>
+    <th class="rotate"><div><span><a href="https://git-scm.com/">Git CLI</a></span></div></th>
+    <th class="rotate"><div><span><a href="https://www.gitkraken.com/">GitKraken</a></span></div></th>
+    <th class="rotate"><div><span><a href="https://git-fork.com/">Fork</a></span></div></th>
+    <th class="rotate"><div><span><a href="https://www.sourcetreeapp.com/">Sourcetree</a></span></div></th>
+    <th class="rotate"><div><span><a href="https://www.sublimemerge.com/">Sublime Merge</a></span></div></th>
+    <th class="rotate"><div><span><a href="https://www.syntevo.com/smartgit/">SmartGit</a></span></div></th>
+    <th class="rotate"><div><span><a href="https://gitup.co/">GitUp</a></span></div></th>
+    <th class="rotate"><div><span><a href="https://magit.vc/">Magit</a></span></div></th>
+    <th class="rotate"><div><span><a href="https://github.com/jesseduffield/lazygit">Lazygit</a></span></div></th>
+    <th class="rotate"><div><span><a href="https://github.com/extrawurst/gitui">Gitui</a></span></div></th>
+    <th class="rotate"><div><span><a href="https://github.com/arxanas/git-branchless">git-branchless</a></span></div></th>
+    <th class="rotate"><div><span><a href="https://github.com/martinvonz/jj">Jujutsu</a></span></div></th>
+  </tr>
+</thead>
+
+<tbody>
+  <tr>
+    <th><code>reword</code></th>
+    <td>❌ <sup>1</sup></td> <!-- Git CLI -->
+    <td>❌</td> <!-- GitKraken -->
+    <td>❌</td> <!-- Fork -->
+    <td>❌</td> <!-- Sourcetree -->
+    <td>❌</td> <!-- Sublime Merge -->
+    <td>❌</td> <!-- SmartGit -->
+    <td>✅</td> <!-- GitUp -->
+    <td>❌</td> <!-- Magit -->
+    <td>❌</td> <!-- Lazygit -->
+    <td>❌</td> <!-- Gitui -->
+    <td>✅</td> <!-- git-branchless -->
+    <td>✅</td> <!-- jj -->
+  </tr>
+  
+  <tr>
+    <th><code>sync</code></th>
+    <td>❌</td> <!-- Git CLI -->
+    <td>❌</td> <!-- GitKraken -->
+    <td>❌</td> <!-- Fork -->
+    <td>❌</td> <!-- Sourcetree -->
+    <td>❌</td> <!-- Sublime Merge -->
+    <td>❌</td> <!-- SmartGit -->
+    <td>❌</td> <!-- GitUp -->
+    <td>❌</td> <!-- Magit -->
+    <td>❌</td> <!-- Lazygit -->
+    <td>❌</td> <!-- Gitui -->
+    <td>✅</td> <!-- git-branchless -->
+    <td>❌</td> <!-- jj -->
+  </tr>
+  
+  <tr>
+    <th><code>split</code></th>
+    <td>❌ <sup>1</sup></td> <!-- Git CLI -->
+    <td>❌</td> <!-- GitKraken -->
+    <td>❌</td> <!-- Fork -->
+    <td>❌</td> <!-- Sourcetree -->
+    <td>❌</td> <!-- Sublime Merge -->
+    <td>❌</td> <!-- SmartGit -->
+    <td>✅</td> <!-- GitUp -->
+    <td>❌</td> <!-- Magit -->
+    <td>❌</td> <!-- Lazygit -->
+    <td>❌</td> <!-- Gitui -->
+    <td>❌</td> <!-- git-branchless -->
+    <td>✅</td> <!-- jj -->
+  </tr>
+  
+  <tr>
+    <th><code>preview</code></th>
+    <td>❌</td> <!-- Git CLI -->
+    <td>❌</td> <!-- GitKraken -->
+    <td>⚠️ <sup>2</sup></td> <!-- Fork -->
+    <td>❌</td> <!-- Sourcetree -->
+    <td>⚠️ <sup>2</sup></td> <!-- Sublime Merge -->
+    <td>❌</td> <!-- SmartGit -->
+    <td>❌</td> <!-- GitUp -->
+    <td>✅ <sup>3</sup></td> <!-- Magit -->
+    <td>❌</td> <!-- Lazygit -->
+    <td>❌</td> <!-- Gitui -->
+    <td>⚠️ <sup>4</sup></td> <!-- git-branchless -->
+    <td>✅ <sup>5</sup></td> <!-- jj -->
+  </tr>
+
+  <tr>
+    <th><code>undo</code></th>
+    <td>❌</td> <!-- Git CLI -->
+    <td>✅</td> <!-- GitKraken -->
+    <td>❓</td> <!-- Fork -->
+    <td>✅</td> <!-- Sourcetree -->
+    <td>✅</td> <!-- Sublime Merge -->
+    <td>❌</td> <!-- SmartGit -->
+    <td>✅</td> <!-- GitUp -->
+    <td>✅</td> <!-- Magit -->
+    <td>⚠️ <sup>6</sup></td> <!-- Lazygit -->
+    <td>❌</td> <!-- Gitui -->
+    <td>✅</td> <!-- git-branchless -->
+    <td>✅</td> <!-- jj -->
+  </tr>
+
+  <tr>
+    <th><code>large-load</code></th>
+    <td>✅ <sup>7</sup></td> <!-- Git CLI -->
+    <td>❌</td> <!-- GitKraken -->
+    <td>❌</td> <!-- Fork -->
+    <td>❌</td> <!-- Sourcetree -->
+    <td>✅</td> <!-- Sublime Merge -->
+    <td>❌</td> <!-- SmartGit -->
+    <td>❌</td> <!-- GitUp -->
+    <td>✅ <sup>8</sup></td> <!-- Magit -->
+    <td>✅</td> <!-- Lazygit -->
+    <td>✅</td> <!-- Gitui -->
+    <td>✅</td> <!-- git-branchless -->
+    <td>❌</td> <!-- jj -->
+  </tr>
+  
+  <tr>
+    <th><code>large-ops</code></th>
+    <td>✅ <sup>7</sup></td> <!-- Git CLI -->
+    <td>❌</td> <!-- GitKraken -->
+    <td>❌</td> <!-- Fork -->
+    <td>✅</td> <!-- Sourcetree -->
+    <td>✅</td> <!-- Sublime Merge -->
+    <td>❌</td> <!-- SmartGit -->
+    <td>✅</td> <!-- GitUp -->
+    <td>✅ <sup>8</sup></td> <!-- Magit -->
+    <td>✅</td> <!-- Lazygit -->
+    <td>✅</td> <!-- Gitui -->
+    <td>✅</td> <!-- git-branchless -->
+    <td>❌</td> <!-- jj -->
+  </tr>
+</tbody>
+</table>
+
+<p>Notes:</p>
+
 <ul>
-  <li><code class="language-plaintext highlighter-rouge">reword</code>: no
-    <ul>
-      <li>You can do it via <code class="language-plaintext highlighter-rouge">git rebase -i</code>, but it’s not ergonomic, and it only works for commits reachable from <code class="language-plaintext highlighter-rouge">HEAD</code> instead of from other branches.</li>
-    </ul>
-  </li>
-  <li><code class="language-plaintext highlighter-rouge">sync</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">split</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">preview</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">undo</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">large-load</code>: we’ll consider this the baseline for operations on large repositories, even though Git itself struggles at present with some operations.</li>
-  <li><code class="language-plaintext highlighter-rouge">large-ops</code>: likewise.</li>
+  <li><sup>1</sup> It can be done via <code class="language-plaintext highlighter-rouge">git rebase -i</code> or equivalent, but it’s not ergonomic, and it only works for commits reachable from <code class="language-plaintext highlighter-rouge">HEAD</code> instead of from other branches.</li>
+  <li><sup>2</sup> Partial support; it can show whether the merge is fast-forward or not, but no additional details.</li>
+  <li><sup>3</sup> Can be done via <code class="language-plaintext highlighter-rouge">magit-merge-preview</code>.</li>
+  <li><sup>4</sup> Partial support; if an operation would cause a merge conflict and <code class="language-plaintext highlighter-rouge">--merge</code> wasn’t passed, then instead aborts and shows the number of files that would conflict.</li>
+  <li><sup>5</sup> Undo support is experimental and based on the reflog, <a href="https://github.com/arxanas/git-branchless/wiki/Architecture#comparison-with-the-reflog">which can’t undo all types of operations</a>.</li>
+  <li><sup>6</sup> Jujutsu doesn’t let you preview merge conflicts <em>per se</em>, but merges and rebases always succeed and the conflicts are stored in the commit, and then you can undo the operation if you don’t want to deal with the merge conflicts. You can even restore the old version of the commit well after you carried out the merge/rebase, if desired. This avoids interrupting your workflow, which is the ultimate goal of this feature, so I’m scoring it as a pass for this category.</li>
+  <li><sup>7</sup> Git struggles with some operations on large repositories and can be improved upon, but we’ll consider this to be the baseline performance for large repositories.</li>
+  <li><sup>8</sup> Presumably Magit has the same performance as Git, but I didn’t check because I don’t use Emacs.</li>
 </ul>
 
-<h3 id="gitkraken">GitKraken</h3>
-
-<p><a href="https://www.gitkraken.com/">GitKraken</a>:</p>
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">reword</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">sync</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">split</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">preview</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">undo</code>: yes</li>
-  <li><code class="language-plaintext highlighter-rouge">large-load</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">large-ops</code>: no</li>
-</ul>
-
-<h3 id="fork">Fork</h3>
-
-<p><a href="https://git-fork.com/">Fork</a>:</p>
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">reword</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">sync</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">split</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">preview</code>: partial
-    <ul>
-      <li>Shows if merge is fast-forward or not.</li>
-    </ul>
-  </li>
-  <li><code class="language-plaintext highlighter-rouge">undo</code>: ?</li>
-  <li><code class="language-plaintext highlighter-rouge">large-load</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">large-ops</code>: no</li>
-</ul>
-
-<h3 id="sourcetree">Sourcetree</h3>
-
-<p><a href="https://www.sourcetreeapp.com/">Sourcetree</a>:</p>
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">reword</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">sync</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">split</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">preview</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">undo</code>: yes</li>
-  <li><code class="language-plaintext highlighter-rouge">large-load</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">large-ops</code>: yes</li>
-</ul>
-
-<h3 id="sublime-merge">Sublime Merge</h3>
-
-<p><a href="https://www.sublimemerge.com/">Sublime Merge</a>:</p>
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">reword</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">sync</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">split</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">preview</code>: partial
-    <ul>
-      <li>Shows if merge is fast-forward or not.</li>
-    </ul>
-  </li>
-  <li><code class="language-plaintext highlighter-rouge">undo</code>: yes</li>
-  <li><code class="language-plaintext highlighter-rouge">large-load</code>: yes</li>
-  <li><code class="language-plaintext highlighter-rouge">large-ops</code>: yes</li>
-</ul>
-
-<h3 id="smartgit">SmartGit</h3>
-
-<p><a href="https://www.syntevo.com/smartgit/">SmartGit</a>:</p>
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">reword</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">sync</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">split</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">preview</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">large-load</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">large-ops</code>: no</li>
-</ul>
-
-<h3 id="gitup">GitUp</h3>
-
-<p><a href="https://gitup.co/">GitUp</a>:</p>
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">reword</code>: yes</li>
-  <li><code class="language-plaintext highlighter-rouge">sync</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">split</code>: yes</li>
-  <li><code class="language-plaintext highlighter-rouge">preview</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">undo</code>: yes</li>
-  <li><code class="language-plaintext highlighter-rouge">large-load</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">large-ops</code>: yes</li>
-</ul>
-
-<h3 id="magit">Magit</h3>
-
-<p><a href="https://magit.vc/">Magit</a></p>
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">reword</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">sync</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">split</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">preview</code>: yes
-    <ul>
-      <li>Via magit-merge-preview.</li>
-    </ul>
-  </li>
-  <li><code class="language-plaintext highlighter-rouge">undo</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">large-load</code>: probably baseline</li>
-  <li><code class="language-plaintext highlighter-rouge">large-ops</code>: probably baseline</li>
-</ul>
-
-<h3 id="lazygit">Lazygit</h3>
-
-<p><a href="https://github.com/jesseduffield/lazygit">Lazygit</a>:</p>
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">reword</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">sync</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">split</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">preview</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">undo</code>: yes
-    <ul>
-      <li>experimental, via reflog</li>
-    </ul>
-  </li>
-  <li><code class="language-plaintext highlighter-rouge">large-load</code>: yes</li>
-  <li><code class="language-plaintext highlighter-rouge">large-ops</code>: yes</li>
-</ul>
-
-<h3 id="gitui">Gitui</h3>
-
-<p><a href="https://github.com/extrawurst/gitui">Gitui</a>:</p>
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">reword</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">sync</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">split</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">preview</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">undo</code>: no</li>
-  <li><code class="language-plaintext highlighter-rouge">large-load</code>: yes</li>
-  <li><code class="language-plaintext highlighter-rouge">large-ops</code>: yes</li>
-</ul>
-
-<h3 id="git-branchless">git-branchless</h3>
-
-<p>This is my own project, so it doesn’t really count as an example of innovation in the industry. I’m including it to demonstrate that many of these workflows are very much possible.</p>
-
-<p><a href="https://github.com/arxanas/git-branchless">git-branchless</a></p>
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">reword</code>: yes</li>
-  <li><code class="language-plaintext highlighter-rouge">sync</code>: yes</li>
-  <li><code class="language-plaintext highlighter-rouge">split</code>: no
-    <ul>
-      <li>One day…</li>
-    </ul>
-  </li>
-  <li><code class="language-plaintext highlighter-rouge">preview</code>: partial
-    <ul>
-      <li>If an operation would cause a merge conflict, and <code class="language-plaintext highlighter-rouge">--merge</code> was not passed, instead aborts and shows which files were conflicting.</li>
-    </ul>
-  </li>
-  <li><code class="language-plaintext highlighter-rouge">undo</code>: yes</li>
-  <li><code class="language-plaintext highlighter-rouge">large-load</code>: yes</li>
-  <li><code class="language-plaintext highlighter-rouge">large-ops</code>: yes</li>
-</ul>
-
-<h2 id="commendations">Commendations</h2>
+<h2 id="awards">Awards</h2>
 
 <p>Commendations:</p>
 
 <ul>
   <li>GitUp: the most innovative Git GUI of the above.</li>
-  <li>GitKraken: innovating in some spaces, such as improved support for centralized workflows via warning about concurrently-edited files.</li>
+  <li>GitKraken: innovating in some spaces, such as improved support for centralized workflows by warning about concurrently-edited files. These areas aren’t reflected above; I just noticed them on other occasions.</li>
   <li>Sublime Merge: incredibly responsive, as to be expected from the folks responsible for <a href="https://www.sublimetext.com/">Sublime Text</a>.</li>
+</ul>
+
+<p>Demerits:</p>
+
+<ul>
+  <li>Fork: for making it really hard to search for documentation (“git fork undo” mostly produces results for undoing forking in general, not for the Fork client).</li>
+  <li>SmartGit: for being deficient in every category tested.</li>
 </ul>
 
 <h2 id="related-posts">Related posts</h2>

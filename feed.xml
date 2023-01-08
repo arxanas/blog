@@ -7,8 +7,8 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 05 Jan 2023 17:25:09 -0600</pubDate>
-    <lastBuildDate>Thu, 05 Jan 2023 17:25:09 -0600</lastBuildDate>
+    <pubDate>Sat, 07 Jan 2023 18:21:05 -0600</pubDate>
+    <lastBuildDate>Sat, 07 Jan 2023 18:21:05 -0600</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
@@ -16,21 +16,8 @@ employers.</description>
         <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
   &lt;li&gt;&lt;a href=&quot;#git-sucks&quot; id=&quot;markdown-toc-git-sucks&quot;&gt;Git sucks&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#rubric&quot; id=&quot;markdown-toc-rubric&quot;&gt;Rubric&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#clients&quot; id=&quot;markdown-toc-clients&quot;&gt;Clients&lt;/a&gt;    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#git-cli&quot; id=&quot;markdown-toc-git-cli&quot;&gt;Git CLI&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#gitkraken&quot; id=&quot;markdown-toc-gitkraken&quot;&gt;GitKraken&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#fork&quot; id=&quot;markdown-toc-fork&quot;&gt;Fork&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#sourcetree&quot; id=&quot;markdown-toc-sourcetree&quot;&gt;Sourcetree&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#sublime-merge&quot; id=&quot;markdown-toc-sublime-merge&quot;&gt;Sublime Merge&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#smartgit&quot; id=&quot;markdown-toc-smartgit&quot;&gt;SmartGit&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#gitup&quot; id=&quot;markdown-toc-gitup&quot;&gt;GitUp&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#magit&quot; id=&quot;markdown-toc-magit&quot;&gt;Magit&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#lazygit&quot; id=&quot;markdown-toc-lazygit&quot;&gt;Lazygit&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#gitui&quot; id=&quot;markdown-toc-gitui&quot;&gt;Gitui&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#git-branchless&quot; id=&quot;markdown-toc-git-branchless&quot;&gt;git-branchless&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#commendations&quot; id=&quot;markdown-toc-commendations&quot;&gt;Commendations&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#clients&quot; id=&quot;markdown-toc-clients&quot;&gt;Clients&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#awards&quot; id=&quot;markdown-toc-awards&quot;&gt;Awards&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#related-posts&quot; id=&quot;markdown-toc-related-posts&quot;&gt;Related posts&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -53,6 +40,7 @@ employers.</description>
 &lt;ul&gt;
   &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt;&lt;/strong&gt;: It should be possible to update the commit message of a commit which isn’t currently checked out.
     &lt;ul&gt;
+      &lt;li&gt;Rewording a commit is guaranteed to not cause a merge conflict, so requiring that the commit be checked out is unnecessary.&lt;/li&gt;
       &lt;li&gt;It should also be possible to reword a commit which is the ancestor of multiple branches without abandoning some of those branches, but let’s not get our hopes up…&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
@@ -74,16 +62,21 @@ employers.</description>
       &lt;li&gt;The only people who seem to want this feature are people who come from other version control systems.&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;undo&lt;/code&gt;&lt;/strong&gt;: I should be able to undo arbitrary operations, ideally including tracked but uncommitted changes.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;undo&lt;/code&gt;&lt;/strong&gt;: I should be able to undo arbitrary operations, ideally including tracked but uncommitted changes.
+    &lt;ul&gt;
+      &lt;li&gt;This is &lt;em&gt;not&lt;/em&gt; the same as reverting a commit. Reverting a commit creates an altogether new commit with the inverse changes, whereas undoing an operation should restore the repository to the state it was in before the operation was carried out, so there would be no original commit to revert.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
   &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-load&lt;/code&gt;&lt;/strong&gt;: The UI should load large repositories quickly.
     &lt;ul&gt;
-      &lt;li&gt;The program is allowed to be slow on the first invocation to build any caches, but must be responsive on subsequent invocations. The UI shouldn’t hang at any point, although it may take a while to show useful information.&lt;/li&gt;
+      &lt;li&gt;The UI shouldn’t hang at any point, and should show useful information as soon as it’s loaded. You shouldn’t have to wait for the entire repository to load before you can examine commits or branches.&lt;/li&gt;
+      &lt;li&gt;The program is allowed to be slow on the first invocation to build any necessary caches, but must be responsive on subsequent invocations.&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-ops&lt;/code&gt;&lt;/strong&gt;: The UI should be responsive when carring out various operations, such as examining commits and branches, or merging or rebasing.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;Honor:&lt;/p&gt;
+&lt;p&gt;Extra points:&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;I will award &lt;strong&gt;honorary negative points&lt;/strong&gt; for any client which dares to treat &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase -i&lt;/code&gt; as if it were a fundamental primitive.&lt;/li&gt;
@@ -95,192 +88,206 @@ employers.</description>
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;Since I didn’t note down the honor scoring in this article, these are just so that any vendors of these clients can know whether I am impressed or disappointed by them.&lt;/p&gt;
+&lt;p&gt;Since I didn’t actually note down any of this, these criteria are just so that any vendors of these clients can know whether I am impressed or disappointed by them.&lt;/p&gt;
 
 &lt;h2 id=&quot;clients&quot;&gt;Clients&lt;/h2&gt;
 
-&lt;p&gt;I picked some clients arbitrarily from &lt;a href=&quot;https://git-scm.com/downloads/guis&quot;&gt;this list of clients&lt;/a&gt;. I am surely wrong about some of these points (or they’ve changed since I last looked), so leave a comment or inline comment (hover/tap and click “comment”) to correct me.&lt;/p&gt;
+&lt;p&gt;I picked some clients arbitrarily from &lt;a href=&quot;https://git-scm.com/downloads/guis&quot;&gt;this list of clients&lt;/a&gt;. I am surely wrong about some of these points (or they’ve changed since I last looked), so leave a comment.&lt;/p&gt;
 
-&lt;h3 id=&quot;git-cli&quot;&gt;Git CLI&lt;/h3&gt;
+&lt;p&gt;I included my own project &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt;, so it doesn’t really count as an example of innovation in the industry. I’m including it to demonstrate that many of these workflows are very much possible.&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;https://git-scm.com/&quot;&gt;Git CLI&lt;/a&gt;:&lt;/p&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+th.rotate {
+  /* Something you can count on */
+  height: 140px;
+  white-space: nowrap;
+}
+
+th.rotate &gt; div {
+  transform: 
+    /* Magic Numbers */
+    translate(25px, 51px)
+    /* 45 is really 360 - 45 */
+    rotate(315deg);
+  width: 30px;
+}
+th.rotate &gt; div &gt; span {
+  border-bottom: 1px solid #eee;
+  padding: 5px 10px;
+}
+
+#data th:nth-child(even) &gt; div &gt; span {
+  border-bottom: 3px solid #eee;
+}
+
+#data td:nth-child(even) {
+  background-color: #eee;
+}
+
+&lt;/style&gt;
+
+&lt;table id=&quot;data&quot;&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://git-scm.com/&quot;&gt;Git CLI&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
+    &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://www.gitkraken.com/&quot;&gt;GitKraken&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
+    &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://git-fork.com/&quot;&gt;Fork&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
+    &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://www.sourcetreeapp.com/&quot;&gt;Sourcetree&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
+    &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://www.sublimemerge.com/&quot;&gt;Sublime Merge&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
+    &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://www.syntevo.com/smartgit/&quot;&gt;SmartGit&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
+    &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://gitup.co/&quot;&gt;GitUp&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
+    &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://magit.vc/&quot;&gt;Magit&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
+    &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://github.com/jesseduffield/lazygit&quot;&gt;Lazygit&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
+    &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://github.com/extrawurst/gitui&quot;&gt;Gitui&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
+    &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
+    &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://github.com/martinvonz/jj&quot;&gt;Jujutsu&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+  &lt;tr&gt;
+    &lt;th&gt;&lt;code&gt;reword&lt;/code&gt;&lt;/th&gt;
+    &lt;td&gt;❌ &lt;sup&gt;1&lt;/sup&gt;&lt;/td&gt; &lt;!-- Git CLI --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitKraken --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Fork --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sourcetree --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
+    &lt;td&gt;✅&lt;/td&gt; &lt;!-- GitUp --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Magit --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Lazygit --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Gitui --&gt;
+    &lt;td&gt;✅&lt;/td&gt; &lt;!-- git-branchless --&gt;
+    &lt;td&gt;✅&lt;/td&gt; &lt;!-- jj --&gt;
+  &lt;/tr&gt;
+  
+  &lt;tr&gt;
+    &lt;th&gt;&lt;code&gt;sync&lt;/code&gt;&lt;/th&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Git CLI --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitKraken --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Fork --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sourcetree --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitUp --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Magit --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Lazygit --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Gitui --&gt;
+    &lt;td&gt;✅&lt;/td&gt; &lt;!-- git-branchless --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- jj --&gt;
+  &lt;/tr&gt;
+  
+  &lt;tr&gt;
+    &lt;th&gt;&lt;code&gt;split&lt;/code&gt;&lt;/th&gt;
+    &lt;td&gt;❌ &lt;sup&gt;1&lt;/sup&gt;&lt;/td&gt; &lt;!-- Git CLI --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitKraken --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Fork --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sourcetree --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
+    &lt;td&gt;✅&lt;/td&gt; &lt;!-- GitUp --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Magit --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Lazygit --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Gitui --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- git-branchless --&gt;
+    &lt;td&gt;✅&lt;/td&gt; &lt;!-- jj --&gt;
+  &lt;/tr&gt;
+  
+  &lt;tr&gt;
+    &lt;th&gt;&lt;code&gt;preview&lt;/code&gt;&lt;/th&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Git CLI --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitKraken --&gt;
+    &lt;td&gt;⚠️ &lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt; &lt;!-- Fork --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sourcetree --&gt;
+    &lt;td&gt;⚠️ &lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitUp --&gt;
+    &lt;td&gt;✅ &lt;sup&gt;3&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Lazygit --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Gitui --&gt;
+    &lt;td&gt;⚠️ &lt;sup&gt;4&lt;/sup&gt;&lt;/td&gt; &lt;!-- git-branchless --&gt;
+    &lt;td&gt;✅ &lt;sup&gt;5&lt;/sup&gt;&lt;/td&gt; &lt;!-- jj --&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;th&gt;&lt;code&gt;undo&lt;/code&gt;&lt;/th&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Git CLI --&gt;
+    &lt;td&gt;✅&lt;/td&gt; &lt;!-- GitKraken --&gt;
+    &lt;td&gt;❓&lt;/td&gt; &lt;!-- Fork --&gt;
+    &lt;td&gt;✅&lt;/td&gt; &lt;!-- Sourcetree --&gt;
+    &lt;td&gt;✅&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
+    &lt;td&gt;✅&lt;/td&gt; &lt;!-- GitUp --&gt;
+    &lt;td&gt;✅&lt;/td&gt; &lt;!-- Magit --&gt;
+    &lt;td&gt;⚠️ &lt;sup&gt;6&lt;/sup&gt;&lt;/td&gt; &lt;!-- Lazygit --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Gitui --&gt;
+    &lt;td&gt;✅&lt;/td&gt; &lt;!-- git-branchless --&gt;
+    &lt;td&gt;✅&lt;/td&gt; &lt;!-- jj --&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;th&gt;&lt;code&gt;large-load&lt;/code&gt;&lt;/th&gt;
+    &lt;td&gt;✅ &lt;sup&gt;7&lt;/sup&gt;&lt;/td&gt; &lt;!-- Git CLI --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitKraken --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Fork --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sourcetree --&gt;
+    &lt;td&gt;✅&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitUp --&gt;
+    &lt;td&gt;✅ &lt;sup&gt;8&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
+    &lt;td&gt;✅&lt;/td&gt; &lt;!-- Lazygit --&gt;
+    &lt;td&gt;✅&lt;/td&gt; &lt;!-- Gitui --&gt;
+    &lt;td&gt;✅&lt;/td&gt; &lt;!-- git-branchless --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- jj --&gt;
+  &lt;/tr&gt;
+  
+  &lt;tr&gt;
+    &lt;th&gt;&lt;code&gt;large-ops&lt;/code&gt;&lt;/th&gt;
+    &lt;td&gt;✅ &lt;sup&gt;7&lt;/sup&gt;&lt;/td&gt; &lt;!-- Git CLI --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitKraken --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Fork --&gt;
+    &lt;td&gt;✅&lt;/td&gt; &lt;!-- Sourcetree --&gt;
+    &lt;td&gt;✅&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
+    &lt;td&gt;✅&lt;/td&gt; &lt;!-- GitUp --&gt;
+    &lt;td&gt;✅ &lt;sup&gt;8&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
+    &lt;td&gt;✅&lt;/td&gt; &lt;!-- Lazygit --&gt;
+    &lt;td&gt;✅&lt;/td&gt; &lt;!-- Gitui --&gt;
+    &lt;td&gt;✅&lt;/td&gt; &lt;!-- git-branchless --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- jj --&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Notes:&lt;/p&gt;
+
 &lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt;: no
-    &lt;ul&gt;
-      &lt;li&gt;You can do it via &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase -i&lt;/code&gt;, but it’s not ergonomic, and it only works for commits reachable from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HEAD&lt;/code&gt; instead of from other branches.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sync&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;split&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;preview&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;undo&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-load&lt;/code&gt;: we’ll consider this the baseline for operations on large repositories, even though Git itself struggles at present with some operations.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-ops&lt;/code&gt;: likewise.&lt;/li&gt;
+  &lt;li&gt;&lt;sup&gt;1&lt;/sup&gt; It can be done via &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase -i&lt;/code&gt; or equivalent, but it’s not ergonomic, and it only works for commits reachable from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HEAD&lt;/code&gt; instead of from other branches.&lt;/li&gt;
+  &lt;li&gt;&lt;sup&gt;2&lt;/sup&gt; Partial support; it can show whether the merge is fast-forward or not, but no additional details.&lt;/li&gt;
+  &lt;li&gt;&lt;sup&gt;3&lt;/sup&gt; Can be done via &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;magit-merge-preview&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;sup&gt;4&lt;/sup&gt; Partial support; if an operation would cause a merge conflict and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--merge&lt;/code&gt; wasn’t passed, then instead aborts and shows the number of files that would conflict.&lt;/li&gt;
+  &lt;li&gt;&lt;sup&gt;5&lt;/sup&gt; Undo support is experimental and based on the reflog, &lt;a href=&quot;https://github.com/arxanas/git-branchless/wiki/Architecture#comparison-with-the-reflog&quot;&gt;which can’t undo all types of operations&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;sup&gt;6&lt;/sup&gt; Jujutsu doesn’t let you preview merge conflicts &lt;em&gt;per se&lt;/em&gt;, but merges and rebases always succeed and the conflicts are stored in the commit, and then you can undo the operation if you don’t want to deal with the merge conflicts. You can even restore the old version of the commit well after you carried out the merge/rebase, if desired. This avoids interrupting your workflow, which is the ultimate goal of this feature, so I’m scoring it as a pass for this category.&lt;/li&gt;
+  &lt;li&gt;&lt;sup&gt;7&lt;/sup&gt; Git struggles with some operations on large repositories and can be improved upon, but we’ll consider this to be the baseline performance for large repositories.&lt;/li&gt;
+  &lt;li&gt;&lt;sup&gt;8&lt;/sup&gt; Presumably Magit has the same performance as Git, but I didn’t check because I don’t use Emacs.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&quot;gitkraken&quot;&gt;GitKraken&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.gitkraken.com/&quot;&gt;GitKraken&lt;/a&gt;:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sync&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;split&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;preview&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;undo&lt;/code&gt;: yes&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-load&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-ops&lt;/code&gt;: no&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;fork&quot;&gt;Fork&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://git-fork.com/&quot;&gt;Fork&lt;/a&gt;:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sync&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;split&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;preview&lt;/code&gt;: partial
-    &lt;ul&gt;
-      &lt;li&gt;Shows if merge is fast-forward or not.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;undo&lt;/code&gt;: ?&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-load&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-ops&lt;/code&gt;: no&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;sourcetree&quot;&gt;Sourcetree&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.sourcetreeapp.com/&quot;&gt;Sourcetree&lt;/a&gt;:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sync&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;split&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;preview&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;undo&lt;/code&gt;: yes&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-load&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-ops&lt;/code&gt;: yes&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;sublime-merge&quot;&gt;Sublime Merge&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.sublimemerge.com/&quot;&gt;Sublime Merge&lt;/a&gt;:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sync&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;split&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;preview&lt;/code&gt;: partial
-    &lt;ul&gt;
-      &lt;li&gt;Shows if merge is fast-forward or not.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;undo&lt;/code&gt;: yes&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-load&lt;/code&gt;: yes&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-ops&lt;/code&gt;: yes&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;smartgit&quot;&gt;SmartGit&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.syntevo.com/smartgit/&quot;&gt;SmartGit&lt;/a&gt;:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sync&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;split&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;preview&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-load&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-ops&lt;/code&gt;: no&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;gitup&quot;&gt;GitUp&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://gitup.co/&quot;&gt;GitUp&lt;/a&gt;:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt;: yes&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sync&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;split&lt;/code&gt;: yes&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;preview&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;undo&lt;/code&gt;: yes&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-load&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-ops&lt;/code&gt;: yes&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;magit&quot;&gt;Magit&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://magit.vc/&quot;&gt;Magit&lt;/a&gt;&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sync&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;split&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;preview&lt;/code&gt;: yes
-    &lt;ul&gt;
-      &lt;li&gt;Via magit-merge-preview.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;undo&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-load&lt;/code&gt;: probably baseline&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-ops&lt;/code&gt;: probably baseline&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;lazygit&quot;&gt;Lazygit&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/jesseduffield/lazygit&quot;&gt;Lazygit&lt;/a&gt;:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sync&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;split&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;preview&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;undo&lt;/code&gt;: yes
-    &lt;ul&gt;
-      &lt;li&gt;experimental, via reflog&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-load&lt;/code&gt;: yes&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-ops&lt;/code&gt;: yes&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;gitui&quot;&gt;Gitui&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/extrawurst/gitui&quot;&gt;Gitui&lt;/a&gt;:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sync&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;split&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;preview&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;undo&lt;/code&gt;: no&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-load&lt;/code&gt;: yes&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-ops&lt;/code&gt;: yes&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;git-branchless&quot;&gt;git-branchless&lt;/h3&gt;
-
-&lt;p&gt;This is my own project, so it doesn’t really count as an example of innovation in the industry. I’m including it to demonstrate that many of these workflows are very much possible.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt;&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt;: yes&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sync&lt;/code&gt;: yes&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;split&lt;/code&gt;: no
-    &lt;ul&gt;
-      &lt;li&gt;One day…&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;preview&lt;/code&gt;: partial
-    &lt;ul&gt;
-      &lt;li&gt;If an operation would cause a merge conflict, and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--merge&lt;/code&gt; was not passed, instead aborts and shows which files were conflicting.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;undo&lt;/code&gt;: yes&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-load&lt;/code&gt;: yes&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-ops&lt;/code&gt;: yes&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;commendations&quot;&gt;Commendations&lt;/h2&gt;
+&lt;h2 id=&quot;awards&quot;&gt;Awards&lt;/h2&gt;
 
 &lt;p&gt;Commendations:&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;GitUp: the most innovative Git GUI of the above.&lt;/li&gt;
-  &lt;li&gt;GitKraken: innovating in some spaces, such as improved support for centralized workflows via warning about concurrently-edited files.&lt;/li&gt;
+  &lt;li&gt;GitKraken: innovating in some spaces, such as improved support for centralized workflows by warning about concurrently-edited files. These areas aren’t reflected above; I just noticed them on other occasions.&lt;/li&gt;
   &lt;li&gt;Sublime Merge: incredibly responsive, as to be expected from the folks responsible for &lt;a href=&quot;https://www.sublimetext.com/&quot;&gt;Sublime Text&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Demerits:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Fork: for making it really hard to search for documentation (“git fork undo” mostly produces results for undoing forking in general, not for the Fork client).&lt;/li&gt;
+  &lt;li&gt;SmartGit: for being deficient in every category tested.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
