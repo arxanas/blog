@@ -9,6 +9,10 @@
   document
     .querySelectorAll(affectedTags.map((tag) => `.post-content > ${tag}`))
     .forEach((item) => {
+      if (item.closest("#markdown-toc")) {
+        return;
+      }
+
       // Calculate text content and paragraph ID before we add any text nodes below.
       const paragraphRawContent = item.textContent;
       const paragraphId = btoa(
@@ -83,7 +87,7 @@ Write your comment here. Markdown will NOT be rendered.`;
   apiUrl.searchParams.append("state", "open");
   fetch(apiUrl).then((response) => {
     response.json().then((data) => {
-    // Group issues by the paragraph they're commenting on.
+      // Group issues by the paragraph they're commenting on.
       const allIssues = new Map();
       for (const issue of data) {
         if (!allIssues.has(issue.title)) {
