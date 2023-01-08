@@ -7,8 +7,8 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 08 Jan 2023 12:16:12 -0600</pubDate>
-    <lastBuildDate>Sun, 08 Jan 2023 12:16:12 -0600</lastBuildDate>
+    <pubDate>Sun, 08 Jan 2023 16:58:40 -0600</pubDate>
+    <lastBuildDate>Sun, 08 Jan 2023 16:58:40 -0600</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
@@ -105,22 +105,15 @@ th.rotate {
 
 th.rotate &gt; div {
   transform: 
-    /* Magic Numbers */
-    translate(25px, 51px)
-    /* 45 is really 360 - 45 */
-    rotate(315deg);
+    translate(20px, 51px) /* magic numbers */
+    rotate(320deg);
   width: 30px;
 }
 th.rotate &gt; div &gt; span {
-  border-bottom: 1px solid #eee;
   padding: 5px 10px;
 }
 
-#data th:nth-child(even) &gt; div &gt; span {
-  border-bottom: 3px solid #eee;
-}
-
-#data td:nth-child(even) {
+#data th:nth-child(even) &gt; div &gt; span, #data td:nth-child(even) {
   background-color: #eee;
 }
 
@@ -148,7 +141,7 @@ th.rotate &gt; div &gt; span {
 &lt;tbody&gt;
   &lt;tr&gt;
     &lt;th&gt;&lt;code&gt;reword&lt;/code&gt;&lt;/th&gt;
-    &lt;td&gt;❌ &lt;sup&gt;1&lt;/sup&gt;&lt;/td&gt; &lt;!-- Git CLI --&gt;
+    &lt;td&gt;❌&amp;nbsp;&lt;sup&gt;1&lt;/sup&gt;&lt;/td&gt; &lt;!-- Git CLI --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitKraken --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Fork --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sourcetree --&gt;
@@ -180,7 +173,7 @@ th.rotate &gt; div &gt; span {
   
   &lt;tr&gt;
     &lt;th&gt;&lt;code&gt;split&lt;/code&gt;&lt;/th&gt;
-    &lt;td&gt;❌ &lt;sup&gt;1&lt;/sup&gt;&lt;/td&gt; &lt;!-- Git CLI --&gt;
+    &lt;td&gt;❌&amp;nbsp;&lt;sup&gt;1&lt;/sup&gt;&lt;/td&gt; &lt;!-- Git CLI --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitKraken --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Fork --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sourcetree --&gt;
@@ -198,16 +191,16 @@ th.rotate &gt; div &gt; span {
     &lt;th&gt;&lt;code&gt;preview&lt;/code&gt;&lt;/th&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Git CLI --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitKraken --&gt;
-    &lt;td&gt;⚠️ &lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt; &lt;!-- Fork --&gt;
+    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt; &lt;!-- Fork --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sourcetree --&gt;
-    &lt;td&gt;⚠️ &lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
+    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitUp --&gt;
-    &lt;td&gt;✅ &lt;sup&gt;3&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
+    &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;3&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Lazygit --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Gitui --&gt;
-    &lt;td&gt;⚠️ &lt;sup&gt;4&lt;/sup&gt;&lt;/td&gt; &lt;!-- git-branchless --&gt;
-    &lt;td&gt;✅ &lt;sup&gt;5&lt;/sup&gt;&lt;/td&gt; &lt;!-- jj --&gt;
+    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;4&lt;/sup&gt;&lt;/td&gt; &lt;!-- git-branchless --&gt;
+    &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;5&lt;/sup&gt;&lt;/td&gt; &lt;!-- jj --&gt;
   &lt;/tr&gt;
 
   &lt;tr&gt;
@@ -220,7 +213,7 @@ th.rotate &gt; div &gt; span {
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- GitUp --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Magit --&gt;
-    &lt;td&gt;⚠️ &lt;sup&gt;6&lt;/sup&gt;&lt;/td&gt; &lt;!-- Lazygit --&gt;
+    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;6&lt;/sup&gt;&lt;/td&gt; &lt;!-- Lazygit --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Gitui --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- git-branchless --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- jj --&gt;
@@ -228,14 +221,14 @@ th.rotate &gt; div &gt; span {
 
   &lt;tr&gt;
     &lt;th&gt;&lt;code&gt;large-load&lt;/code&gt;&lt;/th&gt;
-    &lt;td&gt;✅ &lt;sup&gt;7&lt;/sup&gt;&lt;/td&gt; &lt;!-- Git CLI --&gt;
+    &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;7&lt;/sup&gt;&lt;/td&gt; &lt;!-- Git CLI --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitKraken --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Fork --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sourcetree --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitUp --&gt;
-    &lt;td&gt;✅ &lt;sup&gt;8&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
+    &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;8&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Lazygit --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Gitui --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- git-branchless --&gt;
@@ -244,14 +237,14 @@ th.rotate &gt; div &gt; span {
   
   &lt;tr&gt;
     &lt;th&gt;&lt;code&gt;large-ops&lt;/code&gt;&lt;/th&gt;
-    &lt;td&gt;✅ &lt;sup&gt;7&lt;/sup&gt;&lt;/td&gt; &lt;!-- Git CLI --&gt;
+    &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;7&lt;/sup&gt;&lt;/td&gt; &lt;!-- Git CLI --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitKraken --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Fork --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Sourcetree --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- GitUp --&gt;
-    &lt;td&gt;✅ &lt;sup&gt;8&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
+    &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;8&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Lazygit --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Gitui --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- git-branchless --&gt;

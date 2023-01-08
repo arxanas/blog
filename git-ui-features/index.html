@@ -158,22 +158,15 @@ th.rotate {
 
 th.rotate > div {
   transform: 
-    /* Magic Numbers */
-    translate(25px, 51px)
-    /* 45 is really 360 - 45 */
-    rotate(315deg);
+    translate(20px, 51px) /* magic numbers */
+    rotate(320deg);
   width: 30px;
 }
 th.rotate > div > span {
-  border-bottom: 1px solid #eee;
   padding: 5px 10px;
 }
 
-#data th:nth-child(even) > div > span {
-  border-bottom: 3px solid #eee;
-}
-
-#data td:nth-child(even) {
+#data th:nth-child(even) > div > span, #data td:nth-child(even) {
   background-color: #eee;
 }
 
@@ -201,7 +194,7 @@ th.rotate > div > span {
 <tbody>
   <tr>
     <th><code>reword</code></th>
-    <td>❌ <sup>1</sup></td> <!-- Git CLI -->
+    <td>❌&nbsp;<sup>1</sup></td> <!-- Git CLI -->
     <td>❌</td> <!-- GitKraken -->
     <td>❌</td> <!-- Fork -->
     <td>❌</td> <!-- Sourcetree -->
@@ -233,7 +226,7 @@ th.rotate > div > span {
   
   <tr>
     <th><code>split</code></th>
-    <td>❌ <sup>1</sup></td> <!-- Git CLI -->
+    <td>❌&nbsp;<sup>1</sup></td> <!-- Git CLI -->
     <td>❌</td> <!-- GitKraken -->
     <td>❌</td> <!-- Fork -->
     <td>❌</td> <!-- Sourcetree -->
@@ -251,16 +244,16 @@ th.rotate > div > span {
     <th><code>preview</code></th>
     <td>❌</td> <!-- Git CLI -->
     <td>❌</td> <!-- GitKraken -->
-    <td>⚠️ <sup>2</sup></td> <!-- Fork -->
+    <td>⚠️&nbsp;<sup>2</sup></td> <!-- Fork -->
     <td>❌</td> <!-- Sourcetree -->
-    <td>⚠️ <sup>2</sup></td> <!-- Sublime Merge -->
+    <td>⚠️&nbsp;<sup>2</sup></td> <!-- Sublime Merge -->
     <td>❌</td> <!-- SmartGit -->
     <td>❌</td> <!-- GitUp -->
-    <td>✅ <sup>3</sup></td> <!-- Magit -->
+    <td>✅&nbsp;<sup>3</sup></td> <!-- Magit -->
     <td>❌</td> <!-- Lazygit -->
     <td>❌</td> <!-- Gitui -->
-    <td>⚠️ <sup>4</sup></td> <!-- git-branchless -->
-    <td>✅ <sup>5</sup></td> <!-- jj -->
+    <td>⚠️&nbsp;<sup>4</sup></td> <!-- git-branchless -->
+    <td>✅&nbsp;<sup>5</sup></td> <!-- jj -->
   </tr>
 
   <tr>
@@ -273,7 +266,7 @@ th.rotate > div > span {
     <td>❌</td> <!-- SmartGit -->
     <td>✅</td> <!-- GitUp -->
     <td>✅</td> <!-- Magit -->
-    <td>⚠️ <sup>6</sup></td> <!-- Lazygit -->
+    <td>⚠️&nbsp;<sup>6</sup></td> <!-- Lazygit -->
     <td>❌</td> <!-- Gitui -->
     <td>✅</td> <!-- git-branchless -->
     <td>✅</td> <!-- jj -->
@@ -281,14 +274,14 @@ th.rotate > div > span {
 
   <tr>
     <th><code>large-load</code></th>
-    <td>✅ <sup>7</sup></td> <!-- Git CLI -->
+    <td>✅&nbsp;<sup>7</sup></td> <!-- Git CLI -->
     <td>❌</td> <!-- GitKraken -->
     <td>❌</td> <!-- Fork -->
     <td>❌</td> <!-- Sourcetree -->
     <td>✅</td> <!-- Sublime Merge -->
     <td>❌</td> <!-- SmartGit -->
     <td>❌</td> <!-- GitUp -->
-    <td>✅ <sup>8</sup></td> <!-- Magit -->
+    <td>✅&nbsp;<sup>8</sup></td> <!-- Magit -->
     <td>✅</td> <!-- Lazygit -->
     <td>✅</td> <!-- Gitui -->
     <td>✅</td> <!-- git-branchless -->
@@ -297,14 +290,14 @@ th.rotate > div > span {
   
   <tr>
     <th><code>large-ops</code></th>
-    <td>✅ <sup>7</sup></td> <!-- Git CLI -->
+    <td>✅&nbsp;<sup>7</sup></td> <!-- Git CLI -->
     <td>❌</td> <!-- GitKraken -->
     <td>❌</td> <!-- Fork -->
     <td>✅</td> <!-- Sourcetree -->
     <td>✅</td> <!-- Sublime Merge -->
     <td>❌</td> <!-- SmartGit -->
     <td>✅</td> <!-- GitUp -->
-    <td>✅ <sup>8</sup></td> <!-- Magit -->
+    <td>✅&nbsp;<sup>8</sup></td> <!-- Magit -->
     <td>✅</td> <!-- Lazygit -->
     <td>✅</td> <!-- Gitui -->
     <td>✅</td> <!-- git-branchless -->
