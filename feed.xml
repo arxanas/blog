@@ -7,8 +7,8 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 08 Jan 2023 16:58:40 -0600</pubDate>
-    <lastBuildDate>Sun, 08 Jan 2023 16:58:40 -0600</lastBuildDate>
+    <pubDate>Mon, 09 Jan 2023 17:29:21 -0600</pubDate>
+    <lastBuildDate>Mon, 09 Jan 2023 17:29:21 -0600</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
@@ -130,6 +130,7 @@ th.rotate &gt; div &gt; span {
     &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://www.sublimemerge.com/&quot;&gt;Sublime Merge&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
     &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://www.syntevo.com/smartgit/&quot;&gt;SmartGit&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
     &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://gitup.co/&quot;&gt;GitUp&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
+    &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://www.jetbrains.com/idea/&quot;&gt;IntelliJ&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
     &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://magit.vc/&quot;&gt;Magit&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
     &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://github.com/jesseduffield/lazygit&quot;&gt;Lazygit&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
     &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://github.com/extrawurst/gitui&quot;&gt;Gitui&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
@@ -145,10 +146,11 @@ th.rotate &gt; div &gt; span {
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitKraken --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Fork --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sourcetree --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
+    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- GitUp --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Magit --&gt;
+    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt; &lt;!-- IntelliJ --&gt;
+    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Lazygit --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Gitui --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- git-branchless --&gt;
@@ -164,6 +166,7 @@ th.rotate &gt; div &gt; span {
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitUp --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- IntelliJ --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Magit --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Lazygit --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Gitui --&gt;
@@ -180,6 +183,7 @@ th.rotate &gt; div &gt; span {
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- GitUp --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- IntelliJ --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Magit --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Lazygit --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Gitui --&gt;
@@ -191,16 +195,17 @@ th.rotate &gt; div &gt; span {
     &lt;th&gt;&lt;code&gt;preview&lt;/code&gt;&lt;/th&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Git CLI --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitKraken --&gt;
-    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt; &lt;!-- Fork --&gt;
+    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;3&lt;/sup&gt;&lt;/td&gt; &lt;!-- Fork --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sourcetree --&gt;
-    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
+    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;3&lt;/sup&gt;&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitUp --&gt;
-    &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;3&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- IntelliJ --&gt;
+    &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;4&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Lazygit --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Gitui --&gt;
-    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;4&lt;/sup&gt;&lt;/td&gt; &lt;!-- git-branchless --&gt;
-    &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;5&lt;/sup&gt;&lt;/td&gt; &lt;!-- jj --&gt;
+    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;5&lt;/sup&gt;&lt;/td&gt; &lt;!-- git-branchless --&gt;
+    &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;6&lt;/sup&gt;&lt;/td&gt; &lt;!-- jj --&gt;
   &lt;/tr&gt;
 
   &lt;tr&gt;
@@ -212,8 +217,9 @@ th.rotate &gt; div &gt; span {
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- GitUp --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- IntelliJ --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Magit --&gt;
-    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;6&lt;/sup&gt;&lt;/td&gt; &lt;!-- Lazygit --&gt;
+    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;7&lt;/sup&gt;&lt;/td&gt; &lt;!-- Lazygit --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Gitui --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- git-branchless --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- jj --&gt;
@@ -221,14 +227,15 @@ th.rotate &gt; div &gt; span {
 
   &lt;tr&gt;
     &lt;th&gt;&lt;code&gt;large-load&lt;/code&gt;&lt;/th&gt;
-    &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;7&lt;/sup&gt;&lt;/td&gt; &lt;!-- Git CLI --&gt;
+    &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;8&lt;/sup&gt;&lt;/td&gt; &lt;!-- Git CLI --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitKraken --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Fork --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sourcetree --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitUp --&gt;
-    &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;8&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
+    &lt;td&gt;✅&lt;/td&gt; &lt;!-- IntelliJ --&gt;
+    &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;9&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Lazygit --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Gitui --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- git-branchless --&gt;
@@ -237,14 +244,15 @@ th.rotate &gt; div &gt; span {
   
   &lt;tr&gt;
     &lt;th&gt;&lt;code&gt;large-ops&lt;/code&gt;&lt;/th&gt;
-    &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;7&lt;/sup&gt;&lt;/td&gt; &lt;!-- Git CLI --&gt;
+    &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;8&lt;/sup&gt;&lt;/td&gt; &lt;!-- Git CLI --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitKraken --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Fork --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Sourcetree --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- GitUp --&gt;
-    &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;8&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
+    &lt;td&gt;✅&lt;/td&gt; &lt;!-- IntelliJ --&gt;
+    &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;9&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Lazygit --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Gitui --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- git-branchless --&gt;
@@ -257,13 +265,14 @@ th.rotate &gt; div &gt; span {
 
 &lt;ul&gt;
   &lt;li&gt;&lt;sup&gt;1&lt;/sup&gt; It can be done via &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase -i&lt;/code&gt; or equivalent, but it’s not ergonomic, and it only works for commits reachable from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HEAD&lt;/code&gt; instead of from other branches.&lt;/li&gt;
-  &lt;li&gt;&lt;sup&gt;2&lt;/sup&gt; Partial support; it can show whether the merge is fast-forward or not, but no additional details.&lt;/li&gt;
-  &lt;li&gt;&lt;sup&gt;3&lt;/sup&gt; Can be done via &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;magit-merge-preview&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;&lt;sup&gt;4&lt;/sup&gt; Partial support; if an operation would cause a merge conflict and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--merge&lt;/code&gt; wasn’t passed, then instead aborts and shows the number of files that would conflict.&lt;/li&gt;
-  &lt;li&gt;&lt;sup&gt;5&lt;/sup&gt; Jujutsu doesn’t let you preview merge conflicts &lt;em&gt;per se&lt;/em&gt;, but merges and rebases always succeed and the conflicts are stored in the commit, and then you can undo the operation if you don’t want to deal with the merge conflicts. You can even restore the old version of the commit well after you carried out the merge/rebase, if desired. This avoids interrupting your workflow, which is the ultimate goal of this feature, so I’m scoring it as a pass for this category.&lt;/li&gt;
-  &lt;li&gt;&lt;sup&gt;6&lt;/sup&gt; Undo support is experimental and based on the reflog, &lt;a href=&quot;https://github.com/arxanas/git-branchless/wiki/Architecture#comparison-with-the-reflog&quot;&gt;which can’t undo all types of operations&lt;/a&gt;.&lt;/li&gt;
-  &lt;li&gt;&lt;sup&gt;7&lt;/sup&gt; Git struggles with some operations on large repositories and can be improved upon, but we’ll consider this to be the baseline performance for large repositories.&lt;/li&gt;
-  &lt;li&gt;&lt;sup&gt;8&lt;/sup&gt; Presumably Magit has the same performance as Git, but I didn’t check because I don’t use Emacs.&lt;/li&gt;
+  &lt;li&gt;&lt;sup&gt;2&lt;/sup&gt; Rewording can be done without checking out the commit, but only for commits reachable from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HEAD&lt;/code&gt;. There may be additional limitations.&lt;/li&gt;
+  &lt;li&gt;&lt;sup&gt;3&lt;/sup&gt; Partial support; it can show whether the merge is fast-forward or not, but no additional details.&lt;/li&gt;
+  &lt;li&gt;&lt;sup&gt;4&lt;/sup&gt; Can be done via &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;magit-merge-preview&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;sup&gt;5&lt;/sup&gt; Partial support; if an operation would cause a merge conflict and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--merge&lt;/code&gt; wasn’t passed, then instead aborts and shows the number of files that would conflict.&lt;/li&gt;
+  &lt;li&gt;&lt;sup&gt;6&lt;/sup&gt; Jujutsu doesn’t let you preview merge conflicts &lt;em&gt;per se&lt;/em&gt;, but merges and rebases always succeed and the conflicts are stored in the commit, and then you can undo the operation if you don’t want to deal with the merge conflicts. You can even restore the old version of the commit well after you carried out the merge/rebase, if desired. This avoids interrupting your workflow, which is the ultimate goal of this feature, so I’m scoring it as a pass for this category.&lt;/li&gt;
+  &lt;li&gt;&lt;sup&gt;7&lt;/sup&gt; Undo support is experimental and based on the reflog, &lt;a href=&quot;https://github.com/arxanas/git-branchless/wiki/Architecture#comparison-with-the-reflog&quot;&gt;which can’t undo all types of operations&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;sup&gt;8&lt;/sup&gt; Git struggles with some operations on large repositories and can be improved upon, but we’ll consider this to be the baseline performance for large repositories.&lt;/li&gt;
+  &lt;li&gt;&lt;sup&gt;9&lt;/sup&gt; Presumably Magit has the same performance as Git, but I didn’t check because I don’t use Emacs.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;awards&quot;&gt;Awards&lt;/h2&gt;

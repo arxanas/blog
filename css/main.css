@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .aside, .figure { background-color: #ececec; border-radius: 5px; display: block; margin-bottom: 20px; padding: 20px; }
 
 .aside p:last-child, .figure p:last-child { margin-bottom: 0; }
@@ -86,20 +87,26 @@ pre > code { border: 0; padding-right: 0; padding-left: 0; }
 table { width: 100%; }
 
 /* See github-comment-link.js for the code that creates these nodes. */
-.github-comment-link { display: none; font-size: 16px; margin-bottom: 1.5; background-color: #e8e8e8; }
+.github-comment-link { display: none; font-size: 16px; margin-bottom: 1.5; background-color: #e8e8e8; padding: 0 0.5em; }
+
+.github-comment-link::before { content: "⧉ "; }
 
 /* Keep tag list in sync with tag list in github-comment-link.js file. */
 :is(p, li, figure):has(> .github-comment-link) { display: block; position: relative; margin-left: 1em; }
 
 :is(p, li, figure):hover > .github-comment-link { display: block; position: absolute; background-color: #e8e8e8; border: 1px solid #828282; margin-top: -24px; }
 
-.github-comments::before { content: "Comments"; display: block; font-weight: bold; }
+.github-comment-container::before { content: "Comment threads"; display: block; font-weight: bold; }
 
-.github-comments::after { content: ""; display: table; clear: both; }
+.github-comment-container::after { content: ""; display: table; clear: both; }
 
-.github-comments { margin-left: 3em; background-color: #e8e8e8; padding: 1em; }
+.github-comment-container { background-color: #e8e8e8; border: 1px solid #828282; margin: 0.5em 0 0.5em 0em; padding: 1em; }
 
-.github-comments-num-replies { float: right; background-color: #e8e8e8; right: 0; }
+.github-comment-body { max-height: 72px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.github-comment-author { font-weight: bold; }
+
+.github-comment-num-replies { float: right; background-color: #e8e8e8; right: 0; }
 
 /* This code from https://www.benmarshall.me/responsive-iframes/ */
 .iframe-container { overflow: hidden; padding-top: 56.25%; /* 16:9 */ position: relative; margin-bottom: 20px; }
