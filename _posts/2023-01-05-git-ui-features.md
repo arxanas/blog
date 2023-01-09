@@ -6,6 +6,8 @@ tags:
   - git
   - rant
   - software-engineering
+hn:  https://news.ycombinator.com/item?id=34301543
+lobsters: https://lobste.rs/s/7tnnbq/where_are_my_git_ui_features_from_future
 ---
 
  * toc
