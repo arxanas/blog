@@ -94,6 +94,7 @@ th.rotate > div > span {
     <th class="rotate"><div><span><a href="https://www.sublimemerge.com/">Sublime Merge</a></span></div></th>
     <th class="rotate"><div><span><a href="https://www.syntevo.com/smartgit/">SmartGit</a></span></div></th>
     <th class="rotate"><div><span><a href="https://gitup.co/">GitUp</a></span></div></th>
+    <th class="rotate"><div><span><a href="https://www.jetbrains.com/idea/">IntelliJ</a></span></div></th>
     <th class="rotate"><div><span><a href="https://magit.vc/">Magit</a></span></div></th>
     <th class="rotate"><div><span><a href="https://github.com/jesseduffield/lazygit">Lazygit</a></span></div></th>
     <th class="rotate"><div><span><a href="https://github.com/extrawurst/gitui">Gitui</a></span></div></th>
@@ -109,10 +110,11 @@ th.rotate > div > span {
     <td>❌</td> <!-- GitKraken -->
     <td>❌</td> <!-- Fork -->
     <td>❌</td> <!-- Sourcetree -->
-    <td>❌</td> <!-- Sublime Merge -->
+    <td>⚠️&nbsp;<sup>2</sup></td> <!-- Sublime Merge -->
     <td>❌</td> <!-- SmartGit -->
     <td>✅</td> <!-- GitUp -->
-    <td>❌</td> <!-- Magit -->
+    <td>⚠️&nbsp;<sup>2</sup></td> <!-- IntelliJ -->
+    <td>⚠️&nbsp;<sup>2</sup></td> <!-- Magit -->
     <td>❌</td> <!-- Lazygit -->
     <td>❌</td> <!-- Gitui -->
     <td>✅</td> <!-- git-branchless -->
@@ -128,6 +130,7 @@ th.rotate > div > span {
     <td>❌</td> <!-- Sublime Merge -->
     <td>❌</td> <!-- SmartGit -->
     <td>❌</td> <!-- GitUp -->
+    <td>❌</td> <!-- IntelliJ -->
     <td>❌</td> <!-- Magit -->
     <td>❌</td> <!-- Lazygit -->
     <td>❌</td> <!-- Gitui -->
@@ -144,6 +147,7 @@ th.rotate > div > span {
     <td>❌</td> <!-- Sublime Merge -->
     <td>❌</td> <!-- SmartGit -->
     <td>✅</td> <!-- GitUp -->
+    <td>❌</td> <!-- IntelliJ -->
     <td>❌</td> <!-- Magit -->
     <td>❌</td> <!-- Lazygit -->
     <td>❌</td> <!-- Gitui -->
@@ -155,16 +159,17 @@ th.rotate > div > span {
     <th><code>preview</code></th>
     <td>❌</td> <!-- Git CLI -->
     <td>❌</td> <!-- GitKraken -->
-    <td>⚠️&nbsp;<sup>2</sup></td> <!-- Fork -->
+    <td>⚠️&nbsp;<sup>3</sup></td> <!-- Fork -->
     <td>❌</td> <!-- Sourcetree -->
-    <td>⚠️&nbsp;<sup>2</sup></td> <!-- Sublime Merge -->
+    <td>⚠️&nbsp;<sup>3</sup></td> <!-- Sublime Merge -->
     <td>❌</td> <!-- SmartGit -->
     <td>❌</td> <!-- GitUp -->
-    <td>✅&nbsp;<sup>3</sup></td> <!-- Magit -->
+    <td>❌</td> <!-- IntelliJ -->
+    <td>✅&nbsp;<sup>4</sup></td> <!-- Magit -->
     <td>❌</td> <!-- Lazygit -->
     <td>❌</td> <!-- Gitui -->
-    <td>⚠️&nbsp;<sup>4</sup></td> <!-- git-branchless -->
-    <td>✅&nbsp;<sup>5</sup></td> <!-- jj -->
+    <td>⚠️&nbsp;<sup>5</sup></td> <!-- git-branchless -->
+    <td>✅&nbsp;<sup>6</sup></td> <!-- jj -->
   </tr>
 
   <tr>
@@ -176,8 +181,9 @@ th.rotate > div > span {
     <td>✅</td> <!-- Sublime Merge -->
     <td>❌</td> <!-- SmartGit -->
     <td>✅</td> <!-- GitUp -->
+    <td>❌</td> <!-- IntelliJ -->
     <td>✅</td> <!-- Magit -->
-    <td>⚠️&nbsp;<sup>6</sup></td> <!-- Lazygit -->
+    <td>⚠️&nbsp;<sup>7</sup></td> <!-- Lazygit -->
     <td>❌</td> <!-- Gitui -->
     <td>✅</td> <!-- git-branchless -->
     <td>✅</td> <!-- jj -->
@@ -185,14 +191,15 @@ th.rotate > div > span {
 
   <tr>
     <th><code>large-load</code></th>
-    <td>✅&nbsp;<sup>7</sup></td> <!-- Git CLI -->
+    <td>✅&nbsp;<sup>8</sup></td> <!-- Git CLI -->
     <td>❌</td> <!-- GitKraken -->
     <td>❌</td> <!-- Fork -->
     <td>❌</td> <!-- Sourcetree -->
     <td>✅</td> <!-- Sublime Merge -->
     <td>❌</td> <!-- SmartGit -->
     <td>❌</td> <!-- GitUp -->
-    <td>✅&nbsp;<sup>8</sup></td> <!-- Magit -->
+    <td>✅</td> <!-- IntelliJ -->
+    <td>✅&nbsp;<sup>9</sup></td> <!-- Magit -->
     <td>✅</td> <!-- Lazygit -->
     <td>✅</td> <!-- Gitui -->
     <td>✅</td> <!-- git-branchless -->
@@ -201,14 +208,15 @@ th.rotate > div > span {
   
   <tr>
     <th><code>large-ops</code></th>
-    <td>✅&nbsp;<sup>7</sup></td> <!-- Git CLI -->
+    <td>✅&nbsp;<sup>8</sup></td> <!-- Git CLI -->
     <td>❌</td> <!-- GitKraken -->
     <td>❌</td> <!-- Fork -->
     <td>✅</td> <!-- Sourcetree -->
     <td>✅</td> <!-- Sublime Merge -->
     <td>❌</td> <!-- SmartGit -->
     <td>✅</td> <!-- GitUp -->
-    <td>✅&nbsp;<sup>8</sup></td> <!-- Magit -->
+    <td>✅</td> <!-- IntelliJ -->
+    <td>✅&nbsp;<sup>9</sup></td> <!-- Magit -->
     <td>✅</td> <!-- Lazygit -->
     <td>✅</td> <!-- Gitui -->
     <td>✅</td> <!-- git-branchless -->
@@ -220,13 +228,14 @@ th.rotate > div > span {
 Notes:
 
 * <sup>1</sup> It can be done via `git rebase -i` or equivalent, but it's not ergonomic, and it only works for commits reachable from `HEAD` instead of from other branches.
-* <sup>2</sup> Partial support; it can show whether the merge is fast-forward or not, but no additional details.
-* <sup>3</sup> Can be done via `magit-merge-preview`.
-* <sup>4</sup> Partial support; if an operation would cause a merge conflict and `--merge` wasn't passed, then instead aborts and shows the number of files that would conflict.
-* <sup>5</sup> Jujutsu doesn't let you preview merge conflicts *per se*, but merges and rebases always succeed and the conflicts are stored in the commit, and then you can undo the operation if you don't want to deal with the merge conflicts. You can even restore the old version of the commit well after you carried out the merge/rebase, if desired. This avoids interrupting your workflow, which is the ultimate goal of this feature, so I'm scoring it as a pass for this category.
-* <sup>6</sup> Undo support is experimental and based on the reflog, [which can't undo all types of operations](https://github.com/arxanas/git-branchless/wiki/Architecture#comparison-with-the-reflog).
-* <sup>7</sup> Git struggles with some operations on large repositories and can be improved upon, but we'll consider this to be the baseline performance for large repositories.
-* <sup>8</sup> Presumably Magit has the same performance as Git, but I didn't check because I don't use Emacs.
+* <sup>2</sup> Rewording can be done without checking out the commit, but only for commits reachable from `HEAD`. There may be additional limitations.
+* <sup>3</sup> Partial support; it can show whether the merge is fast-forward or not, but no additional details.
+* <sup>4</sup> Can be done via `magit-merge-preview`.
+* <sup>5</sup> Partial support; if an operation would cause a merge conflict and `--merge` wasn't passed, then instead aborts and shows the number of files that would conflict.
+* <sup>6</sup> Jujutsu doesn't let you preview merge conflicts *per se*, but merges and rebases always succeed and the conflicts are stored in the commit, and then you can undo the operation if you don't want to deal with the merge conflicts. You can even restore the old version of the commit well after you carried out the merge/rebase, if desired. This avoids interrupting your workflow, which is the ultimate goal of this feature, so I'm scoring it as a pass for this category.
+* <sup>7</sup> Undo support is experimental and based on the reflog, [which can't undo all types of operations](https://github.com/arxanas/git-branchless/wiki/Architecture#comparison-with-the-reflog).
+* <sup>8</sup> Git struggles with some operations on large repositories and can be improved upon, but we'll consider this to be the baseline performance for large repositories.
+* <sup>9</sup> Presumably Magit has the same performance as Git, but I didn't check because I don't use Emacs.
 
 ## Awards
 
