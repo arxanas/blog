@@ -30,45 +30,52 @@
         `${postId},par:${paragraphId}`
       );
       const bodyText = `
+Write your comment here. Markdown will NOT be rendered in the preview.
+
 <!-- Original paragraph content:
 
 ${paragraphRawContent}
 
 -->
-
-Write your comment here. Markdown will NOT be rendered.`;
+`;
       githubIssuesUrl.searchParams.append("body", bodyText);
 
       // Create "Comment" link.
       const parentNode = item.appendChild(document.createElement("a"));
       parentNode.href = githubIssuesUrl;
       parentNode.classList = "github-comment-link";
-      parentNode.appendChild(document.createTextNode(`🗨${nbsp}Comment`));
+      parentNode.appendChild(document.createTextNode(`Comment`));
 
       item.prepend(parentNode);
     });
 
   const renderCommentsForParagraph = (paragraph, issues) => {
     const commentContainer = document.createElement("div");
-    commentContainer.classList = "github-comments";
+    commentContainer.classList = "github-comment-container";
 
     for (const issue of issues) {
       // Create author link.
       const authorLink = document.createElement("a");
       authorLink.href = issue.user.html_url;
       authorLink.textContent = `@${issue.user.login}`;
+      authorLink.classList = "github-comment-author";
 
       // Create comment text.
       const comment = document.createElement("div");
+      comment.classList = "github-comment-body";
       comment.appendChild(authorLink);
+      comment.appendChild(document.createTextNode(` — `));
+
+      const commentBody = document.createElement("i");
       const bodyText = issue.body.replace(/<!--.*?-->/gms, "").trim();
-      comment.appendChild(document.createTextNode(`: ${bodyText}`));
+      commentBody.appendChild(document.createTextNode(bodyText));
+      comment.appendChild(commentBody);
 
       // Create replies link.
       const numRepliesText =
         issue.comments === 1 ? "1 reply" : `${issue.comments} replies`;
       const numRepliesLink = document.createElement("a");
-      numRepliesLink.classList = "github-comments-num-replies";
+      numRepliesLink.classList = "github-comment-num-replies";
       numRepliesLink.href = issue.html_url;
       numRepliesLink.appendChild(
         document.createTextNode(`➥${nbsp}${numRepliesText}`)

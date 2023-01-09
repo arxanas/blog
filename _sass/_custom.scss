@@ -53,6 +53,11 @@ table {
   font-size: $base-font-size;
   margin-bottom: $base-line-height;
   background-color: $grey-color-light;
+  padding: 0 0.5em;
+}
+
+.github-comment-link::before {
+  content: "⧉ ";
 }
 
 /* Keep tag list in sync with tag list in github-comment-link.js file. */
@@ -70,25 +75,37 @@ table {
   margin-top: -1 * ($base-line-height * $base-font-size);
 }
 
-.github-comments::before {
-  content: "Comments";
+.github-comment-container::before {
+  content: "Comment threads";
   display: block;
   font-weight: bold;
 }
 
-.github-comments::after {
+.github-comment-container::after {
   content: "";
   display: table;
   clear: both;
 }
 
-.github-comments {
-  margin-left: 3em;
+.github-comment-container {
   background-color: $grey-color-light;
+  border: 1px solid $grey-color;
+  margin: 0.5em 0 0.5em 0em;
   padding: 1em;
 }
 
-.github-comments-num-replies {
+.github-comment-body {
+  max-height: $base-font-size * $base-line-height * 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.github-comment-author {
+  font-weight: bold;
+}
+
+.github-comment-num-replies {
   float: right;
   background-color: $grey-color-light;
   right: 0;
