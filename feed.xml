@@ -7,8 +7,8 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 09 Jan 2023 17:29:21 -0600</pubDate>
-    <lastBuildDate>Mon, 09 Jan 2023 17:29:21 -0600</lastBuildDate>
+    <pubDate>Mon, 09 Jan 2023 17:36:48 -0600</pubDate>
+    <lastBuildDate>Mon, 09 Jan 2023 17:36:48 -0600</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
@@ -363,6 +363,10 @@ th.rotate &gt; div &gt; span {
 
 &lt;ul&gt;
 
+&lt;li&gt;&lt;a class=&quot;icon-hacker-news&quot; href=&quot;https://news.ycombinator.com/item?id=34301543 &quot;&gt;Discussion on Hacker News&lt;/a&gt;&lt;/li&gt;
+
+
+&lt;li&gt;&lt;a class=&quot;icon-lobsters&quot; href=&quot;https://lobste.rs/s/7tnnbq/where_are_my_git_ui_features_from_future &quot;&gt;Discussion on Lobsters&lt;/a&gt;&lt;/li&gt;
 
 
 &lt;/ul&gt;
