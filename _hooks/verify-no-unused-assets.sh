@@ -1,8 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
-readonly DRAFTS_DIR='_drafts'
-readonly POSTS_DIR='_posts'
+readonly DRAFTS_DIR=('_i18n/en/_drafts' '_i18n/pl/_drafts')
+readonly POSTS_DIR=('_i18n/en/_posts' '_i18n/pl/_posts')
 
 main() {
     local assets

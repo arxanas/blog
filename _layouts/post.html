@@ -11,8 +11,7 @@ layout: default
   <div class="post-content" itemprop="articleBody">
     {% if page.typeset_math %}
       <noscript>
-        <p><i>This article is best viewed with Javascript enabled, for math
-          typesetting.</i></p>
+        <p><i>{{ site.translations[site.lang].enable_javascript_for_math }}</i></p>
       </noscript>
     {% endif %}
     {{ content }}

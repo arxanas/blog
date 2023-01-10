@@ -1,0 +1,6 @@
+description: |-
+  To jest blog osobisty. Jeśli nie wykazano inaczej, wyrażone tutaj opinie są moimi własnymi, a nie opiniami moich byłych lub obecnych pracodawców.
+titles:
+  "/about/": "O mnie"
+enable_javascript_for_math: |-
+  Najlepiej przeglądać ten artykuł z włączoną obsługą Javascript, dla składu matematycznego.

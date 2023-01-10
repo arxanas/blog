@@ -24,11 +24,15 @@ markdown: kramdown
 
 plugins:
   - jekyll-katex
+  - jekyll-multiple-languages-plugin
   - jekyll-twitter-plugin
 
 katex:
   rendering_options:
     throw_error: true                       # throwOnError - set to false if you want rendering to output error as text rather than a build error
+
+languages: ["en", "pl"]
+exclude_from_localizations: ["assets", "css", "scripts"]
 
 related_posts:
   - - steno-adventures-part-1/

@@ -3,7 +3,11 @@
   <div class="wrapper">
 
     <h2 class="footer-heading">{{ site.title }}</h2>
+    {% if site.lang == "pl" %}
+    <p class="rss-subscribe">subskrybuj <a href="{{ "/feed.xml" | prepend: site.baseurl }}">za pomocą RSS</a></p>
+    {% else %}
     <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
+    {% endif %}
 
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">

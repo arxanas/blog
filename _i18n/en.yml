@@ -1,0 +1,6 @@
+description: |-
+  This is a personal blog. Unless otherwise stated, the opinions expressed here are my own, and not those of my past or present employers.
+titles:
+  "/about/": "About"
+enable_javascript_for_math: |-
+  This article is best viewed with Javascript enabled, for math typesetting.
