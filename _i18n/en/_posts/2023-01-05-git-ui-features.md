@@ -2,6 +2,8 @@
 layout: post
 title: Where are my Git UI features from the future?
 permalink: git-ui-features/
+translations:
+  pl: "/pl/git-ui-funkcji/"
 tags:
   - git
   - rant

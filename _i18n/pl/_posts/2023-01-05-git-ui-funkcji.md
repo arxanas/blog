@@ -1,8 +1,9 @@
 ---
 layout: post
-languages: ["pl"]
 title: Gdzie są moje funkcji Git’a z przyszłości?
 permalink: git-ui-funkcji/
+translations:
+  en: "/git-ui-features/"
 tags:
   - git
   - rant
