@@ -7,8 +7,8 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/pl/</link>
     <atom:link href="https://blog.waleedkhan.name/pl/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 11 Jan 2023 02:55:16 -0600</pubDate>
-    <lastBuildDate>Wed, 11 Jan 2023 02:55:16 -0600</lastBuildDate>
+    <pubDate>Wed, 11 Jan 2023 04:24:39 -0600</pubDate>
+    <lastBuildDate>Wed, 11 Jan 2023 04:24:39 -0600</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
@@ -23,7 +23,7 @@ employers.</description>
 
 &lt;h2 id=&quot;git-jest-do-bani&quot;&gt;Git jest do bani&lt;/h2&gt;
 
-&lt;p&gt;System kontroli wersji od 15+ lat przynosi nam nieszczęście. Od momentu powstania, tysiące osób próbowało stworzyć nowe klienty Git’a aby poprawić jego użyteczność.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://git-scm.com/&quot;&gt;System kontroli wersji “Git”&lt;/a&gt; od 15+ lat przynosi nam nieszczęście. Od momentu powstania, tysiące osób próbowało stworzyć nowe klienty Git’a aby poprawić jego użyteczność.&lt;/p&gt;
 
 &lt;p&gt;Jednak, prawie każda z nich skupiła się budować ładną fasadę nad Git’em, żeby robić te same operacji, które właśnie robi Git, jakby interfejs linii komend Git’a był szczytem użyteczności.&lt;/p&gt;
 
