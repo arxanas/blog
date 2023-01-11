@@ -7,8 +7,8 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 11 Jan 2023 04:27:03 -0600</pubDate>
-    <lastBuildDate>Wed, 11 Jan 2023 04:27:03 -0600</lastBuildDate>
+    <pubDate>Wed, 11 Jan 2023 12:11:35 -0600</pubDate>
+    <lastBuildDate>Wed, 11 Jan 2023 12:11:35 -0600</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
@@ -229,7 +229,7 @@ th.rotate &gt; div &gt; span {
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Tower --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- GitUp --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- IntelliJ --&gt;
-    &lt;td&gt;✅&lt;/td&gt; &lt;!-- Magit --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Magit --&gt;
     &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;7&lt;/sup&gt;&lt;/td&gt; &lt;!-- Lazygit --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Gitui --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- git-branchless --&gt;
