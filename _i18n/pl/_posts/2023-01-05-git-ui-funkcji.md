@@ -17,54 +17,63 @@ lobsters: https://lobste.rs/s/7tnnbq/where_are_my_git_ui_features_from_future
 
 ## Git jest do bani
 
-TODO: przetłumacz w polskę.
+System kontroli wersji od 15+ lat przynosi nam nieszczęście. Od momentu powstania, tysiące osób próbowało stworzyć nowe klienty Git’a aby poprawić jego użyteczność.
 
-The [Git version control system](https://git-scm.com/) has been causing us misery for 15+ years. Since its inception, a thousand people have tried to make new clients for Git to improve usability.
+Jednak, prawie każda z nich skupiła się budować ładną fasadę nad Git’em, żeby robić te same operacji, które właśnie robi Git, jakby interfejs linii komend Git’a był szczytem użyteczności.
 
-But practically everyone has focused on providing a pretty facade to do more or less the same operations as Git on the command-line --- as if Git's command-line interface were already the pinnacle of usability.
+Nikt nie raczy się zastanowić: jakie są _przepływy pracy_, które osoby właśnie chcą wykonywać? Jakie są _funkcji_, ułatwiające takie przepływy pracy? Zamiast, dostajemy klienty, które uważają, że `git rebase -i` to najlepszy sposób, aby zmienić komunikat zatwierdzenia, aby edytować commit, aby rozdzielić commit — albo, że warto nawet pokazać w UI tę funkcję.
 
-No one bothers to consider: what are the *workflows* that people actually want to do? What are the *features* that would make those workflows easier? So instead we get clients which think that `git rebase -i` as the best possible way to reword a commit message, or edit an old commit, or split a commit, or even worth exposing in the UI.
 
-## Rubric
+## Rubryka
 
-I thought about some of the workflows I carry out frequently, and examined several Git clients (some of which are [GUIs](https://en.wikipedia.org/wiki/Graphical_user_interface) and some of which are [TUIs](https://en.wikipedia.org/wiki/Text-based_user_interface)) to see how well they supported these workflows.
+Rozmyślałem o przepływach pracy, które często wykonuję, i sprawdziłem kilka klientów Git’a (niektóre z nich są GUIs, i niektóre TUIs), żebym zrozumiał, jak dobrze je obsługują.
 
-Many of my readers won't care for these workflows, but it's not just about the workflows themselves; it's about the resolve to improve workflows by not using the faulty set of primitives offered by Git. I do not care to argue about which workflows are best or should be supported.
+Wielu z moich czytelników nie dba o tych przepływach pracy, ale to nie tylko sprawa samych przepływach pracy; chodzi o decyzję, by nie używać wadliwych prymitywnych oferowanych przez Git.
 
-Workflows:
-- **`reword`**: It should be possible to update the commit message of a commit which isn't currently checked out.
-  - Rewording a commit is guaranteed to not cause a merge conflict, so requiring that the commit be checked out is unnecessary.
-  - It should also be possible to reword a commit which is the ancestor of multiple branches without abandoning some of those branches, but let's not get our hopes up...
-- **`sync`**: It should be possible to sync *all* of my branches (or some subset) via merge or rebase, in a single operation.
-  - I do this all the time! Practically the first thing every morning when coming into work.
-- **`split`**: There should be a specific command to split a commit into two or more commits, including commits which aren't currently checked out.
-  - Splitting a commit is guaranteed to not cause a merge conflict, so requiring that the commit be checked out is unnecessary.
-  - Not accepting `git rebase -i` solutions, as it's very confusing to examine the state of the repository during a rebase.
-- **`preview`**: Before carrying out a merge or rebase, it should be possible to preview the result, including any conflicts that would arise.
-  - That way, I don't have to start the merge/rebase operation in order to see if it will succeed or whether it will be hard to resolve conflicts.
-  - Merge conflicts are perhaps the worst part about using Git, so it should be much easier to work with them (and avoid dealing with them!).
-  - The only people who seem to want this feature are people who come from other version control systems.
-- **`undo`**: I should be able to undo arbitrary operations, ideally including tracked but uncommitted changes.
-  - This is *not* the same as reverting a commit. Reverting a commit creates an altogether new commit with the inverse changes, whereas undoing an operation should restore the repository to the state it was in before the operation was carried out, so there would be no original commit to revert.
-- **`large-load`**: The UI should load large repositories quickly.
-  - The UI shouldn't hang at any point, and should show useful information as soon as it's loaded. You shouldn't have to wait for the entire repository to load before you can examine commits or branches.
-  - The program is allowed to be slow on the first invocation to build any necessary caches, but must be responsive on subsequent invocations.
-- **`large-ops`**: The UI should be responsive when carring out various operations, such as examining commits and branches, or merging or rebasing.
+Przepływy pracy:
 
-Extra points:
 
-- I will award **honorary negative points** for any client which dares to treat `git rebase -i` as if it were a fundamental primitive.
-- I will award **honorary bonus points** for any client which seems to respect the empirical usability research for Git (or other VCSes). Examples:
-  - Gitless: <https://gitless.com/>
-  - IASGE: <https://investigating-archiving-git.gitlab.io/>
 
-Since I didn't actually note down any of this, these criteria are just so that any vendors of these clients can know whether I am impressed or disappointed by them.
+* **`reword`**: Trzeba być możliwe aktualizować komunikat zatwierdzenia, który nie jest wypożyczany.
+    * Aktualizowanie komunikatu zatwierdzenia nie spowoduje konfliktu scalania, zatem nie jest potrzebny wymagać, że zatwierdzenie jest wypożyczany.
+    * Też powinno być możliwe aktualizować komunikat zatwierdzenia, który jest przodkiem wielu gałęzi, bez porzucania niektórych z tych gałęzi, ale nie róbmy sobie nadziei…
+* **`sync`**: Trzeba być możliwe synchronizować wszystkie moje gałęzi (albo dowolny podzbiór) przez scalanie lub zmianę bazy [ang. “rebase”], w jednej operacji!
+    * Robię to cały czas! Praktycznie pierwsza rzecz każdego ranka przychodząc do pracy.
+* **`split`**: Trzeba być szczególne polecenie, aby dzielić zatwierdzenie na dwa lub więcej zatwierdzeń, w tym zatwierdzenia, które nie są aktualnie wypożyczane.
+    * Dzielenie zatwierdzenia nie spowoduje konfliktu scalania, zatem nie jest potrzebny wymagać, że zatwierdzenie jest wypożyczany.
+    * Nie akceptuję rozwiązań za pomocą `git rebase -i`, ponieważ sprawdzanie stanu repozytorium podczas zmiany bazy jest bardzo mylące.
+* **`preview`**: Przed wykonaniem scalania albo zmianą bazy, trzeba być możliwy podgląd wyniku, w tym ewentualne konflikty.
+    * W ten sposób, nie muszę rozpoczynać scalania/zmiany bazy, żeby zobaczyć, czy się powiedzie, albo czy będzie trudno mi rozwiązać konflikty.
+    * Konfliktami scalania może są najokropniejsza rzecz w używaniu Git’a, dlatego powinno być bardzo łatwiej zajmować się nimi (albo unikać zajmowania się nimi!).
+* **`undo`**: Trzeba być możliwe cofnąć się z dowolnej operacji, najlepiej obejmujące śledzone-ale-niezatwierdzone zmiany.
+    * To nie to samo, co cofnięcie [ang. “revert”] zatwierdzenia. Cofnięcie zatwierdzenia tworzy całkowicie nowe zatwierdzenie z odwrotnych zmian, ale cofnięcie operacji powinno przywrócić repozytorium do stanu, w jakim znajdowało się przed wykonaniem operacji, więc nie byłoby pierwotnego zatwierdzenia do przywrócenia.
+* **`large-load`**: UI powinien szybko ładować duże repozytorium.
+    * UI nie powinien zawieszać się w żadnym momencie i powinien pokazywać przydatne informacje zaraz po załadowaniu. Nie powinieneś czekać na załadowanie całego repozytorium, zanim będziesz mógł sprawdzić zatwierdzenia i gałęzi.
+    * Program może działać wolno przy pierwszym wywołaniu w celu zbudowania niezbędnych pamięci podręcznych, ale musi reagować szybko na kolejne wywołania.
+* **`large-ops`**: UI powinien reagować szybko podczas wykonywania różnych operacji, takich jak sprawdzanie zatwierdzeń i gałęzi, lub scalanie i zmianę bazy.
 
-## Clients
+Dodatkowe punkty:
 
-I picked some clients arbitrarily from [this list of clients](https://git-scm.com/downloads/guis). I am surely wrong about some of these points (or they've changed since I last looked), so leave a comment.
 
-I included my own project [git-branchless](https://github.com/arxanas/git-branchless), so it doesn't really count as an example of innovation in the industry. I'm including it to demonstrate that many of these workflows are very much possible.
+
+* Przyznam honorowe punkty ujemne każdemu klientowi, który ośmieli się potraktować git rebase -i tak, jakby był fundamentalnym prymitywem.
+* Przyznam honorowe punkty bonusowe każdemu klientowi, który wydaje się szanować empiryczne badania użyteczności dla Git (lub innych VCS).
+    * Gitless:[ https://gitless.com/](https://gitless.com/)
+    * IASGE:[ https://investigating-archiving-git.gitlab.io/](https://investigating-archiving-git.gitlab.io/)
+
+Z powodu, że nie zapisałem nic z tego, te kryteria są tylko po to, aby każdy sprzedawca tych klientów mógł wiedzieć, czy jestem pod wrażeniem, czy rozczarowany.
+
+
+## Klienty
+
+Wybrałem arbitralnie kilku klientów z tej listy klientów. Z pewnością mylę się co do niektórych z tych punktów (lub zmieniły się od ostatniego razu), więc skomentuj.
+
+
+
+* Aktualizacja 2022-01-09: Dodałem IntelliJ.
+* Aktualizacja 2022-01-10: Dodałem Tower.
+
+Załączyłem mój własny projekt git-branchless, ale się nie liczy jako przykład innowacji w branży. Tylko jest tu, aby pokazać, że wiele z tych przepływów pracy jest naprawdę możliwych.
 
 <style type="text/css">
 th.rotate {
@@ -99,6 +108,7 @@ th.rotate > div > span {
     <th class="rotate"><div><span><a href="https://www.sourcetreeapp.com/">Sourcetree</a></span></div></th>
     <th class="rotate"><div><span><a href="https://www.sublimemerge.com/">Sublime Merge</a></span></div></th>
     <th class="rotate"><div><span><a href="https://www.syntevo.com/smartgit/">SmartGit</a></span></div></th>
+    <th class="rotate"><div><span><a href="https://www.git-tower.com/">Tower</a></span></div></th>
     <th class="rotate"><div><span><a href="https://gitup.co/">GitUp</a></span></div></th>
     <th class="rotate"><div><span><a href="https://www.jetbrains.com/idea/">IntelliJ</a></span></div></th>
     <th class="rotate"><div><span><a href="https://magit.vc/">Magit</a></span></div></th>
@@ -118,6 +128,7 @@ th.rotate > div > span {
     <td>❌</td> <!-- Sourcetree -->
     <td>⚠️&nbsp;<sup>2</sup></td> <!-- Sublime Merge -->
     <td>❌</td> <!-- SmartGit -->
+    <td>⚠️&nbsp;<sup>2</sup></td> <!-- Tower -->
     <td>✅</td> <!-- GitUp -->
     <td>⚠️&nbsp;<sup>2</sup></td> <!-- IntelliJ -->
     <td>⚠️&nbsp;<sup>2</sup></td> <!-- Magit -->
@@ -135,6 +146,7 @@ th.rotate > div > span {
     <td>❌</td> <!-- Sourcetree -->
     <td>❌</td> <!-- Sublime Merge -->
     <td>❌</td> <!-- SmartGit -->
+    <td>❌</td> <!-- Tower -->
     <td>❌</td> <!-- GitUp -->
     <td>❌</td> <!-- IntelliJ -->
     <td>❌</td> <!-- Magit -->
@@ -152,6 +164,7 @@ th.rotate > div > span {
     <td>❌</td> <!-- Sourcetree -->
     <td>❌</td> <!-- Sublime Merge -->
     <td>❌</td> <!-- SmartGit -->
+    <td>❌</td> <!-- Tower -->
     <td>✅</td> <!-- GitUp -->
     <td>❌</td> <!-- IntelliJ -->
     <td>❌</td> <!-- Magit -->
@@ -169,6 +182,7 @@ th.rotate > div > span {
     <td>❌</td> <!-- Sourcetree -->
     <td>⚠️&nbsp;<sup>3</sup></td> <!-- Sublime Merge -->
     <td>❌</td> <!-- SmartGit -->
+    <td>⚠️&nbsp;<sup>3</sup></td> <!-- Tower -->
     <td>❌</td> <!-- GitUp -->
     <td>❌</td> <!-- IntelliJ -->
     <td>✅&nbsp;<sup>4</sup></td> <!-- Magit -->
@@ -186,6 +200,7 @@ th.rotate > div > span {
     <td>✅</td> <!-- Sourcetree -->
     <td>✅</td> <!-- Sublime Merge -->
     <td>❌</td> <!-- SmartGit -->
+    <td>✅</td> <!-- Tower -->
     <td>✅</td> <!-- GitUp -->
     <td>❌</td> <!-- IntelliJ -->
     <td>✅</td> <!-- Magit -->
@@ -203,6 +218,7 @@ th.rotate > div > span {
     <td>❌</td> <!-- Sourcetree -->
     <td>✅</td> <!-- Sublime Merge -->
     <td>❌</td> <!-- SmartGit -->
+    <td>❌</td> <!-- Tower -->
     <td>❌</td> <!-- GitUp -->
     <td>✅</td> <!-- IntelliJ -->
     <td>✅&nbsp;<sup>9</sup></td> <!-- Magit -->
@@ -220,6 +236,7 @@ th.rotate > div > span {
     <td>✅</td> <!-- Sourcetree -->
     <td>✅</td> <!-- Sublime Merge -->
     <td>❌</td> <!-- SmartGit -->
+    <td>❌</td> <!-- Tower -->
     <td>✅</td> <!-- GitUp -->
     <td>✅</td> <!-- IntelliJ -->
     <td>✅&nbsp;<sup>9</sup></td> <!-- Magit -->
@@ -231,29 +248,37 @@ th.rotate > div > span {
 </tbody>
 </table>
 
-Notes:
+Uwagi:
 
-* <sup>1</sup> It can be done via `git rebase -i` or equivalent, but it's not ergonomic, and it only works for commits reachable from `HEAD` instead of from other branches.
-* <sup>2</sup> Rewording can be done without checking out the commit, but only for commits reachable from `HEAD`. There may be additional limitations.
-* <sup>3</sup> Partial support; it can show whether the merge is fast-forward or not, but no additional details.
-* <sup>4</sup> Can be done via `magit-merge-preview`.
-* <sup>5</sup> Partial support; if an operation would cause a merge conflict and `--merge` wasn't passed, then instead aborts and shows the number of files that would conflict.
-* <sup>6</sup> Jujutsu doesn't let you preview merge conflicts *per se*, but merges and rebases always succeed and the conflicts are stored in the commit, and then you can undo the operation if you don't want to deal with the merge conflicts. You can even restore the old version of the commit well after you carried out the merge/rebase, if desired. This avoids interrupting your workflow, which is the ultimate goal of this feature, so I'm scoring it as a pass for this category.
-* <sup>7</sup> Undo support is experimental and based on the reflog, [which can't undo all types of operations](https://github.com/arxanas/git-branchless/wiki/Architecture#comparison-with-the-reflog).
-* <sup>8</sup> Git struggles with some operations on large repositories and can be improved upon, but we'll consider this to be the baseline performance for large repositories.
-* <sup>9</sup> Presumably Magit has the same performance as Git, but I didn't check because I don't use Emacs.
 
-## Awards
 
-Commendations:
+* <sup>1</sup> Można to zrobić za pomocą `git rebase -i` lub odpowiednika, ale nie jest to ergonomiczne i działa tylko w przypadku zatwierdzeń osiągalnych z `HEAD`, a nie z innych gałęzi.
+* <sup>2</sup> Zmiana komunikatu zatwierdzenia można wykonać bez wypożyczaniu zatwierdzenia, ale tylko na zatwierdzeń osiągalnych z `HEAD`. Może istnieją dodatkowe ograniczenia.
+* <sup>3</sup> Częściowe wsparcie. Może pokazać, czy można przewijać scalanie do przodu, ale bez dodatkowych szczegołów.
+* <sup>4</sup> Można to robić za pomocą `magit-merge-preview`.
+* <sup>5</sup> Częściowe wsparcie. Jeśli operacja spowoduje konflikt scalania, i opcja `--merge` nie została przekazana, zamiast tego zostanie przerwana i pokaże liczbę plików w stanu konfliktu.
+* <sup>6</sup> Jujutsu nie pozwala na podgląd konfliktów scalania, ale scalanie i rebase zawsze się udają, a konflikty są przechowywane w zatwierdzeniu, a potem możesz cofnąć operację, jeśli nie chcesz zajmować się konfliktami scalania. W razie potrzeby możesz nawet przywrócić starą wersję zatwierdzenia po przeprowadzeniu scalania/zmiany bazy. Pozwala to uniknąć przerywania przepływu pracy, co jest ostatecznym celem tej funkcji, dlatego oceniam, że wystarczy dla tej kategorii.
+* <sup>7</sup> Obsługa cofania jest eksperymentalna i zależy na reflogu, który [nie może cofnąć wszystkich rodzajów operacji](https://github.com/arxanas/git-branchless/wiki/Architecture#comparison-with-the-reflog).
+* <sup>8</sup> Git ma problemy z niektórymi operacjami na dużych repozytoriach i można je ulepszyć, ale uznamy to za podstawową wydajność dla dużych repozytoriów.
+* <sup>9</sup> Chyba Magit ma taką samą wydajność jak Git, ale nie sprawdziłem, bo nie używam Emacs’a.
 
-- GitUp: the most innovative Git GUI of the above.
-- GitKraken: innovating in some spaces, such as improved support for centralized workflows by warning about concurrently-edited files. These areas aren't reflected above; I just noticed them on other occasions.
-- Sublime Merge: incredibly responsive, as to be expected from the folks responsible for [Sublime Text](https://www.sublimetext.com/).
 
-Demerits:
+## Wyróżnienia
 
-- Fork: for making it really hard to search for documentation ("git fork undo" mostly produces results for undoing forking in general, not for the Fork client).
-- SmartGit: for being deficient in every category tested.
+Pochwały:
+
+
+
+* GitUp: najbardziej innowacyjny GUI dla Git’a spośród powyższych.
+* GitKraken: wprowadza innowację w niektórych obszarach, takie jak ulepszona obsługa scentralizowanych przepływów pracy przez ostrzeganie o współbieżnie edytowanych plikach. Te obszary nie są napisane powyżej; Po prostu zauważyłem je przy innych okazjach.
+* Sublime Merge: niesamowicie responsywny, jak można się spodziewać po ludziach odpowiedzialnych za [Sublime Text](https://www.sublimetext.com/).
+* Tower: za przyjemną implementację cofania.
+
+Wady:
+
+
+
+* Fork: za utrudnienie wyszukiwania dokumentacji (bo “git fork undo” zazwyczaj produkuje wyniki cofania rozwidlenia w ogóle, a nie dla klienta Fork).
+* SmartGit: z braki we wszystkich testowanych kategoriach.
 
 {% include end_matter.md %}

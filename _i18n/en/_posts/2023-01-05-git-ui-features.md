@@ -47,7 +47,7 @@ Workflows:
 - **`large-load`**: The UI should load large repositories quickly.
   - The UI shouldn't hang at any point, and should show useful information as soon as it's loaded. You shouldn't have to wait for the entire repository to load before you can examine commits or branches.
   - The program is allowed to be slow on the first invocation to build any necessary caches, but must be responsive on subsequent invocations.
-- **`large-ops`**: The UI should be responsive when carring out various operations, such as examining commits and branches, or merging or rebasing.
+- **`large-ops`**: The UI should be responsive when carrying out various operations, such as examining commits and branches, or merging or rebasing.
 
 Extra points:
 
