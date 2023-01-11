@@ -7,8 +7,8 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 10 Jan 2023 16:47:25 -0600</pubDate>
-    <lastBuildDate>Tue, 10 Jan 2023 16:47:25 -0600</lastBuildDate>
+    <pubDate>Wed, 11 Jan 2023 02:18:00 -0600</pubDate>
+    <lastBuildDate>Wed, 11 Jan 2023 02:18:00 -0600</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
@@ -73,7 +73,7 @@ employers.</description>
       &lt;li&gt;The program is allowed to be slow on the first invocation to build any necessary caches, but must be responsive on subsequent invocations.&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-ops&lt;/code&gt;&lt;/strong&gt;: The UI should be responsive when carring out various operations, such as examining commits and branches, or merging or rebasing.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-ops&lt;/code&gt;&lt;/strong&gt;: The UI should be responsive when carrying out various operations, such as examining commits and branches, or merging or rebasing.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Extra points:&lt;/p&gt;
@@ -93,6 +93,11 @@ employers.</description>
 &lt;h2 id=&quot;clients&quot;&gt;Clients&lt;/h2&gt;
 
 &lt;p&gt;I picked some clients arbitrarily from &lt;a href=&quot;https://git-scm.com/downloads/guis&quot;&gt;this list of clients&lt;/a&gt;. I am surely wrong about some of these points (or they’ve changed since I last looked), so leave a comment.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;em&gt;Update 2022-01-09: Added IntelliJ.&lt;/em&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;Update 2022-01-10: Added Tower.&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;I included my own project &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt;, so it doesn’t really count as an example of innovation in the industry. I’m including it to demonstrate that many of these workflows are very much possible.&lt;/p&gt;
 
@@ -129,6 +134,7 @@ th.rotate &gt; div &gt; span {
     &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://www.sourcetreeapp.com/&quot;&gt;Sourcetree&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
     &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://www.sublimemerge.com/&quot;&gt;Sublime Merge&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
     &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://www.syntevo.com/smartgit/&quot;&gt;SmartGit&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
+    &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://www.git-tower.com/&quot;&gt;Tower&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
     &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://gitup.co/&quot;&gt;GitUp&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
     &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://www.jetbrains.com/idea/&quot;&gt;IntelliJ&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
     &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://magit.vc/&quot;&gt;Magit&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
@@ -148,6 +154,7 @@ th.rotate &gt; div &gt; span {
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sourcetree --&gt;
     &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
+    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt; &lt;!-- Tower --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- GitUp --&gt;
     &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt; &lt;!-- IntelliJ --&gt;
     &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
@@ -165,6 +172,7 @@ th.rotate &gt; div &gt; span {
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sourcetree --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Tower --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitUp --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- IntelliJ --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Magit --&gt;
@@ -182,6 +190,7 @@ th.rotate &gt; div &gt; span {
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sourcetree --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Tower --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- GitUp --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- IntelliJ --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Magit --&gt;
@@ -199,6 +208,7 @@ th.rotate &gt; div &gt; span {
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sourcetree --&gt;
     &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;3&lt;/sup&gt;&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
+    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;3&lt;/sup&gt;&lt;/td&gt; &lt;!-- Tower --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitUp --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- IntelliJ --&gt;
     &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;4&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
@@ -216,6 +226,7 @@ th.rotate &gt; div &gt; span {
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Sourcetree --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
+    &lt;td&gt;✅&lt;/td&gt; &lt;!-- Tower --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- GitUp --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- IntelliJ --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Magit --&gt;
@@ -233,6 +244,7 @@ th.rotate &gt; div &gt; span {
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sourcetree --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Tower --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitUp --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- IntelliJ --&gt;
     &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;9&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
@@ -250,6 +262,7 @@ th.rotate &gt; div &gt; span {
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Sourcetree --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Tower --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- GitUp --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- IntelliJ --&gt;
     &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;9&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
@@ -283,6 +296,7 @@ th.rotate &gt; div &gt; span {
   &lt;li&gt;GitUp: the most innovative Git GUI of the above.&lt;/li&gt;
   &lt;li&gt;GitKraken: innovating in some spaces, such as improved support for centralized workflows by warning about concurrently-edited files. These areas aren’t reflected above; I just noticed them on other occasions.&lt;/li&gt;
   &lt;li&gt;Sublime Merge: incredibly responsive, as to be expected from the folks responsible for &lt;a href=&quot;https://www.sublimetext.com/&quot;&gt;Sublime Text&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;Tower: for having a pleasing undo implementation.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Demerits:&lt;/p&gt;

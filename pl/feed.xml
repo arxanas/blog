@@ -7,95 +7,98 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/pl/</link>
     <atom:link href="https://blog.waleedkhan.name/pl/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 10 Jan 2023 16:47:28 -0600</pubDate>
-    <lastBuildDate>Tue, 10 Jan 2023 16:47:28 -0600</lastBuildDate>
+    <pubDate>Wed, 11 Jan 2023 02:18:04 -0600</pubDate>
+    <lastBuildDate>Wed, 11 Jan 2023 02:18:04 -0600</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
         <title>Gdzie są moje funkcji Git’a z przyszłości?</title>
         <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
   &lt;li&gt;&lt;a href=&quot;#git-jest-do-bani&quot; id=&quot;markdown-toc-git-jest-do-bani&quot;&gt;Git jest do bani&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#rubric&quot; id=&quot;markdown-toc-rubric&quot;&gt;Rubric&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#clients&quot; id=&quot;markdown-toc-clients&quot;&gt;Clients&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#awards&quot; id=&quot;markdown-toc-awards&quot;&gt;Awards&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#rubryka&quot; id=&quot;markdown-toc-rubryka&quot;&gt;Rubryka&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#klienty&quot; id=&quot;markdown-toc-klienty&quot;&gt;Klienty&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#wyróżnienia&quot; id=&quot;markdown-toc-wyróżnienia&quot;&gt;Wyróżnienia&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;git-jest-do-bani&quot;&gt;Git jest do bani&lt;/h2&gt;
 
-&lt;p&gt;TODO: przetłumacz w polskę.&lt;/p&gt;
+&lt;p&gt;System kontroli wersji od 15+ lat przynosi nam nieszczęście. Od momentu powstania, tysiące osób próbowało stworzyć nowe klienty Git’a aby poprawić jego użyteczność.&lt;/p&gt;
 
-&lt;p&gt;The &lt;a href=&quot;https://git-scm.com/&quot;&gt;Git version control system&lt;/a&gt; has been causing us misery for 15+ years. Since its inception, a thousand people have tried to make new clients for Git to improve usability.&lt;/p&gt;
+&lt;p&gt;Jednak, prawie każda z nich skupiła się budować ładną fasadę nad Git’em, żeby robić te same operacji, które właśnie robi Git, jakby interfejs linii komend Git’a był szczytem użyteczności.&lt;/p&gt;
 
-&lt;p&gt;But practically everyone has focused on providing a pretty facade to do more or less the same operations as Git on the command-line — as if Git’s command-line interface were already the pinnacle of usability.&lt;/p&gt;
+&lt;p&gt;Nikt nie raczy się zastanowić: jakie są &lt;em&gt;przepływy pracy&lt;/em&gt;, które osoby właśnie chcą wykonywać? Jakie są &lt;em&gt;funkcji&lt;/em&gt;, ułatwiające takie przepływy pracy? Zamiast, dostajemy klienty, które uważają, że &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase -i&lt;/code&gt; to najlepszy sposób, aby zmienić komunikat zatwierdzenia, aby edytować commit, aby rozdzielić commit — albo, że warto nawet pokazać w UI tę funkcję.&lt;/p&gt;
 
-&lt;p&gt;No one bothers to consider: what are the &lt;em&gt;workflows&lt;/em&gt; that people actually want to do? What are the &lt;em&gt;features&lt;/em&gt; that would make those workflows easier? So instead we get clients which think that &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase -i&lt;/code&gt; as the best possible way to reword a commit message, or edit an old commit, or split a commit, or even worth exposing in the UI.&lt;/p&gt;
+&lt;h2 id=&quot;rubryka&quot;&gt;Rubryka&lt;/h2&gt;
 
-&lt;h2 id=&quot;rubric&quot;&gt;Rubric&lt;/h2&gt;
+&lt;p&gt;Rozmyślałem o przepływach pracy, które często wykonuję, i sprawdziłem kilka klientów Git’a (niektóre z nich są GUIs, i niektóre TUIs), żebym zrozumiał, jak dobrze je obsługują.&lt;/p&gt;
 
-&lt;p&gt;I thought about some of the workflows I carry out frequently, and examined several Git clients (some of which are &lt;a href=&quot;https://en.wikipedia.org/wiki/Graphical_user_interface&quot;&gt;GUIs&lt;/a&gt; and some of which are &lt;a href=&quot;https://en.wikipedia.org/wiki/Text-based_user_interface&quot;&gt;TUIs&lt;/a&gt;) to see how well they supported these workflows.&lt;/p&gt;
+&lt;p&gt;Wielu z moich czytelników nie dba o tych przepływach pracy, ale to nie tylko sprawa samych przepływach pracy; chodzi o decyzję, by nie używać wadliwych prymitywnych oferowanych przez Git.&lt;/p&gt;
 
-&lt;p&gt;Many of my readers won’t care for these workflows, but it’s not just about the workflows themselves; it’s about the resolve to improve workflows by not using the faulty set of primitives offered by Git. I do not care to argue about which workflows are best or should be supported.&lt;/p&gt;
-
-&lt;p&gt;Workflows:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt;&lt;/strong&gt;: It should be possible to update the commit message of a commit which isn’t currently checked out.
-    &lt;ul&gt;
-      &lt;li&gt;Rewording a commit is guaranteed to not cause a merge conflict, so requiring that the commit be checked out is unnecessary.&lt;/li&gt;
-      &lt;li&gt;It should also be possible to reword a commit which is the ancestor of multiple branches without abandoning some of those branches, but let’s not get our hopes up…&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sync&lt;/code&gt;&lt;/strong&gt;: It should be possible to sync &lt;em&gt;all&lt;/em&gt; of my branches (or some subset) via merge or rebase, in a single operation.
-    &lt;ul&gt;
-      &lt;li&gt;I do this all the time! Practically the first thing every morning when coming into work.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;split&lt;/code&gt;&lt;/strong&gt;: There should be a specific command to split a commit into two or more commits, including commits which aren’t currently checked out.
-    &lt;ul&gt;
-      &lt;li&gt;Splitting a commit is guaranteed to not cause a merge conflict, so requiring that the commit be checked out is unnecessary.&lt;/li&gt;
-      &lt;li&gt;Not accepting &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase -i&lt;/code&gt; solutions, as it’s very confusing to examine the state of the repository during a rebase.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;preview&lt;/code&gt;&lt;/strong&gt;: Before carrying out a merge or rebase, it should be possible to preview the result, including any conflicts that would arise.
-    &lt;ul&gt;
-      &lt;li&gt;That way, I don’t have to start the merge/rebase operation in order to see if it will succeed or whether it will be hard to resolve conflicts.&lt;/li&gt;
-      &lt;li&gt;Merge conflicts are perhaps the worst part about using Git, so it should be much easier to work with them (and avoid dealing with them!).&lt;/li&gt;
-      &lt;li&gt;The only people who seem to want this feature are people who come from other version control systems.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;undo&lt;/code&gt;&lt;/strong&gt;: I should be able to undo arbitrary operations, ideally including tracked but uncommitted changes.
-    &lt;ul&gt;
-      &lt;li&gt;This is &lt;em&gt;not&lt;/em&gt; the same as reverting a commit. Reverting a commit creates an altogether new commit with the inverse changes, whereas undoing an operation should restore the repository to the state it was in before the operation was carried out, so there would be no original commit to revert.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-load&lt;/code&gt;&lt;/strong&gt;: The UI should load large repositories quickly.
-    &lt;ul&gt;
-      &lt;li&gt;The UI shouldn’t hang at any point, and should show useful information as soon as it’s loaded. You shouldn’t have to wait for the entire repository to load before you can examine commits or branches.&lt;/li&gt;
-      &lt;li&gt;The program is allowed to be slow on the first invocation to build any necessary caches, but must be responsive on subsequent invocations.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-ops&lt;/code&gt;&lt;/strong&gt;: The UI should be responsive when carring out various operations, such as examining commits and branches, or merging or rebasing.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Extra points:&lt;/p&gt;
+&lt;p&gt;Przepływy pracy:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;I will award &lt;strong&gt;honorary negative points&lt;/strong&gt; for any client which dares to treat &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase -i&lt;/code&gt; as if it were a fundamental primitive.&lt;/li&gt;
-  &lt;li&gt;I will award &lt;strong&gt;honorary bonus points&lt;/strong&gt; for any client which seems to respect the empirical usability research for Git (or other VCSes). Examples:
+  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt;&lt;/strong&gt;: Trzeba być możliwe aktualizować komunikat zatwierdzenia, który nie jest wypożyczany.
     &lt;ul&gt;
-      &lt;li&gt;Gitless: &lt;a href=&quot;https://gitless.com/&quot;&gt;https://gitless.com/&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;IASGE: &lt;a href=&quot;https://investigating-archiving-git.gitlab.io/&quot;&gt;https://investigating-archiving-git.gitlab.io/&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;Aktualizowanie komunikatu zatwierdzenia nie spowoduje konfliktu scalania, zatem nie jest potrzebny wymagać, że zatwierdzenie jest wypożyczany.&lt;/li&gt;
+      &lt;li&gt;Też powinno być możliwe aktualizować komunikat zatwierdzenia, który jest przodkiem wielu gałęzi, bez porzucania niektórych z tych gałęzi, ale nie róbmy sobie nadziei…&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sync&lt;/code&gt;&lt;/strong&gt;: Trzeba być możliwe synchronizować wszystkie moje gałęzi (albo dowolny podzbiór) przez scalanie lub zmianę bazy [ang. “rebase”], w jednej operacji!
+    &lt;ul&gt;
+      &lt;li&gt;Robię to cały czas! Praktycznie pierwsza rzecz każdego ranka przychodząc do pracy.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;split&lt;/code&gt;&lt;/strong&gt;: Trzeba być szczególne polecenie, aby dzielić zatwierdzenie na dwa lub więcej zatwierdzeń, w tym zatwierdzenia, które nie są aktualnie wypożyczane.
+    &lt;ul&gt;
+      &lt;li&gt;Dzielenie zatwierdzenia nie spowoduje konfliktu scalania, zatem nie jest potrzebny wymagać, że zatwierdzenie jest wypożyczany.&lt;/li&gt;
+      &lt;li&gt;Nie akceptuję rozwiązań za pomocą &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase -i&lt;/code&gt;, ponieważ sprawdzanie stanu repozytorium podczas zmiany bazy jest bardzo mylące.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;preview&lt;/code&gt;&lt;/strong&gt;: Przed wykonaniem scalania albo zmianą bazy, trzeba być możliwy podgląd wyniku, w tym ewentualne konflikty.
+    &lt;ul&gt;
+      &lt;li&gt;W ten sposób, nie muszę rozpoczynać scalania/zmiany bazy, żeby zobaczyć, czy się powiedzie, albo czy będzie trudno mi rozwiązać konflikty.&lt;/li&gt;
+      &lt;li&gt;Konfliktami scalania może są najokropniejsza rzecz w używaniu Git’a, dlatego powinno być bardzo łatwiej zajmować się nimi (albo unikać zajmowania się nimi!).&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;undo&lt;/code&gt;&lt;/strong&gt;: Trzeba być możliwe cofnąć się z dowolnej operacji, najlepiej obejmujące śledzone-ale-niezatwierdzone zmiany.
+    &lt;ul&gt;
+      &lt;li&gt;To nie to samo, co cofnięcie [ang. “revert”] zatwierdzenia. Cofnięcie zatwierdzenia tworzy całkowicie nowe zatwierdzenie z odwrotnych zmian, ale cofnięcie operacji powinno przywrócić repozytorium do stanu, w jakim znajdowało się przed wykonaniem operacji, więc nie byłoby pierwotnego zatwierdzenia do przywrócenia.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-load&lt;/code&gt;&lt;/strong&gt;: UI powinien szybko ładować duże repozytorium.
+    &lt;ul&gt;
+      &lt;li&gt;UI nie powinien zawieszać się w żadnym momencie i powinien pokazywać przydatne informacje zaraz po załadowaniu. Nie powinieneś czekać na załadowanie całego repozytorium, zanim będziesz mógł sprawdzić zatwierdzenia i gałęzi.&lt;/li&gt;
+      &lt;li&gt;Program może działać wolno przy pierwszym wywołaniu w celu zbudowania niezbędnych pamięci podręcznych, ale musi reagować szybko na kolejne wywołania.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-ops&lt;/code&gt;&lt;/strong&gt;: UI powinien reagować szybko podczas wykonywania różnych operacji, takich jak sprawdzanie zatwierdzeń i gałęzi, lub scalanie i zmianę bazy.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Dodatkowe punkty:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Przyznam honorowe punkty ujemne każdemu klientowi, który ośmieli się potraktować git rebase -i tak, jakby był fundamentalnym prymitywem.&lt;/li&gt;
+  &lt;li&gt;Przyznam honorowe punkty bonusowe każdemu klientowi, który wydaje się szanować empiryczne badania użyteczności dla Git (lub innych VCS).
+    &lt;ul&gt;
+      &lt;li&gt;Gitless:&lt;a href=&quot;https://gitless.com/&quot;&gt; https://gitless.com/&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;IASGE:&lt;a href=&quot;https://investigating-archiving-git.gitlab.io/&quot;&gt; https://investigating-archiving-git.gitlab.io/&lt;/a&gt;&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;Since I didn’t actually note down any of this, these criteria are just so that any vendors of these clients can know whether I am impressed or disappointed by them.&lt;/p&gt;
+&lt;p&gt;Z powodu, że nie zapisałem nic z tego, te kryteria są tylko po to, aby każdy sprzedawca tych klientów mógł wiedzieć, czy jestem pod wrażeniem, czy rozczarowany.&lt;/p&gt;
 
-&lt;h2 id=&quot;clients&quot;&gt;Clients&lt;/h2&gt;
+&lt;h2 id=&quot;klienty&quot;&gt;Klienty&lt;/h2&gt;
 
-&lt;p&gt;I picked some clients arbitrarily from &lt;a href=&quot;https://git-scm.com/downloads/guis&quot;&gt;this list of clients&lt;/a&gt;. I am surely wrong about some of these points (or they’ve changed since I last looked), so leave a comment.&lt;/p&gt;
+&lt;p&gt;Wybrałem arbitralnie kilku klientów z tej listy klientów. Z pewnością mylę się co do niektórych z tych punktów (lub zmieniły się od ostatniego razu), więc skomentuj.&lt;/p&gt;
 
-&lt;p&gt;I included my own project &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt;, so it doesn’t really count as an example of innovation in the industry. I’m including it to demonstrate that many of these workflows are very much possible.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Aktualizacja 2022-01-09: Dodałem IntelliJ.&lt;/li&gt;
+  &lt;li&gt;Aktualizacja 2022-01-10: Dodałem Tower.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Załączyłem mój własny projekt git-branchless, ale się nie liczy jako przykład innowacji w branży. Tylko jest tu, aby pokazać, że wiele z tych przepływów pracy jest naprawdę możliwych.&lt;/p&gt;
 
 &lt;style type=&quot;text/css&quot;&gt;
 th.rotate {
@@ -130,6 +133,7 @@ th.rotate &gt; div &gt; span {
     &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://www.sourcetreeapp.com/&quot;&gt;Sourcetree&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
     &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://www.sublimemerge.com/&quot;&gt;Sublime Merge&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
     &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://www.syntevo.com/smartgit/&quot;&gt;SmartGit&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
+    &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://www.git-tower.com/&quot;&gt;Tower&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
     &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://gitup.co/&quot;&gt;GitUp&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
     &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://www.jetbrains.com/idea/&quot;&gt;IntelliJ&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
     &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://magit.vc/&quot;&gt;Magit&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
@@ -149,6 +153,7 @@ th.rotate &gt; div &gt; span {
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sourcetree --&gt;
     &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
+    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt; &lt;!-- Tower --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- GitUp --&gt;
     &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt; &lt;!-- IntelliJ --&gt;
     &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
@@ -166,6 +171,7 @@ th.rotate &gt; div &gt; span {
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sourcetree --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Tower --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitUp --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- IntelliJ --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Magit --&gt;
@@ -183,6 +189,7 @@ th.rotate &gt; div &gt; span {
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sourcetree --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Tower --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- GitUp --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- IntelliJ --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Magit --&gt;
@@ -200,6 +207,7 @@ th.rotate &gt; div &gt; span {
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sourcetree --&gt;
     &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;3&lt;/sup&gt;&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
+    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;3&lt;/sup&gt;&lt;/td&gt; &lt;!-- Tower --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitUp --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- IntelliJ --&gt;
     &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;4&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
@@ -217,6 +225,7 @@ th.rotate &gt; div &gt; span {
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Sourcetree --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
+    &lt;td&gt;✅&lt;/td&gt; &lt;!-- Tower --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- GitUp --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- IntelliJ --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Magit --&gt;
@@ -234,6 +243,7 @@ th.rotate &gt; div &gt; span {
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sourcetree --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Tower --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitUp --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- IntelliJ --&gt;
     &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;9&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
@@ -251,6 +261,7 @@ th.rotate &gt; div &gt; span {
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Sourcetree --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Tower --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- GitUp --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- IntelliJ --&gt;
     &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;9&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
@@ -262,35 +273,36 @@ th.rotate &gt; div &gt; span {
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Notes:&lt;/p&gt;
+&lt;p&gt;Uwagi:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;sup&gt;1&lt;/sup&gt; It can be done via &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase -i&lt;/code&gt; or equivalent, but it’s not ergonomic, and it only works for commits reachable from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HEAD&lt;/code&gt; instead of from other branches.&lt;/li&gt;
-  &lt;li&gt;&lt;sup&gt;2&lt;/sup&gt; Rewording can be done without checking out the commit, but only for commits reachable from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HEAD&lt;/code&gt;. There may be additional limitations.&lt;/li&gt;
-  &lt;li&gt;&lt;sup&gt;3&lt;/sup&gt; Partial support; it can show whether the merge is fast-forward or not, but no additional details.&lt;/li&gt;
-  &lt;li&gt;&lt;sup&gt;4&lt;/sup&gt; Can be done via &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;magit-merge-preview&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;&lt;sup&gt;5&lt;/sup&gt; Partial support; if an operation would cause a merge conflict and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--merge&lt;/code&gt; wasn’t passed, then instead aborts and shows the number of files that would conflict.&lt;/li&gt;
-  &lt;li&gt;&lt;sup&gt;6&lt;/sup&gt; Jujutsu doesn’t let you preview merge conflicts &lt;em&gt;per se&lt;/em&gt;, but merges and rebases always succeed and the conflicts are stored in the commit, and then you can undo the operation if you don’t want to deal with the merge conflicts. You can even restore the old version of the commit well after you carried out the merge/rebase, if desired. This avoids interrupting your workflow, which is the ultimate goal of this feature, so I’m scoring it as a pass for this category.&lt;/li&gt;
-  &lt;li&gt;&lt;sup&gt;7&lt;/sup&gt; Undo support is experimental and based on the reflog, &lt;a href=&quot;https://github.com/arxanas/git-branchless/wiki/Architecture#comparison-with-the-reflog&quot;&gt;which can’t undo all types of operations&lt;/a&gt;.&lt;/li&gt;
-  &lt;li&gt;&lt;sup&gt;8&lt;/sup&gt; Git struggles with some operations on large repositories and can be improved upon, but we’ll consider this to be the baseline performance for large repositories.&lt;/li&gt;
-  &lt;li&gt;&lt;sup&gt;9&lt;/sup&gt; Presumably Magit has the same performance as Git, but I didn’t check because I don’t use Emacs.&lt;/li&gt;
+  &lt;li&gt;&lt;sup&gt;1&lt;/sup&gt; Można to zrobić za pomocą &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase -i&lt;/code&gt; lub odpowiednika, ale nie jest to ergonomiczne i działa tylko w przypadku zatwierdzeń osiągalnych z &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HEAD&lt;/code&gt;, a nie z innych gałęzi.&lt;/li&gt;
+  &lt;li&gt;&lt;sup&gt;2&lt;/sup&gt; Zmiana komunikatu zatwierdzenia można wykonać bez wypożyczaniu zatwierdzenia, ale tylko na zatwierdzeń osiągalnych z &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HEAD&lt;/code&gt;. Może istnieją dodatkowe ograniczenia.&lt;/li&gt;
+  &lt;li&gt;&lt;sup&gt;3&lt;/sup&gt; Częściowe wsparcie. Może pokazać, czy można przewijać scalanie do przodu, ale bez dodatkowych szczegołów.&lt;/li&gt;
+  &lt;li&gt;&lt;sup&gt;4&lt;/sup&gt; Można to robić za pomocą &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;magit-merge-preview&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;sup&gt;5&lt;/sup&gt; Częściowe wsparcie. Jeśli operacja spowoduje konflikt scalania, i opcja &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--merge&lt;/code&gt; nie została przekazana, zamiast tego zostanie przerwana i pokaże liczbę plików w stanu konfliktu.&lt;/li&gt;
+  &lt;li&gt;&lt;sup&gt;6&lt;/sup&gt; Jujutsu nie pozwala na podgląd konfliktów scalania, ale scalanie i rebase zawsze się udają, a konflikty są przechowywane w zatwierdzeniu, a potem możesz cofnąć operację, jeśli nie chcesz zajmować się konfliktami scalania. W razie potrzeby możesz nawet przywrócić starą wersję zatwierdzenia po przeprowadzeniu scalania/zmiany bazy. Pozwala to uniknąć przerywania przepływu pracy, co jest ostatecznym celem tej funkcji, dlatego oceniam, że wystarczy dla tej kategorii.&lt;/li&gt;
+  &lt;li&gt;&lt;sup&gt;7&lt;/sup&gt; Obsługa cofania jest eksperymentalna i zależy na reflogu, który &lt;a href=&quot;https://github.com/arxanas/git-branchless/wiki/Architecture#comparison-with-the-reflog&quot;&gt;nie może cofnąć wszystkich rodzajów operacji&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;sup&gt;8&lt;/sup&gt; Git ma problemy z niektórymi operacjami na dużych repozytoriach i można je ulepszyć, ale uznamy to za podstawową wydajność dla dużych repozytoriów.&lt;/li&gt;
+  &lt;li&gt;&lt;sup&gt;9&lt;/sup&gt; Chyba Magit ma taką samą wydajność jak Git, ale nie sprawdziłem, bo nie używam Emacs’a.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;awards&quot;&gt;Awards&lt;/h2&gt;
+&lt;h2 id=&quot;wyróżnienia&quot;&gt;Wyróżnienia&lt;/h2&gt;
 
-&lt;p&gt;Commendations:&lt;/p&gt;
+&lt;p&gt;Pochwały:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;GitUp: the most innovative Git GUI of the above.&lt;/li&gt;
-  &lt;li&gt;GitKraken: innovating in some spaces, such as improved support for centralized workflows by warning about concurrently-edited files. These areas aren’t reflected above; I just noticed them on other occasions.&lt;/li&gt;
-  &lt;li&gt;Sublime Merge: incredibly responsive, as to be expected from the folks responsible for &lt;a href=&quot;https://www.sublimetext.com/&quot;&gt;Sublime Text&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;GitUp: najbardziej innowacyjny GUI dla Git’a spośród powyższych.&lt;/li&gt;
+  &lt;li&gt;GitKraken: wprowadza innowację w niektórych obszarach, takie jak ulepszona obsługa scentralizowanych przepływów pracy przez ostrzeganie o współbieżnie edytowanych plikach. Te obszary nie są napisane powyżej; Po prostu zauważyłem je przy innych okazjach.&lt;/li&gt;
+  &lt;li&gt;Sublime Merge: niesamowicie responsywny, jak można się spodziewać po ludziach odpowiedzialnych za &lt;a href=&quot;https://www.sublimetext.com/&quot;&gt;Sublime Text&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;Tower: za przyjemną implementację cofania.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;Demerits:&lt;/p&gt;
+&lt;p&gt;Wady:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;Fork: for making it really hard to search for documentation (“git fork undo” mostly produces results for undoing forking in general, not for the Fork client).&lt;/li&gt;
-  &lt;li&gt;SmartGit: for being deficient in every category tested.&lt;/li&gt;
+  &lt;li&gt;Fork: za utrudnienie wyszukiwania dokumentacji (bo “git fork undo” zazwyczaj produkuje wyniki cofania rozwidlenia w ogóle, a nie dla klienta Fork).&lt;/li&gt;
+  &lt;li&gt;SmartGit: z braki we wszystkich testowanych kategoriach.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
@@ -305,7 +317,7 @@ th.rotate &gt; div &gt; span {
 
 &lt;/ul&gt;
 
-&lt;script type=&quot;text/javascript&quot; src=&quot;/pl/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
 
 &lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
 &lt;script&gt;

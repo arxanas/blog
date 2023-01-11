@@ -87,18 +87,20 @@ pre > code { border: 0; padding-right: 0; padding-left: 0; }
 table { width: 100%; }
 
 /* See github-comment-link.js for the code that creates these nodes. */
-.github-comment-link { display: none; font-size: 16px; margin-bottom: 1.5; background-color: #e8e8e8; padding: 0 0.5em; }
+.github-comment-link { background-color: #e8e8e8; display: none; font-size: 16px; margin-bottom: 1.5; padding: 0 0.5em; user-select: none; /* So that users don't accidentally select the "Comment" link when copying text. */ }
 
 .github-comment-link::before { content: "⧉ "; }
 
 /* Keep tag list in sync with tag list in github-comment-link.js file. */
 :is(p, li, figure):has(> .github-comment-link) { display: block; position: relative; margin-left: 1em; }
 
-:is(p, li, figure):hover > .github-comment-link { display: block; position: absolute; background-color: #e8e8e8; border: 1px solid #828282; margin-top: -24px; }
+:is(p, li, figure):hover > .github-comment-link { background-color: #e8e8e8; border: 1px solid #828282; display: block; margin-top: -24px; position: absolute; }
 
 .github-comment-container::before { content: "Comment threads"; display: block; font-weight: bold; }
 
-.github-comment-container::after { content: ""; display: table; clear: both; }
+html:lang("pl") .github-comment-container::before { content: "Wątki komentarzy"; }
+
+.github-comment-container::after { clear: both; content: ""; display: table; }
 
 .github-comment-container { background-color: #e8e8e8; border: 1px solid #828282; margin: 0.5em 0 0.5em 0em; padding: 1em; }
 
@@ -106,7 +108,7 @@ table { width: 100%; }
 
 .github-comment-author { font-weight: bold; }
 
-.github-comment-num-replies { float: right; background-color: #e8e8e8; right: 0; }
+.github-comment-num-replies { background-color: #e8e8e8; float: right; right: 0; }
 
 /* This code from https://www.benmarshall.me/responsive-iframes/ */
 .iframe-container { overflow: hidden; padding-top: 56.25%; /* 16:9 */ position: relative; margin-bottom: 20px; }

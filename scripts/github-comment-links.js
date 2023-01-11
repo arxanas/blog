@@ -1,4 +1,23 @@
 (() => {
+  const STRINGS = {
+    en: {
+      write_comment_here:
+        "Write your comment here. Markdown will NOT be rendered in the preview.",
+      original_paragraph_content: "Original paragraph content",
+      reply_singular: "reply",
+      reply_plural: "replies",
+      comment_link: "Comment",
+    },
+    pl: {
+      write_comment_here: "Napisz komentarz tutaj. Markdown NIE zostanie wyrenderowany w podglądzie.",
+      original_paragraph_content: "Oryginalny tekst akapitu",
+      reply_singular: "odpowiedź",
+      reply_plural: "odpowiedzi",
+      comment_link: "Skomentuj",
+    }
+  };
+  const lang = document.documentElement.lang;
+
   const nbsp = "\xa0";
 
   const postSlug = window.location.pathname.replace(/\//g, "");
@@ -30,9 +49,9 @@
         `${postId},par:${paragraphId}`
       );
       const bodyText = `
-Write your comment here. Markdown will NOT be rendered in the preview.
+${STRINGS[lang].write_comment_here}
 
-<!-- Original paragraph content:
+<!-- ${STRINGS[lang].original_paragraph_content}:
 
 ${paragraphRawContent}
 
@@ -44,7 +63,7 @@ ${paragraphRawContent}
       const parentNode = item.appendChild(document.createElement("a"));
       parentNode.href = githubIssuesUrl;
       parentNode.classList = "github-comment-link";
-      parentNode.appendChild(document.createTextNode(`Comment`));
+      parentNode.appendChild(document.createTextNode(STRINGS[lang].comment_link));
 
       item.prepend(parentNode);
     });
@@ -73,7 +92,7 @@ ${paragraphRawContent}
 
       // Create replies link.
       const numRepliesText =
-        issue.comments === 1 ? "1 reply" : `${issue.comments} replies`;
+        issue.comments === 1 ? `1 ${STRINGS[lang].reply_singular}` : `${issue.comments} ${STRINGS[lang].reply_plural}`;
       const numRepliesLink = document.createElement("a");
       numRepliesLink.classList = "github-comment-num-replies";
       numRepliesLink.href = issue.html_url;
