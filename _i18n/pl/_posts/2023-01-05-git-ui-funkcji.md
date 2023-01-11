@@ -17,7 +17,7 @@ lobsters: https://lobste.rs/s/7tnnbq/where_are_my_git_ui_features_from_future
 
 ## Git jest do bani
 
-System kontroli wersji od 15+ lat przynosi nam nieszczęście. Od momentu powstania, tysiące osób próbowało stworzyć nowe klienty Git’a aby poprawić jego użyteczność.
+[System kontroli wersji "Git"](https://git-scm.com/) od 15+ lat przynosi nam nieszczęście. Od momentu powstania, tysiące osób próbowało stworzyć nowe klienty Git’a aby poprawić jego użyteczność.
 
 Jednak, prawie każda z nich skupiła się budować ładną fasadę nad Git’em, żeby robić te same operacji, które właśnie robi Git, jakby interfejs linii komend Git’a był szczytem użyteczności.
 
