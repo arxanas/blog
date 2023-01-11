@@ -16,6 +16,17 @@ layout: default
             {% endfor %}
           </span>
 
+          {% for translation in post.translations %}
+            <br />
+            <span class="post-meta">
+              {% if translation[0] == "pl" %}
+              <a href="{{ translation[1] | prepend: site.baseurl_root }}">Czytaj po polsku 🇵🇱</a>
+              {% elsif translation[0] == "en" %}
+              <a href="{{ translation[1] | prepend: site.baseurl_root }}">Read in English 🇺🇸</a>
+              {% endif %}
+            </span>
+          {% endfor %}
+
           <h2>
             <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
           </h2>

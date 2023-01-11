@@ -7,12 +7,14 @@ layout: default
     <h1 class="post-title" itemprop="name headline">{{ page.title }}</h1>
     <p class="post-meta"><time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%b %-d, %Y" }}</time>{% if page.author %} • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span></span>{% endif %}
     {% for translation in page.translations %}
-      <br />
-      {% if translation[0] == "pl" %}
-      <a href="{{ translation[1] | prepend: site.baseurl_root }}">Czytaj po polsku 🇵🇱</a>
-      {% elsif translation[0] == "en" %}
-      <a href="{{ translation[1] | prepend: site.baseurl_root }}">Read in English 🇺🇸</a>
+      <span class="post-meta">
+        <br />
+        {% if translation[0] == "pl" %}
+        <a href="{{ translation[1] | prepend: site.baseurl_root }}">Czytaj po polsku 🇵🇱</a>
+        {% elsif translation[0] == "en" %}
+        <a href="{{ translation[1] | prepend: site.baseurl_root }}">Read in English 🇺🇸</a>
       {% endif %}
+      </span>
     {% endfor %}
     </p>
     {% include translation_notice.html %}
