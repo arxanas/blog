@@ -7,9 +7,180 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/pl/</link>
     <atom:link href="https://blog.waleedkhan.name/pl/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 11 Jan 2023 12:11:39 -0600</pubDate>
-    <lastBuildDate>Wed, 11 Jan 2023 12:11:39 -0600</lastBuildDate>
+    <pubDate>Wed, 11 Jan 2023 17:10:30 -0600</pubDate>
+    <lastBuildDate>Wed, 11 Jan 2023 17:10:30 -0600</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
+    
+      <item>
+        <title>Interaktywne blogi</title>
+        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#niech-żyje-ten-blog&quot; id=&quot;markdown-toc-niech-żyje-ten-blog&quot;&gt;Niech żyje ten blog&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Dla mnie, najlepszym platformą na blogging jest &lt;a href=&quot;https://www.google.com/docs&quot;&gt;Google Docs&lt;/a&gt;, bo obsługuje poniższe:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Współpracować na żywo.&lt;/li&gt;
+  &lt;li&gt;Pozostawiać komentarze bezpośrednio w tekście, a nie w ograniczonym obszarze.&lt;/li&gt;
+  &lt;li&gt;Sugerować zmiany bezpośrednio w tekście. Cóż miły sposób na poprawianie tekstu!
+    &lt;ul&gt;
+      &lt;li&gt;Z tego powodu również wolę Wikis od Git’a, jeśli chodzi o pisanie dokumentacji, bo bariera wejścia jest znacznie mniejsza.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Niestety, Google Docs nie jest zwłaszcza dostępny:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Wydaje się, że nie będzie indeksowany przez wyszukiwarki?&lt;/li&gt;
+  &lt;li&gt;Wymaga Javascript.&lt;/li&gt;
+  &lt;li&gt;Wymaga Google, czemu niektórzy ludzie sprzeciwiają się ze względu na prywatność.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Dlatego nie wydaję w ten sposób postów na blogu.&lt;/p&gt;
+
+&lt;style type=&quot;text/css&quot;&gt;
+@keyframes hypermedia {
+  0%, 100% {
+    left: -1em;
+    top: 0.4em;
+    z-index: 1;
+    font-size: normal;
+  }
+  
+  25% {
+    font-size: 1.3em;
+  }
+  
+  75% {
+    font-size: 0.7em;
+  }
+
+  50% {
+    left: 97%;
+    top: -0.6em;
+    z-index: 1;
+    font-size: normal;
+  }
+  
+  51%, 99% {
+    z-index: -1;
+  }
+}
+
+.hypermedia {
+  letter-spacing: 0.1em;
+  position: relative;
+  font-variant: small-caps;
+}
+
+.hypermedia::before {
+  content: &quot;✨&quot;;
+  position: absolute;
+  animation-name: hypermedia;
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+&lt;/style&gt;
+
+&lt;p&gt;Ale w dobie &lt;span class=&quot;hypermedia&quot;&gt;hipermediów&lt;/span&gt; te funkcje powinny być standardem! Powinniśmy &lt;span class=&quot;hypermedia&quot;&gt;dyskutować&lt;/span&gt;, a nie wyrzucać artykuły &lt;span class=&quot;hypermedia&quot;&gt;w próżnię&lt;/span&gt;!&lt;/p&gt;
+
+&lt;p&gt;Medium wyświetlało komentarze w tekście, ale &lt;a href=&quot;https://medium.com/@jashan/how-to-make-the-best-of-a-broken-commenting-system-113c8cc1fe71&quot;&gt;już tego nie robi&lt;/a&gt; (nie żebym chciał wydawać posty na Medium). Nie widziałem wielu innych blogów, które zapraszają do dyskusji za pomocą interaktywnych funkcji.&lt;/p&gt;
+
+&lt;p&gt;Kiedyś czytałem &lt;em&gt;&lt;a href=&quot;https://dev.realworldocaml.org/&quot;&gt;Real World OCaml&lt;/a&gt;&lt;/em&gt;, kiedy jego drugie wydanie było w wersji roboczej. Po każdym zdaniu znajdował się link na pozostawianie komentarza. To jest naprawdę fajny sposób na pisanie książki! Dlaczego akurat książka jest bardziej interaktywna niż nasze blogi?&lt;/p&gt;
+
+&lt;h2 id=&quot;niech-żyje-ten-blog&quot;&gt;Niech żyje ten blog&lt;/h2&gt;
+
+&lt;p&gt;Od niedawna można pozostawiać komentarze na akapitach mojego blogu, najeżdżając/dotykając i klikając link “Skomentuj”, który się pojawi.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Inne rozwiązania:
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;https://utteranc.es&quot;&gt;https://utteranc.es&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://disqus.com/&quot;&gt;Disqus&lt;/a&gt;
+        &lt;ul&gt;
+          &lt;li&gt;Używany już do komentarzy na tym blogu, chociaż jest trochę podejrzany, jeśli chodzi o korzystanie plików cookie.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Każda z tych opcji wymaga tworzenie własnego wątku komentarza dla każdego akapitu, na którym można skomentować.
+        &lt;ul&gt;
+          &lt;li&gt;Ich UIs nie zostały zaprojektowane tak, aby były zwarte, więc nie pasują dobrze między akapitami na blogu. Byłoby ogromny formularz po każdym akapitu.&lt;/li&gt;
+          &lt;li&gt;Spowodowałoby to niepotrzebne obciążenie serwerów komentarzy, trochę niegrzecznie dla nich.&lt;/li&gt;
+          &lt;li&gt;Spowodowałoby to wolniejsze ładowanie strony podczas zapytania do kilku wątków komentarzy.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Możesz czerpać inspirację z projektu takiego jak SideComments.js.&lt;/li&gt;
+      &lt;li&gt;Moja implementacja niestety opiera się na GitHub jako dostawcy uwierzytelniania i bazie danych. Jestem pewien, że wielu czytelników nie będzie miało kont GitHub’a.
+        &lt;ul&gt;
+          &lt;li&gt;To był dla mnie najłatwiejszy sposób na zaimplementowanie.&lt;/li&gt;
+          &lt;li&gt;GitHub API jest wystarczająco wyrazisty, aby wysłać zapytanie o wszystkie komentarze dla pewnego dokumentu w jednym żądaniu.&lt;/li&gt;
+          &lt;li&gt;GitHub API nie wymaga uwierzytelniania ani klucza API do wysyłania żądań!
+            &lt;ul&gt;
+              &lt;li&gt;Przypuszczalnie będziesz ograniczany bardziej agresywnie niż w przypadku uwierzytelnienia.&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;Otwarcie nowej strony GitHub Issues’a w celu pozostawiania komentarza jest niewygodnie.&lt;/li&gt;
+          &lt;li&gt;Patrząc wstecz, być może powinienem był użyć GitHub Discussions’a zamiast GitHub Issues’a jako bazy daty, ponieważ są to… dyskusje.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Akapity są identyfikowane za pomocą permalinku/”slug” i poprzez pobranie kilku pierwszych znormalizowanych bajtów danych w akapicie i zakodowanie jako base64.
+        &lt;ul&gt;
+          &lt;li&gt;Teoretycznie identyfikatory akapitów nie są zatem stabilne, jeśli treść zmienia się później, ale wydaje się, że jest to niewielki problem.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Oto implementacja w momencie pisania tego tekstu (137 linii kodu): &lt;a href=&quot;https://github.com/arxanas/blog/blob/c34f0e18b81ed1d1b22636eaef2cabe7b6afd77e/scripts/github-comment-links.js&quot;&gt;github-comment-links.js&lt;/a&gt;.
+        &lt;ul&gt;
+          &lt;li&gt;Nowoczesne API przeglądarki sprawiają, że zapytanie do API GitHub’a jest dość proste.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+
+&lt;/ul&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/pl/interaktywne-blogi/&quot;;
+    this.page.identifier = &quot;interaktywne-blogi/&quot;;
+};
+
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
+</description>
+        <pubDate>Wed, 11 Jan 2023 00:00:00 -0600</pubDate>
+        <link>https://blog.waleedkhan.name/pl/interaktywne-blogi/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/pl/interaktywne-blogi/</guid>
+        
+        <category>rant</category>
+        
+        <category>writing</category>
+        
+        
+      </item>
     
       <item>
         <title>Gdzie są moje funkcji Git’a z przyszłości?</title>
