@@ -21,7 +21,7 @@ lobsters: https://lobste.rs/s/7tnnbq/where_are_my_git_ui_features_from_future
 
 Jednak, prawie każda z nich skupiła się budować ładną fasadę nad Git’em, żeby robić te same operacji, które właśnie robi Git, jakby interfejs linii komend Git’a był szczytem użyteczności.
 
-Nikt nie raczy się zastanowić: jakie są _przepływy pracy_, które osoby właśnie chcą wykonywać? Jakie są _funkcji_, ułatwiające takie przepływy pracy? Zamiast, dostajemy klienty, które uważają, że `git rebase -i` to najlepszy sposób, aby zmienić komunikat zatwierdzenia, aby edytować commit, aby rozdzielić commit — albo, że warto nawet pokazać w UI tę funkcję.
+Nikt nie raczy się zastanowić: jakie są _przepływy pracy_, które osoby właśnie chcą wykonywać? Jakie są _funkcji_, ułatwiające takie przepływy pracy? Zamiast, dostajemy klienty, które uważają, że `git rebase -i` to najlepszy sposób, aby zmienić komunikat zatwierdzenia, aby edytować zatwierdzenie, aby rozdzielić zatwierdzenie — albo, że warto nawet pokazać w UI tę funkcję.
 
 
 ## Rubryka
