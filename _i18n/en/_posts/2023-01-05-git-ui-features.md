@@ -62,6 +62,9 @@ Since I didn't actually note down any of this, these criteria are just so that a
 
 I picked some clients arbitrarily from [this list of clients](https://git-scm.com/downloads/guis). I am surely wrong about some of these points (or they've changed since I last looked), so leave a comment.
 
+- *Update 2022-01-09: Added IntelliJ.*
+- *Update 2022-01-10: Added Tower.*
+
 I included my own project [git-branchless](https://github.com/arxanas/git-branchless), so it doesn't really count as an example of innovation in the industry. I'm including it to demonstrate that many of these workflows are very much possible.
 
 <style type="text/css">
@@ -97,6 +100,7 @@ th.rotate > div > span {
     <th class="rotate"><div><span><a href="https://www.sourcetreeapp.com/">Sourcetree</a></span></div></th>
     <th class="rotate"><div><span><a href="https://www.sublimemerge.com/">Sublime Merge</a></span></div></th>
     <th class="rotate"><div><span><a href="https://www.syntevo.com/smartgit/">SmartGit</a></span></div></th>
+    <th class="rotate"><div><span><a href="https://www.git-tower.com/">Tower</a></span></div></th>
     <th class="rotate"><div><span><a href="https://gitup.co/">GitUp</a></span></div></th>
     <th class="rotate"><div><span><a href="https://www.jetbrains.com/idea/">IntelliJ</a></span></div></th>
     <th class="rotate"><div><span><a href="https://magit.vc/">Magit</a></span></div></th>
@@ -116,6 +120,7 @@ th.rotate > div > span {
     <td>❌</td> <!-- Sourcetree -->
     <td>⚠️&nbsp;<sup>2</sup></td> <!-- Sublime Merge -->
     <td>❌</td> <!-- SmartGit -->
+    <td>⚠️&nbsp;<sup>2</sup></td> <!-- Tower -->
     <td>✅</td> <!-- GitUp -->
     <td>⚠️&nbsp;<sup>2</sup></td> <!-- IntelliJ -->
     <td>⚠️&nbsp;<sup>2</sup></td> <!-- Magit -->
@@ -133,6 +138,7 @@ th.rotate > div > span {
     <td>❌</td> <!-- Sourcetree -->
     <td>❌</td> <!-- Sublime Merge -->
     <td>❌</td> <!-- SmartGit -->
+    <td>❌</td> <!-- Tower -->
     <td>❌</td> <!-- GitUp -->
     <td>❌</td> <!-- IntelliJ -->
     <td>❌</td> <!-- Magit -->
@@ -150,6 +156,7 @@ th.rotate > div > span {
     <td>❌</td> <!-- Sourcetree -->
     <td>❌</td> <!-- Sublime Merge -->
     <td>❌</td> <!-- SmartGit -->
+    <td>❌</td> <!-- Tower -->
     <td>✅</td> <!-- GitUp -->
     <td>❌</td> <!-- IntelliJ -->
     <td>❌</td> <!-- Magit -->
@@ -167,6 +174,7 @@ th.rotate > div > span {
     <td>❌</td> <!-- Sourcetree -->
     <td>⚠️&nbsp;<sup>3</sup></td> <!-- Sublime Merge -->
     <td>❌</td> <!-- SmartGit -->
+    <td>⚠️&nbsp;<sup>3</sup></td> <!-- Tower -->
     <td>❌</td> <!-- GitUp -->
     <td>❌</td> <!-- IntelliJ -->
     <td>✅&nbsp;<sup>4</sup></td> <!-- Magit -->
@@ -184,6 +192,7 @@ th.rotate > div > span {
     <td>✅</td> <!-- Sourcetree -->
     <td>✅</td> <!-- Sublime Merge -->
     <td>❌</td> <!-- SmartGit -->
+    <td>✅</td> <!-- Tower -->
     <td>✅</td> <!-- GitUp -->
     <td>❌</td> <!-- IntelliJ -->
     <td>✅</td> <!-- Magit -->
@@ -201,6 +210,7 @@ th.rotate > div > span {
     <td>❌</td> <!-- Sourcetree -->
     <td>✅</td> <!-- Sublime Merge -->
     <td>❌</td> <!-- SmartGit -->
+    <td>❌</td> <!-- Tower -->
     <td>❌</td> <!-- GitUp -->
     <td>✅</td> <!-- IntelliJ -->
     <td>✅&nbsp;<sup>9</sup></td> <!-- Magit -->
@@ -218,6 +228,7 @@ th.rotate > div > span {
     <td>✅</td> <!-- Sourcetree -->
     <td>✅</td> <!-- Sublime Merge -->
     <td>❌</td> <!-- SmartGit -->
+    <td>❌</td> <!-- Tower -->
     <td>✅</td> <!-- GitUp -->
     <td>✅</td> <!-- IntelliJ -->
     <td>✅&nbsp;<sup>9</sup></td> <!-- Magit -->
@@ -248,6 +259,7 @@ Commendations:
 - GitUp: the most innovative Git GUI of the above.
 - GitKraken: innovating in some spaces, such as improved support for centralized workflows by warning about concurrently-edited files. These areas aren't reflected above; I just noticed them on other occasions.
 - Sublime Merge: incredibly responsive, as to be expected from the folks responsible for [Sublime Text](https://www.sublimetext.com/).
+- Tower: for having a pleasing undo implementation.
 
 Demerits:
 
