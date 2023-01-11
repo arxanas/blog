@@ -46,9 +46,9 @@ Want to see more of my posts? Follow me <a href="https://twitter.com/arxanas">on
 </ul>
 
 {% if page.typeset_math %}
-<link rel="stylesheet" href="{{ site.baseurl }}/css/katex.min.css" />
+<link rel="stylesheet" href="{{ "/css/katex.min.css" | prepend: site.baseurl_root }}" />
 {% endif %}
 
-<script type="text/javascript" src="{{ site.baseurl }}/scripts/github-comment-links.js"></script>
+<script type="text/javascript" src="{{ "/scripts/github-comment-links.js" | prepend: site.baseurl_root }}"></script>
 
 {% include comments.html %}

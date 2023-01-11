@@ -82,6 +82,10 @@ table {
   font-weight: bold;
 }
 
+html:lang("pl") .github-comment-container::before {
+  content: "Wątki komentarzy";
+}
+
 .github-comment-container::after {
   clear: both;
   content: "";
