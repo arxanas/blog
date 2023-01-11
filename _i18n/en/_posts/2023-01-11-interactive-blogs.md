@@ -2,6 +2,8 @@
 layout: post
 title: Interactive blogs
 permalink: interactive-blogs/
+translations:
+  pl: "/pl/interaktywne-blogi/"
 tags:
   - rant
   - writing
