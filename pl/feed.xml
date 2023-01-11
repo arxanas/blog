@@ -7,8 +7,8 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/pl/</link>
     <atom:link href="https://blog.waleedkhan.name/pl/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 11 Jan 2023 04:24:39 -0600</pubDate>
-    <lastBuildDate>Wed, 11 Jan 2023 04:24:39 -0600</lastBuildDate>
+    <pubDate>Wed, 11 Jan 2023 04:27:07 -0600</pubDate>
+    <lastBuildDate>Wed, 11 Jan 2023 04:27:07 -0600</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
@@ -27,7 +27,7 @@ employers.</description>
 
 &lt;p&gt;Jednak, prawie każda z nich skupiła się budować ładną fasadę nad Git’em, żeby robić te same operacji, które właśnie robi Git, jakby interfejs linii komend Git’a był szczytem użyteczności.&lt;/p&gt;
 
-&lt;p&gt;Nikt nie raczy się zastanowić: jakie są &lt;em&gt;przepływy pracy&lt;/em&gt;, które osoby właśnie chcą wykonywać? Jakie są &lt;em&gt;funkcji&lt;/em&gt;, ułatwiające takie przepływy pracy? Zamiast, dostajemy klienty, które uważają, że &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase -i&lt;/code&gt; to najlepszy sposób, aby zmienić komunikat zatwierdzenia, aby edytować commit, aby rozdzielić commit — albo, że warto nawet pokazać w UI tę funkcję.&lt;/p&gt;
+&lt;p&gt;Nikt nie raczy się zastanowić: jakie są &lt;em&gt;przepływy pracy&lt;/em&gt;, które osoby właśnie chcą wykonywać? Jakie są &lt;em&gt;funkcji&lt;/em&gt;, ułatwiające takie przepływy pracy? Zamiast, dostajemy klienty, które uważają, że &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase -i&lt;/code&gt; to najlepszy sposób, aby zmienić komunikat zatwierdzenia, aby edytować zatwierdzenie, aby rozdzielić zatwierdzenie — albo, że warto nawet pokazać w UI tę funkcję.&lt;/p&gt;
 
 &lt;h2 id=&quot;rubryka&quot;&gt;Rubryka&lt;/h2&gt;
 
