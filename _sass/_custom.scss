@@ -54,6 +54,7 @@ table {
   font-size: $base-font-size;
   margin-bottom: $base-line-height;
   padding: 0 0.5em;
+  user-select: none; /* So that users don't accidentally select the "Comment" link when copying text. */
 }
 
 .github-comment-link::before {
