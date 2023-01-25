@@ -7,9 +7,133 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 11 Jan 2023 17:10:26 -0600</pubDate>
-    <lastBuildDate>Wed, 11 Jan 2023 17:10:26 -0600</lastBuildDate>
+    <pubDate>Tue, 24 Jan 2023 19:13:59 -0600</pubDate>
+    <lastBuildDate>Tue, 24 Jan 2023 19:13:59 -0600</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
+    
+      <item>
+        <title>Using `tracing` with Rust CLI applications</title>
+        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#for-cargo&quot; id=&quot;markdown-toc-for-cargo&quot;&gt;For Cargo&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#full-notes&quot; id=&quot;markdown-toc-full-notes&quot;&gt;Full notes&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/epage&quot;&gt;@epage&lt;/a&gt; in &lt;a href=&quot;https://github.com/arxanas/git-branchless/discussions/732&quot;&gt;https://github.com/arxanas/git-branchless/discussions/732&lt;/a&gt; asked:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;I see talk of tracing but mostly from a web perspective and I’m curious how the experience translates to a CLI. I am looking to adopt it in some smaller CLIs to get some experience to understand how it could possibly help cargo.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;I’m republishing my answer here.&lt;/p&gt;
+
+&lt;h2 id=&quot;for-cargo&quot;&gt;For Cargo&lt;/h2&gt;
+
+&lt;p&gt;For Cargo, I would emphasize these points:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;It encourages doing the right thing via the structured logging macros. Extra computation isn’t carried out if it wouldn’t be used by a subscriber, which could otherwise cause a performance regression.&lt;/li&gt;
+  &lt;li&gt;Tracking spantraces for profiling is annoying, because you have to manually annotate each function that you want to sample. I’m not sure if this can be improved via using backtraces instead.&lt;/li&gt;
+  &lt;li&gt;You can easily output to a number of different subscribers, including custom ones (…if you know what functions to call). For example, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tracing_subscriber::fmt_layer::Layer::with_writer&lt;/code&gt; will let you construct a layer which consumes formatted logging information and write it to somewhere arbitrary.
+    &lt;ul&gt;
+      &lt;li&gt;You can use off-the-shelf components, like the Chrome tracing subscriber.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Somebody can configure it once and others don’t have to worry about it much.&lt;/li&gt;
+  &lt;li&gt;It has been very effective for profiling for me.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;full-notes&quot;&gt;Full notes&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;eyre&lt;/code&gt;/&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;color_eyre&lt;/code&gt;, you can include function parameters in spantraces. This is quite valuable during debugging, since I can see e.g. a commit OID in the spantrace for a commit which is causing problems, without having to manually extract it by adding more logging.&lt;/li&gt;
+  &lt;li&gt;Configuring tracing for the first time is a pain, but you largely don’t have to touch it after that.
+    &lt;ul&gt;
+      &lt;li&gt;Here’s my function which does that: &lt;a href=&quot;https://github.com/arxanas/git-branchless/blob/4b76af669258e80a6f6eb4ddf45bbb358da80248/git-branchless/src/commands/mod.rs#L437&quot;&gt;https://github.com/arxanas/git-branchless/blob/4b76af669258e80a6f6eb4ddf45bbb358da80248/git-branchless/src/commands/mod.rs#L437&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;I successfully configured logging statements to be printed via my own type (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Effects&lt;/code&gt;), rather than being printed directly to stdout/stderr, because it may clobber progress meters or other interactive output.&lt;/li&gt;
+      &lt;li&gt;I configured it so that subprocesses are not included in the parent trace; they get their own output files. To be honest, I don’t think I’ve needed to examine subprocess tracing.&lt;/li&gt;
+      &lt;li&gt;It used to be less ergonomic, but they improved things around the composition of layers at some point recently, like filtering one layer based on another layer; see &lt;a href=&quot;https://github.com/arxanas/git-branchless/commit/5428f1b9dbed356accf854774cad053c22d19b1f&quot;&gt;https://github.com/arxanas/git-branchless/commit/5428f1b9dbed356accf854774cad053c22d19b1f&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;Some of the error messages for layer composition can be inscrutable because of the use of static polymorphism by default. For example, it’s hard to conditionally construct a layer for inclusion. The types become very long chains of nested generic type parameters.
+        &lt;ul&gt;
+          &lt;li&gt;Fortunately, an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Option&amp;lt;Layer&amp;gt;&lt;/code&gt; is also a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Layer&lt;/code&gt;, so you can pass &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Some(layer)&lt;/code&gt; or &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;None&lt;/code&gt; depending on your condition, rather than attempt to call methods on the registry directly.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;#[instrument]&lt;/code&gt; macro is the only realistic way of including functions in spantraces for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;eyre&lt;/code&gt;/&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;color_eyre&lt;/code&gt;.
+    &lt;ul&gt;
+      &lt;li&gt;This ruins autofixes (probably should be considered a bug in rust-analyzer).&lt;/li&gt;
+      &lt;li&gt;This can ruin error locations, as sometimes the error is attributed to the function as a whole, instead of the specific line.&lt;/li&gt;
+      &lt;li&gt;This can increase compilation times, since it’s a procedural macro. As you might be aware, procedural macro stuff like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;syn&lt;/code&gt; tends to be on the critical path for crate compilation, but if you commit to not using procedural macros at all, then you can skip it.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Profiling via dumping to the Chrome tracing layer is effective.
+    &lt;ul&gt;
+      &lt;li&gt;See &lt;a href=&quot;https://github.com/arxanas/git-branchless/wiki/Runbook#profiling&quot;&gt;https://github.com/arxanas/git-branchless/wiki/Runbook#profiling&lt;/a&gt; for details on profiling procedures.&lt;/li&gt;
+      &lt;li&gt;I’ve used this system to debug performance issues/regressions a number of times. The existing Chrome tracing visualizers are quite usable for analyzing the breakdown of time spent.&lt;/li&gt;
+      &lt;li&gt;Including function parameters has been amazingly useful, because I’ve been able to directly see a slice in the profiling output which was taking too long and check the corresponding commit OID, so that I could examine and test that specific commit.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;I tried to use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tracing&lt;/code&gt; as an input to my own progress-reporting system (so that function calls are directly tied to progress bars which appear on the screen). It was possible, but, in the end, I gave up on this approach, because logical operations didn’t correspond exactly one-to-one with function calls, and it was too easy to forget to annotate an instrumented method correctly.&lt;/li&gt;
+  &lt;li&gt;Haven’t tried &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tracing&lt;/code&gt; with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;async&lt;/code&gt;/&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.await&lt;/code&gt; at all.&lt;/li&gt;
+  &lt;li&gt;Haven’t tried &lt;a href=&quot;https://github.com/tokio-rs/console&quot;&gt;https://github.com/tokio-rs/console&lt;/a&gt; at all, but I would be interested to know if it’s useful for you.&lt;/li&gt;
+  &lt;li&gt;Structured logging is great.
+    &lt;ul&gt;
+      &lt;li&gt;Just using the structured logging macros with debugging representations (i.e. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;warn(?var, &quot;Message&quot;)&lt;/code&gt;) is substantially more ergonomic than interpolating values into strings manually.&lt;/li&gt;
+      &lt;li&gt;It also handles things like rendering unprintable characters, where before I would have to be careful to include string values in quotes., etc.&lt;/li&gt;
+      &lt;li&gt;In principle, you can see these events and their values in the profiling output, although I haven’t needed to profile based on individual events, only based on spans.&lt;/li&gt;
+      &lt;li&gt;It’s more efficient, since we won’t construct the strings if the values are not consumed by any subscriber at runtime.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;There’s a weird incompatibility between the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tracing_subscriber&lt;/code&gt; version used by my code and by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;color_eyre&lt;/code&gt;, which means that I’ve locked it at a known-good version here: &lt;a href=&quot;https://github.com/arxanas/git-branchless/pull/533/commits/e97954a9a9fab4039ad269d6b8982bb8bd95b133&quot;&gt;https://github.com/arxanas/git-branchless/pull/533/commits/e97954a9a9fab4039ad269d6b8982bb8bd95b133&lt;/a&gt;.
+    &lt;ul&gt;
+      &lt;li&gt;In principle, I think &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;color_eyre&lt;/code&gt; just needs to upgrade their version of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tracing-subscriber&lt;/code&gt;, but I haven’t looked into it since then.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+
+&lt;/ul&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/tracing-rust-cli-apps/&quot;;
+    this.page.identifier = &quot;tracing-rust-cli-apps/&quot;;
+};
+
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
+</description>
+        <pubDate>Tue, 24 Jan 2023 00:00:00 -0600</pubDate>
+        <link>https://blog.waleedkhan.name/tracing-rust-cli-apps/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/tracing-rust-cli-apps/</guid>
+        
+        <category>rust</category>
+        
+        <category>software-engineering</category>
+        
+        
+      </item>
     
       <item>
         <title>Interactive blogs</title>
@@ -328,7 +452,7 @@ th.rotate &gt; div &gt; span {
     &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt; &lt;!-- Tower --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- GitUp --&gt;
     &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt; &lt;!-- IntelliJ --&gt;
-    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
+    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Magit --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Lazygit --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Gitui --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- git-branchless --&gt;
@@ -1612,75 +1736,6 @@ var disqus_config = function () {
         <guid isPermaLink="true">https://blog.waleedkhan.name/functions-are-constants/</guid>
         
         <category>software-engineering</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Fixing my numb arms</title>
-        <description>&lt;p&gt;&lt;em&gt;(I am not a medical professional, and you should consult a doctor for your medical advice.)&lt;/em&gt;&lt;/p&gt;
-
-&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#symptoms&quot; id=&quot;markdown-toc-symptoms&quot;&gt;Symptoms&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#treatment&quot; id=&quot;markdown-toc-treatment&quot;&gt;Treatment&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;For a while, I suffered from reduced sensation along the outside of my forearm, extending to the fourth and fifth fingers. These regions are serviced by the &lt;a href=&quot;https://en.wikipedia.org/wiki/Ulnar_nerve&quot;&gt;&lt;em&gt;ulnar nerve&lt;/em&gt;&lt;/a&gt;; this condition is called &lt;a href=&quot;https://en.wikipedia.org/wiki/Ulnar_nerve_entrapment&quot;&gt;&lt;em&gt;ulnar nerve entrapment&lt;/em&gt;&lt;/a&gt;. These symptoms can be straightforwardly resolved by building muscle to cushion the ulnar nerve.&lt;/p&gt;
-
-&lt;h2 id=&quot;symptoms&quot;&gt;Symptoms&lt;/h2&gt;
-
-&lt;p&gt;The ulnar nerve is same as the “funny bone” nerve on the elbow, which can be struck directly to induce an uncomfortable tingling sensation.&lt;/p&gt;
-
-&lt;p&gt;Ulnar nerve entrapment happens because the ulnar nerve is compressed as it travels past the elbow. If you think of your nerve as a string running along the outside of your arm, it’s clear to see that bending your elbow would cause it to become taut, and therefore experience more pressure at the joint. Therefore, you could expect that keeping your elbow bent for long periods of time would make you more susceptible to ulnar nerve entrapment.&lt;/p&gt;
-
-&lt;p&gt;At night, I would often develop a pins-and-needles sensation of numbness along the same region on my arm. Eventually, it got severe enough that it started waking me up regularly. I purchased elbow pads (such as &lt;a href=&quot;https://www.amazon.com/Heelbo-Heel-Elbow-Protector-BLUE/dp/B01AE5MVB6&quot;&gt;these&lt;/a&gt;) to wear at night, which helped, but didn’t address the root cause.&lt;/p&gt;
-
-&lt;h2 id=&quot;treatment&quot;&gt;Treatment&lt;/h2&gt;
-
-&lt;p&gt;I solved this issue more permanently by building the appropriate arm muscle, which somehow cushioned the region. The &lt;a href=&quot;https://en.wikipedia.org/wiki/Triceps&quot;&gt;&lt;em&gt;triceps&lt;/em&gt; muscle&lt;/a&gt; is a set of three muscles on the back side of the arm. In particular, the &lt;em&gt;medial head&lt;/em&gt; of the triceps is located just above the elbow. By strengthening this muscle, my problems went away — and when failing to maintain this muscle, they come back.&lt;/p&gt;
-
-&lt;p&gt;Since I am very weak, I found success with &lt;a href=&quot;https://en.wikipedia.org/wiki/Lying_triceps_extensions&quot;&gt;&lt;em&gt;lying triceps extensions&lt;/em&gt;&lt;/a&gt; using 10- or 15-pound dumbbells. After a few days of regularly exercising my triceps, I stopped being woken up at night due to tingling in my arms.&lt;/p&gt;
-
-&lt;p&gt;An alternative is &lt;a href=&quot;https://en.wikipedia.org/wiki/Lying_triceps_extensions#Triceps_extension_push-ups&quot;&gt;&lt;em&gt;triceps push-ups&lt;/em&gt;&lt;/a&gt;, which can be done without equipment. However, it can be to execute these with good form as a beginner.&lt;/p&gt;
-
-&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
-
-&lt;ul&gt;
-
-
-
-&lt;/ul&gt;
-
-&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
-
-&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
-&lt;script&gt;
-
-/**
- *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
- *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
-var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/numb-arms/&quot;;
-    this.page.identifier = &quot;numb-arms/&quot;;
-};
-
-(function() { // DON&apos;T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement(&apos;script&apos;);
-    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
-    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
-    (d.head || d.body).appendChild(s);
-})();
-&lt;/script&gt;
-
-&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
-
-</description>
-        <pubDate>Sun, 21 Nov 2021 00:00:00 -0600</pubDate>
-        <link>https://blog.waleedkhan.name/numb-arms/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/numb-arms/</guid>
-        
-        <category>health</category>
         
         
       </item>
