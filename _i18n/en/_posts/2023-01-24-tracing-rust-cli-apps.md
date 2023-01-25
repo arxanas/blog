@@ -2,6 +2,8 @@
 layout: post
 title: Using `tracing` with Rust CLI applications
 permalink: tracing-rust-cli-apps/
+translations:
+  pl: "/pl/śledzenie-aplikacji-rust-cli/"
 tags:
   - rust
   - software-engineering
