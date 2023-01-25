@@ -14,7 +14,9 @@ tags:
 
 > I see talk of tracing but mostly from a web perspective and I'm curious how the experience translates to a CLI. I am looking to adopt it in some smaller CLIs to get some experience to understand how it could possibly help cargo.
 
-I'm republishing my answer here.
+I'm republishing my answer here, in [bullet point form][on-bullet-points]:
+
+  [on-bullet-points]: {% permalink on-bullet-points %}
 
 ## For Cargo
 
