@@ -7,8 +7,6 @@ tags:
   - writing
 ---
 
-*This is a draft article. Your commentary is appreciated, but please don't disseminate this article widely yet.*
-
 In 1972[^1], the first "computer" was created. This has made a lot of people very angry and been widely regarded as a bad move.
 
 One of the original uses for "computers" was to write documents. They promised us a novel way to read and write documents: [*hypermedia*](https://en.wikipedia.org/wiki/Hypermedia). A brilliant, "nonlinear" presentation of information. We could write documents more like a *conversation*. We could embed references to other media, or take tangents and then return to the main topic, but only if the reader *wanted* to.
