@@ -7,8 +7,8 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 24 Jan 2023 19:13:59 -0600</pubDate>
-    <lastBuildDate>Tue, 24 Jan 2023 19:13:59 -0600</lastBuildDate>
+    <pubDate>Tue, 24 Jan 2023 19:19:36 -0600</pubDate>
+    <lastBuildDate>Tue, 24 Jan 2023 19:19:36 -0600</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
@@ -25,7 +25,7 @@ employers.</description>
   &lt;p&gt;I see talk of tracing but mostly from a web perspective and I’m curious how the experience translates to a CLI. I am looking to adopt it in some smaller CLIs to get some experience to understand how it could possibly help cargo.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;I’m republishing my answer here.&lt;/p&gt;
+&lt;p&gt;I’m republishing my answer here, in &lt;a href=&quot;/on-bullet-points/&quot;&gt;bullet point form&lt;/a&gt;:&lt;/p&gt;
 
 &lt;h2 id=&quot;for-cargo&quot;&gt;For Cargo&lt;/h2&gt;
 
@@ -719,9 +719,7 @@ var disqus_config = function () {
     
       <item>
         <title>On bullet points</title>
-        <description>&lt;p&gt;&lt;em&gt;This is a draft article. Your commentary is appreciated, but please don’t disseminate this article widely yet.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In 1972&lt;sup id=&quot;fnref:1&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, the first “computer” was created. This has made a lot of people very angry and been widely regarded as a bad move.&lt;/p&gt;
+        <description>&lt;p&gt;In 1972&lt;sup id=&quot;fnref:1&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, the first “computer” was created. This has made a lot of people very angry and been widely regarded as a bad move.&lt;/p&gt;
 
 &lt;p&gt;One of the original uses for “computers” was to write documents. They promised us a novel way to read and write documents: &lt;a href=&quot;https://en.wikipedia.org/wiki/Hypermedia&quot;&gt;&lt;em&gt;hypermedia&lt;/em&gt;&lt;/a&gt;. A brilliant, “nonlinear” presentation of information. We could write documents more like a &lt;em&gt;conversation&lt;/em&gt;. We could embed references to other media, or take tangents and then return to the main topic, but only if the reader &lt;em&gt;wanted&lt;/em&gt; to.&lt;/p&gt;
 
