@@ -7,9 +7,90 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/pl/</link>
     <atom:link href="https://blog.waleedkhan.name/pl/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 27 Jan 2023 15:08:22 -0600</pubDate>
-    <lastBuildDate>Fri, 27 Jan 2023 15:08:22 -0600</lastBuildDate>
+    <pubDate>Fri, 27 Jan 2023 16:19:19 -0600</pubDate>
+    <lastBuildDate>Fri, 27 Jan 2023 16:19:19 -0600</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
+    
+      <item>
+        <title>System kontroli wersja Yandex Arc</title>
+        <description>&lt;p&gt;&lt;em&gt;Docelowi odbiorcy: deweloperzy systemów kontroli źródła, tak jak Git i Mercurial.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Ostatnio był przeciek koda z &lt;a href=&quot;https://pl.wikipedia.org/wiki/Yandex&quot;&gt;Yandex&lt;/a&gt;. Ja nie spradzałem plików, ale temat właśnie przypomina nam, że Yandex utrzymuje swoje duże &lt;a href=&quot;https://monorepo.tools/&quot;&gt;monorepo&lt;/a&gt;, a nawet zbudował własny &lt;a href=&quot;https://pl.wikipedia.org/wiki/System_kontroli_wersji&quot;&gt;system kontroli źródła&lt;/a&gt; [ang. “source control system”], żeby sobie z tym radzić, o nazwie “Arc”.&lt;/p&gt;
+
+&lt;p&gt;Oryginalny artykuł z Yandex (2020): &lt;a href=&quot;https://habr.com/ru/company/yandex/blog/482926/&quot;&gt;https://habr.com/ru/company/yandex/blog/482926/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Krótkie notatki (pierwotnie opublikowane na &lt;a href=&quot;https://discord.com/channels/1042895022950994071/1042907270473850890/1068630001240514691&quot;&gt;Discordzie&lt;/a&gt;):&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Wydaje się, że jest oparty nad &lt;a href=&quot;https://subversion.apache.org/&quot;&gt;SVN&lt;/a&gt; na back-end.&lt;/li&gt;
+  &lt;li&gt;Prowadzają &lt;a href=&quot;https://trunkbaseddevelopment.com/&quot;&gt;trunk-based development&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;6 mln zatwierdzeń, 2 mln plików, 2TB rozmiar repo.&lt;/li&gt;
+  &lt;li&gt;Wypróbowali &lt;a href=&quot;https://www.mercurial-scm.org/&quot;&gt;Mercurial&lt;/a&gt;, ale nie rozwiązał problemów wydajności.&lt;/li&gt;
+  &lt;li&gt;Używają numery generacji [ang. “generation numbers”] do obliczania “merge-bases”.
+    &lt;ul&gt;
+      &lt;li&gt;Jest to teraz dostępne w Gitu poprzez &lt;a href=&quot;https://git-scm.com/docs/commit-graph&quot;&gt;mechanizm commit-graph&lt;/a&gt;.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Prawdopodobnie oparty nad Gitem do front-end UI, ale narzekają, że UI Gita jest zły, więc go ulepszają.&lt;/li&gt;
+  &lt;li&gt;Używany wewnętrznie przez 20% deweloperzy w momencie napisania.&lt;/li&gt;
+  &lt;li&gt;Ciężko używa &lt;a href=&quot;https://en.wikipedia.org/wiki/Virtual_file_system&quot;&gt;wirtualnego system plików&lt;/a&gt; [ang. “virtual filesystem”, “VFS”].
+    &lt;ul&gt;
+      &lt;li&gt;Używają &lt;a href=&quot;https://en.wikipedia.org/wiki/Filesystem_in_Userspace&quot;&gt;FUSE&lt;/a&gt; na macOS, chociaż wsparcie VFS’ów na macOS jest niestabilne w tym czasie; może zmienili od tamtego czasu?&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Używa &lt;a href=&quot;https://cloud.yandex.com/en/services/ydb&quot;&gt;Yandex Database&lt;/a&gt; (YDB) jako bazę danych na back-end, z jakimś narzędziem przekładania z SVN’a.&lt;/li&gt;
+  &lt;li&gt;W ramach systemu code review, zatwierdzenie Arc’a będzie przedkładane w zatwierdzenie SVN’a, w tym dodatkowe metadane z Arc’a.&lt;/li&gt;
+  &lt;li&gt;Niezauważalnie używa zatwierdzenia dla “working copy” aby przeprowadzać niektóre algorytmy, który zawierać “untracked” pliki, ponieważ zaopatrzywa VFS.
+    &lt;ul&gt;
+      &lt;li&gt;Wspomniałem o tym w kontekście &lt;a href=&quot;https://github.com/martinvonz/jj&quot;&gt;Jujutsu VCS&lt;/a&gt;.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;W sumie, nie wydaje mi się, że ma wiele do awansowania systemów kontroli wersji w porównaniu z dużymi firmami tech, takimi jak Google i Meta.&lt;/p&gt;
+
+&lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+
+&lt;/ul&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/pl/yandex-arc/&quot;;
+    this.page.identifier = &quot;yandex-arc/&quot;;
+};
+
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
+</description>
+        <pubDate>Fri, 27 Jan 2023 00:00:00 -0600</pubDate>
+        <link>https://blog.waleedkhan.name/pl/yandex-arc/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/pl/yandex-arc/</guid>
+        
+        <category>git</category>
+        
+        <category>software-engineering</category>
+        
+        
+      </item>
     
       <item>
         <title>Używanie `tracing` w aplikacji Rust CLI</title>

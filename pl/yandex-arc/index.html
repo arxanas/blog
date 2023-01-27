@@ -8,14 +8,12 @@
 
   
   
-    <title>Steno &amp; PL</title>
+    <title>System kontroli wersja Yandex Arc</title>
   
-  <meta name="description" content="This is a personal blog. Unless otherwise stated, the opinions
-expressed here are my own, and not those of my past or present
-employers.">
+  <meta name="description" content="Docelowi odbiorcy: deweloperzy systemów kontroli źródła, tak jak Git i Mercurial.">
 
   <link rel="stylesheet" href="/pl/css/main.css">
-  <link rel="canonical" href="https://blog.waleedkhan.name/pl/">
+  <link rel="canonical" href="https://blog.waleedkhan.name/pl/yandex-arc/">
   <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/pl/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
 </head>
@@ -52,117 +50,99 @@ employers.">
 
     <div class="page-content">
       <div class="wrapper">
-        <div class="home">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
-  <h1 class="page-heading">Posts</h1>
-
-  <ul class="post-list">
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">System kontroli wersja Yandex Arc</h1>
+    <p class="post-meta"><time datetime="2023-01-27T00:00:00-06:00" itemprop="datePublished">Jan 27, 2023</time>
     
+      <span class="post-meta">
+        <br />
+        
+        <a href="/yandex-arc/">Read in English 🇺🇸</a>
       
-        <li>
-          <h2>
-            <a class="post-link" href="/pl/yandex-arc/">System kontroli wersja Yandex Arc</a>
-          </h2>
-
-          <span class="post-meta">Jan 27, 2023
-            
-              <span class="post-tag">git</span>
-            
-              <span class="post-tag">software-engineering</span>
-            
-          </span>
-
-          
-            <br />
-            <span class="post-meta">
-              
-              <a href="/yandex-arc/">Read in English 🇺🇸</a>
-              
-            </span>
-          
-        </li>
-      
+      </span>
     
-      
-        <li>
-          <h2>
-            <a class="post-link" href="/pl/śledzenie-aplikacji-rust-cli/">Używanie `tracing` w aplikacji Rust CLI</a>
-          </h2>
-
-          <span class="post-meta">Jan 25, 2023
-            
-              <span class="post-tag">rust</span>
-            
-              <span class="post-tag">software-engineering</span>
-            
-          </span>
-
-          
-            <br />
-            <span class="post-meta">
-              
-              <a href="/tracing-rust-cli-apps/">Read in English 🇺🇸</a>
-              
-            </span>
-          
-        </li>
-      
+    </p>
     
-      
-        <li>
-          <h2>
-            <a class="post-link" href="/pl/interaktywne-blogi/">Interaktywne blogi</a>
-          </h2>
+<p><i>Nie mowię po polsku w ojczystym języku. Jak zobaczysz coś złego, niezależnie od tego, czy chodzi o pisownię, gramatykę, czy dobór słow, skomentuj to!</i></p>
 
-          <span class="post-meta">Jan 11, 2023
-            
-              <span class="post-tag">rant</span>
-            
-              <span class="post-tag">writing</span>
-            
-          </span>
 
-          
-            <br />
-            <span class="post-meta">
-              
-              <a href="/interactive-blogs/">Read in English 🇺🇸</a>
-              
-            </span>
-          
-        </li>
-      
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
     
-      
-        <li>
-          <h2>
-            <a class="post-link" href="/pl/git-ui-funkcji/">Gdzie są moje funkcji Git’a z przyszłości?</a>
-          </h2>
+    <p><em>Docelowi odbiorcy: deweloperzy systemów kontroli źródła, tak jak Git i Mercurial.</em></p>
 
-          <span class="post-meta">Jan 5, 2023
-            
-              <span class="post-tag">git</span>
-            
-              <span class="post-tag">rant</span>
-            
-              <span class="post-tag">software-engineering</span>
-            
-          </span>
+<p>Ostatnio był przeciek koda z <a href="https://pl.wikipedia.org/wiki/Yandex">Yandex</a>. Ja nie spradzałem plików, ale temat właśnie przypomina nam, że Yandex utrzymuje swoje duże <a href="https://monorepo.tools/">monorepo</a>, a nawet zbudował własny <a href="https://pl.wikipedia.org/wiki/System_kontroli_wersji">system kontroli źródła</a> [ang. “source control system”], żeby sobie z tym radzić, o nazwie “Arc”.</p>
 
-          
-            <br />
-            <span class="post-meta">
-              
-              <a href="/git-ui-features/">Read in English 🇺🇸</a>
-              
-            </span>
-          
-        </li>
-      
-    
-  </ul>
+<p>Oryginalny artykuł z Yandex (2020): <a href="https://habr.com/ru/company/yandex/blog/482926/">https://habr.com/ru/company/yandex/blog/482926/</a></p>
 
-</div>
+<p>Krótkie notatki (pierwotnie opublikowane na <a href="https://discord.com/channels/1042895022950994071/1042907270473850890/1068630001240514691">Discordzie</a>):</p>
+
+<ul>
+  <li>Wydaje się, że jest oparty nad <a href="https://subversion.apache.org/">SVN</a> na back-end.</li>
+  <li>Prowadzają <a href="https://trunkbaseddevelopment.com/">trunk-based development</a>.</li>
+  <li>6 mln zatwierdzeń, 2 mln plików, 2TB rozmiar repo.</li>
+  <li>Wypróbowali <a href="https://www.mercurial-scm.org/">Mercurial</a>, ale nie rozwiązał problemów wydajności.</li>
+  <li>Używają numery generacji [ang. “generation numbers”] do obliczania “merge-bases”.
+    <ul>
+      <li>Jest to teraz dostępne w Gitu poprzez <a href="https://git-scm.com/docs/commit-graph">mechanizm commit-graph</a>.</li>
+    </ul>
+  </li>
+  <li>Prawdopodobnie oparty nad Gitem do front-end UI, ale narzekają, że UI Gita jest zły, więc go ulepszają.</li>
+  <li>Używany wewnętrznie przez 20% deweloperzy w momencie napisania.</li>
+  <li>Ciężko używa <a href="https://en.wikipedia.org/wiki/Virtual_file_system">wirtualnego system plików</a> [ang. “virtual filesystem”, “VFS”].
+    <ul>
+      <li>Używają <a href="https://en.wikipedia.org/wiki/Filesystem_in_Userspace">FUSE</a> na macOS, chociaż wsparcie VFS’ów na macOS jest niestabilne w tym czasie; może zmienili od tamtego czasu?</li>
+    </ul>
+  </li>
+  <li>Używa <a href="https://cloud.yandex.com/en/services/ydb">Yandex Database</a> (YDB) jako bazę danych na back-end, z jakimś narzędziem przekładania z SVN’a.</li>
+  <li>W ramach systemu code review, zatwierdzenie Arc’a będzie przedkładane w zatwierdzenie SVN’a, w tym dodatkowe metadane z Arc’a.</li>
+  <li>Niezauważalnie używa zatwierdzenia dla “working copy” aby przeprowadzać niektóre algorytmy, który zawierać “untracked” pliki, ponieważ zaopatrzywa VFS.
+    <ul>
+      <li>Wspomniałem o tym w kontekście <a href="https://github.com/martinvonz/jj">Jujutsu VCS</a>.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>W sumie, nie wydaje mi się, że ma wiele do awansowania systemów kontroli wersji w porównaniu z dużymi firmami tech, takimi jak Google i Meta.</p>
+
+<h2 id="komentarze">Komentarze</h2>
+
+<ul>
+
+
+
+</ul>
+
+<script type="text/javascript" src="/scripts/github-comment-links.js"></script>
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = "https://blog.waleedkhan.name/pl/yandex-arc/";
+    this.page.identifier = "yandex-arc/";
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//waleedkhan-name.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  </div>
+
+</article>
 
       </div>
     </div>
