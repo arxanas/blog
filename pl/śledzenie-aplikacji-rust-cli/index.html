@@ -75,7 +75,7 @@
     <ul id="markdown-toc">
   <li><a href="#dla-cargo" id="markdown-toc-dla-cargo">Dla Cargo</a></li>
   <li><a href="#pełne-notatki" id="markdown-toc-pełne-notatki">Pełne notatki</a></li>
-  <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
+  <li><a href="#komentarze" id="markdown-toc-komentarze">Komentarze</a></li>
 </ul>
 
 <p><a href="https://github.com/epage">@epage</a> w <a href="https://github.com/arxanas/git-branchless/discussions/732">https://github.com/arxanas/git-branchless/discussions/732</a> zapytał:</p>
@@ -89,30 +89,30 @@
 <p>W przypadku Cargo chciałbym podkreślić następujące punkty:</p>
 
 <ul>
-  <li>Zachęca do robienia właściwych rzeczy za pomocą makr ustrukturyzowanego rejestrowania [ang. “macros for structured logging”]. Dodatkowe obliczenia nie są przeprowadzane, jeśli nie zostaną używane przez subskrybenta, co w przeciwnym razie mogłoby spowodować regres wydajności.</li>
+  <li>Zachęca do robienia właściwych rzeczy za pomocą makr do ustrukturyzowanego logowania [ang. “structured logging”]. Dodatkowe obliczenia nie są przeprowadzane, jeśli nie zostaną używane przez subskrybenta, co w przeciwnym razie mogłoby spowodować regres wydajności.</li>
   <li>Śledzenie “spantraces” w celu profilowania jest niewygodne, ponieważ trzeba ręcznie dodawać adnotacje do każdej funkcji, która ma być śledzona. Nie wiem, czy można to poprawić za pomocą “stack traces”.</li>
-  <li>Można łatwo wysyłać dane do wielu różnych subskrybentów, w tym do niestandardowych (…jeśli wiesz, jakie funkcje wywołać). Na przykład, <code class="language-plaintext highlighter-rouge">tracing_subscriber::fmt_layer::Layer::with_writer</code> pozwala ci zbudować warstwę, która zużywa sformatowane informacje rejestrowania i zapisuje je w dowolnym miejscu.
+  <li>Można łatwo wysyłać dane do wielu różnych subskrybentów, w tym do niestandardowych (…jeśli wiadomo, jakie funkcje wywołać). Na przykład, <code class="language-plaintext highlighter-rouge">tracing_subscriber::fmt_layer::Layer::with_writer</code> pozwala zbudować warstwę, która zużywa sformatowane informacje logowania i zapisuje je w dowolnym miejscu.
     <ul>
       <li>Można używać gotowych komponentów, takich jak subskrybent śledzenia Chrome [ang. “Chrome tracing”, jakaś].</li>
     </ul>
   </li>
   <li>Ktoś może to skonfigurować raz, a inni nie muszą się tym zbytnio przejmować.</li>
-  <li>Dla mnie profilowanie było bardzo skuteczne.</li>
+  <li>Dla mnie, profilowanie okazało się bardzo skuteczne.</li>
 </ul>
 
 <h2 id="pełne-notatki">Pełne notatki</h2>
 
 <ul>
-  <li>Przez używanie <code class="language-plaintext highlighter-rouge">eyre</code>/<code class="language-plaintext highlighter-rouge">color_eyre</code> można dołączyć parametry funkcji do “spantraces”. Jest to dość cenne podczas debugowania, ponieważ widzę m.in. OID zatwierdzenia [ang. “commit OID”] w “spantrace” dla zatwierdzenia, które powoduje problemy, bez konieczności ręcznego wyodrębniania go przez dodanie większej liczby rejestrów.</li>
+  <li>Przez używanie <code class="language-plaintext highlighter-rouge">eyre</code>/<code class="language-plaintext highlighter-rouge">color_eyre</code> można dołączyć parametry funkcji do “spantraces”. Jest to dość cenne podczas debugowania, ponieważ widzę m.in. OID zatwierdzenia [ang. “commit OID”] w “spantrace” dla zatwierdzenia, które powoduje problemy, bez konieczności ręcznego wyodrębniania go przez dodanie większej liczby logów.</li>
   <li>Konfigurowanie <code class="language-plaintext highlighter-rouge">tracing</code> po raz pierwszy jest uciążliwe, ale po tym w dużej mierze nie musisz go dotykać.
     <ul>
       <li>Oto moja funkcja, która to robi: <a href="https://github.com/arxanas/git-branchless/blob/4b76af669258e80a6f6eb4ddf45bbb358da80248/git-branchless/src/commands/mod.rs#L437">https://github.com/arxanas/git-branchless/blob/4b76af669258e80a6f6eb4ddf45bbb358da80248/git-branchless/src/commands/mod.rs#L437</a></li>
-      <li>Z powodzeniem skonfigurowałem instrukcje rejestrowania do drukowania za pomocą mojego własnego typu (<code class="language-plaintext highlighter-rouge">Effects</code>), zamiast drukowania bezpośrednio na stdout/stderr, ponieważ może to blokować liczniki postępu [ang. “progress meters”] lub inne interaktywne dane wyjście.</li>
+      <li>Z powodzeniem skonfigurowałem instrukcje logowania do drukowania za pomocą mojego własnego typu (<code class="language-plaintext highlighter-rouge">Effects</code>), zamiast drukowania bezpośrednio na stdout/stderr, ponieważ może to blokować liczniki postępu [ang. “progress meters”] lub inne interaktywnie dane wyjście.</li>
       <li>Skonfigurowałem go tak, że podprocesy nie zostaną zawarte w śledzeniu nadrzędnym; otrzymują własne pliki wyjściowe. Szczerze mówiąc, nie sądzę, żebym musiał badać śledzenie podprocesów.</li>
       <li>Kiedyś było to mniej ergonomiczne, ale ostatnio ulepszyli coś związanego z kompozycją warstw, na przykład filtrowanie jednej warstwy na podstawie innej warstwy; zobacz <a href="https://github.com/arxanas/git-branchless/commit/5428f1b9dbed356accf854774cad053c22d19b1f">https://github.com/arxanas/git-branchless/commit/5428f1b9dbed356accf854774cad053c22d19b1f</a></li>
-      <li>Niektóre komunikaty o błędach dotyczące kompozycji warstw mogą być nieczytelne z powodu domyślnego używania polimorfizmu statycznego. Na przykład trudno jest warunkowo skonstruować warstwę do włączenia. Typy stają się bardzo długimi łańcuchami [ang. “chain”] zagnieżdżonych parametrów typu ogólnego [ang. “generic type parameters”].
+      <li>Niektóre komunikaty o błędach dotyczące kompozycji warstw mogą być nieczytelne z powodu domyślnego użycia polimorfizmu statycznego. Na przykład trudno jest warunkowo skonstruować warstwę do włączenia. Typy stają się bardzo długimi łańcuchami zagnieżdżonych parametrów typu ogólnego [ang. “generic type parameters”].
         <ul>
-          <li>Na szczęście <code class="language-plaintext highlighter-rouge">Option&amp;lt;Layer&gt;</code> jest również warstwą, więc możesz przekazać <code class="language-plaintext highlighter-rouge">Some(layer)</code> lub <code class="language-plaintext highlighter-rouge">None</code> w zależności od stosownego warunku, zamiast próbować bezpośrednio wywoływać metody rejestru.</li>
+          <li>Na szczęście <code class="language-plaintext highlighter-rouge">Option&lt;Layer&gt;</code> jest również warstwą, więc możesz przekazać <code class="language-plaintext highlighter-rouge">Some(layer)</code> lub <code class="language-plaintext highlighter-rouge">None</code> w zależności od stosownego warunku, zamiast próbować bezpośrednio wywoływać metody rejestru.</li>
         </ul>
       </li>
     </ul>
@@ -120,25 +120,25 @@
   <li>Makro <code class="language-plaintext highlighter-rouge">#[instrument]</code> to jedyny realistyczny sposób dołączania funkcji do “spantraces” dla <code class="language-plaintext highlighter-rouge">eyre</code>/<code class="language-plaintext highlighter-rouge">color_eyre</code>.
     <ul>
       <li>Niszczy to autopoprawki [ang. “autofixes”, tak jak w IDE] (prawdopodobnie należy to uznać za błąd w <code class="language-plaintext highlighter-rouge">rust-analyzer</code>).</li>
-      <li>Może to zniszczyć lokalizacje błędów, ponieważ czasami błąd jest przypisywany do funkcji jako całości, a nie do konkretnej linii.</li>
-      <li>Może to wydłużyć czas kompilacji, ponieważ jest to makro proceduralne [ang. “procedural macro”, <a href="https://doc.rust-lang.org/reference/procedural-macros.html">pojęcia z Rust’a</a>]. Jak być może wiesz, procedury makr proceduralnych, takie jak <code class="language-plaintext highlighter-rouge">syn</code> [ang. <a href="https://crates.io/crates/syn">Rust crate zwany “syn”</a>, nie ma czegoś wspólnego z słowem “syn”], zwykle znajdują się na ścieżce krytycznej [ang. “critical path”] kompilacji, ale jeśli zobowiążesz się w ogóle nie używać makr proceduralnych, możesz je pominąć.</li>
+      <li>Może to wymazać lokalizację błędów, ponieważ czasami błąd jest przypisywany do funkcji jako całości, a nie do konkretnej linii.</li>
+      <li>Może to wydłużyć czas kompilacji, ponieważ jest to makro proceduralne [ang. “procedural macro”, <a href="https://doc.rust-lang.org/reference/procedural-macros.html">pojęcia z Rusta</a>]. Jak być może wiesz, procedury makr proceduralnych, takie jak <code class="language-plaintext highlighter-rouge">syn</code> [ang. <a href="https://crates.io/crates/syn">Rust crate zwany “syn”</a>, nie ma czegoś wspólnego z słowem “syn”], zwykle znajdują się na ścieżce krytycznej [ang. “critical path”] kompilacji, ale jeśli zobowiążesz się w ogóle nie używać makr proceduralnych, możesz je pominąć.</li>
     </ul>
   </li>
   <li>Profilowanie poprzez zrzut do warstwy śledzenia Chrome jest skuteczne.
     <ul>
-      <li>Zobacz <a href="https://github.com/arxanas/git-branchless/wiki/Runbook#profiling">https://github.com/arxanas/git-branchless/wiki/Runbook#profiling</a>, aby uzyskać szczegółowe informacje na temat procedur profilowania.</li>
+      <li>Spójrz na <a href="https://github.com/arxanas/git-branchless/wiki/Runbook#profiling">https://github.com/arxanas/git-branchless/wiki/Runbook#profiling</a>, aby uzyskać szczegółowe informacje na temat procedur profilowania.</li>
       <li>Wielokrotnie korzystałem z tego systemu do debugowania problemów/regresji w związku wydajnością. Istniejące wizualizatory śledzenia Chrome są całkiem przydatne do analizy podziału spędzonego czasu.</li>
       <li>Zawarcie parametrów funkcji było wyjątkowo przydatne, ponieważ mogłem bezpośrednio zobaczyć wycinek danych wyjściowych profilowania, który trwał zbyt długo, i sprawdzić odpowiedni OID zatwierdzenia, dzięki czemu mogłem zbadać i przetestować to konkretne zatwierdzenie.</li>
     </ul>
   </li>
   <li>Spróbowałem użyć śledzenia jako danych wejściowych do mojego własnego systemu raportowania postępów (tak, aby wywołania funkcji były bezpośrednio powiązane z paskami postępu, które pojawiają się na ekranie). Było to możliwe, ale ostatecznie zrezygnowałem z tego podejścia, ponieważ operacje logiczne nie odpowiadały dokładnie jeden do jednego wywołaniom funkcji, a zbyt łatwo było zapomnieć o poprawnym opatrzeniu metodą adnotacją.</li>
   <li>W ogóle nie próbowałem śledzenia z async/.await.</li>
-  <li>W ogóle nie próbowałem <a href="https://github.com/tokio-rs/console">https://github.com/tokio-rs/console</a>, ale chciałbym wiedzieć, czy jest to dla ciebie przydatne.</li>
-  <li>Logowanie strukturalne jest świetne.
+  <li>W ogóle nie próbowałem <a href="https://github.com/tokio-rs/console">https://github.com/tokio-rs/console</a>, ale chciałbym wiedzieć, czy jest to dla Was przydatne.</li>
+  <li>Ustrukturyzowane logowanie jest świetne.
     <ul>
-      <li>Samo użycie makr ustrukturyzowanego rejestrowania z reprezentacjami debugowania (np. <code class="language-plaintext highlighter-rouge">warn(?var, "Message")</code>) jest znacznie bardziej ergonomiczne niż ręczne interpolowanie wartości do sznurów.</li>
-      <li>Obsługuje również takie rzeczy, jak renderowanie znaków niedrukowalnych, gdzie wcześniej musiałbym uważać, aby uwzględnić wartości sznurów w cudzysłowach itp.</li>
-      <li>Zasadniczo można zobaczyć te zdarzenia i ich wartości w wynikach profilowania, chociaż nie musiałem profilować na podstawie pojedynczych zdarzeń, tylko na podstawie rozpiętości.</li>
+      <li>Samo użycie makr ustrukturyzowanego logowania z reprezentacjami debugowania (np. <code class="language-plaintext highlighter-rouge">warn(?var, "Message")</code>) jest znacznie bardziej ergonomiczne niż ręczne interpolowanie wartości do stringów.</li>
+      <li>Obsługuje również takie rzeczy, jak renderowanie znaków niedrukowalnych, gdzie wcześniej musiałbym uważać, aby uwzględnić wartości stringów w cudzysłowach itp.</li>
+      <li>Zasadniczo można zobaczyć te zdarzenia i ich wartości w wynikach profilowania, chociaż nie musiałem profilować na podstawie pojedynczych zdarzeń, tylko na podstawie całego zakresu.</li>
       <li>Jest to bardziej wydajne, ponieważ nie będziemy budować sznurów, jeśli wartości nie zostaną zużyte przez żadnego subskrybenta w czasie wykonywania.</li>
     </ul>
   </li>
@@ -149,7 +149,7 @@
   </li>
 </ul>
 
-<h2 id="comments">Comments</h2>
+<h2 id="komentarze">Komentarze</h2>
 
 <ul>
 

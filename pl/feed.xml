@@ -7,8 +7,8 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/pl/</link>
     <atom:link href="https://blog.waleedkhan.name/pl/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 25 Jan 2023 16:29:47 -0600</pubDate>
-    <lastBuildDate>Wed, 25 Jan 2023 16:29:47 -0600</lastBuildDate>
+    <pubDate>Fri, 27 Jan 2023 15:08:22 -0600</pubDate>
+    <lastBuildDate>Fri, 27 Jan 2023 15:08:22 -0600</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
@@ -16,7 +16,7 @@ employers.</description>
         <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
   &lt;li&gt;&lt;a href=&quot;#dla-cargo&quot; id=&quot;markdown-toc-dla-cargo&quot;&gt;Dla Cargo&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#pełne-notatki&quot; id=&quot;markdown-toc-pełne-notatki&quot;&gt;Pełne notatki&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#komentarze&quot; id=&quot;markdown-toc-komentarze&quot;&gt;Komentarze&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://github.com/epage&quot;&gt;@epage&lt;/a&gt; w &lt;a href=&quot;https://github.com/arxanas/git-branchless/discussions/732&quot;&gt;https://github.com/arxanas/git-branchless/discussions/732&lt;/a&gt; zapytał:&lt;/p&gt;
@@ -30,30 +30,30 @@ employers.</description>
 &lt;p&gt;W przypadku Cargo chciałbym podkreślić następujące punkty:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;Zachęca do robienia właściwych rzeczy za pomocą makr ustrukturyzowanego rejestrowania [ang. “macros for structured logging”]. Dodatkowe obliczenia nie są przeprowadzane, jeśli nie zostaną używane przez subskrybenta, co w przeciwnym razie mogłoby spowodować regres wydajności.&lt;/li&gt;
+  &lt;li&gt;Zachęca do robienia właściwych rzeczy za pomocą makr do ustrukturyzowanego logowania [ang. “structured logging”]. Dodatkowe obliczenia nie są przeprowadzane, jeśli nie zostaną używane przez subskrybenta, co w przeciwnym razie mogłoby spowodować regres wydajności.&lt;/li&gt;
   &lt;li&gt;Śledzenie “spantraces” w celu profilowania jest niewygodne, ponieważ trzeba ręcznie dodawać adnotacje do każdej funkcji, która ma być śledzona. Nie wiem, czy można to poprawić za pomocą “stack traces”.&lt;/li&gt;
-  &lt;li&gt;Można łatwo wysyłać dane do wielu różnych subskrybentów, w tym do niestandardowych (…jeśli wiesz, jakie funkcje wywołać). Na przykład, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tracing_subscriber::fmt_layer::Layer::with_writer&lt;/code&gt; pozwala ci zbudować warstwę, która zużywa sformatowane informacje rejestrowania i zapisuje je w dowolnym miejscu.
+  &lt;li&gt;Można łatwo wysyłać dane do wielu różnych subskrybentów, w tym do niestandardowych (…jeśli wiadomo, jakie funkcje wywołać). Na przykład, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tracing_subscriber::fmt_layer::Layer::with_writer&lt;/code&gt; pozwala zbudować warstwę, która zużywa sformatowane informacje logowania i zapisuje je w dowolnym miejscu.
     &lt;ul&gt;
       &lt;li&gt;Można używać gotowych komponentów, takich jak subskrybent śledzenia Chrome [ang. “Chrome tracing”, jakaś].&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;Ktoś może to skonfigurować raz, a inni nie muszą się tym zbytnio przejmować.&lt;/li&gt;
-  &lt;li&gt;Dla mnie profilowanie było bardzo skuteczne.&lt;/li&gt;
+  &lt;li&gt;Dla mnie, profilowanie okazało się bardzo skuteczne.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;pełne-notatki&quot;&gt;Pełne notatki&lt;/h2&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;Przez używanie &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;eyre&lt;/code&gt;/&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;color_eyre&lt;/code&gt; można dołączyć parametry funkcji do “spantraces”. Jest to dość cenne podczas debugowania, ponieważ widzę m.in. OID zatwierdzenia [ang. “commit OID”] w “spantrace” dla zatwierdzenia, które powoduje problemy, bez konieczności ręcznego wyodrębniania go przez dodanie większej liczby rejestrów.&lt;/li&gt;
+  &lt;li&gt;Przez używanie &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;eyre&lt;/code&gt;/&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;color_eyre&lt;/code&gt; można dołączyć parametry funkcji do “spantraces”. Jest to dość cenne podczas debugowania, ponieważ widzę m.in. OID zatwierdzenia [ang. “commit OID”] w “spantrace” dla zatwierdzenia, które powoduje problemy, bez konieczności ręcznego wyodrębniania go przez dodanie większej liczby logów.&lt;/li&gt;
   &lt;li&gt;Konfigurowanie &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tracing&lt;/code&gt; po raz pierwszy jest uciążliwe, ale po tym w dużej mierze nie musisz go dotykać.
     &lt;ul&gt;
       &lt;li&gt;Oto moja funkcja, która to robi: &lt;a href=&quot;https://github.com/arxanas/git-branchless/blob/4b76af669258e80a6f6eb4ddf45bbb358da80248/git-branchless/src/commands/mod.rs#L437&quot;&gt;https://github.com/arxanas/git-branchless/blob/4b76af669258e80a6f6eb4ddf45bbb358da80248/git-branchless/src/commands/mod.rs#L437&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;Z powodzeniem skonfigurowałem instrukcje rejestrowania do drukowania za pomocą mojego własnego typu (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Effects&lt;/code&gt;), zamiast drukowania bezpośrednio na stdout/stderr, ponieważ może to blokować liczniki postępu [ang. “progress meters”] lub inne interaktywne dane wyjście.&lt;/li&gt;
+      &lt;li&gt;Z powodzeniem skonfigurowałem instrukcje logowania do drukowania za pomocą mojego własnego typu (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Effects&lt;/code&gt;), zamiast drukowania bezpośrednio na stdout/stderr, ponieważ może to blokować liczniki postępu [ang. “progress meters”] lub inne interaktywnie dane wyjście.&lt;/li&gt;
       &lt;li&gt;Skonfigurowałem go tak, że podprocesy nie zostaną zawarte w śledzeniu nadrzędnym; otrzymują własne pliki wyjściowe. Szczerze mówiąc, nie sądzę, żebym musiał badać śledzenie podprocesów.&lt;/li&gt;
       &lt;li&gt;Kiedyś było to mniej ergonomiczne, ale ostatnio ulepszyli coś związanego z kompozycją warstw, na przykład filtrowanie jednej warstwy na podstawie innej warstwy; zobacz &lt;a href=&quot;https://github.com/arxanas/git-branchless/commit/5428f1b9dbed356accf854774cad053c22d19b1f&quot;&gt;https://github.com/arxanas/git-branchless/commit/5428f1b9dbed356accf854774cad053c22d19b1f&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;Niektóre komunikaty o błędach dotyczące kompozycji warstw mogą być nieczytelne z powodu domyślnego używania polimorfizmu statycznego. Na przykład trudno jest warunkowo skonstruować warstwę do włączenia. Typy stają się bardzo długimi łańcuchami [ang. “chain”] zagnieżdżonych parametrów typu ogólnego [ang. “generic type parameters”].
+      &lt;li&gt;Niektóre komunikaty o błędach dotyczące kompozycji warstw mogą być nieczytelne z powodu domyślnego użycia polimorfizmu statycznego. Na przykład trudno jest warunkowo skonstruować warstwę do włączenia. Typy stają się bardzo długimi łańcuchami zagnieżdżonych parametrów typu ogólnego [ang. “generic type parameters”].
         &lt;ul&gt;
-          &lt;li&gt;Na szczęście &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Option&amp;amp;lt;Layer&amp;gt;&lt;/code&gt; jest również warstwą, więc możesz przekazać &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Some(layer)&lt;/code&gt; lub &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;None&lt;/code&gt; w zależności od stosownego warunku, zamiast próbować bezpośrednio wywoływać metody rejestru.&lt;/li&gt;
+          &lt;li&gt;Na szczęście &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Option&amp;lt;Layer&amp;gt;&lt;/code&gt; jest również warstwą, więc możesz przekazać &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Some(layer)&lt;/code&gt; lub &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;None&lt;/code&gt; w zależności od stosownego warunku, zamiast próbować bezpośrednio wywoływać metody rejestru.&lt;/li&gt;
         &lt;/ul&gt;
       &lt;/li&gt;
     &lt;/ul&gt;
@@ -61,25 +61,25 @@ employers.</description>
   &lt;li&gt;Makro &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;#[instrument]&lt;/code&gt; to jedyny realistyczny sposób dołączania funkcji do “spantraces” dla &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;eyre&lt;/code&gt;/&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;color_eyre&lt;/code&gt;.
     &lt;ul&gt;
       &lt;li&gt;Niszczy to autopoprawki [ang. “autofixes”, tak jak w IDE] (prawdopodobnie należy to uznać za błąd w &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rust-analyzer&lt;/code&gt;).&lt;/li&gt;
-      &lt;li&gt;Może to zniszczyć lokalizacje błędów, ponieważ czasami błąd jest przypisywany do funkcji jako całości, a nie do konkretnej linii.&lt;/li&gt;
-      &lt;li&gt;Może to wydłużyć czas kompilacji, ponieważ jest to makro proceduralne [ang. “procedural macro”, &lt;a href=&quot;https://doc.rust-lang.org/reference/procedural-macros.html&quot;&gt;pojęcia z Rust’a&lt;/a&gt;]. Jak być może wiesz, procedury makr proceduralnych, takie jak &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;syn&lt;/code&gt; [ang. &lt;a href=&quot;https://crates.io/crates/syn&quot;&gt;Rust crate zwany “syn”&lt;/a&gt;, nie ma czegoś wspólnego z słowem “syn”], zwykle znajdują się na ścieżce krytycznej [ang. “critical path”] kompilacji, ale jeśli zobowiążesz się w ogóle nie używać makr proceduralnych, możesz je pominąć.&lt;/li&gt;
+      &lt;li&gt;Może to wymazać lokalizację błędów, ponieważ czasami błąd jest przypisywany do funkcji jako całości, a nie do konkretnej linii.&lt;/li&gt;
+      &lt;li&gt;Może to wydłużyć czas kompilacji, ponieważ jest to makro proceduralne [ang. “procedural macro”, &lt;a href=&quot;https://doc.rust-lang.org/reference/procedural-macros.html&quot;&gt;pojęcia z Rusta&lt;/a&gt;]. Jak być może wiesz, procedury makr proceduralnych, takie jak &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;syn&lt;/code&gt; [ang. &lt;a href=&quot;https://crates.io/crates/syn&quot;&gt;Rust crate zwany “syn”&lt;/a&gt;, nie ma czegoś wspólnego z słowem “syn”], zwykle znajdują się na ścieżce krytycznej [ang. “critical path”] kompilacji, ale jeśli zobowiążesz się w ogóle nie używać makr proceduralnych, możesz je pominąć.&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;Profilowanie poprzez zrzut do warstwy śledzenia Chrome jest skuteczne.
     &lt;ul&gt;
-      &lt;li&gt;Zobacz &lt;a href=&quot;https://github.com/arxanas/git-branchless/wiki/Runbook#profiling&quot;&gt;https://github.com/arxanas/git-branchless/wiki/Runbook#profiling&lt;/a&gt;, aby uzyskać szczegółowe informacje na temat procedur profilowania.&lt;/li&gt;
+      &lt;li&gt;Spójrz na &lt;a href=&quot;https://github.com/arxanas/git-branchless/wiki/Runbook#profiling&quot;&gt;https://github.com/arxanas/git-branchless/wiki/Runbook#profiling&lt;/a&gt;, aby uzyskać szczegółowe informacje na temat procedur profilowania.&lt;/li&gt;
       &lt;li&gt;Wielokrotnie korzystałem z tego systemu do debugowania problemów/regresji w związku wydajnością. Istniejące wizualizatory śledzenia Chrome są całkiem przydatne do analizy podziału spędzonego czasu.&lt;/li&gt;
       &lt;li&gt;Zawarcie parametrów funkcji było wyjątkowo przydatne, ponieważ mogłem bezpośrednio zobaczyć wycinek danych wyjściowych profilowania, który trwał zbyt długo, i sprawdzić odpowiedni OID zatwierdzenia, dzięki czemu mogłem zbadać i przetestować to konkretne zatwierdzenie.&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;Spróbowałem użyć śledzenia jako danych wejściowych do mojego własnego systemu raportowania postępów (tak, aby wywołania funkcji były bezpośrednio powiązane z paskami postępu, które pojawiają się na ekranie). Było to możliwe, ale ostatecznie zrezygnowałem z tego podejścia, ponieważ operacje logiczne nie odpowiadały dokładnie jeden do jednego wywołaniom funkcji, a zbyt łatwo było zapomnieć o poprawnym opatrzeniu metodą adnotacją.&lt;/li&gt;
   &lt;li&gt;W ogóle nie próbowałem śledzenia z async/.await.&lt;/li&gt;
-  &lt;li&gt;W ogóle nie próbowałem &lt;a href=&quot;https://github.com/tokio-rs/console&quot;&gt;https://github.com/tokio-rs/console&lt;/a&gt;, ale chciałbym wiedzieć, czy jest to dla ciebie przydatne.&lt;/li&gt;
-  &lt;li&gt;Logowanie strukturalne jest świetne.
+  &lt;li&gt;W ogóle nie próbowałem &lt;a href=&quot;https://github.com/tokio-rs/console&quot;&gt;https://github.com/tokio-rs/console&lt;/a&gt;, ale chciałbym wiedzieć, czy jest to dla Was przydatne.&lt;/li&gt;
+  &lt;li&gt;Ustrukturyzowane logowanie jest świetne.
     &lt;ul&gt;
-      &lt;li&gt;Samo użycie makr ustrukturyzowanego rejestrowania z reprezentacjami debugowania (np. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;warn(?var, &quot;Message&quot;)&lt;/code&gt;) jest znacznie bardziej ergonomiczne niż ręczne interpolowanie wartości do sznurów.&lt;/li&gt;
-      &lt;li&gt;Obsługuje również takie rzeczy, jak renderowanie znaków niedrukowalnych, gdzie wcześniej musiałbym uważać, aby uwzględnić wartości sznurów w cudzysłowach itp.&lt;/li&gt;
-      &lt;li&gt;Zasadniczo można zobaczyć te zdarzenia i ich wartości w wynikach profilowania, chociaż nie musiałem profilować na podstawie pojedynczych zdarzeń, tylko na podstawie rozpiętości.&lt;/li&gt;
+      &lt;li&gt;Samo użycie makr ustrukturyzowanego logowania z reprezentacjami debugowania (np. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;warn(?var, &quot;Message&quot;)&lt;/code&gt;) jest znacznie bardziej ergonomiczne niż ręczne interpolowanie wartości do stringów.&lt;/li&gt;
+      &lt;li&gt;Obsługuje również takie rzeczy, jak renderowanie znaków niedrukowalnych, gdzie wcześniej musiałbym uważać, aby uwzględnić wartości stringów w cudzysłowach itp.&lt;/li&gt;
+      &lt;li&gt;Zasadniczo można zobaczyć te zdarzenia i ich wartości w wynikach profilowania, chociaż nie musiałem profilować na podstawie pojedynczych zdarzeń, tylko na podstawie całego zakresu.&lt;/li&gt;
       &lt;li&gt;Jest to bardziej wydajne, ponieważ nie będziemy budować sznurów, jeśli wartości nie zostaną zużyte przez żadnego subskrybenta w czasie wykonywania.&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
@@ -90,7 +90,7 @@ employers.</description>
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+&lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
 &lt;ul&gt;
 
@@ -137,7 +137,7 @@ var disqus_config = function () {
         <title>Interaktywne blogi</title>
         <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
   &lt;li&gt;&lt;a href=&quot;#niech-żyje-ten-blog&quot; id=&quot;markdown-toc-niech-żyje-ten-blog&quot;&gt;Niech żyje ten blog&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#komentarze&quot; id=&quot;markdown-toc-komentarze&quot;&gt;Komentarze&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Dla mnie, najlepszym platformą na blogging jest &lt;a href=&quot;https://www.google.com/docs&quot;&gt;Google Docs&lt;/a&gt;, bo obsługuje poniższe:&lt;/p&gt;
@@ -261,7 +261,7 @@ var disqus_config = function () {
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+&lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
 &lt;ul&gt;
 
@@ -311,7 +311,7 @@ var disqus_config = function () {
   &lt;li&gt;&lt;a href=&quot;#rubryka&quot; id=&quot;markdown-toc-rubryka&quot;&gt;Rubryka&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#klienty&quot; id=&quot;markdown-toc-klienty&quot;&gt;Klienty&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#wyróżnienia&quot; id=&quot;markdown-toc-wyróżnienia&quot;&gt;Wyróżnienia&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#komentarze&quot; id=&quot;markdown-toc-komentarze&quot;&gt;Komentarze&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;git-jest-do-bani&quot;&gt;Git jest do bani&lt;/h2&gt;
@@ -598,7 +598,7 @@ th.rotate &gt; div &gt; span {
   &lt;li&gt;SmartGit: z braki we wszystkich testowanych kategoriach.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+&lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
 &lt;ul&gt;
 
