@@ -1,7 +1,13 @@
 {% if page.related_posts %}
+{% if site.lang == "pl" %}
+## Powiązane posty
+
+Poniżej znajduje się kilka ręcznie wybranych postów, które mogą Cię zainteresować.
+{% else %}
 ## Related posts
 
 The following are hand-curated posts which you might find interesting.
+{% endif %}
 
 <table class="related-posts">
 <thead>
@@ -28,10 +34,19 @@ The following are hand-curated posts which you might find interesting.
 </tbody>
 </table>
 
+{% if site.lang == "pl" %}
+Chcesz zobaczyć więcej moich postów? Obserwuj mnie <a href="https://twitter.com/arxanas">na Twitterze</a> albo subskrybuj <a href="{{ "/feed.xml" | prepend: site.baseurl }}">za pomocą RSS</a>.
+{% else %}
 Want to see more of my posts? Follow me <a href="https://twitter.com/arxanas">on Twitter</a> or subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a>.
 {% endif %}
 
+{% endif %}
+
+{% if site.lang == "pl" %}
+## Komentarze
+{% else %}
 ## Comments
+{% endif %}
 
 <ul>
 {% if page.hn %}
