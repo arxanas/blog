@@ -7,9 +7,202 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/pl/</link>
     <atom:link href="https://blog.waleedkhan.name/pl/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 27 Jan 2023 16:19:19 -0600</pubDate>
-    <lastBuildDate>Fri, 27 Jan 2023 16:19:19 -0600</lastBuildDate>
+    <pubDate>Tue, 07 Feb 2023 18:29:03 -0600</pubDate>
+    <lastBuildDate>Tue, 07 Feb 2023 18:29:03 -0600</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
+    
+      <item>
+        <title>Ulepszenie czasów in Rust</title>
+        <description>&lt;p&gt;&lt;em&gt;Docelowi odbiorcy: potencjalni i średnio-zaawansowani deweloperzy Rust, którzy martwią się wolnymi czasami kompilacji, ich skalą i praktykami zapobiegawczymi; zaawansowani deweloperzy Rust, którzy pomogą mi poprawić czas kompilacji.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Rust jest znany z wolnego czasu kompilacji. Spędziłem dużo czasu próbując poprawić przyrostowe czasy kompilacji testowania dla mojego projektu &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt; w &lt;a href=&quot;https://github.com/arxanas/git-branchless/pull/650&quot;&gt;https://github.com/arxanas/git-branchless/pull/650&lt;/a&gt;. Oto dyskusja wyników.&lt;/p&gt;
+
+&lt;h1 id=&quot;streszczenie-wykonawcze&quot;&gt;Streszczenie wykonawcze&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;“Przyrostowe testowania” odnosi się tylko do zmiany kodu testu integracyjnego i przebudowanie. Kod źródłowy pozostaje niezmienony.&lt;/li&gt;
+  &lt;li&gt;Ostatecznie udało mi się skrócić przyrostowy czas testowania z ~6.9sek do ~1.7sek (~4x). Inne sposoby na skrócenie czasu kompilacji przyniosły niewielką lub żadną poprawę.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;W celach informacyjnych, oto najlepsze artykuły dotyczące konceptualnego zrozumienia modelu kompilacji Rust i poprawy czasu kompilacji:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://matklad.github.io/2021/09/04/fast-rust-builds.html&quot;&gt;Fast Rust Builds&lt;/a&gt; (&lt;a href=&quot;https://matklad.github.io&quot;&gt;matklad.github.io&lt;/a&gt;, 2021)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://matklad.github.io/2021/05/31/how-to-test.html&quot;&gt;How to Test&lt;/a&gt; (&lt;a href=&quot;https://matklad.github.io&quot;&gt;matklad.github.io&lt;/a&gt;, 2021)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://fasterthanli.me/articles/why-is-my-rust-build-so-slow&quot;&gt;Why is my Rust build so slow?&lt;/a&gt; (&lt;a href=&quot;https://fasterthanli.me/&quot;&gt;fasterthanli.me&lt;/a&gt;, 2021)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://endler.dev/2020/rust-compile-times/&quot;&gt;Tips for Faster Rust Builds&lt;/a&gt; (&lt;a href=&quot;https://endler.dev&quot;&gt;endler.dev&lt;/a&gt;, 2020-2022)
+    &lt;ul&gt;
+      &lt;li&gt;W rzeczywistości, wówczas nie czytałem tego artykułu, ale przeczytałem kiedy napisałem ten artykuł.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;szczegóły-projektu&quot;&gt;Szczegóły projektu&lt;/h1&gt;
+
+&lt;p&gt;Oto jak duży był mój projekt &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt; przed pull request:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-branchless/src&lt;/code&gt;: 12060 linii.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-branchless/tests&lt;/code&gt;: 12897 linii.
+    &lt;ul&gt;
+      &lt;li&gt;Zauważ, że w dużej mierze opiera się na “snapshot testing”, więc większość tych linii kodu to “multiline string literals”.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-branchless-lib/src&lt;/code&gt;: 12406 linii.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Dopuszczalne są długie czasy kompilacji i łączenia [ang. “linking”], ale aby zoptymalizować sprzężenie zwrotnego programowania, potrzebuję szybkich czasów testowania. W szczególności chcę iterować nad pracowaniem pewnego testu. (&lt;a href=&quot;https://www.jetbrains.com/idea/&quot;&gt;IntelliJ&lt;/a&gt; ma fajną funkcję automatycznego ponownego uruchamiania danego testu, gdy występuje zmiana w kodu źródła ale trwanie zbyt długo ponownej kompilacji zmniejsza jej przydatność.)&lt;/p&gt;
+
+&lt;p&gt;Na początek zbudowanie binary &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;test_amend&lt;/code&gt; (który testuje subcommand &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;amend&lt;/code&gt;) po dodaniu pojedynczego komentarza do jego pliku testu (bez zmian w library!) wymaga ~6.9sek:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;hyperfine &lt;span class=&quot;nt&quot;&gt;--warmup&lt;/span&gt; 3 &lt;span class=&quot;nt&quot;&gt;--prepare&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;echo &quot;// @nocommit test&quot; &amp;gt;&amp;gt;git-branchless/tests/command/test_amend.rs&apos;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;cargo test --test mod --no-run&apos;&lt;/span&gt;   
+Benchmark 1: cargo &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--test&lt;/span&gt; mod &lt;span class=&quot;nt&quot;&gt;--no-run&lt;/span&gt;
+  Time &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;mean ± σ&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:      6.927 s ±  0.123 s    &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;User: 7.652 s, System: 1.738 s]
+  Range &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;min … max&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:    6.754 s …  7.161 s    10 runs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Tragedia! To nie duży projekt, a zmieniamy tylko testy, więc nie powinno to wymagać tak długiego czasu iteracji.&lt;/p&gt;
+
+&lt;h1 id=&quot;podzielenie-się-na-więcej-crates&quot;&gt;Podzielenie się na więcej crates&lt;/h1&gt;
+
+&lt;p&gt;W pull request wyodrębniłem do dodatkowych dziewięciu crates, co daje przyrostowy czas kompilacji testu wynoszący ~1.7sek (~4x poprawa).&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;hyperfine &lt;span class=&quot;nt&quot;&gt;--warmup&lt;/span&gt; 3 &lt;span class=&quot;nt&quot;&gt;--prepare&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;echo &quot;// @nocommit test&quot; &amp;gt;&amp;gt;git-branchless/tests/test_amend.rs&apos;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;cargo test --test test_amend --no-run&apos;&lt;/span&gt;   
+Benchmark 1: cargo &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--test&lt;/span&gt; test_amend &lt;span class=&quot;nt&quot;&gt;--no-run&lt;/span&gt;
+  Time &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;mean ± σ&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:  	1.771 s ±  0.012 s	&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;User: 1.471 s, System: 0.330 s]
+  Range &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;min … max&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:	1.750 s …  1.793 s	10 runs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Jeśli chodzi o poprawę relatywną, to znaczna, ale jeśli chodzi o poprawę absolutną, sądzę, że jest raczej słaba. Bym oczekiwał 100-200ms na parsing, macro expansion, typechecking, i code generation (bez optimacji) dla pliku tego rozmiaru (~1k linii, głownie długi wartości łańcuchowe).&lt;/p&gt;
+
+&lt;p&gt;Dodatkowe, dzielenie na wiele crates utrudnia rozpowszechnianie projektu za pośrednictwem &lt;a href=&quot;https://crates.io/&quot;&gt;crates.io&lt;/a&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Każdy crate wymaga indywidualnego publikowania na crates.io (nie można opublikować crate z zależnościami Git w crates.io).
+    &lt;ul&gt;
+      &lt;li&gt;Dlatego muszę zarządzać wersjami i licencji każdego crate.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Według mojej ankiety wśród użytkowników, większość moich użytkowników instaluje przez &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cargo&lt;/code&gt;. Na pytanie “Jak zainstalowałeś git-branchless?”, odpowiedzi są następujące (stan na ):
+    &lt;ul&gt;
+      &lt;li&gt;7/18 (38.9%): przez &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cargo install git-branchless&lt;/code&gt;.&lt;/li&gt;
+      &lt;li&gt;4/18 (22.2%): za pośrednictwem tradycyjnego systemowego menedżera pakietów.&lt;/li&gt;
+      &lt;li&gt;4/18 (22.2%): przez Nix lub NixOS&lt;/li&gt;
+      &lt;li&gt;2/18 (11.1%): klonując repozytorium i ręcznie budując i instalując.&lt;/li&gt;
+      &lt;li&gt;1/18 (5.6%): przez artefakt kompilacji z GitHub Actions&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Niestety, muszę publicznie udostępniać wewnętrzne moduły na crates.io tylko po to, aby uzyskać rozsądne czasy kompilacji.&lt;/p&gt;
+
+&lt;h1 id=&quot;czas-bez-operacji&quot;&gt;Czas bez operacji&lt;/h1&gt;
+
+&lt;p&gt;Wtedy, mierzę czas bez operacji [ang. “no-op”] na ~350ms dla mniejszej crate testowania z niewieloma zależności:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;hyperfine &lt;span class=&quot;nt&quot;&gt;--warmup&lt;/span&gt; 3 &lt;span class=&quot;s1&quot;&gt;&apos;cargo test -p git-branchless-test --no-run&apos;&lt;/span&gt; 		 
+Benchmark 1: cargo &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; git-branchless-test &lt;span class=&quot;nt&quot;&gt;--no-run&lt;/span&gt;
+  Time &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;mean ± σ&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:     344.2 ms ±   3.5 ms    &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;User: 246.2 ms, System: 91.9 ms]
+  Range &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;min … max&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:   340.4 ms … 351.0 ms    10 runs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;To jest nieoczekiwane. Spodziewałbym się, że czas na kompilację bez operacji będzie podobny do &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git status&lt;/code&gt;, może 15ms:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;hyperfine &lt;span class=&quot;nt&quot;&gt;--warmup&lt;/span&gt; 3 &lt;span class=&quot;s1&quot;&gt;&apos;git status&apos;&lt;/span&gt;
+Benchmark 1: git status
+  Time &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;mean ± σ&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: 	 13.5 ms ±   2.5 ms    &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;User: 4.9 ms, System: 6.1 ms]
+  Range &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;min … max&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:    11.1 ms …  24.7 ms    197 runs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Tu może być jakiś głębszy problem. Dokumentacji &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cargo nextest&lt;/code&gt; ostrzega, że niektóre systemy przeciw malware mogą wprowadzać sztuczne opóźnienie uruchamiania podczas sprawdzania plików wykonywalnych:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;A typical sign of this happening is even the simplest of tests in cargo nextest run taking more than 0.2 seconds.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Zgodnie z dokumentacją, oznaczyłem moje oprogramowanie terminala jako “Developer Tools” w systemie macOS, ale nie udało mi się skrócić czasu kompilacji bez operacji.&lt;/p&gt;
+
+&lt;h1 id=&quot;koniec-profilowania&quot;&gt;Koniec profilowania?&lt;/h1&gt;
+
+&lt;p&gt;Spróbowalem z subcommand crate, który niedawno stworzyłem bez dużo zaleźności:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;hyperfine &lt;span class=&quot;nt&quot;&gt;--warmup&lt;/span&gt; 3 &lt;span class=&quot;nt&quot;&gt;--prepare&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;echo &quot;// @nocommit test&quot; &amp;gt;&amp;gt;git-branchless-test/tests/test_test.rs&apos;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;cargo test -p git-branchless-test --no-run&apos;&lt;/span&gt;
+Benchmark 1: cargo &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; git-branchless-test &lt;span class=&quot;nt&quot;&gt;--no-run&lt;/span&gt;
+  Time &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;mean ± σ&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:  	1.855 s ±  0.034 s	&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;User: 1.476 s, System: 0.335 s]
+  Range &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;min … max&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:	1.831 s …  1.939 s	10 runs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Wykres czasu kompilacji według &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cargo build&lt;/code&gt; nie pomaga. Tylko pokazuje to, że budowany test wymaga 100% czasu:&lt;/p&gt;
+
+&lt;figure class=&quot;figure&quot;&gt;
+        &lt;a href=&quot;/assets/posts/rust-przyrostowe-czasy-testowania/cargo-timings-git-branchless-test-crate.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/assets/posts/rust-przyrostowe-czasy-testowania/cargo-timings-git-branchless-test-crate.png&quot; alt=&quot;The timing graph for building the `git-branchless-test` crate.&quot; title=&quot;The timing graph for building the `git-branchless-test` crate.&quot; /&gt;&lt;/a&gt;
+        &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;The timing graph for building the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-branchless-test&lt;/code&gt; crate.&lt;/p&gt;
+&lt;/figcaption&gt;
+      &lt;/figure&gt;
+
+&lt;h1 id=&quot;koniec-kolejnych-pomysłów&quot;&gt;Koniec kolejnych pomysłów?&lt;/h1&gt;
+
+&lt;p&gt;Oto niektóre pomysły, które nie zadziałały:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Połączenie testów integracyjnych w jeden binary. (W każdym razie chętnie uruchamiam indywidualne binaries, jeśli to konieczne.)&lt;/li&gt;
+  &lt;li&gt;Zmniejszenie głównych monomorfozacji (wywołania &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AsRef&lt;/code&gt; itp. Pojawiły się w &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cargo llvm-lines&lt;/code&gt;, ale ich zmniejszenie nie wydawało się poprawę czasu kompilacji).&lt;/li&gt;
+  &lt;li&gt;Używanie &lt;a href=&quot;https://github.com/mozilla/sccache&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sccache&lt;/code&gt;&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;Używanie &lt;a href=&quot;https://nexte.st/&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cargo nextest&lt;/code&gt;&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;Używanie &lt;a href=&quot;https://github.com/michaeleisel/zld&quot;&gt;zld&lt;/a&gt;/&lt;a href=&quot;https://github.com/rui314/mold&quot;&gt;mold&lt;/a&gt;/&lt;a href=&quot;https://github.com/bluewhalesystems/sold&quot;&gt;sold&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;Ustawienie &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;profile.dev.split-debuginfo = “unpacked”&lt;/code&gt; (dla systemu macOS).&lt;/li&gt;
+  &lt;li&gt;Ustawienie &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;profile.dev.build-override.opt-level = 3&lt;/code&gt;.
+    &lt;ul&gt;
+      &lt;li&gt;Niestety, są dużo makr proceduralnych, zwłaszcza &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;#[instrument]&lt;/code&gt; z crate &lt;a href=&quot;https://docs.rs/tracing/latest/tracing/&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tracing&lt;/code&gt;&lt;/a&gt;.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Ustawienie &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;profile.dev.debug = 0&lt;/code&gt;. W rzeczywistości skraca czas kompilacji o 20ms, ale samo w sobie nie wystarczy.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Więc teraz utknąłem. To najwięcej, co mogę skrócić przyrostowe czasy testowania Rust. Daj znać, jeśli masz jakieś inne pomysły.&lt;/p&gt;
+
+&lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+
+&lt;/ul&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/pl/rust-przyrostowe-czasy-testowania/&quot;;
+    this.page.identifier = &quot;rust-przyrostowe-czasy-testowania/&quot;;
+};
+
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
+</description>
+        <pubDate>Tue, 07 Feb 2023 00:00:00 -0600</pubDate>
+        <link>https://blog.waleedkhan.name/pl/rust-przyrostowe-czasy-testowania/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/pl/rust-przyrostowe-czasy-testowania/</guid>
+        
+        <category>rust</category>
+        
+        <category>software-engineering</category>
+        
+        
+      </item>
     
       <item>
         <title>System kontroli wersja Yandex Arc</title>

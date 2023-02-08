@@ -7,9 +7,202 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 27 Jan 2023 16:19:16 -0600</pubDate>
-    <lastBuildDate>Fri, 27 Jan 2023 16:19:16 -0600</lastBuildDate>
+    <pubDate>Tue, 07 Feb 2023 18:29:00 -0600</pubDate>
+    <lastBuildDate>Tue, 07 Feb 2023 18:29:00 -0600</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
+    
+      <item>
+        <title>Improving incremental test times in Rust</title>
+        <description>&lt;p&gt;&lt;em&gt;Intended audience: prospective-to-intermediate Rust developers who worry about slow compilation times, the scale thereof, and preventative practices; advanced Rust developers who can help me improve my own compilation times.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Rust is known for slow compilation times. I spent a long time trying to improve incremental test build times for my project &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt; in &lt;a href=&quot;https://github.com/arxanas/git-branchless/pull/650&quot;&gt;https://github.com/arxanas/git-branchless/pull/650&lt;/a&gt;. This is a discussion of the results.&lt;/p&gt;
+
+&lt;h1 id=&quot;executive-summary&quot;&gt;Executive summary&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Incremental testing refers only to changing the &lt;em&gt;integration test code&lt;/em&gt; and rebuilding. The source code remains unchanged.&lt;/li&gt;
+  &lt;li&gt;In the end, I was able to reduce incremental test time from ~6.9sec to ~1.7sec (~4x). Other techniques to improve compilation time produced marginal or no improvements.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For your reference, here’s the best articles for conceptual understanding of the Rust build model and improving compilation time:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://matklad.github.io/2021/09/04/fast-rust-builds.html&quot;&gt;Fast Rust Builds&lt;/a&gt; (&lt;a href=&quot;https://matklad.github.io&quot;&gt;matklad.github.io&lt;/a&gt;, 2021)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://matklad.github.io/2021/05/31/how-to-test.html&quot;&gt;How to Test&lt;/a&gt; (&lt;a href=&quot;https://matklad.github.io&quot;&gt;matklad.github.io&lt;/a&gt;, 2021)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://fasterthanli.me/articles/why-is-my-rust-build-so-slow&quot;&gt;Why is my Rust build so slow?&lt;/a&gt; (&lt;a href=&quot;https://fasterthanli.me/&quot;&gt;fasterthanli.me&lt;/a&gt;, 2021)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://endler.dev/2020/rust-compile-times/&quot;&gt;Tips for Faster Rust Builds&lt;/a&gt; (&lt;a href=&quot;https://endler.dev&quot;&gt;endler.dev&lt;/a&gt;, 2020-2022)
+    &lt;ul&gt;
+      &lt;li&gt;Actually, I didn’t review this article at the time, but I did at the time of this writing.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;project-details&quot;&gt;Project details&lt;/h1&gt;
+
+&lt;p&gt;Here’s how big my project &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt; was before the pull request:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-branchless/src&lt;/code&gt;: 12060 lines.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-branchless/tests&lt;/code&gt;: 12897 lines.
+    &lt;ul&gt;
+      &lt;li&gt;Note that it relies heavily on snapshot testing, so most of these lines of code are multiline string literals.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-branchless-lib/src&lt;/code&gt;: 12406 lines.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;It’s permissible that compilation and linking time should be slow, but in order to optimize my development feedback loop, I need test times to be fast. Specifically, I want to be able to iterate on the development of a single certain test. (IntelliJ has a nice feature to automatically re-run a given test when there are source changes, but the utility is diminished when it takes too long to recompile the test.)&lt;/p&gt;
+
+&lt;p&gt;To start, building the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;test_amend&lt;/code&gt; binary (which tests the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;amend&lt;/code&gt; subcommand) after a single comment addition to the test file itself (no library changes!) takes ~6.9sec:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;hyperfine &lt;span class=&quot;nt&quot;&gt;--warmup&lt;/span&gt; 3 &lt;span class=&quot;nt&quot;&gt;--prepare&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;echo &quot;// @nocommit test&quot; &amp;gt;&amp;gt;git-branchless/tests/command/test_amend.rs&apos;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;cargo test --test mod --no-run&apos;&lt;/span&gt;   
+Benchmark 1: cargo &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--test&lt;/span&gt; mod &lt;span class=&quot;nt&quot;&gt;--no-run&lt;/span&gt;
+  Time &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;mean ± σ&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:      6.927 s ±  0.123 s    &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;User: 7.652 s, System: 1.738 s]
+  Range &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;min … max&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:    6.754 s …  7.161 s    10 runs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Staggering! This is not a large project, and we’re only making changes to the &lt;em&gt;tests&lt;/em&gt;, so it shouldn’t require so much iteration time.&lt;/p&gt;
+
+&lt;h1 id=&quot;splitting-into-more-crates&quot;&gt;Splitting into more crates&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/arxanas/git-branchless/pull/650&quot;&gt;In the pull request&lt;/a&gt;, I extract code into an additional nine crates, resulting in an incremental test build time of ~1.7sec (~4x improvement):&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;hyperfine &lt;span class=&quot;nt&quot;&gt;--warmup&lt;/span&gt; 3 &lt;span class=&quot;nt&quot;&gt;--prepare&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;echo &quot;// @nocommit test&quot; &amp;gt;&amp;gt;git-branchless/tests/test_amend.rs&apos;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;cargo test --test test_amend --no-run&apos;&lt;/span&gt;   
+Benchmark 1: cargo &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--test&lt;/span&gt; test_amend &lt;span class=&quot;nt&quot;&gt;--no-run&lt;/span&gt;
+  Time &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;mean ± σ&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:      1.771 s ±  0.012 s    &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;User: 1.471 s, System: 0.330 s]
+  Range &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;min … max&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:    1.750 s …  1.793 s    10 runs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In relative terms, this is a significant improvement, but in absolute terms, this is rather poor, in my opinion. I would expect 100-200ms to parse, expand macros, typecheck, and generate code (with no optimizations) for a file of this size (~1k lines, mostly long string values).&lt;/p&gt;
+
+&lt;p&gt;Furthermore, splitting into multiple crates makes it harder to distribute my project via &lt;a href=&quot;https://crates.io/&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;crates.io&lt;/code&gt;&lt;/a&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Each crate must individually be published to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;crates.io&lt;/code&gt; (you cannot publish a crate with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git&lt;/code&gt; dependencies to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;crates.io&lt;/code&gt;)
+    &lt;ul&gt;
+      &lt;li&gt;So I have to manage versioning and licensing of each crate.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;According to my user survey, the majority of my users install via &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cargo&lt;/code&gt;. For the question “How did you install git-branchless?”, the responses are as follows (as of 2023-02-07):
+    &lt;ul&gt;
+      &lt;li&gt;7/18 (38.9%): via &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cargo install git-branchless&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;4/18 (22.2%): via traditional system package manager&lt;/li&gt;
+      &lt;li&gt;4/18 (22.2%): via Nix or NixOS&lt;/li&gt;
+      &lt;li&gt;2/18 (11.1%): via cloning the repository and manually building and installing&lt;/li&gt;
+      &lt;li&gt;1/18 (5.6%): via GitHub Actions build artifact&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;It’s unfortunate that I have to expose internal modules publicly on &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;crates.io&lt;/code&gt; just to get reasonable compilation times.&lt;/p&gt;
+
+&lt;h1 id=&quot;no-op-timing&quot;&gt;No-op timing&lt;/h1&gt;
+
+&lt;p&gt;At this point, I measure the no-op time to be ~350ms for a smaller test crate with few dependencies:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;hyperfine &lt;span class=&quot;nt&quot;&gt;--warmup&lt;/span&gt; 3 &lt;span class=&quot;s1&quot;&gt;&apos;cargo test -p git-branchless-test --no-run&apos;&lt;/span&gt;      	 
+Benchmark 1: cargo &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; git-branchless-test &lt;span class=&quot;nt&quot;&gt;--no-run&lt;/span&gt;
+  Time &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;mean ± σ&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: 	344.2 ms ±   3.5 ms	&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;User: 246.2 ms, System: 91.9 ms]
+  Range &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;min … max&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:   340.4 ms … 351.0 ms	10 runs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This is surprising. I would expect the overhead for a no-op build to be similar to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git status&lt;/code&gt;, maybe 15ms:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;hyperfine &lt;span class=&quot;nt&quot;&gt;--warmup&lt;/span&gt; 3 &lt;span class=&quot;s1&quot;&gt;&apos;git status&apos;&lt;/span&gt;
+Benchmark 1: git status
+  Time &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;mean ± σ&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:  	13.5 ms ±   2.5 ms	&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;User: 4.9 ms, System: 6.1 ms]
+  Range &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;min … max&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:	11.1 ms …  24.7 ms	197 runs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;There might be some kind of deeper issue here. &lt;a href=&quot;https://nexte.st/book/antivirus-gatekeeper.html&quot;&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cargo nextest&lt;/code&gt; documentation&lt;/a&gt; warns that some anti-malware systems can introduce artificial startup latency when checking executables:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;A typical sign of this happening is even the simplest of tests in cargo nextest run taking more than 0.2 seconds.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;As per the documentation, I marked my terminal software as “Developer Tools” under macOS, but couldn’t reduce the no-op compilation time.&lt;/p&gt;
+
+&lt;h1 id=&quot;no-more-profiling&quot;&gt;No more profiling?&lt;/h1&gt;
+
+&lt;p&gt;I tried with a subcommand crate that I made recently which should still have few dependencies:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;hyperfine &lt;span class=&quot;nt&quot;&gt;--warmup&lt;/span&gt; 3 &lt;span class=&quot;nt&quot;&gt;--prepare&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;echo &quot;// @nocommit test&quot; &amp;gt;&amp;gt;git-branchless-test/tests/test_test.rs&apos;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;cargo test -p git-branchless-test --no-run&apos;&lt;/span&gt;
+Benchmark 1: cargo &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; git-branchless-test &lt;span class=&quot;nt&quot;&gt;--no-run&lt;/span&gt;
+  Time &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;mean ± σ&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:  	1.855 s ±  0.034 s	&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;User: 1.476 s, System: 0.335 s]
+  Range &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;min … max&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:	1.831 s …  1.939 s	10 runs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The cargo build timings for the incremental build doesn’t help. It just shows that the test I’m building takes 100% of the spent time.&lt;/p&gt;
+
+&lt;figure class=&quot;figure&quot;&gt;
+        &lt;a href=&quot;/assets/posts/rust-incremental-test-times/cargo-timings-git-branchless-test-crate.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/assets/posts/rust-incremental-test-times/cargo-timings-git-branchless-test-crate.png&quot; alt=&quot;The timing graph for building the `git-branchless-test` crate.&quot; title=&quot;The timing graph for building the `git-branchless-test` crate.&quot; /&gt;&lt;/a&gt;
+        &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;The timing graph for building the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-branchless-test&lt;/code&gt; crate.&lt;/p&gt;
+&lt;/figcaption&gt;
+      &lt;/figure&gt;
+
+&lt;h1 id=&quot;no-more-ideas&quot;&gt;No more ideas?&lt;/h1&gt;
+
+&lt;p&gt;Some ideas that didn’t work:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Combining integration tests into a single binary. (I’m happy to run individual binaries as necessary, anyways.)&lt;/li&gt;
+  &lt;li&gt;Reducing the top monomorphization sites them (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AsRef&lt;/code&gt; calls, etc. appeared in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cargo llvm-lines&lt;/code&gt;, but reducing them didn’t seem to improve compilation times).&lt;/li&gt;
+  &lt;li&gt;Using &lt;a href=&quot;https://github.com/mozilla/sccache&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sccache&lt;/code&gt;&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;Using &lt;a href=&quot;https://nexte.st/&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cargo-nextest&lt;/code&gt;&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;Using &lt;a href=&quot;https://github.com/michaeleisel/zld&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;zld&lt;/code&gt;&lt;/a&gt;/&lt;a href=&quot;https://github.com/rui314/mold&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;mold&lt;/code&gt;&lt;/a&gt;/&lt;a href=&quot;https://github.com/bluewhalesystems/sold&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sold&lt;/code&gt;&lt;/a&gt; as the linker.&lt;/li&gt;
+  &lt;li&gt;Setting &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;profile.dev.split-debuginfo = “unpacked”&lt;/code&gt; (for macOS).&lt;/li&gt;
+  &lt;li&gt;Setting &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;profile.dev.build-override.opt-level = 3&lt;/code&gt;.
+    &lt;ul&gt;
+      &lt;li&gt;Unfortunately, there are lots of procedural macros, particularly &lt;a href=&quot;https://docs.rs/tracing/latest/tracing/&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tracing&lt;/code&gt;&lt;/a&gt;’s &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;#[instrument]&lt;/code&gt;.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Setting &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;profile.dev.debug = 0&lt;/code&gt;. This actually does save ~20ms, but it’s not enough of an improvement by itself.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So now I’m stuck. That’s the most I can improve Rust incremental test times. Let me know if you have any other ideas.&lt;/p&gt;
+
+&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+
+&lt;/ul&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/rust-incremental-test-times/&quot;;
+    this.page.identifier = &quot;rust-incremental-test-times/&quot;;
+};
+
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
+</description>
+        <pubDate>Tue, 07 Feb 2023 00:00:00 -0600</pubDate>
+        <link>https://blog.waleedkhan.name/rust-incremental-test-times/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/rust-incremental-test-times/</guid>
+        
+        <category>rust</category>
+        
+        <category>software-engineering</category>
+        
+        
+      </item>
     
       <item>
         <title>Yandex&apos;s Arc source control system</title>
@@ -1618,132 +1811,6 @@ var disqus_config = function () {
         <guid isPermaLink="true">https://blog.waleedkhan.name/playing-elden-ring-in-the-cloud/</guid>
         
         <category>gaming</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Build-aware sparse checkouts</title>
-        <description>&lt;p&gt;My team and I recently gave a talk at &lt;a href=&quot;https://github.blog/2022-06-15-git-merge-2022/&quot;&gt;Git Merge 2022&lt;/a&gt; on our tool &lt;a href=&quot;https://github.com/twitter/focus&quot;&gt;Focus&lt;/a&gt;, which integrates Git sparse checkouts with the Bazel build system.&lt;/p&gt;
-
-&lt;p&gt;Talk recording (~15 minutes):&lt;/p&gt;
-
-&lt;div class=&quot;iframe-container&quot;&gt;
-&lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube-nocookie.com/embed/OsIJ99lkSdM&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
-&lt;/div&gt;
-
-&lt;p&gt;And here are some slides I published internally. These go into the technical details of content-hashing, and also have doodles:&lt;/p&gt;
-
-&lt;div class=&quot;iframe-container&quot;&gt;
-&lt;iframe src=&quot;https://docs.google.com/presentation/d/e/2PACX-1vTdh_U9FagMX_9rdto9qewcczWwrMnvTzuVkqqQEp0C2U5jG5dqFi6rMoQJlpno0Q/embed?start=false&amp;amp;loop=false&amp;amp;delayms=3000&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;true&quot; mozallowfullscreen=&quot;true&quot; webkitallowfullscreen=&quot;true&quot;&gt;&lt;/iframe&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
-
-&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
-
-&lt;table class=&quot;related-posts&quot;&gt;
-&lt;thead&gt;
-  &lt;tr&gt;
-    &lt;th&gt;Date&lt;/th&gt;
-    &lt;th&gt;&lt;/th&gt;
-    &lt;th&gt;Title&lt;/th&gt;
-  &lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;19&amp;nbsp;Jun&amp;nbsp;2021&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/git-undo/&quot;&gt;git undo: We can do better&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;12&amp;nbsp;Oct&amp;nbsp;2021&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/in-memory-rebases/&quot;&gt;Lightning-fast rebases with git-move&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;19&amp;nbsp;Oct&amp;nbsp;2022&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      (this&amp;nbsp;post)
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/build-aware-sparse-checkouts/&quot;&gt;Build-aware sparse checkouts&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;16&amp;nbsp;Nov&amp;nbsp;2022&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/bringing-revsets-to-git/&quot;&gt;Bringing revsets to Git&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;05&amp;nbsp;Jan&amp;nbsp;2023&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/git-ui-features/&quot;&gt;Where are my Git UI features from the future?&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
-
-&lt;ul&gt;
-
-
-
-&lt;/ul&gt;
-
-&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
-
-&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
-&lt;script&gt;
-
-/**
- *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
- *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
-var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/build-aware-sparse-checkouts/&quot;;
-    this.page.identifier = &quot;build-aware-sparse-checkouts/&quot;;
-};
-
-(function() { // DON&apos;T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement(&apos;script&apos;);
-    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
-    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
-    (d.head || d.body).appendChild(s);
-})();
-&lt;/script&gt;
-
-&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
-
-</description>
-        <pubDate>Wed, 19 Oct 2022 00:00:00 -0500</pubDate>
-        <link>https://blog.waleedkhan.name/build-aware-sparse-checkouts/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/build-aware-sparse-checkouts/</guid>
-        
-        <category>bazel</category>
-        
-        <category>git</category>
         
         
       </item>
