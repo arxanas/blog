@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Ulepszenie czasów in Rust"
+title: "Ulepszenie przyrostowe czasy testowaniaRust"
 permalink: rust-przyrostowe-czasy-testowania/
 translations:
   en: "/rust-incremental-test-times/"
