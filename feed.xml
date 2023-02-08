@@ -7,8 +7,8 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 07 Feb 2023 18:29:00 -0600</pubDate>
-    <lastBuildDate>Tue, 07 Feb 2023 18:29:00 -0600</lastBuildDate>
+    <pubDate>Tue, 07 Feb 2023 18:32:28 -0600</pubDate>
+    <lastBuildDate>Tue, 07 Feb 2023 18:32:28 -0600</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
@@ -17,7 +17,17 @@ employers.</description>
 
 &lt;p&gt;Rust is known for slow compilation times. I spent a long time trying to improve incremental test build times for my project &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt; in &lt;a href=&quot;https://github.com/arxanas/git-branchless/pull/650&quot;&gt;https://github.com/arxanas/git-branchless/pull/650&lt;/a&gt;. This is a discussion of the results.&lt;/p&gt;
 
-&lt;h1 id=&quot;executive-summary&quot;&gt;Executive summary&lt;/h1&gt;
+&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#executive-summary&quot; id=&quot;markdown-toc-executive-summary&quot;&gt;Executive summary&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#project-details&quot; id=&quot;markdown-toc-project-details&quot;&gt;Project details&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#splitting-into-more-crates&quot; id=&quot;markdown-toc-splitting-into-more-crates&quot;&gt;Splitting into more crates&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#no-op-timing&quot; id=&quot;markdown-toc-no-op-timing&quot;&gt;No-op timing&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#no-more-profiling&quot; id=&quot;markdown-toc-no-more-profiling&quot;&gt;No more profiling?&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#no-more-ideas&quot; id=&quot;markdown-toc-no-more-ideas&quot;&gt;No more ideas?&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;executive-summary&quot;&gt;Executive summary&lt;/h2&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Incremental testing refers only to changing the &lt;em&gt;integration test code&lt;/em&gt; and rebuilding. The source code remains unchanged.&lt;/li&gt;
@@ -37,7 +47,7 @@ employers.</description>
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;project-details&quot;&gt;Project details&lt;/h1&gt;
+&lt;h2 id=&quot;project-details&quot;&gt;Project details&lt;/h2&gt;
 
 &lt;p&gt;Here’s how big my project &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt; was before the pull request:&lt;/p&gt;
 
@@ -63,7 +73,7 @@ Benchmark 1: cargo &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt; &lt;span c
 
 &lt;p&gt;Staggering! This is not a large project, and we’re only making changes to the &lt;em&gt;tests&lt;/em&gt;, so it shouldn’t require so much iteration time.&lt;/p&gt;
 
-&lt;h1 id=&quot;splitting-into-more-crates&quot;&gt;Splitting into more crates&lt;/h1&gt;
+&lt;h2 id=&quot;splitting-into-more-crates&quot;&gt;Splitting into more crates&lt;/h2&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://github.com/arxanas/git-branchless/pull/650&quot;&gt;In the pull request&lt;/a&gt;, I extract code into an additional nine crates, resulting in an incremental test build time of ~1.7sec (~4x improvement):&lt;/p&gt;
 
@@ -96,7 +106,7 @@ Benchmark 1: cargo &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt; &lt;span c
 
 &lt;p&gt;It’s unfortunate that I have to expose internal modules publicly on &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;crates.io&lt;/code&gt; just to get reasonable compilation times.&lt;/p&gt;
 
-&lt;h1 id=&quot;no-op-timing&quot;&gt;No-op timing&lt;/h1&gt;
+&lt;h2 id=&quot;no-op-timing&quot;&gt;No-op timing&lt;/h2&gt;
 
 &lt;p&gt;At this point, I measure the no-op time to be ~350ms for a smaller test crate with few dependencies:&lt;/p&gt;
 
@@ -122,7 +132,7 @@ Benchmark 1: git status
 
 &lt;p&gt;As per the documentation, I marked my terminal software as “Developer Tools” under macOS, but couldn’t reduce the no-op compilation time.&lt;/p&gt;
 
-&lt;h1 id=&quot;no-more-profiling&quot;&gt;No more profiling?&lt;/h1&gt;
+&lt;h2 id=&quot;no-more-profiling&quot;&gt;No more profiling?&lt;/h2&gt;
 
 &lt;p&gt;I tried with a subcommand crate that I made recently which should still have few dependencies:&lt;/p&gt;
 
@@ -140,7 +150,7 @@ Benchmark 1: cargo &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt; &lt;span c
 &lt;/figcaption&gt;
       &lt;/figure&gt;
 
-&lt;h1 id=&quot;no-more-ideas&quot;&gt;No more ideas?&lt;/h1&gt;
+&lt;h2 id=&quot;no-more-ideas&quot;&gt;No more ideas?&lt;/h2&gt;
 
 &lt;p&gt;Some ideas that didn’t work:&lt;/p&gt;
 

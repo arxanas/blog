@@ -7,8 +7,8 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/pl/</link>
     <atom:link href="https://blog.waleedkhan.name/pl/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 07 Feb 2023 18:29:03 -0600</pubDate>
-    <lastBuildDate>Tue, 07 Feb 2023 18:29:03 -0600</lastBuildDate>
+    <pubDate>Tue, 07 Feb 2023 18:32:31 -0600</pubDate>
+    <lastBuildDate>Tue, 07 Feb 2023 18:32:31 -0600</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
@@ -17,7 +17,17 @@ employers.</description>
 
 &lt;p&gt;Rust jest znany z wolnego czasu kompilacji. Spędziłem dużo czasu próbując poprawić przyrostowe czasy kompilacji testowania dla mojego projektu &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt; w &lt;a href=&quot;https://github.com/arxanas/git-branchless/pull/650&quot;&gt;https://github.com/arxanas/git-branchless/pull/650&lt;/a&gt;. Oto dyskusja wyników.&lt;/p&gt;
 
-&lt;h1 id=&quot;streszczenie-wykonawcze&quot;&gt;Streszczenie wykonawcze&lt;/h1&gt;
+&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#streszczenie-wykonawcze&quot; id=&quot;markdown-toc-streszczenie-wykonawcze&quot;&gt;Streszczenie wykonawcze&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#szczegóły-projektu&quot; id=&quot;markdown-toc-szczegóły-projektu&quot;&gt;Szczegóły projektu&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#podzielenie-się-na-więcej-crates&quot; id=&quot;markdown-toc-podzielenie-się-na-więcej-crates&quot;&gt;Podzielenie się na więcej crates&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#czas-bez-operacji&quot; id=&quot;markdown-toc-czas-bez-operacji&quot;&gt;Czas bez operacji&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#koniec-profilowania&quot; id=&quot;markdown-toc-koniec-profilowania&quot;&gt;Koniec profilowania?&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#koniec-kolejnych-pomysłów&quot; id=&quot;markdown-toc-koniec-kolejnych-pomysłów&quot;&gt;Koniec kolejnych pomysłów?&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#komentarze&quot; id=&quot;markdown-toc-komentarze&quot;&gt;Komentarze&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;streszczenie-wykonawcze&quot;&gt;Streszczenie wykonawcze&lt;/h2&gt;
 
 &lt;ul&gt;
   &lt;li&gt;“Przyrostowe testowania” odnosi się tylko do zmiany kodu testu integracyjnego i przebudowanie. Kod źródłowy pozostaje niezmienony.&lt;/li&gt;
@@ -37,7 +47,7 @@ employers.</description>
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;szczegóły-projektu&quot;&gt;Szczegóły projektu&lt;/h1&gt;
+&lt;h2 id=&quot;szczegóły-projektu&quot;&gt;Szczegóły projektu&lt;/h2&gt;
 
 &lt;p&gt;Oto jak duży był mój projekt &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt; przed pull request:&lt;/p&gt;
 
@@ -63,7 +73,7 @@ Benchmark 1: cargo &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt; &lt;span c
 
 &lt;p&gt;Tragedia! To nie duży projekt, a zmieniamy tylko testy, więc nie powinno to wymagać tak długiego czasu iteracji.&lt;/p&gt;
 
-&lt;h1 id=&quot;podzielenie-się-na-więcej-crates&quot;&gt;Podzielenie się na więcej crates&lt;/h1&gt;
+&lt;h2 id=&quot;podzielenie-się-na-więcej-crates&quot;&gt;Podzielenie się na więcej crates&lt;/h2&gt;
 
 &lt;p&gt;W pull request wyodrębniłem do dodatkowych dziewięciu crates, co daje przyrostowy czas kompilacji testu wynoszący ~1.7sek (~4x poprawa).&lt;/p&gt;
 
@@ -96,7 +106,7 @@ Benchmark 1: cargo &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt; &lt;span c
 
 &lt;p&gt;Niestety, muszę publicznie udostępniać wewnętrzne moduły na crates.io tylko po to, aby uzyskać rozsądne czasy kompilacji.&lt;/p&gt;
 
-&lt;h1 id=&quot;czas-bez-operacji&quot;&gt;Czas bez operacji&lt;/h1&gt;
+&lt;h2 id=&quot;czas-bez-operacji&quot;&gt;Czas bez operacji&lt;/h2&gt;
 
 &lt;p&gt;Wtedy, mierzę czas bez operacji [ang. “no-op”] na ~350ms dla mniejszej crate testowania z niewieloma zależności:&lt;/p&gt;
 
@@ -122,7 +132,7 @@ Benchmark 1: git status
 
 &lt;p&gt;Zgodnie z dokumentacją, oznaczyłem moje oprogramowanie terminala jako “Developer Tools” w systemie macOS, ale nie udało mi się skrócić czasu kompilacji bez operacji.&lt;/p&gt;
 
-&lt;h1 id=&quot;koniec-profilowania&quot;&gt;Koniec profilowania?&lt;/h1&gt;
+&lt;h2 id=&quot;koniec-profilowania&quot;&gt;Koniec profilowania?&lt;/h2&gt;
 
 &lt;p&gt;Spróbowalem z subcommand crate, który niedawno stworzyłem bez dużo zaleźności:&lt;/p&gt;
 
@@ -140,7 +150,7 @@ Benchmark 1: cargo &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt; &lt;span c
 &lt;/figcaption&gt;
       &lt;/figure&gt;
 
-&lt;h1 id=&quot;koniec-kolejnych-pomysłów&quot;&gt;Koniec kolejnych pomysłów?&lt;/h1&gt;
+&lt;h2 id=&quot;koniec-kolejnych-pomysłów&quot;&gt;Koniec kolejnych pomysłów?&lt;/h2&gt;
 
 &lt;p&gt;Oto niektóre pomysły, które nie zadziałały:&lt;/p&gt;
 

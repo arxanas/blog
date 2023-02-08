@@ -76,7 +76,17 @@
 
 <p>Rust jest znany z wolnego czasu kompilacji. Spędziłem dużo czasu próbując poprawić przyrostowe czasy kompilacji testowania dla mojego projektu <a href="https://github.com/arxanas/git-branchless">git-branchless</a> w <a href="https://github.com/arxanas/git-branchless/pull/650">https://github.com/arxanas/git-branchless/pull/650</a>. Oto dyskusja wyników.</p>
 
-<h1 id="streszczenie-wykonawcze">Streszczenie wykonawcze</h1>
+<ul id="markdown-toc">
+  <li><a href="#streszczenie-wykonawcze" id="markdown-toc-streszczenie-wykonawcze">Streszczenie wykonawcze</a></li>
+  <li><a href="#szczegóły-projektu" id="markdown-toc-szczegóły-projektu">Szczegóły projektu</a></li>
+  <li><a href="#podzielenie-się-na-więcej-crates" id="markdown-toc-podzielenie-się-na-więcej-crates">Podzielenie się na więcej crates</a></li>
+  <li><a href="#czas-bez-operacji" id="markdown-toc-czas-bez-operacji">Czas bez operacji</a></li>
+  <li><a href="#koniec-profilowania" id="markdown-toc-koniec-profilowania">Koniec profilowania?</a></li>
+  <li><a href="#koniec-kolejnych-pomysłów" id="markdown-toc-koniec-kolejnych-pomysłów">Koniec kolejnych pomysłów?</a></li>
+  <li><a href="#komentarze" id="markdown-toc-komentarze">Komentarze</a></li>
+</ul>
+
+<h2 id="streszczenie-wykonawcze">Streszczenie wykonawcze</h2>
 
 <ul>
   <li>“Przyrostowe testowania” odnosi się tylko do zmiany kodu testu integracyjnego i przebudowanie. Kod źródłowy pozostaje niezmienony.</li>
@@ -96,7 +106,7 @@
   </li>
 </ul>
 
-<h1 id="szczegóły-projektu">Szczegóły projektu</h1>
+<h2 id="szczegóły-projektu">Szczegóły projektu</h2>
 
 <p>Oto jak duży był mój projekt <a href="https://github.com/arxanas/git-branchless">git-branchless</a> przed pull request:</p>
 
@@ -122,7 +132,7 @@ Benchmark 1: cargo <span class="nb">test</span> <span class="nt">--test</span> m
 
 <p>Tragedia! To nie duży projekt, a zmieniamy tylko testy, więc nie powinno to wymagać tak długiego czasu iteracji.</p>
 
-<h1 id="podzielenie-się-na-więcej-crates">Podzielenie się na więcej crates</h1>
+<h2 id="podzielenie-się-na-więcej-crates">Podzielenie się na więcej crates</h2>
 
 <p>W pull request wyodrębniłem do dodatkowych dziewięciu crates, co daje przyrostowy czas kompilacji testu wynoszący ~1.7sek (~4x poprawa).</p>
 
@@ -155,7 +165,7 @@ Benchmark 1: cargo <span class="nb">test</span> <span class="nt">--test</span> t
 
 <p>Niestety, muszę publicznie udostępniać wewnętrzne moduły na crates.io tylko po to, aby uzyskać rozsądne czasy kompilacji.</p>
 
-<h1 id="czas-bez-operacji">Czas bez operacji</h1>
+<h2 id="czas-bez-operacji">Czas bez operacji</h2>
 
 <p>Wtedy, mierzę czas bez operacji [ang. “no-op”] na ~350ms dla mniejszej crate testowania z niewieloma zależności:</p>
 
@@ -181,7 +191,7 @@ Benchmark 1: git status
 
 <p>Zgodnie z dokumentacją, oznaczyłem moje oprogramowanie terminala jako “Developer Tools” w systemie macOS, ale nie udało mi się skrócić czasu kompilacji bez operacji.</p>
 
-<h1 id="koniec-profilowania">Koniec profilowania?</h1>
+<h2 id="koniec-profilowania">Koniec profilowania?</h2>
 
 <p>Spróbowalem z subcommand crate, który niedawno stworzyłem bez dużo zaleźności:</p>
 
@@ -199,7 +209,7 @@ Benchmark 1: cargo <span class="nb">test</span> <span class="nt">-p</span> git-b
 </figcaption>
       </figure>
 
-<h1 id="koniec-kolejnych-pomysłów">Koniec kolejnych pomysłów?</h1>
+<h2 id="koniec-kolejnych-pomysłów">Koniec kolejnych pomysłów?</h2>
 
 <p>Oto niektóre pomysły, które nie zadziałały:</p>
 

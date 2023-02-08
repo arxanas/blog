@@ -74,7 +74,17 @@
 
 <p>Rust is known for slow compilation times. I spent a long time trying to improve incremental test build times for my project <a href="https://github.com/arxanas/git-branchless">git-branchless</a> in <a href="https://github.com/arxanas/git-branchless/pull/650">https://github.com/arxanas/git-branchless/pull/650</a>. This is a discussion of the results.</p>
 
-<h1 id="executive-summary">Executive summary</h1>
+<ul id="markdown-toc">
+  <li><a href="#executive-summary" id="markdown-toc-executive-summary">Executive summary</a></li>
+  <li><a href="#project-details" id="markdown-toc-project-details">Project details</a></li>
+  <li><a href="#splitting-into-more-crates" id="markdown-toc-splitting-into-more-crates">Splitting into more crates</a></li>
+  <li><a href="#no-op-timing" id="markdown-toc-no-op-timing">No-op timing</a></li>
+  <li><a href="#no-more-profiling" id="markdown-toc-no-more-profiling">No more profiling?</a></li>
+  <li><a href="#no-more-ideas" id="markdown-toc-no-more-ideas">No more ideas?</a></li>
+  <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
+</ul>
+
+<h2 id="executive-summary">Executive summary</h2>
 
 <ul>
   <li>Incremental testing refers only to changing the <em>integration test code</em> and rebuilding. The source code remains unchanged.</li>
@@ -94,7 +104,7 @@
   </li>
 </ul>
 
-<h1 id="project-details">Project details</h1>
+<h2 id="project-details">Project details</h2>
 
 <p>Here’s how big my project <a href="https://github.com/arxanas/git-branchless">git-branchless</a> was before the pull request:</p>
 
@@ -120,7 +130,7 @@ Benchmark 1: cargo <span class="nb">test</span> <span class="nt">--test</span> m
 
 <p>Staggering! This is not a large project, and we’re only making changes to the <em>tests</em>, so it shouldn’t require so much iteration time.</p>
 
-<h1 id="splitting-into-more-crates">Splitting into more crates</h1>
+<h2 id="splitting-into-more-crates">Splitting into more crates</h2>
 
 <p><a href="https://github.com/arxanas/git-branchless/pull/650">In the pull request</a>, I extract code into an additional nine crates, resulting in an incremental test build time of ~1.7sec (~4x improvement):</p>
 
@@ -153,7 +163,7 @@ Benchmark 1: cargo <span class="nb">test</span> <span class="nt">--test</span> t
 
 <p>It’s unfortunate that I have to expose internal modules publicly on <code class="language-plaintext highlighter-rouge">crates.io</code> just to get reasonable compilation times.</p>
 
-<h1 id="no-op-timing">No-op timing</h1>
+<h2 id="no-op-timing">No-op timing</h2>
 
 <p>At this point, I measure the no-op time to be ~350ms for a smaller test crate with few dependencies:</p>
 
@@ -179,7 +189,7 @@ Benchmark 1: git status
 
 <p>As per the documentation, I marked my terminal software as “Developer Tools” under macOS, but couldn’t reduce the no-op compilation time.</p>
 
-<h1 id="no-more-profiling">No more profiling?</h1>
+<h2 id="no-more-profiling">No more profiling?</h2>
 
 <p>I tried with a subcommand crate that I made recently which should still have few dependencies:</p>
 
@@ -197,7 +207,7 @@ Benchmark 1: cargo <span class="nb">test</span> <span class="nt">-p</span> git-b
 </figcaption>
       </figure>
 
-<h1 id="no-more-ideas">No more ideas?</h1>
+<h2 id="no-more-ideas">No more ideas?</h2>
 
 <p>Some ideas that didn’t work:</p>
 
