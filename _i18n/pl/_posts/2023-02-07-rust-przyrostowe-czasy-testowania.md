@@ -13,8 +13,10 @@ _Docelowi odbiorcy: potencjalni i średnio-zaawansowani deweloperzy Rust, którz
 
 Rust jest znany z wolnego czasu kompilacji. Spędziłem dużo czasu próbując poprawić przyrostowe czasy kompilacji testowania dla mojego projektu [git-branchless](https://github.com/arxanas/git-branchless) w [https://github.com/arxanas/git-branchless/pull/650](https://github.com/arxanas/git-branchless/pull/650). Oto dyskusja wyników.
 
+* toc
+{:toc}
 
-# Streszczenie wykonawcze
+## Streszczenie wykonawcze
 
 
 
@@ -32,7 +34,7 @@ W celach informacyjnych, oto najlepsze artykuły dotyczące konceptualnego zrozu
     * W rzeczywistości, wówczas nie czytałem tego artykułu, ale przeczytałem kiedy napisałem ten artykuł.
 
 
-# Szczegóły projektu
+## Szczegóły projektu
 
 Oto jak duży był mój projekt [git-branchless](https://github.com/arxanas/git-branchless) przed pull request:
 
@@ -57,7 +59,7 @@ Benchmark 1: cargo test --test mod --no-run
 Tragedia! To nie duży projekt, a zmieniamy tylko testy, więc nie powinno to wymagać tak długiego czasu iteracji.
 
 
-# Podzielenie się na więcej crates
+## Podzielenie się na więcej crates
 
 W pull request wyodrębniłem do dodatkowych dziewięciu crates, co daje przyrostowy czas kompilacji testu wynoszący ~1.7sek (~4x poprawa).
 
@@ -86,7 +88,7 @@ Dodatkowe, dzielenie na wiele crates utrudnia rozpowszechnianie projektu za poś
 Niestety, muszę publicznie udostępniać wewnętrzne moduły na crates.io tylko po to, aby uzyskać rozsądne czasy kompilacji.
 
 
-# Czas bez operacji
+## Czas bez operacji
 
 Wtedy, mierzę czas bez operacji [ang. “no-op”] na ~350ms dla mniejszej crate testowania z niewieloma zależności:
 
@@ -113,7 +115,7 @@ Tu może być jakiś głębszy problem. Dokumentacji `cargo nextest` ostrzega, 
 Zgodnie z dokumentacją, oznaczyłem moje oprogramowanie terminala jako “Developer Tools” w systemie macOS, ale nie udało mi się skrócić czasu kompilacji bez operacji.
 
 
-# Koniec profilowania?
+## Koniec profilowania?
 
 Spróbowalem z subcommand crate, który niedawno stworzyłem bez dużo zaleźności:
 
@@ -130,7 +132,7 @@ Wykres czasu kompilacji według `cargo build` nie pomaga. Tylko pokazuje to, że
 
 
 
-# Koniec kolejnych pomysłów?
+## Koniec kolejnych pomysłów?
 
 Oto niektóre pomysły, które nie zadziałały:
 

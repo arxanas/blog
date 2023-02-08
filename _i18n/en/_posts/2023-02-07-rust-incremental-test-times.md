@@ -13,8 +13,11 @@ _Intended audience: prospective-to-intermediate Rust developers who worry about 
 
 Rust is known for slow compilation times. I spent a long time trying to improve incremental test build times for my project [git-branchless](https://github.com/arxanas/git-branchless) in [https://github.com/arxanas/git-branchless/pull/650](https://github.com/arxanas/git-branchless/pull/650). This is a discussion of the results.
 
+* toc
+{:toc}
 
-# Executive summary
+
+## Executive summary
 
 
 
@@ -32,7 +35,7 @@ For your reference, here’s the best articles for conceptual understanding of t
     * Actually, I didn’t review this article at the time, but I did at the time of this writing.
 
 
-# Project details
+## Project details
 
 Here’s how big my project [git-branchless](https://github.com/arxanas/git-branchless) was before the pull request:
 
@@ -57,7 +60,7 @@ Benchmark 1: cargo test --test mod --no-run
 Staggering! This is not a large project, and we’re only making changes to the _tests_, so it shouldn’t require so much iteration time.
 
 
-# Splitting into more crates
+## Splitting into more crates
 
 [In the pull request](https://github.com/arxanas/git-branchless/pull/650), I extract code into an additional nine crates, resulting in an incremental test build time of ~1.7sec (~4x improvement):
 
@@ -86,7 +89,7 @@ Furthermore, splitting into multiple crates makes it harder to distribute my pro
 It’s unfortunate that I have to expose internal modules publicly on `crates.io` just to get reasonable compilation times.
 
 
-# No-op timing
+## No-op timing
 
 At this point, I measure the no-op time to be ~350ms for a smaller test crate with few dependencies:
 
@@ -113,7 +116,7 @@ There might be some kind of deeper issue here. [The `cargo nextest` documentatio
 As per the documentation, I marked my terminal software as “Developer Tools” under macOS, but couldn’t reduce the no-op compilation time.
 
 
-# No more profiling?
+## No more profiling?
 
 I tried with a subcommand crate that I made recently which should still have few dependencies:
 
@@ -128,7 +131,7 @@ The cargo build timings for the incremental build doesn’t help. It just shows 
 
 {% image cargo-timings-git-branchless-test-crate.png "The timing graph for building the `git-branchless-test` crate." %}
 
-# No more ideas?
+## No more ideas?
 
 Some ideas that didn’t work:
 
