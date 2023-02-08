@@ -7,12 +7,12 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/pl/</link>
     <atom:link href="https://blog.waleedkhan.name/pl/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 07 Feb 2023 18:32:31 -0600</pubDate>
-    <lastBuildDate>Tue, 07 Feb 2023 18:32:31 -0600</lastBuildDate>
+    <pubDate>Tue, 07 Feb 2023 19:12:28 -0600</pubDate>
+    <lastBuildDate>Tue, 07 Feb 2023 19:12:28 -0600</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
-        <title>Ulepszenie czasów in Rust</title>
+        <title>Ulepszenie przyrostowe czasy testowaniaRust</title>
         <description>&lt;p&gt;&lt;em&gt;Docelowi odbiorcy: potencjalni i średnio-zaawansowani deweloperzy Rust, którzy martwią się wolnymi czasami kompilacji, ich skalą i praktykami zapobiegawczymi; zaawansowani deweloperzy Rust, którzy pomogą mi poprawić czas kompilacji.&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;Rust jest znany z wolnego czasu kompilacji. Spędziłem dużo czasu próbując poprawić przyrostowe czasy kompilacji testowania dla mojego projektu &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt; w &lt;a href=&quot;https://github.com/arxanas/git-branchless/pull/650&quot;&gt;https://github.com/arxanas/git-branchless/pull/650&lt;/a&gt;. Oto dyskusja wyników.&lt;/p&gt;
