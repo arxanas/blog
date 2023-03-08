@@ -92,7 +92,9 @@ table { width: 100%; }
 .github-comment-link::before { content: "⧉ "; }
 
 /* Keep tag list in sync with tag list in github-comment-link.js file. */
-:is(p, li, figure):has(> .github-comment-link) { display: block; position: relative; margin-left: 1em; }
+:is(p, li, figure):has(> .github-comment-link) { position: relative; }
+
+:is(p, figure):has(> .github-comment-link) { display: block; }
 
 :is(p, li, figure):hover > .github-comment-link { background-color: #e8e8e8; border: 1px solid #828282; display: block; margin-top: -24px; position: absolute; }
 
