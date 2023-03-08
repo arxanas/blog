@@ -63,9 +63,11 @@ table {
 
 /* Keep tag list in sync with tag list in github-comment-link.js file. */
 :is(p, li, figure):has(> .github-comment-link) {
-  display: block;
   position: relative;
-  margin-left: 1em;
+}
+:is(p, figure):has(> .github-comment-link) {
+  // Don't set for `li`, since that needs to retain `display: list-item`.
+  display: block;
 }
 
 :is(p, li, figure):hover > .github-comment-link {
