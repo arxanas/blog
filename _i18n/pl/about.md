@@ -1,7 +1,8 @@
 Jestem inżynierem oprogramowania w rejonie Seattle, który tworzy wysokoskalowalne narzędzia programistyczne. Obecnie jestem zatrudniony na pełen etat, aby to robić, a także pracuję nad projektami narzędzi dla programistów, takimi jak [git-branchless](https://github.com/arxanas/git-branchless). Jak możesz ze mną skontaktować:
 
-* Wyślij mi email na adres [me@waleedkhan.name](mailto:me@waleedkhan.name)
-* Obserwuj mnie na [Twitter](https://twitter.com/arxanas)
+* Wyślij mi email: [me@waleedkhan.name](mailto:me@waleedkhan.name)
+* Obserwuj mnie na Twitter: [@arxanas](https://twitter.com/arxanas)
+* Obserwuj mnie na Mastodon: [@arxanas@types.pl](https://elk.zone/types.pl/@arxanas)
 * Połącz się ze mną na [LinkedIn](https://www.linkedin.com/in/waleedkhan000/)
 
 Na tym blogu znajdziesz posty techniczne, zwykle dotyczące niektórych z poniższych tematów:
