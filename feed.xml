@@ -7,9 +7,74 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 08 Mar 2023 15:34:46 -0600</pubDate>
-    <lastBuildDate>Wed, 08 Mar 2023 15:34:46 -0600</lastBuildDate>
+    <pubDate>Wed, 08 Mar 2023 18:17:22 -0600</pubDate>
+    <lastBuildDate>Wed, 08 Mar 2023 18:17:22 -0600</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
+    
+      <item>
+        <title>My compensation history</title>
+        <description>&lt;p&gt;&lt;em&gt;Intended audience: current software engineers seeking information for their own job search or negotation; people curious about the compensation in software engineering in the US (“tier 3”).&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#compensation-history&quot; id=&quot;markdown-toc-compensation-history&quot;&gt;Compensation history&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;compensation-history&quot;&gt;Compensation history&lt;/h2&gt;
+
+&lt;p&gt;Some others have &lt;a href=&quot;https://www.jvt.me/posts/2021/09/09/public-salary-history/&quot;&gt;shared their compensation in the software engineering market&lt;/a&gt;. For the same reasons, I’m making mine available &lt;a href=&quot;https://docs.google.com/spreadsheets/d/1agEtwxcpS0HB8HSJJjy2u6wIUbi5LFUQMAus4ADu7mU/edit?usp=sharing&quot;&gt;at this Google Sheets link&lt;/a&gt;. I consider this information somewhat sensitive, so you’ll have to request access.&lt;/p&gt;
+
+&lt;p&gt;In the &lt;a href=&quot;https://blog.pragmaticengineer.com/software-engineering-salaries-in-the-netherlands-and-europe/&quot;&gt;trimodal salary model&lt;/a&gt;, having worked in the US in &lt;a href=&quot;https://en.wikipedia.org/wiki/Big_Tech&quot;&gt;big tech&lt;/a&gt; and now finance, I rank well into “tier 3”. Thus, this information is most useful for those negotiating with tier 3 companies.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;In big tech, compensation is usually awarded in the form of salary, stock (&lt;a href=&quot;https://en.wikipedia.org/wiki/Restricted_stock&quot;&gt;RSUs&lt;/a&gt;), and a yearly performance-based bonus.&lt;/li&gt;
+  &lt;li&gt;In finance, compensation is usually awarded in the form of salary and a yearly performance-based bonus.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;If you have questions about compensation or negotiation as a software engineer in the US, you can &lt;a href=&quot;/about/&quot;&gt;find my contact information here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+
+&lt;/ul&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/compensation-history/&quot;;
+    this.page.identifier = &quot;compensation-history/&quot;;
+};
+
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
+</description>
+        <pubDate>Wed, 08 Mar 2023 00:00:00 -0600</pubDate>
+        <link>https://blog.waleedkhan.name/compensation-history/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/compensation-history/</guid>
+        
+        <category>finance</category>
+        
+        <category>software-engineering</category>
+        
+        
+      </item>
     
       <item>
         <title>Improving incremental test times in Rust</title>
@@ -1622,205 +1687,6 @@ var disqus_config = function () {
         <category>machine-learning</category>
         
         <category>python</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Playing Elden Ring in the cloud</title>
-        <description>&lt;p&gt;&lt;em&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Elden_Ring&quot;&gt;Elden Ring&lt;/a&gt;&lt;/em&gt; was recently released for Windows, Playstation, and Xbox. I don’t own any of those platforms (and don’t want to buy one), but I still wanted to play, so I decided to run the game remotely and stream it to my household.&lt;/p&gt;
-
-&lt;aside class=&quot;aside&quot; id=&quot;what-about-the-latency&quot;&gt;
-          &lt;header class=&quot;aside-header&quot;&gt;&lt;a href=&quot;#what-about-the-latency&quot;&gt;What about the latency?&lt;/a&gt;&lt;/header&gt;
-          &lt;div class=&quot;aside-contents&quot;&gt;&lt;p&gt;There’s necessarily more latency when streaming games than when playing locally. I can expect an additional ~50ms round-trip to my nearest AWS datacenter (us-west-2). Elden Ring doesn’t require much in terms of low latency: during combat, most attacks have long startup animations during which you can react, for which 50ms is not noticeable. But various other real-time games are sensitive to that amount of latency to the point where it would not be reasonable to play competitively via stream.&lt;/p&gt;
-&lt;/div&gt;
-        &lt;/aside&gt;
-
-&lt;hr /&gt;
-
-&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#managed-gaming-services&quot; id=&quot;markdown-toc-managed-gaming-services&quot;&gt;Managed gaming services&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#renting-directly-from-cloud-providers&quot; id=&quot;markdown-toc-renting-directly-from-cloud-providers&quot;&gt;Renting directly from cloud providers&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#managed-cloud-pc-services&quot; id=&quot;markdown-toc-managed-cloud-pc-services&quot;&gt;Managed cloud PC services&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#playing-in-the-living-room&quot; id=&quot;markdown-toc-playing-in-the-living-room&quot;&gt;Playing in the living room&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#related-posts&quot; id=&quot;markdown-toc-related-posts&quot;&gt;Related posts&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;managed-gaming-services&quot;&gt;Managed gaming services&lt;/h3&gt;
-
-&lt;p&gt;I evaluated a number of managed services for on-demand gaming. I would prefer to buy Elden Ring for PC since that’s most likely to let me retain ownership even across devices or platforms, but I would play on a console or rent the game if the experience was good.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.xbox.com/en-US/xbox-game-pass&quot;&gt;Xbox Game Pass&lt;/a&gt;
-    &lt;ul&gt;
-      &lt;li&gt;The game selection is limited, and it doesn’t support Elden Ring.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.playstation.com/en-us/ps-now/&quot;&gt;Playstation Now&lt;/a&gt;
-    &lt;ul&gt;
-      &lt;li&gt;The game selection is limited, and it doesn’t support Elden Ring.&lt;/li&gt;
-      &lt;li&gt;I had also previously tried it for a PS2 game and the experience was laggy and buggy.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.amazon.com/luna/landing-page&quot;&gt;Amazon Luna&lt;/a&gt;
-    &lt;ul&gt;
-      &lt;li&gt;The game selection is limited, and it doesn’t support Elden Ring.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://stadia.google.com/&quot;&gt;Google Stadia&lt;/a&gt;
-    &lt;ul&gt;
-      &lt;li&gt;The game selection is limited, and it doesn’t support Elden Ring.&lt;/li&gt;
-      &lt;li&gt;Google has since announced that Stadia is shutting down.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.nvidia.com/en-us/geforce-now/&quot;&gt;Nvidia GeForce Now&lt;/a&gt;
-    &lt;ul&gt;
-      &lt;li&gt;The game selection is limited. Despite supporting many PC games, it doesn’t support Elden Ring.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;So none of these options were suitable, which was disappointing. The latest summary of cloud availability can be found at &lt;a href=&quot;https://cloudbase.gg/g/elden-ring/&quot;&gt;https://cloudbase.gg/g/elden-ring/&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;renting-directly-from-cloud-providers&quot;&gt;Renting directly from cloud providers&lt;/h3&gt;
-
-&lt;p&gt;I’d probably have to use general-purpose computing to play specific PC games I owned. You can rent GPUs and Windows machines on-demand, so surely you can use them to play video games, too?&lt;/p&gt;
-
-&lt;p&gt;I found the &lt;a href=&quot;https://www.reddit.com/r/cloudygamer/&quot;&gt;CloudyGamer&lt;/a&gt; community focused on tackling the same problem. One solution was &lt;a href=&quot;https://cloudygamer.com/&quot;&gt;cloudygamer.com&lt;/a&gt;: a self-service app to start and stop a gaming &lt;a href=&quot;https://en.wikipedia.org/wiki/Virtual_machine&quot;&gt;virtual machine&lt;/a&gt; on &lt;a href=&quot;https://en.wikipedia.org/wiki/Amazon_Web_Services&quot;&gt;AWS&lt;/a&gt;. This looked promising, and I spent a considerable amount of time trying to provision a virtual machine using it. But in the end, I wasn’t able to provision a suitable VM even directly from the AWS web interface — I have no idea why. I wrote up details at &lt;a href=&quot;https://github.com/lg/cloudy-gamer/issues/35&quot;&gt;https://github.com/lg/cloudy-gamer/issues/35&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;managed-cloud-pc-services&quot;&gt;Managed cloud PC services&lt;/h3&gt;
-
-&lt;p&gt;Instead, I ended up trying several cloud PC services:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://shadow.tech/&quot;&gt;Shadow&lt;/a&gt;
-    &lt;ul&gt;
-      &lt;li&gt;Pricing: $30/month for unlimited usage.&lt;/li&gt;
-      &lt;li&gt;However, your connection times out after 30 minutes of inactivity, as measured by the custom streaming client. Thus, using an alternate client such as Steam Remote Play will cause you to get disconnected unless you periodically perform manual inputs at your computer.&lt;/li&gt;
-      &lt;li&gt;Most recently, forwarding my &lt;a href=&quot;https://www.nintendo.com/store/products/pro-controller/&quot;&gt;Nintendo Switch Pro Controller&lt;/a&gt; over USB via the streaming client doesn’t work; however, I can use Steam Remote Play to successfully forward the controller inputs. That means that I have two concurrent streams to my computer while playing.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://shrine.app/&quot;&gt;Shrine&lt;/a&gt;
-    &lt;ul&gt;
-      &lt;li&gt;Usage pricing: Between $0.65/hour and $1.90/hour (depending on machine specs). Storage pricing: $0.01/100 GB/hour (~$7.30/100 GB/month).&lt;/li&gt;
-      &lt;li&gt;The pricing and usage model has changed several times since I started using it.&lt;/li&gt;
-      &lt;li&gt;Most recently, it had somewhat poor latency from US-West Las Vegas (to Seattle).&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://airgpu.com/&quot;&gt;Airgpu&lt;/a&gt;
-    &lt;ul&gt;
-      &lt;li&gt;Usage pricing: Between $0.65/hour and $1.15/hour (depending on machine specs). Storage pricing: $3.50/50 GB/month ($7.00/100 GB/month).&lt;/li&gt;
-      &lt;li&gt;Most recently, audio doesn’t work when used with Steam Remote Play.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;All of these services have been problematic in one way or another. Software solutions that used to work tend to later break. Shadow has been the most reliable overall, but it’s also the most limited since you have to use their streaming client.&lt;/p&gt;
-
-&lt;h3 id=&quot;playing-in-the-living-room&quot;&gt;Playing in the living room&lt;/h3&gt;
-
-&lt;p&gt;Next, I wanted to stream to my living room TV. I had a &lt;a href=&quot;https://en.wikipedia.org/wiki/Steam_Link&quot;&gt;Steam Link&lt;/a&gt; device which I purchased a long time ago, which I connected to my Steam account. I paired my Pro Controller and used Steam Remote Play to connect to the remote machine, which worked reasonably well.&lt;/p&gt;
-
-&lt;p&gt;Overall, it takes 1-2 minutes to boot the cloud PC, and perhaps a minute more to launch Steam Remote Play. This is longer than with a dedicated console or PC, but overall acceptable given that typical gaming session time would be 1-2 hours.&lt;/p&gt;
-
-&lt;p&gt;Cloud gaming has a long way to go before it’s convenient!&lt;/p&gt;
-
-&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
-
-&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
-
-&lt;table class=&quot;related-posts&quot;&gt;
-&lt;thead&gt;
-  &lt;tr&gt;
-    &lt;th&gt;Date&lt;/th&gt;
-    &lt;th&gt;&lt;/th&gt;
-    &lt;th&gt;Title&lt;/th&gt;
-  &lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;30&amp;nbsp;Jul&amp;nbsp;2020&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/lan-adapter/&quot;&gt;A LAN adapter isn&apos;t everything&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;10&amp;nbsp;Mar&amp;nbsp;2021&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/pro-controller-stick-drift/&quot;&gt;On Pro Controller stick drift&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;04&amp;nbsp;Nov&amp;nbsp;2022&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      (this&amp;nbsp;post)
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/playing-elden-ring-in-the-cloud/&quot;&gt;Playing Elden Ring in the cloud&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;01&amp;nbsp;Jan&amp;nbsp;2023&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/playing-elden-ring-in-the-cloud-update-1/&quot;&gt;Update #1: Playing Elden Ring in the cloud&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
-
-&lt;ul&gt;
-
-
-
-&lt;/ul&gt;
-
-&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
-
-&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
-&lt;script&gt;
-
-/**
- *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
- *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
-var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/playing-elden-ring-in-the-cloud/&quot;;
-    this.page.identifier = &quot;playing-elden-ring-in-the-cloud/&quot;;
-};
-
-(function() { // DON&apos;T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement(&apos;script&apos;);
-    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
-    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
-    (d.head || d.body).appendChild(s);
-})();
-&lt;/script&gt;
-
-&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
-
-</description>
-        <pubDate>Fri, 04 Nov 2022 00:00:00 -0500</pubDate>
-        <link>https://blog.waleedkhan.name/playing-elden-ring-in-the-cloud/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/playing-elden-ring-in-the-cloud/</guid>
-        
-        <category>gaming</category>
         
         
       </item>

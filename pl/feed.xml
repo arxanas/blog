@@ -7,12 +7,77 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/pl/</link>
     <atom:link href="https://blog.waleedkhan.name/pl/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 08 Mar 2023 15:34:49 -0600</pubDate>
-    <lastBuildDate>Wed, 08 Mar 2023 15:34:49 -0600</lastBuildDate>
+    <pubDate>Wed, 08 Mar 2023 18:17:25 -0600</pubDate>
+    <lastBuildDate>Wed, 08 Mar 2023 18:17:25 -0600</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
-        <title>Ulepszenie przyrostowe czasy testowaniaRust</title>
+        <title>Moja historia płacy</title>
+        <description>&lt;p&gt;&lt;em&gt;Docelowi odbiorcy: obecny inżynierzy oprogramowania szukający informacji dla swojego poszukiwania pracy lub negocjacja; osoby ciekawe o kompensacji w branży inżyniera oprogramowania w US (“poziom 3”).&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#historia-płacy&quot; id=&quot;markdown-toc-historia-płacy&quot;&gt;Historia płacy&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#komentarze&quot; id=&quot;markdown-toc-komentarze&quot;&gt;Komentarze&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;historia-płacy&quot;&gt;Historia płacy&lt;/h2&gt;
+
+&lt;p&gt;Inni udostępniali &lt;a href=&quot;https://www.jvt.me/posts/2021/09/09/public-salary-history/&quot;&gt;swoją płacę w rynku inżyniera oprogramowania&lt;/a&gt;. Z tych samych powodów, udostępniam własną płacę &lt;a href=&quot;https://docs.google.com/spreadsheets/d/1agEtwxcpS0HB8HSJJjy2u6wIUbi5LFUQMAus4ADu7mU/edit?usp=sharing&quot;&gt;na tym połączeniu Google Sheets&lt;/a&gt;. Uważam tą informację trochę sensytywną, więc musisz poprosić o pozwolenie aby zobaczyć.&lt;/p&gt;
+
+&lt;p&gt;W ramach &lt;a href=&quot;https://blog.pragmaticengineer.com/software-engineering-salaries-in-the-netherlands-and-europe/&quot;&gt;trójmodalnego modelu płacy&lt;/a&gt;, ponieważ pracowałem w US dla “&lt;a href=&quot;https://en.wikipedia.org/wiki/Big_Tech&quot;&gt;big tech&lt;/a&gt;” i finansów, plasuję się dobrze w “poziomu 3”. Zatem, ta informacją jest głównie przydatna dla kogoś negocjującego z firmą poziomu 3.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;W przypadku big tech, kompensacja zwykle jest dostana w postaci pensji, akcji (&lt;a href=&quot;https://en.wikipedia.org/wiki/Restricted_stock&quot;&gt;RSU&lt;/a&gt;), i rocznej premii opartej na wynikach.&lt;/li&gt;
+  &lt;li&gt;W przypadku finansy, kompensacja zwykle jest dostana w postaci pensji i rocznej premii opartej na wynikach.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Jeśli masz pytania dotyczące kompensacji lub negocjacji jako inżynier oprogramowania w US, &lt;a href=&quot;/pl/o-mnie/&quot;&gt;moje dane kontaktowe znajdziesz tutaj&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+
+&lt;/ul&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/pl/historia-płacy/&quot;;
+    this.page.identifier = &quot;historia-płacy/&quot;;
+};
+
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
+</description>
+        <pubDate>Wed, 08 Mar 2023 00:00:00 -0600</pubDate>
+        <link>https://blog.waleedkhan.name/pl/historia-płacy/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/pl/historia-płacy/</guid>
+        
+        <category>finance</category>
+        
+        <category>software-engineering</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Ulepszenie przyrostowe czasy testowania Rust</title>
         <description>&lt;p&gt;&lt;em&gt;Docelowi odbiorcy: potencjalni i średnio-zaawansowani deweloperzy Rust, którzy martwią się wolnymi czasami kompilacji, ich skalą i praktykami zapobiegawczymi; zaawansowani deweloperzy Rust, którzy pomogą mi poprawić czas kompilacji.&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;Rust jest znany z wolnego czasu kompilacji. Spędziłem dużo czasu próbując poprawić przyrostowe czasy kompilacji testowania dla mojego projektu &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt; w &lt;a href=&quot;https://github.com/arxanas/git-branchless/pull/650&quot;&gt;https://github.com/arxanas/git-branchless/pull/650&lt;/a&gt;. Oto dyskusja wyników.&lt;/p&gt;
