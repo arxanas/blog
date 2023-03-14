@@ -7,9 +7,75 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/pl/</link>
     <atom:link href="https://blog.waleedkhan.name/pl/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 08 Mar 2023 18:17:25 -0600</pubDate>
-    <lastBuildDate>Wed, 08 Mar 2023 18:17:25 -0600</lastBuildDate>
+    <pubDate>Tue, 14 Mar 2023 15:52:51 -0500</pubDate>
+    <lastBuildDate>Tue, 14 Mar 2023 15:52:51 -0500</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
+    
+      <item>
+        <title>e69de29bb2d1d6434b8b29ae775ad8c2e48c5391</title>
+        <description>&lt;!-- Output copied to clipboard! --&gt;
+
+&lt;!-- Yay, no errors, warnings, or alerts! --&gt;
+
+&lt;p&gt;&lt;em&gt;Docelowi odbiorcy: inżynierzy oprogramowania pracujący z Git, którzy natrafią się tą wartością, chcący potwierdzić, że ma szczególne znaczenie.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Hash &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;e69de29bb2d1d6434b8b29ae775ad8c2e48c5391&lt;/code&gt; jest używany przez Git do wykazania pustego blob (pustego pliku).&lt;/p&gt;
+
+&lt;p&gt;Aby potwierdzić, można ręcznie zbudować zawartość takiego object i hash’ować ją. Kształt zawartości object jest &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;typ&amp;gt; &amp;lt;rozmiar&amp;gt;\0&amp;lt;zawartość&amp;gt;&lt;/code&gt; (w którym &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;\0&lt;/code&gt; oznacza &lt;a href=&quot;https://pl.wikipedia.org/wiki/Null_(znak)&quot;&gt;null znak&lt;/a&gt;). W tym przypadku, typ jest &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;blob&lt;/code&gt; is rozmiar jest &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;0&lt;/code&gt;, i nie ma zawartości. Można obliczyć hash za pomocą jednej z poniższych komend:&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;printf&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;blob 0\0&apos;&lt;/span&gt; | shasum
+e69de29bb2d1d6434b8b29ae775ad8c2e48c5391  -
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;printf&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;blob 0\0&apos;&lt;/span&gt; | openssl dgst &lt;span class=&quot;nt&quot;&gt;-sha1&lt;/span&gt;  
+e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Zobacz też &lt;em&gt;&lt;a href=&quot;https://stackoverflow.com/q/47465226/344643&quot;&gt;Why does Git hash only the Contents of A File?&lt;/a&gt;&lt;/em&gt; na powiązaną dyskusję.&lt;/p&gt;
+
+&lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+
+&lt;/ul&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/pl/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/&quot;;
+    this.page.identifier = &quot;e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/&quot;;
+};
+
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
+</description>
+        <pubDate>Tue, 14 Mar 2023 00:00:00 -0500</pubDate>
+        <link>https://blog.waleedkhan.name/pl/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/pl/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/</guid>
+        
+        <category>git</category>
+        
+        <category>reference</category>
+        
+        <category>software-engineering</category>
+        
+        
+      </item>
     
       <item>
         <title>Moja historia płacy</title>

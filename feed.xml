@@ -7,9 +7,71 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 08 Mar 2023 18:17:22 -0600</pubDate>
-    <lastBuildDate>Wed, 08 Mar 2023 18:17:22 -0600</lastBuildDate>
+    <pubDate>Tue, 14 Mar 2023 15:52:48 -0500</pubDate>
+    <lastBuildDate>Tue, 14 Mar 2023 15:52:48 -0500</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
+    
+      <item>
+        <title>e69de29bb2d1d6434b8b29ae775ad8c2e48c5391</title>
+        <description>&lt;p&gt;&lt;em&gt;Intended audience: software engineers working with Git who happen to come across this value and want to confirm that it has particular significance.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The hash &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;e69de29bb2d1d6434b8b29ae775ad8c2e48c5391&lt;/code&gt; is used by Git to indicate an empty blob (an empty file).&lt;/p&gt;
+
+&lt;p&gt;To verify this, we can construct the object content manually and hash it. The format for object contents is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;type&amp;gt; &amp;lt;size&amp;gt;\0&amp;lt;contents&amp;gt;&lt;/code&gt; (where &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;\0&lt;/code&gt; denotes the &lt;a href=&quot;https://en.wikipedia.org/wiki/Null_character&quot;&gt;null byte&lt;/a&gt;). In this case, the type is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;blob&lt;/code&gt; and the size is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;0&lt;/code&gt;, and there are no contents. We can compute the hash with one of the following commands:&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;printf&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;blob 0\0&apos;&lt;/span&gt; | shasum
+e69de29bb2d1d6434b8b29ae775ad8c2e48c5391  -
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;printf&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;blob 0\0&apos;&lt;/span&gt; | openssl dgst &lt;span class=&quot;nt&quot;&gt;-sha1&lt;/span&gt;  
+e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;See also &lt;a href=&quot;https://stackoverflow.com/q/47465226/344643&quot;&gt;&lt;em&gt;Why does Git hash only the Contents of A File?&lt;/em&gt;&lt;/a&gt; for some related discussion.&lt;/p&gt;
+
+&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+
+&lt;/ul&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/&quot;;
+    this.page.identifier = &quot;e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/&quot;;
+};
+
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
+</description>
+        <pubDate>Tue, 14 Mar 2023 00:00:00 -0500</pubDate>
+        <link>https://blog.waleedkhan.name/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/</guid>
+        
+        <category>git</category>
+        
+        <category>reference</category>
+        
+        <category>software-engineering</category>
+        
+        
+      </item>
     
       <item>
         <title>My compensation history</title>
@@ -1562,131 +1624,6 @@ var disqus_config = function () {
         <guid isPermaLink="true">https://blog.waleedkhan.name/bringing-revsets-to-git/</guid>
         
         <category>git</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Update #1: Automatically detecting and replying to recruiter spam</title>
-        <description>&lt;p&gt;In &lt;a href=&quot;/detect-recruiter-spam/&quot;&gt;&lt;em&gt;Automatically detecting and replying to recruiter spam&lt;/em&gt;&lt;/a&gt;, I discussed an approach to automatically classifying and detecting unsolicited recruiter messages. Since then:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;I received a message from a recruiter, which was automatically replied to by my recruiter bot. This led me to leave my old job and accept a new offer at around twice the total compensation.&lt;/li&gt;
-  &lt;li&gt;In &lt;a href=&quot;https://github.com/arxanas/detect-recruiter-spam/commit/47f4106cac9067958c3e2679c486a052f9794f25&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Support responding via Gmail&lt;/code&gt;&lt;/a&gt;, I got the bot to successfully reply to LinkedIn emails, and therefore send replies on my behalf on LinkedIn.
-    &lt;ul&gt;
-      &lt;li&gt;However, I believe this to be counterproductive. In my understanding, LinkedIn keeps an activity/response timeliness score for users to determine if a given user is likely to be open to new opportunities on LinkedIn. Automatically responding to LinkedIn messages would raise this score. As a consequence, this positive feedback loop has caused me to receive &lt;em&gt;more&lt;/em&gt; LinkedIn messages than ever before! So I disabled auto-replies to LinkedIn emails.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
-
-&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
-
-&lt;table class=&quot;related-posts&quot;&gt;
-&lt;thead&gt;
-  &lt;tr&gt;
-    &lt;th&gt;Date&lt;/th&gt;
-    &lt;th&gt;&lt;/th&gt;
-    &lt;th&gt;Title&lt;/th&gt;
-  &lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;19&amp;nbsp;Sep&amp;nbsp;2016&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/dot-name-email-address/&quot;&gt;Is having a &apos;.name&apos; email address a good idea?&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;13&amp;nbsp;Oct&amp;nbsp;2016&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/messenger-conversation-macros/&quot;&gt;Analyzing all of my Messenger conversations to create conversational macros&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;29&amp;nbsp;Apr&amp;nbsp;2020&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/mail-server/&quot;&gt;I used to run my own mail server&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;04&amp;nbsp;Oct&amp;nbsp;2021&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/detect-recruiter-spam/&quot;&gt;Automatically detecting and replying to recruiter spam&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;09&amp;nbsp;Nov&amp;nbsp;2022&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      (this&amp;nbsp;post)
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/detect-recruiter-spam-update-1/&quot;&gt;Update #1: Automatically detecting and replying to recruiter spam&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
-
-&lt;ul&gt;
-
-
-
-&lt;/ul&gt;
-
-&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
-
-&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
-&lt;script&gt;
-
-/**
- *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
- *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
-var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/detect-recruiter-spam-update-1/&quot;;
-    this.page.identifier = &quot;detect-recruiter-spam-update-1/&quot;;
-};
-
-(function() { // DON&apos;T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement(&apos;script&apos;);
-    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
-    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
-    (d.head || d.body).appendChild(s);
-})();
-&lt;/script&gt;
-
-&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
-
-</description>
-        <pubDate>Wed, 09 Nov 2022 00:00:00 -0600</pubDate>
-        <link>https://blog.waleedkhan.name/detect-recruiter-spam-update-1/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/detect-recruiter-spam-update-1/</guid>
-        
-        <category>career</category>
-        
-        <category>machine-learning</category>
-        
-        <category>python</category>
         
         
       </item>
