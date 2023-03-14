@@ -4,6 +4,7 @@ title: OCaml file extensions
 permalink: ocaml-file-extensions/
 tags:
   - ocaml
+  - reference
 ---
 
 * toc
