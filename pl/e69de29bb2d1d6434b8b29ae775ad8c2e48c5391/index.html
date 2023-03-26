@@ -10,7 +10,7 @@
   
     <title>e69de29bb2d1d6434b8b29ae775ad8c2e48c5391</title>
   
-  <meta name="description" content="">
+  <meta name="description" content="Docelowi odbiorcy: inżynierowie oprogramowania pracujący z Git, którzy natrafili na tą wartośc i chcą potwierdzić, że ma ona szczególne znaczenie.">
 
   <link rel="stylesheet" href="/pl/css/main.css">
   <link rel="canonical" href="https://blog.waleedkhan.name/pl/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/">
@@ -65,22 +65,18 @@
     
     </p>
     
-<p><i>Nie mowię po polsku jako język ojczysty. Jak zobaczysz coś złego, niezależnie od tego, czy chodzi o pisownię, gramatykę, czy dobór słow, skomentuj to!</i></p>
+<p><i>Język polski nie jest moim oczystym językiem. Jeśli zobaczysz błąd, niezależnie od tego, czy chodzi o pisownię, gramatykę czy dobór słow, skomentuj to!</i></p>
 
 
   </header>
 
   <div class="post-content" itemprop="articleBody">
     
-    <!-- Output copied to clipboard! -->
+    <p><em>Docelowi odbiorcy: inżynierowie oprogramowania pracujący z Git, którzy natrafili na tą wartośc i chcą potwierdzić, że ma ona szczególne znaczenie.</em></p>
 
-<!-- Yay, no errors, warnings, or alerts! -->
+<p>Git stosuje hash <code class="language-plaintext highlighter-rouge">e69de29bb2d1d6434b8b29ae775ad8c2e48c5391</code> dla oznaczenia pustego blob (pusty plik).</p>
 
-<p><em>Docelowi odbiorcy: inżynierzy oprogramowania pracujący z Git, którzy natrafią się tą wartością, chcący potwierdzić, że ma szczególne znaczenie.</em></p>
-
-<p>Hash <code class="language-plaintext highlighter-rouge">e69de29bb2d1d6434b8b29ae775ad8c2e48c5391</code> jest używany przez Git do wykazania pustego blob (pustego pliku).</p>
-
-<p>Aby potwierdzić, można ręcznie zbudować zawartość takiego object i hash’ować ją. Kształt zawartości object jest <code class="language-plaintext highlighter-rouge">&lt;typ&gt; &lt;rozmiar&gt;\0&lt;zawartość&gt;</code> (w którym <code class="language-plaintext highlighter-rouge">\0</code> oznacza <a href="https://pl.wikipedia.org/wiki/Null_(znak)">null znak</a>). W tym przypadku, typ jest <code class="language-plaintext highlighter-rouge">blob</code> is rozmiar jest <code class="language-plaintext highlighter-rouge">0</code>, i nie ma zawartości. Można obliczyć hash za pomocą jednej z poniższych komend:</p>
+<p>W ramach potwierdzenia, możemy ręcznie zbudować zawartość takiego obiektu Git i obliczyć jego hash. Format zawartości obiektu to <code class="language-plaintext highlighter-rouge">&lt;typ&gt; &lt;rozmiar&gt;\0&lt;zawartość&gt;</code> (przy czym <code class="language-plaintext highlighter-rouge">\0</code> oznacza <a href="https://pl.wikipedia.org/wiki/Null_(znak)">znak null</a>). W tym przypadku, typ to <code class="language-plaintext highlighter-rouge">blob</code> rozmiar wynosi <code class="language-plaintext highlighter-rouge">0</code> i nie ma zawartości. Można obliczyć hash za pomocą jednej z poniższych komend:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">printf</span> <span class="s1">'blob 0\0'</span> | shasum
 e69de29bb2d1d6434b8b29ae775ad8c2e48c5391  -

@@ -7,21 +7,17 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/pl/</link>
     <atom:link href="https://blog.waleedkhan.name/pl/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 14 Mar 2023 15:52:51 -0500</pubDate>
-    <lastBuildDate>Tue, 14 Mar 2023 15:52:51 -0500</lastBuildDate>
+    <pubDate>Sun, 26 Mar 2023 17:11:27 -0500</pubDate>
+    <lastBuildDate>Sun, 26 Mar 2023 17:11:27 -0500</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
         <title>e69de29bb2d1d6434b8b29ae775ad8c2e48c5391</title>
-        <description>&lt;!-- Output copied to clipboard! --&gt;
+        <description>&lt;p&gt;&lt;em&gt;Docelowi odbiorcy: inżynierowie oprogramowania pracujący z Git, którzy natrafili na tą wartośc i chcą potwierdzić, że ma ona szczególne znaczenie.&lt;/em&gt;&lt;/p&gt;
 
-&lt;!-- Yay, no errors, warnings, or alerts! --&gt;
+&lt;p&gt;Git stosuje hash &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;e69de29bb2d1d6434b8b29ae775ad8c2e48c5391&lt;/code&gt; dla oznaczenia pustego blob (pusty plik).&lt;/p&gt;
 
-&lt;p&gt;&lt;em&gt;Docelowi odbiorcy: inżynierzy oprogramowania pracujący z Git, którzy natrafią się tą wartością, chcący potwierdzić, że ma szczególne znaczenie.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Hash &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;e69de29bb2d1d6434b8b29ae775ad8c2e48c5391&lt;/code&gt; jest używany przez Git do wykazania pustego blob (pustego pliku).&lt;/p&gt;
-
-&lt;p&gt;Aby potwierdzić, można ręcznie zbudować zawartość takiego object i hash’ować ją. Kształt zawartości object jest &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;typ&amp;gt; &amp;lt;rozmiar&amp;gt;\0&amp;lt;zawartość&amp;gt;&lt;/code&gt; (w którym &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;\0&lt;/code&gt; oznacza &lt;a href=&quot;https://pl.wikipedia.org/wiki/Null_(znak)&quot;&gt;null znak&lt;/a&gt;). W tym przypadku, typ jest &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;blob&lt;/code&gt; is rozmiar jest &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;0&lt;/code&gt;, i nie ma zawartości. Można obliczyć hash za pomocą jednej z poniższych komend:&lt;/p&gt;
+&lt;p&gt;W ramach potwierdzenia, możemy ręcznie zbudować zawartość takiego obiektu Git i obliczyć jego hash. Format zawartości obiektu to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;typ&amp;gt; &amp;lt;rozmiar&amp;gt;\0&amp;lt;zawartość&amp;gt;&lt;/code&gt; (przy czym &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;\0&lt;/code&gt; oznacza &lt;a href=&quot;https://pl.wikipedia.org/wiki/Null_(znak)&quot;&gt;znak null&lt;/a&gt;). W tym przypadku, typ to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;blob&lt;/code&gt; rozmiar wynosi &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;0&lt;/code&gt; i nie ma zawartości. Można obliczyć hash za pomocą jednej z poniższych komend:&lt;/p&gt;
 
 &lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;printf&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;blob 0\0&apos;&lt;/span&gt; | shasum
 e69de29bb2d1d6434b8b29ae775ad8c2e48c5391  -
