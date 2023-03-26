@@ -120,7 +120,7 @@
   <li><code class="language-plaintext highlighter-rouge">git-branchless-lib/src</code>: 12406 linii.</li>
 </ul>
 
-<p>Dopuszczalne są długie czasy kompilacji i łączenia [ang. “linking”], ale aby zoptymalizować sprzężenie zwrotnego programowania, potrzebuję szybkich czasów testowania. W szczególności chcę iterować nad pracowaniem pewnego testu. (<a href="https://www.jetbrains.com/idea/">IntelliJ</a> ma fajną funkcję automatycznego ponownego uruchamiania danego testu, gdy występuje zmiana w kodu źródła ale trwanie zbyt długo ponownej kompilacji zmniejsza jej przydatność.)</p>
+<p>Dopuszczalne są długie czasy kompilacji i <a href="https://pl.wikipedia.org/wiki/Konsolidacja_(informatyka)">konsolidacja</a>, ale aby zoptymalizować sprzężenie zwrotnego programowania, potrzebuję krótkich czasów testowania. W szczególności chcę iterować nad pracowaniem pewnego testu. (<a href="https://www.jetbrains.com/idea/">IntelliJ</a> ma fajną funkcję automatycznego ponownego uruchamiania danego testu, gdy występuje zmiana w kodu źródła ale trwanie zbyt długo ponownej kompilacji zmniejsza jej przydatność.)</p>
 
 <p>Na początek zbudowanie binary <code class="language-plaintext highlighter-rouge">test_amend</code> (który testuje subcommand <code class="language-plaintext highlighter-rouge">amend</code>) po dodaniu pojedynczego komentarza do jego pliku testu (bez zmian w library!) wymaga ~6.9sek:</p>
 
@@ -142,7 +142,7 @@ Benchmark 1: cargo <span class="nb">test</span> <span class="nt">--test</span> t
   Range <span class="o">(</span>min … max<span class="o">)</span>:	1.750 s …  1.793 s	10 runs
 </code></pre></div></div>
 
-<p>Jeśli chodzi o poprawę relatywną, to znaczna, ale jeśli chodzi o poprawę absolutną, sądzę, że jest raczej słaba. Bym oczekiwał 100-200ms na parsing, macro expansion, typechecking, i code generation (bez optimacji) dla pliku tego rozmiaru (~1k linii, głownie długi wartości łańcuchowe).</p>
+<p>Jeśli chodzi o poprawę względną, to znaczna, ale jeśli chodzi o poprawę bezwzględną, sądzę, że jest raczej słaba. Bym oczekiwał 100-200ms na parsing, macro expansion, typechecking, i code generation (bez optimacji) dla pliku tego rozmiaru (~1k linii, głownie długi wartości łańcuchowe).</p>
 
 <p>Dodatkowe, dzielenie na wiele crates utrudnia rozpowszechnianie projektu za pośrednictwem <a href="https://crates.io/">crates.io</a>:</p>
 
@@ -152,7 +152,7 @@ Benchmark 1: cargo <span class="nb">test</span> <span class="nt">--test</span> t
       <li>Dlatego muszę zarządzać wersjami i licencji każdego crate.</li>
     </ul>
   </li>
-  <li>Według mojej ankiety wśród użytkowników, większość moich użytkowników instaluje przez <code class="language-plaintext highlighter-rouge">cargo</code>. Na pytanie “Jak zainstalowałeś git-branchless?”, odpowiedzi są następujące (stan na ):
+  <li>Według mojej ankiety wśród użytkowników, większość moich użytkowników instaluje program za pomocą <code class="language-plaintext highlighter-rouge">cargo</code>. Na pytanie “Jak zainstalowałeś git-branchless?”, odpowiedzi są następujące (stan na ):
     <ul>
       <li>7/18 (38.9%): przez <code class="language-plaintext highlighter-rouge">cargo install git-branchless</code>.</li>
       <li>4/18 (22.2%): za pośrednictwem tradycyjnego systemowego menedżera pakietów.</li>
@@ -167,7 +167,7 @@ Benchmark 1: cargo <span class="nb">test</span> <span class="nt">--test</span> t
 
 <h2 id="czas-bez-operacji">Czas bez operacji</h2>
 
-<p>Wtedy, mierzę czas bez operacji [ang. “no-op”] na ~350ms dla mniejszej crate testowania z niewieloma zależności:</p>
+<p>Wtedy, mierzę czas bez operacji [ang. “no-op”] na ~350ms dla mniejszej testowe crate z niewieloma zależnościami:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>hyperfine <span class="nt">--warmup</span> 3 <span class="s1">'cargo test -p git-branchless-test --no-run'</span> 		 
 Benchmark 1: cargo <span class="nb">test</span> <span class="nt">-p</span> git-branchless-test <span class="nt">--no-run</span>
@@ -183,7 +183,7 @@ Benchmark 1: git status
   Range <span class="o">(</span>min … max<span class="o">)</span>:    11.1 ms …  24.7 ms    197 runs
 </code></pre></div></div>
 
-<p>Tu może być jakiś głębszy problem. Dokumentacji <code class="language-plaintext highlighter-rouge">cargo nextest</code> ostrzega, że niektóre systemy przeciw malware mogą wprowadzać sztuczne opóźnienie uruchamiania podczas sprawdzania plików wykonywalnych:</p>
+<p>Tu może być jakiś głębszy problem. Dokumentacja <code class="language-plaintext highlighter-rouge">cargo nextest</code> ostrzega, że niektóre systemy przeciw malware mogą wprowadzać sztuczne opóźnienie uruchamiania podczas sprawdzania plików wykonywalnych:</p>
 
 <blockquote>
   <p>A typical sign of this happening is even the simplest of tests in cargo nextest run taking more than 0.2 seconds.</p>
@@ -193,7 +193,7 @@ Benchmark 1: git status
 
 <h2 id="koniec-profilowania">Koniec profilowania?</h2>
 
-<p>Spróbowalem z subcommand crate, który niedawno stworzyłem bez dużo zaleźności:</p>
+<p>Spróbowalem z subcommand crate, który niedawno stworzyłem bez wielu zaleźności:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>hyperfine <span class="nt">--warmup</span> 3 <span class="nt">--prepare</span> <span class="s1">'echo "// @nocommit test" &gt;&gt;git-branchless-test/tests/test_test.rs'</span> <span class="s1">'cargo test -p git-branchless-test --no-run'</span>
 Benchmark 1: cargo <span class="nb">test</span> <span class="nt">-p</span> git-branchless-test <span class="nt">--no-run</span>
@@ -215,20 +215,20 @@ Benchmark 1: cargo <span class="nb">test</span> <span class="nt">-p</span> git-b
 
 <ul>
   <li>Połączenie testów integracyjnych w jeden binary. (W każdym razie chętnie uruchamiam indywidualne binaries, jeśli to konieczne.)</li>
-  <li>Zmniejszenie głównych monomorfozacji (wywołania <code class="language-plaintext highlighter-rouge">AsRef</code> itp. Pojawiły się w <code class="language-plaintext highlighter-rouge">cargo llvm-lines</code>, ale ich zmniejszenie nie wydawało się poprawę czasu kompilacji).</li>
+  <li>Zmniejszenie głównych monomorfozacji (wywołania <code class="language-plaintext highlighter-rouge">AsRef</code> itp. Pojawiły się w <code class="language-plaintext highlighter-rouge">cargo llvm-lines</code>, ale ich zmniejszenie nie zdawało się poprawiać czasu kompilacji).</li>
   <li>Używanie <a href="https://github.com/mozilla/sccache"><code class="language-plaintext highlighter-rouge">sccache</code></a>.</li>
   <li>Używanie <a href="https://nexte.st/"><code class="language-plaintext highlighter-rouge">cargo nextest</code></a>.</li>
   <li>Używanie <a href="https://github.com/michaeleisel/zld">zld</a>/<a href="https://github.com/rui314/mold">mold</a>/<a href="https://github.com/bluewhalesystems/sold">sold</a>.</li>
   <li>Ustawienie <code class="language-plaintext highlighter-rouge">profile.dev.split-debuginfo = “unpacked”</code> (dla systemu macOS).</li>
   <li>Ustawienie <code class="language-plaintext highlighter-rouge">profile.dev.build-override.opt-level = 3</code>.
     <ul>
-      <li>Niestety, są dużo makr proceduralnych, zwłaszcza <code class="language-plaintext highlighter-rouge">#[instrument]</code> z crate <a href="https://docs.rs/tracing/latest/tracing/"><code class="language-plaintext highlighter-rouge">tracing</code></a>.</li>
+      <li>Niestety, jest dużo makr proceduralnych, zwłaszcza <code class="language-plaintext highlighter-rouge">#[instrument]</code> z crate <a href="https://docs.rs/tracing/latest/tracing/"><code class="language-plaintext highlighter-rouge">tracing</code></a>.</li>
     </ul>
   </li>
   <li>Ustawienie <code class="language-plaintext highlighter-rouge">profile.dev.debug = 0</code>. W rzeczywistości skraca czas kompilacji o 20ms, ale samo w sobie nie wystarczy.</li>
 </ul>
 
-<p>Więc teraz utknąłem. To najwięcej, co mogę skrócić przyrostowe czasy testowania Rust. Daj znać, jeśli masz jakieś inne pomysły.</p>
+<p>Więc teraz utknąłem. To najwięcej, jak mogę skrócić przyrostowe czasy testowania Rust. Daj znać, jeśli masz jakieś inne pomysły.</p>
 
 <h2 id="komentarze">Komentarze</h2>
 
