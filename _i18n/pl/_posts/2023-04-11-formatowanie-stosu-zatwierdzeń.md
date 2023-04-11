@@ -19,7 +19,7 @@ Oto demonstracja formatowania zatwierdzeń w stosie (przewiń do 0:35, aby zobac
 
 <video src="https://user-images.githubusercontent.com/454057/219904589-79657aed-9356-4f87-a0e4-bdcfbe691621.mov" controls="controls" muted="muted"></video>
 
-Ja zwykle ustawiam `git fmt` na alias dla czegoś takiego
+Ja zwykle ustawiam `git` fmt na alias na coś takiego
 
 ```
 git test run --exec 'cargo fmt --all' --strategy worktree --jobs 8
