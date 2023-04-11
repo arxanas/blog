@@ -7,9 +7,69 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/pl/</link>
     <atom:link href="https://blog.waleedkhan.name/pl/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 26 Mar 2023 17:20:31 -0500</pubDate>
-    <lastBuildDate>Sun, 26 Mar 2023 17:20:31 -0500</lastBuildDate>
+    <pubDate>Tue, 11 Apr 2023 11:44:39 -0500</pubDate>
+    <lastBuildDate>Tue, 11 Apr 2023 11:44:39 -0500</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
+    
+      <item>
+        <title>Szybkie formatowanie stosu zatwierdzeń</title>
+        <description>&lt;p&gt;&lt;em&gt;Docelowi odbiorcy: inżynierowie oprogramowanie pracujący z Git, którzy używają “patch stacks”/”stacked diffs”, na przykład w jaki sposób Git jest używany w projektach Git i Linux, a także w wielu firmach wprowadzających “&lt;a href=&quot;https://trunkbaseddevelopment.com/&quot;&gt;trunk-based development&lt;/a&gt;”; ale nie użytkownicy Git, który uważają, że graf zatwierdzeń Git powinien odzwierciedlać rzeczywisty proces rozwijania.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Pewna kategoria programistów używa Git z przypływem pracy “patch stack”, na którym zbierają ciąg małych, indywidualnie przeglądanych zatwierdzeń, które razem realizują znaczną zmianę. W takich przykładach, często przydatne jest uruchamianie linters lub formatters na każdym zatwierdzeniu w stosie i zastosowanie wyników. Może to być jednak żmudne, a naiwne podejście może powodować niepotrzebne konflikty scalania. (Jednym z obejść jest zastosowanie formatter na każdym zatwierdzeniu w stosie &lt;em&gt;wstecz&lt;/em&gt;.)&lt;/p&gt;
+
+&lt;p&gt;Komenda &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git test&lt;/code&gt; z git-branchless przedstawia rozwiązanie do szybkiego uruchamiania formatters, itd., na całym stosie zatwierdzeń bez produkowania konfliktów scalania. Dodatkowo, może to zostać wykonywany równoległe, i zapisuje wyniki, żeby ponowne formatowania tego samego zatwierdzenia zostawił pominięte. Możesz zobaczyć &lt;a href=&quot;https://github.com/arxanas/git-branchless/discussions/803&quot;&gt;post z ogłoszeniem&lt;/a&gt; lub &lt;a href=&quot;https://github.com/arxanas/git-branchless/wiki/Command:-git-test&quot;&gt;dokumentację &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git test&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Oto demonstracja formatowania zatwierdzeń w stosie (przewiń do 0:35, aby zobaczyć tylko demonstrację &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git test fix&lt;/code&gt;):&lt;/p&gt;
+
+&lt;video src=&quot;https://user-images.githubusercontent.com/454057/219904589-79657aed-9356-4f87-a0e4-bdcfbe691621.mov&quot; controls=&quot;controls&quot; muted=&quot;muted&quot;&gt;&lt;/video&gt;
+
+&lt;p&gt;Ja zwykle ustawiam &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git fmt&lt;/code&gt; na alias dla czegoś takiego&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git test run --exec &apos;cargo fmt --all&apos; --strategy worktree --jobs 8
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+
+&lt;/ul&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/pl/formatowanie-stosu-zatwierdzeń/&quot;;
+    this.page.identifier = &quot;formatowanie-stosu-zatwierdzeń/&quot;;
+};
+
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
+</description>
+        <pubDate>Tue, 11 Apr 2023 00:00:00 -0500</pubDate>
+        <link>https://blog.waleedkhan.name/pl/formatowanie-stosu-zatwierdzeń/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/pl/formatowanie-stosu-zatwierdzeń/</guid>
+        
+        <category>git</category>
+        
+        <category>software-engineering</category>
+        
+        
+      </item>
     
       <item>
         <title>e69de29bb2d1d6434b8b29ae775ad8c2e48c5391</title>

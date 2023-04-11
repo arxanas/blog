@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 
   <head>
   <meta charset="utf-8">
@@ -8,13 +8,13 @@
 
   
   
-    <title>e69de29bb2d1d6434b8b29ae775ad8c2e48c5391</title>
+    <title>Quickly formatting a stack of commits</title>
   
-  <meta name="description" content="Docelowi odbiorcy: inżynierowie oprogramowania pracujący z Git, którzy natrafili na tą wartośc i chcą potwierdzić, że ma ona szczególne znaczenie.">
+  <meta name="description" content="Intended audience: software engineers working with Git who use “patch stacks”/”stacked diffs”, such as how Git is used for the Git and Linux projects, as wel...">
 
-  <link rel="stylesheet" href="/pl/css/main.css">
-  <link rel="canonical" href="https://blog.waleedkhan.name/pl/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/">
-  <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/pl/feed.xml">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="https://blog.waleedkhan.name/formatting-a-commit-stack/">
+  <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
 </head>
 
@@ -25,7 +25,7 @@
 
   <div class="wrapper">
 
-    <a class="site-title" href="/pl/">Steno & PL</a>
+    <a class="site-title" href="/">Steno & PL</a>
 
     <nav class="site-nav">
       <a href="#" class="menu-icon">
@@ -38,7 +38,7 @@
 
       <div class="trigger">
         
-          <a class="page-link" href="/pl/o-mnie/">O mnie</a>
+          <a class="page-link" href="/about/">About</a>
         
       </div>
     </nav>
@@ -53,42 +53,39 @@
         <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">e69de29bb2d1d6434b8b29ae775ad8c2e48c5391</h1>
-    <p class="post-meta"><time datetime="2023-03-14T00:00:00-05:00" itemprop="datePublished">Mar 14, 2023</time>
+    <h1 class="post-title" itemprop="name headline">Quickly formatting a stack of commits</h1>
+    <p class="post-meta"><time datetime="2023-04-11T00:00:00-05:00" itemprop="datePublished">Apr 11, 2023</time>
     
       <span class="post-meta">
         <br />
         
-        <a href="/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/">Read in English 🇺🇸</a>
-      
+        <a href="/pl/formatowanie-stosu-zatwierdzeń/">Czytaj po polsku 🇵🇱</a>
+        
       </span>
     
     </p>
     
-<p><i>Język polski nie jest moim oczystym językiem. Jeśli zobaczysz błąd, niezależnie od tego, czy chodzi o pisownię, gramatykę czy dobór słow, skomentuj to!</i></p>
-<hr />
-
 
   </header>
 
   <div class="post-content" itemprop="articleBody">
     
-    <p><em>Docelowi odbiorcy: inżynierowie oprogramowania pracujący z Git, którzy natrafili na tą wartośc i chcą potwierdzić, że ma ona szczególne znaczenie.</em></p>
+    <p><em>Intended audience: software engineers working with Git who use “patch stacks”/”stacked diffs”, such as how Git is used for the Git and Linux projects, as well as for many companies practicing <a href="https://trunkbaseddevelopment.com/">trunk-based development</a>; but not Git users who think the Git commit graph should reflect the actual development process.</em></p>
 
-<p>Git stosuje hash <code class="language-plaintext highlighter-rouge">e69de29bb2d1d6434b8b29ae775ad8c2e48c5391</code> dla oznaczenia pustego blob (pusty plik).</p>
+<p>A certain category of developer uses Git with a “patch stack” workflow, in which they accumulate a sequence of small, individually-reviewable commits that together implement a large change. In these cases, it’s oftentimes useful to run linters or formatters on each commit in the stack and apply the results. However, this can be tedious, and a naive approach can cause needless merge conflicts. (One workaround is to run formatters on each commit in the stack <em>backwards</em>.)</p>
 
-<p>W ramach potwierdzenia, możemy ręcznie zbudować zawartość takiego obiektu Git i obliczyć jego hash. Format zawartości obiektu to <code class="language-plaintext highlighter-rouge">&lt;typ&gt; &lt;rozmiar&gt;\0&lt;zawartość&gt;</code> (przy czym <code class="language-plaintext highlighter-rouge">\0</code> oznacza <a href="https://pl.wikipedia.org/wiki/Null_(znak)">znak null</a>). W tym przypadku, typ to <code class="language-plaintext highlighter-rouge">blob</code> rozmiar wynosi <code class="language-plaintext highlighter-rouge">0</code> i nie ma zawartości. Można obliczyć hash za pomocą jednej z poniższych komend:</p>
+<p><a href="https://github.com/arxanas/git-branchless">git-branchless</a>’s <code class="language-plaintext highlighter-rouge">git test</code> command offers a solution to quickly run formatters, etc., on an entire stack of commits without causing merge conflicts. Additionally, it can be performed in parallel, and it caches results so that reformats of the same commits are skipped. You can see the <a href="https://github.com/arxanas/git-branchless/discussions/803">announcement post</a> or <a href="https://github.com/arxanas/git-branchless/wiki/Command:-git-test">the documentation for <code class="language-plaintext highlighter-rouge">git test</code></a>.</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">printf</span> <span class="s1">'blob 0\0'</span> | shasum
-e69de29bb2d1d6434b8b29ae775ad8c2e48c5391  -
+<p>Here’s a demo of formatting the commits in a stack (skip to 0:35 to see just the demonstration of <code class="language-plaintext highlighter-rouge">git test fix</code>):</p>
 
-<span class="nv">$ </span><span class="nb">printf</span> <span class="s1">'blob 0\0'</span> | openssl dgst <span class="nt">-sha1</span>  
-e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+<video src="https://user-images.githubusercontent.com/454057/219904589-79657aed-9356-4f87-a0e4-bdcfbe691621.mov" controls="controls" muted="muted"></video>
+
+<p>I usually set <code class="language-plaintext highlighter-rouge">git fmt</code> to an alias for something like</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git test run --exec 'cargo fmt --all' --strategy worktree --jobs 8
 </code></pre></div></div>
 
-<p>Zobacz też <em><a href="https://stackoverflow.com/q/47465226/344643">Why does Git hash only the Contents of A File?</a></em> na powiązaną dyskusję.</p>
-
-<h2 id="komentarze">Komentarze</h2>
+<h2 id="comments">Comments</h2>
 
 <ul>
 
@@ -105,8 +102,8 @@ e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
 var disqus_config = function () {
-    this.page.url = "https://blog.waleedkhan.name/pl/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/";
-    this.page.identifier = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/";
+    this.page.url = "https://blog.waleedkhan.name/formatting-a-commit-stack/";
+    this.page.identifier = "formatting-a-commit-stack/";
 };
 
 (function() { // DON'T EDIT BELOW THIS LINE
@@ -133,7 +130,7 @@ var disqus_config = function () {
 
     <h2 class="footer-heading">Steno & PL</h2>
     
-    <p class="rss-subscribe">subskrybuj <a href="/pl/feed.xml">za pomocą RSS</a></p>
+    <p class="rss-subscribe">subscribe <a href="/feed.xml">via RSS</a></p>
     
 
     <div class="footer-col-wrapper">
@@ -165,7 +162,7 @@ var disqus_config = function () {
       </div>
 
       <div class="footer-col footer-col-3">
-        <p>To jest blog osobisty. Jeśli nie wykazano inaczej, wyrażone tutaj opinie są moimi własnymi, a nie opiniami moich byłych lub obecnych pracodawców.</p>
+        <p>This is a personal blog. Unless otherwise stated, the opinions expressed here are my own, and not those of my past or present employers.</p>
       </div>
     </div>
 

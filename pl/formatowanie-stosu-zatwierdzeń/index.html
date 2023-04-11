@@ -8,12 +8,12 @@
 
   
   
-    <title>e69de29bb2d1d6434b8b29ae775ad8c2e48c5391</title>
+    <title>Szybkie formatowanie stosu zatwierdzeń</title>
   
-  <meta name="description" content="Docelowi odbiorcy: inżynierowie oprogramowania pracujący z Git, którzy natrafili na tą wartośc i chcą potwierdzić, że ma ona szczególne znaczenie.">
+  <meta name="description" content="Docelowi odbiorcy: inżynierowie oprogramowanie pracujący z Git, którzy używają “patch stacks”/”stacked diffs”, na przykład w jaki sposób Git jest używany w p...">
 
   <link rel="stylesheet" href="/pl/css/main.css">
-  <link rel="canonical" href="https://blog.waleedkhan.name/pl/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/">
+  <link rel="canonical" href="https://blog.waleedkhan.name/pl/formatowanie-stosu-zatwierdzeń/">
   <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/pl/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
 </head>
@@ -53,13 +53,13 @@
         <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">e69de29bb2d1d6434b8b29ae775ad8c2e48c5391</h1>
-    <p class="post-meta"><time datetime="2023-03-14T00:00:00-05:00" itemprop="datePublished">Mar 14, 2023</time>
+    <h1 class="post-title" itemprop="name headline">Szybkie formatowanie stosu zatwierdzeń</h1>
+    <p class="post-meta"><time datetime="2023-04-11T00:00:00-05:00" itemprop="datePublished">Apr 11, 2023</time>
     
       <span class="post-meta">
         <br />
         
-        <a href="/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/">Read in English 🇺🇸</a>
+        <a href="/formatting-a-commit-stack/">Read in English 🇺🇸</a>
       
       </span>
     
@@ -73,20 +73,20 @@
 
   <div class="post-content" itemprop="articleBody">
     
-    <p><em>Docelowi odbiorcy: inżynierowie oprogramowania pracujący z Git, którzy natrafili na tą wartośc i chcą potwierdzić, że ma ona szczególne znaczenie.</em></p>
+    <p><em>Docelowi odbiorcy: inżynierowie oprogramowanie pracujący z Git, którzy używają “patch stacks”/”stacked diffs”, na przykład w jaki sposób Git jest używany w projektach Git i Linux, a także w wielu firmach wprowadzających “<a href="https://trunkbaseddevelopment.com/">trunk-based development</a>”; ale nie użytkownicy Git, który uważają, że graf zatwierdzeń Git powinien odzwierciedlać rzeczywisty proces rozwijania.</em></p>
 
-<p>Git stosuje hash <code class="language-plaintext highlighter-rouge">e69de29bb2d1d6434b8b29ae775ad8c2e48c5391</code> dla oznaczenia pustego blob (pusty plik).</p>
+<p>Pewna kategoria programistów używa Git z przypływem pracy “patch stack”, na którym zbierają ciąg małych, indywidualnie przeglądanych zatwierdzeń, które razem realizują znaczną zmianę. W takich przykładach, często przydatne jest uruchamianie linters lub formatters na każdym zatwierdzeniu w stosie i zastosowanie wyników. Może to być jednak żmudne, a naiwne podejście może powodować niepotrzebne konflikty scalania. (Jednym z obejść jest zastosowanie formatter na każdym zatwierdzeniu w stosie <em>wstecz</em>.)</p>
 
-<p>W ramach potwierdzenia, możemy ręcznie zbudować zawartość takiego obiektu Git i obliczyć jego hash. Format zawartości obiektu to <code class="language-plaintext highlighter-rouge">&lt;typ&gt; &lt;rozmiar&gt;\0&lt;zawartość&gt;</code> (przy czym <code class="language-plaintext highlighter-rouge">\0</code> oznacza <a href="https://pl.wikipedia.org/wiki/Null_(znak)">znak null</a>). W tym przypadku, typ to <code class="language-plaintext highlighter-rouge">blob</code> rozmiar wynosi <code class="language-plaintext highlighter-rouge">0</code> i nie ma zawartości. Można obliczyć hash za pomocą jednej z poniższych komend:</p>
+<p>Komenda <code class="language-plaintext highlighter-rouge">git test</code> z git-branchless przedstawia rozwiązanie do szybkiego uruchamiania formatters, itd., na całym stosie zatwierdzeń bez produkowania konfliktów scalania. Dodatkowo, może to zostać wykonywany równoległe, i zapisuje wyniki, żeby ponowne formatowania tego samego zatwierdzenia zostawił pominięte. Możesz zobaczyć <a href="https://github.com/arxanas/git-branchless/discussions/803">post z ogłoszeniem</a> lub <a href="https://github.com/arxanas/git-branchless/wiki/Command:-git-test">dokumentację <code class="language-plaintext highlighter-rouge">git test</code></a>.</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">printf</span> <span class="s1">'blob 0\0'</span> | shasum
-e69de29bb2d1d6434b8b29ae775ad8c2e48c5391  -
+<p>Oto demonstracja formatowania zatwierdzeń w stosie (przewiń do 0:35, aby zobaczyć tylko demonstrację <code class="language-plaintext highlighter-rouge">git test fix</code>):</p>
 
-<span class="nv">$ </span><span class="nb">printf</span> <span class="s1">'blob 0\0'</span> | openssl dgst <span class="nt">-sha1</span>  
-e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+<video src="https://user-images.githubusercontent.com/454057/219904589-79657aed-9356-4f87-a0e4-bdcfbe691621.mov" controls="controls" muted="muted"></video>
+
+<p>Ja zwykle ustawiam <code class="language-plaintext highlighter-rouge">git fmt</code> na alias dla czegoś takiego</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git test run --exec 'cargo fmt --all' --strategy worktree --jobs 8
 </code></pre></div></div>
-
-<p>Zobacz też <em><a href="https://stackoverflow.com/q/47465226/344643">Why does Git hash only the Contents of A File?</a></em> na powiązaną dyskusję.</p>
 
 <h2 id="komentarze">Komentarze</h2>
 
@@ -105,8 +105,8 @@ e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
 var disqus_config = function () {
-    this.page.url = "https://blog.waleedkhan.name/pl/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/";
-    this.page.identifier = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/";
+    this.page.url = "https://blog.waleedkhan.name/pl/formatowanie-stosu-zatwierdzeń/";
+    this.page.identifier = "formatowanie-stosu-zatwierdzeń/";
 };
 
 (function() { // DON'T EDIT BELOW THIS LINE

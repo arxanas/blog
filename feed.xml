@@ -7,9 +7,69 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 26 Mar 2023 17:20:27 -0500</pubDate>
-    <lastBuildDate>Sun, 26 Mar 2023 17:20:27 -0500</lastBuildDate>
+    <pubDate>Tue, 11 Apr 2023 11:44:36 -0500</pubDate>
+    <lastBuildDate>Tue, 11 Apr 2023 11:44:36 -0500</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
+    
+      <item>
+        <title>Quickly formatting a stack of commits</title>
+        <description>&lt;p&gt;&lt;em&gt;Intended audience: software engineers working with Git who use “patch stacks”/”stacked diffs”, such as how Git is used for the Git and Linux projects, as well as for many companies practicing &lt;a href=&quot;https://trunkbaseddevelopment.com/&quot;&gt;trunk-based development&lt;/a&gt;; but not Git users who think the Git commit graph should reflect the actual development process.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;A certain category of developer uses Git with a “patch stack” workflow, in which they accumulate a sequence of small, individually-reviewable commits that together implement a large change. In these cases, it’s oftentimes useful to run linters or formatters on each commit in the stack and apply the results. However, this can be tedious, and a naive approach can cause needless merge conflicts. (One workaround is to run formatters on each commit in the stack &lt;em&gt;backwards&lt;/em&gt;.)&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt;’s &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git test&lt;/code&gt; command offers a solution to quickly run formatters, etc., on an entire stack of commits without causing merge conflicts. Additionally, it can be performed in parallel, and it caches results so that reformats of the same commits are skipped. You can see the &lt;a href=&quot;https://github.com/arxanas/git-branchless/discussions/803&quot;&gt;announcement post&lt;/a&gt; or &lt;a href=&quot;https://github.com/arxanas/git-branchless/wiki/Command:-git-test&quot;&gt;the documentation for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git test&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Here’s a demo of formatting the commits in a stack (skip to 0:35 to see just the demonstration of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git test fix&lt;/code&gt;):&lt;/p&gt;
+
+&lt;video src=&quot;https://user-images.githubusercontent.com/454057/219904589-79657aed-9356-4f87-a0e4-bdcfbe691621.mov&quot; controls=&quot;controls&quot; muted=&quot;muted&quot;&gt;&lt;/video&gt;
+
+&lt;p&gt;I usually set &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git fmt&lt;/code&gt; to an alias for something like&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git test run --exec &apos;cargo fmt --all&apos; --strategy worktree --jobs 8
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+
+&lt;/ul&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/formatting-a-commit-stack/&quot;;
+    this.page.identifier = &quot;formatting-a-commit-stack/&quot;;
+};
+
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
+</description>
+        <pubDate>Tue, 11 Apr 2023 00:00:00 -0500</pubDate>
+        <link>https://blog.waleedkhan.name/formatting-a-commit-stack/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/formatting-a-commit-stack/</guid>
+        
+        <category>git</category>
+        
+        <category>software-engineering</category>
+        
+        
+      </item>
     
       <item>
         <title>e69de29bb2d1d6434b8b29ae775ad8c2e48c5391</title>
@@ -1328,302 +1388,6 @@ var disqus_config = function () {
         <guid isPermaLink="true">https://blog.waleedkhan.name/playing-elden-ring-in-the-cloud-update-1/</guid>
         
         <category>gaming</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Bringing revsets to Git</title>
-        <description>&lt;p&gt;&lt;a href=&quot;https://www.mercurial-scm.org/repo/hg/help/revsets&quot;&gt;Revsets are a declarative language from the Mercurial version control system&lt;/a&gt;. Most commands in Mercurial that accept a commit can instead accept a revset expression to specify one or more commits meeting certain criteria. The &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt; suite of tools introduces its own revset language which can be used with Git.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Intended audience: intermediate to advanced Git users; developers of version control.&lt;/em&gt;&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#try-it-out&quot; id=&quot;markdown-toc-try-it-out&quot;&gt;Try it out&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#existing-git-syntax&quot; id=&quot;markdown-toc-existing-git-syntax&quot;&gt;Existing Git syntax&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#better-scripting&quot; id=&quot;markdown-toc-better-scripting&quot;&gt;Better scripting&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#better-graph-view&quot; id=&quot;markdown-toc-better-graph-view&quot;&gt;Better graph view&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#better-rebasing&quot; id=&quot;markdown-toc-better-rebasing&quot;&gt;Better rebasing&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#better-testing&quot; id=&quot;markdown-toc-better-testing&quot;&gt;Better testing&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#prior-work&quot; id=&quot;markdown-toc-prior-work&quot;&gt;Prior work&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#related-posts&quot; id=&quot;markdown-toc-related-posts&quot;&gt;Related posts&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;try-it-out&quot;&gt;Try it out&lt;/h2&gt;
-
-&lt;p&gt;To try out revsets, &lt;a href=&quot;https://github.com/arxanas/git-branchless#installation&quot;&gt;install git-branchless&lt;/a&gt;, or see &lt;a href=&quot;#prior-work&quot;&gt;Prior work&lt;/a&gt; for alternatives.&lt;/p&gt;
-
-&lt;aside class=&quot;aside&quot; id=&quot;sapling-scm&quot;&gt;
-          &lt;header class=&quot;aside-header&quot;&gt;&lt;a href=&quot;#sapling-scm&quot;&gt;Sapling SCM&lt;/a&gt;&lt;/header&gt;
-          &lt;div class=&quot;aside-contents&quot;&gt;&lt;p&gt;While this post was still in draft, &lt;a href=&quot;https://sapling-scm.com/&quot;&gt;Sapling SCM&lt;/a&gt; was announced, which git-branchless is descended from in spirit. It’s discussed in Prior work as well.&lt;/p&gt;
-&lt;/div&gt;
-        &lt;/aside&gt;
-
-&lt;h2 id=&quot;existing-git-syntax&quot;&gt;Existing Git syntax&lt;/h2&gt;
-
-&lt;p&gt;Git already supports its own revision specification language (see &lt;a href=&quot;https://git-scm.com/docs/gitrevisions&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gitrevisions(7)&lt;/code&gt;&lt;/a&gt;). You may have already written e.g. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HEAD~&lt;/code&gt; to mean the immediate parent of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HEAD&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;However, Git’s revision specification language doesn’t integrate well with the rest of Git. You can write &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git log foo..bar&lt;/code&gt; to list the commits between &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;foo&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bar&lt;/code&gt;, but you can’t write &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase foo..bar&lt;/code&gt; to rebase that same range of commits.&lt;/p&gt;
-
-&lt;p&gt;It can also be difficult to express certain sets of commits:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;You can only express contiguous ranges of the commits, not arbitrary sets.&lt;/li&gt;
-  &lt;li&gt;You can’t directly query for the children of a given commit.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;git-branchless introduces a revset language which can be used directly via its &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git query&lt;/code&gt; or with its other commands, such as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git smartlog&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git move&lt;/code&gt;, and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git test&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;The rest of this article shows a few things you can do with revsets. You can also read the &lt;a href=&quot;https://github.com/arxanas/git-branchless/discussions/496&quot;&gt;Revset recipes&lt;/a&gt; thread on the git-branchless discussion board.&lt;/p&gt;
-
-&lt;h2 id=&quot;better-scripting&quot;&gt;Better scripting&lt;/h2&gt;
-
-&lt;p&gt;Revsets can &lt;em&gt;compose&lt;/em&gt; to form complex queries in ways that Git can’t express natively.&lt;/p&gt;
-
-&lt;p&gt;In &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git log&lt;/code&gt;, you could write this to filter commits by a certain author:&lt;/p&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git log &lt;span class=&quot;nt&quot;&gt;--author&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Foo&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;But negating this pattern is quite difficult; see Stack Overflow question &lt;a href=&quot;https://stackoverflow.com/q/6889830/344643&quot;&gt;equivalence of: git log –exclude-author?&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;With revsets, the same search can be straightforwardly negated with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;not&lt;/code&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git query &lt;span class=&quot;s1&quot;&gt;&apos;not(author.name(Foo))&apos;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;It’s easy to add more filters to refine your query. To additionally limit to files which match a certain pattern and commit messages which contain a certain string, you could write this:&lt;/p&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git query &lt;span class=&quot;s1&quot;&gt;&apos;not(author.name(Foo)) &amp;amp; paths.changed(path/to/file) &amp;amp; message(Ticket-123)&apos;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;You can express complicated ad-hoc queries in this way without having to write a custom script.&lt;/p&gt;
-
-&lt;h2 id=&quot;better-graph-view&quot;&gt;Better graph view&lt;/h2&gt;
-
-&lt;p&gt;Git has a graph view available with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git log --graph&lt;/code&gt;, which is a useful way to orient yourself in the commit graph. However, it’s somewhat limited in what it can render. There’s no way to filter commits to only those matching a certain condition.&lt;/p&gt;
-
-&lt;p&gt;git-branchless offers a “smartlog” command which attempts to show you only relevant commits. By default, it includes all of your local work up until the main branch, but not other people’s commits. Mine looks like this right now:&lt;/p&gt;
-
-&lt;figure class=&quot;figure&quot;&gt;
-        &lt;a href=&quot;/assets/posts/bringing-revsets-to-git/smartlog-default.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/assets/posts/bringing-revsets-to-git/smartlog-default.png&quot; alt=&quot;Image of the smartlog view with a few draft commits and branches.&quot; title=&quot;Image of the smartlog view with a few draft commits and branches.&quot; /&gt;&lt;/a&gt;
-        &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;Image of the smartlog view with a few draft commits and branches.&lt;/p&gt;
-&lt;/figcaption&gt;
-      &lt;/figure&gt;
-
-&lt;p&gt;But you can also filter commits using revsets. To show only my draft work which touches the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-branchless-lib/src/git&lt;/code&gt; directory, I can issue this command:&lt;/p&gt;
-
-&lt;figure class=&quot;figure&quot;&gt;
-        &lt;a href=&quot;/assets/posts/bringing-revsets-to-git/smartlog-with-omitted-commits.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/assets/posts/bringing-revsets-to-git/smartlog-with-omitted-commits.png&quot; alt=&quot;Image of the smartlog view as before, but with only two draft commits visible (excluding those on the main branch).&quot; title=&quot;Image of the smartlog view as before, but with only two draft commits visible (excluding those on the main branch).&quot; /&gt;&lt;/a&gt;
-        &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;Image of the smartlog view as before, but with only two draft commits visible (excluding those on the main branch).&lt;/p&gt;
-&lt;/figcaption&gt;
-      &lt;/figure&gt;
-
-&lt;p&gt;Another common use-case might be to render the relative topology of branches in just this stack:&lt;/p&gt;
-
-&lt;figure class=&quot;figure&quot;&gt;
-        &lt;a href=&quot;/assets/posts/bringing-revsets-to-git/smartlog-branch-topology.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/assets/posts/bringing-revsets-to-git/smartlog-branch-topology.png&quot; alt=&quot;Image of a different smartlog view as before, showing branch-1 and branch-3 with an omitted commit between them.&quot; title=&quot;Image of a different smartlog view as before, showing branch-1 and branch-3 with an omitted commit between them.&quot; /&gt;&lt;/a&gt;
-        &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;Image of a different smartlog view as before, showing branch-1 and branch-3 with an omitted commit between them.&lt;/p&gt;
-&lt;/figcaption&gt;
-      &lt;/figure&gt;
-
-&lt;p&gt;You can also render commits which have already been checked into the main branch, if so desired.&lt;/p&gt;
-
-&lt;h2 id=&quot;better-rebasing&quot;&gt;Better rebasing&lt;/h2&gt;
-
-&lt;p&gt;Not only can you render the commit graph with revsets, but you can also modify it. Revsets are quite useful when used with “patch-stack” workflows, such as those used for the Git and Linux projects, or at certain tech companies practicing &lt;a href=&quot;https://trunkbaseddevelopment.com/&quot;&gt;trunk-based development&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;For example, suppose you have some refactoring changes to the file &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;foo&lt;/code&gt; on your current branch, and you want to separate them into a new branch for review:&lt;/p&gt;
-
-&lt;figure class=&quot;figure&quot;&gt;
-        &lt;a href=&quot;/assets/posts/bringing-revsets-to-git/drawn-smartlog.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/assets/posts/bringing-revsets-to-git/drawn-smartlog.png&quot; alt=&quot;Image of a feature branch with four commits. Each commit shows two touched files underneath it.&quot; title=&quot;Image of a feature branch with four commits. Each commit shows two touched files underneath it.&quot; /&gt;&lt;/a&gt;
-        &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;Image of a feature branch with four commits. Each commit shows two touched files underneath it.&lt;/p&gt;
-&lt;/figcaption&gt;
-      &lt;/figure&gt;
-
-&lt;p&gt;You can use revsets to select just the commits touching &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;foo&lt;/code&gt; in the current branch:&lt;/p&gt;
-
-&lt;figure class=&quot;figure&quot;&gt;
-        &lt;a href=&quot;/assets/posts/bringing-revsets-to-git/drawn-smartlog-filtered-commits.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/assets/posts/bringing-revsets-to-git/drawn-smartlog-filtered-commits.png&quot; alt=&quot;Image of the same feature branch as before, but with the first and third commits outlined in red and the touched file &amp;apos;foo&amp;apos; in red.&quot; title=&quot;Image of the same feature branch as before, but with the first and third commits outlined in red and the touched file &amp;apos;foo&amp;apos; in red.&quot; /&gt;&lt;/a&gt;
-        &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;Image of the same feature branch as before, but with the first and third commits outlined in red and the touched file &amp;#8216;foo&amp;#8217; in red.&lt;/p&gt;
-&lt;/figcaption&gt;
-      &lt;/figure&gt;
-
-&lt;p&gt;Then use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git move&lt;/code&gt; to pull them out:&lt;/p&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git move &lt;span class=&quot;nt&quot;&gt;--exact&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;stack() &amp;amp; paths.changed(foo)&apos;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--dest&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;main&apos;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;figure class=&quot;figure&quot;&gt;
-        &lt;a href=&quot;/assets/posts/bringing-revsets-to-git/drawn-smartlog-extract-commits.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/assets/posts/bringing-revsets-to-git/drawn-smartlog-extract-commits.png&quot; alt=&quot;Image of the same feature branch as before, but the first and third commits are shown to be missing from the original feature branch, with dotted outlines indicating their former positions. They have been moved to a new feature branch, still preserving their relative order.&quot; title=&quot;Image of the same feature branch as before, but the first and third commits are shown to be missing from the original feature branch, with dotted outlines indicating their former positions. They have been moved to a new feature branch, still preserving their relative order.&quot; /&gt;&lt;/a&gt;
-        &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;Image of the same feature branch as before, but the first and third commits are shown to be missing from the original feature branch, with dotted outlines indicating their former positions. They have been moved to a new feature branch, still preserving their relative order.&lt;/p&gt;
-&lt;/figcaption&gt;
-      &lt;/figure&gt;
-
-&lt;p&gt;If you want to reorder the commits so that they’re at the base of the current branch, you can just add &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--insert&lt;/code&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git move &lt;span class=&quot;nt&quot;&gt;--exact&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;stack() &amp;amp; paths.changed(foo)&apos;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--dest&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;main&apos;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--insert&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;figure class=&quot;figure&quot;&gt;
-        &lt;a href=&quot;/assets/posts/bringing-revsets-to-git/drawn-smartlog-reordered-commits.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/assets/posts/bringing-revsets-to-git/drawn-smartlog-reordered-commits.png&quot; alt=&quot;Image of the same feature branch as before, but the first and third commits are shown to be missing from their original positions in the feature branch, with dotted outlines indicating their former positions. They have been moved to the beginning of that same feature branch, still preserving their relative order, now before the second and fourth commits, also preserving their relative order.&quot; title=&quot;Image of the same feature branch as before, but the first and third commits are shown to be missing from their original positions in the feature branch, with dotted outlines indicating their former positions. They have been moved to the beginning of that same feature branch, still preserving their relative order, now before the second and fourth commits, also preserving their relative order.&quot; /&gt;&lt;/a&gt;
-        &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;Image of the same feature branch as before, but the first and third commits are shown to be missing from their original positions in the feature branch, with dotted outlines indicating their former positions. They have been moved to the beginning of that same feature branch, still preserving their relative order, now before the second and fourth commits, also preserving their relative order.&lt;/p&gt;
-&lt;/figcaption&gt;
-      &lt;/figure&gt;
-
-&lt;p&gt;Of course, you can use a number of different predicates to specify the commits to move. See the full &lt;a href=&quot;https://github.com/arxanas/git-branchless/wiki/Reference:-Revsets&quot;&gt;revset reference&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;better-testing&quot;&gt;Better testing&lt;/h2&gt;
-
-&lt;p&gt;You can use revsets with git-branchless’s &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git test&lt;/code&gt; command to help you run (or re-run) tests on various commits. For example, to run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pytest&lt;/code&gt; on all of your branches in parallel and cache the results, you can run:&lt;/p&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git &lt;span class=&quot;nb&quot;&gt;test &lt;/span&gt;run &lt;span class=&quot;nt&quot;&gt;--exec&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;pytest&apos;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--jobs&lt;/span&gt; 4 &lt;span class=&quot;s1&quot;&gt;&apos;branches()&apos;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;You can also use revsets to aid the investigation of a bug with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git test&lt;/code&gt;. If you know that a bug was introduced between commits A and B, and has to be in a commit touching file &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;foo&lt;/code&gt;, then you can use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git test&lt;/code&gt; like this to find the first commit which introduced the bug:&lt;/p&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git &lt;span class=&quot;nb&quot;&gt;test &lt;/span&gt;run &lt;span class=&quot;nt&quot;&gt;--exec&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;cargo test&apos;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;A:B &amp;amp; paths.changed(foo)&apos;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;This can be an easy way to skip commits which you know aren’t relevant to the change.&lt;/p&gt;
-
-&lt;aside class=&quot;aside&quot; id=&quot;versus-git-bisect&quot;&gt;
-          &lt;header class=&quot;aside-header&quot;&gt;&lt;a href=&quot;#versus-git-bisect&quot;&gt;Versus git bisect&lt;/a&gt;&lt;/header&gt;
-          &lt;div class=&quot;aside-contents&quot;&gt;&lt;p&gt;You can use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git bisect&lt;/code&gt; and filter by paths, of course, but it may be more tedious. Note that, unlike &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git bisect&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git test&lt;/code&gt; currently conducts a linear search, so it’s not the best choice for all cases. This will hopefully change in the future.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git test&lt;/code&gt; has several features which &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git bisect&lt;/code&gt; doesn’t offer, such as parallel testing, out-of-tree testing, and caching of test results.&lt;/p&gt;
-&lt;/div&gt;
-        &lt;/aside&gt;
-
-&lt;aside class=&quot;aside&quot; id=&quot;caching-test-results&quot;&gt;
-          &lt;header class=&quot;aside-header&quot;&gt;&lt;a href=&quot;#caching-test-results&quot;&gt;Caching test results&lt;/a&gt;&lt;/header&gt;
-          &lt;div class=&quot;aside-contents&quot;&gt;&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git test&lt;/code&gt; will cache the results of the test command, so if you decide to expand the search set later, you don’t have to re-run the test command on commits you’ve already tested.&lt;/p&gt;
-&lt;/div&gt;
-        &lt;/aside&gt;
-&lt;h2 id=&quot;prior-work&quot;&gt;Prior work&lt;/h2&gt;
-
-&lt;p&gt;This isn’t the first introduction of revsets to version control. Prior work:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Of course, Mercurial itself introduced revsets. See the documentation here: &lt;a href=&quot;https://www.mercurial-scm.org/repo/hg/help/revsets&quot;&gt;https://www.mercurial-scm.org/repo/hg/help/revsets&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/quark-zju/gitrevset&quot;&gt;https://github.com/quark-zju/gitrevset&lt;/a&gt;: the immediate predecessor of this work. git-branchless uses the same back-end “segmented changelog” library (from &lt;a href=&quot;https://github.com/facebookexperimental/eden&quot;&gt;Sapling SCM&lt;/a&gt;, then called Eden SCM) to manage the commit graph. The advantage of using revsets with git-branchless is that it integrates with several other commands in the git-branchless suite of tools.&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://sapling-scm.com/&quot;&gt;https://sapling-scm.com/&lt;/a&gt;: also an immediate predecessor of this work, as it originally published the segmented changelog library which &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gitrevset&lt;/code&gt; and git-branchless use. git-branchless was inspired by Sapling’s design, and has similar but non-overlapping functionality. See &lt;a href=&quot;https://github.com/arxanas/git-branchless/discussions/654&quot;&gt;https://github.com/arxanas/git-branchless/discussions/654&lt;/a&gt; for more details.&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/martinvonz/jj&quot;&gt;https://github.com/martinvonz/jj&lt;/a&gt;: Jujutsu is a Git-compatible VCS which also offers revsets. git-branchless and jj have similar but non-overlapping functionality. It’s worth checking out if you want to use a more principled version control system but still seamlessly interoperate with Git repositories. I expect git-branchless’s unique features to make their way into Jujutsu over time.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
-
-&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
-
-&lt;table class=&quot;related-posts&quot;&gt;
-&lt;thead&gt;
-  &lt;tr&gt;
-    &lt;th&gt;Date&lt;/th&gt;
-    &lt;th&gt;&lt;/th&gt;
-    &lt;th&gt;Title&lt;/th&gt;
-  &lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;19&amp;nbsp;Jun&amp;nbsp;2021&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/git-undo/&quot;&gt;git undo: We can do better&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;12&amp;nbsp;Oct&amp;nbsp;2021&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/in-memory-rebases/&quot;&gt;Lightning-fast rebases with git-move&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;19&amp;nbsp;Oct&amp;nbsp;2022&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/build-aware-sparse-checkouts/&quot;&gt;Build-aware sparse checkouts&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;16&amp;nbsp;Nov&amp;nbsp;2022&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      (this&amp;nbsp;post)
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/bringing-revsets-to-git/&quot;&gt;Bringing revsets to Git&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;05&amp;nbsp;Jan&amp;nbsp;2023&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/git-ui-features/&quot;&gt;Where are my Git UI features from the future?&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
-
-&lt;ul&gt;
-
-&lt;li&gt;&lt;a class=&quot;icon-hacker-news&quot; href=&quot;https://news.ycombinator.com/item?id=33641952 &quot;&gt;Discussion on Hacker News&lt;/a&gt;&lt;/li&gt;
-
-
-&lt;li&gt;&lt;a class=&quot;icon-lobsters&quot; href=&quot;https://lobste.rs/s/4lp2pz/bringing_revsets_git &quot;&gt;Discussion on Lobsters&lt;/a&gt;&lt;/li&gt;
-
-
-&lt;li&gt;&lt;a class=&quot;icon-reddit&quot; href=&quot;https://www.reddit.com/r/programming/comments/yxvoy1/bringing_revsets_to_git/ &quot;&gt;Discussion on Reddit&lt;/a&gt;&lt;/li&gt;
-
-&lt;/ul&gt;
-
-&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
-
-&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
-&lt;script&gt;
-
-/**
- *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
- *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
-var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/bringing-revsets-to-git/&quot;;
-    this.page.identifier = &quot;bringing-revsets-to-git/&quot;;
-};
-
-(function() { // DON&apos;T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement(&apos;script&apos;);
-    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
-    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
-    (d.head || d.body).appendChild(s);
-})();
-&lt;/script&gt;
-
-&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
-
-</description>
-        <pubDate>Wed, 16 Nov 2022 00:00:00 -0600</pubDate>
-        <link>https://blog.waleedkhan.name/bringing-revsets-to-git/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/bringing-revsets-to-git/</guid>
-        
-        <category>git</category>
         
         
       </item>
