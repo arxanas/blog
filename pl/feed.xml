@@ -7,8 +7,8 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/pl/</link>
     <atom:link href="https://blog.waleedkhan.name/pl/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 11 Apr 2023 11:44:39 -0500</pubDate>
-    <lastBuildDate>Tue, 11 Apr 2023 11:44:39 -0500</lastBuildDate>
+    <pubDate>Tue, 11 Apr 2023 11:48:00 -0500</pubDate>
+    <lastBuildDate>Tue, 11 Apr 2023 11:48:00 -0500</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
@@ -23,7 +23,7 @@ employers.</description>
 
 &lt;video src=&quot;https://user-images.githubusercontent.com/454057/219904589-79657aed-9356-4f87-a0e4-bdcfbe691621.mov&quot; controls=&quot;controls&quot; muted=&quot;muted&quot;&gt;&lt;/video&gt;
 
-&lt;p&gt;Ja zwykle ustawiam &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git fmt&lt;/code&gt; na alias dla czegoś takiego&lt;/p&gt;
+&lt;p&gt;Ja zwykle ustawiam &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git&lt;/code&gt; fmt na alias na coś takiego&lt;/p&gt;
 
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git test run --exec &apos;cargo fmt --all&apos; --strategy worktree --jobs 8
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
