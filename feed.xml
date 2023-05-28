@@ -7,8 +7,8 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 11 Apr 2023 12:30:46 -0500</pubDate>
-    <lastBuildDate>Tue, 11 Apr 2023 12:30:46 -0500</lastBuildDate>
+    <pubDate>Sun, 28 May 2023 14:46:03 -0500</pubDate>
+    <lastBuildDate>Sun, 28 May 2023 14:46:03 -0500</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
@@ -863,6 +863,7 @@ var disqus_config = function () {
 &lt;ul&gt;
   &lt;li&gt;&lt;em&gt;Update 2022-01-09: Added IntelliJ.&lt;/em&gt;&lt;/li&gt;
   &lt;li&gt;&lt;em&gt;Update 2022-01-10: Added Tower.&lt;/em&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;Update 2023-05-28: Upgraded Magit’s &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt; rating.&lt;/em&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;I included my own project &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt;, so it doesn’t really count as an example of innovation in the industry. I’m including it to demonstrate that many of these workflows are very much possible.&lt;/p&gt;
@@ -923,7 +924,7 @@ th.rotate &gt; div &gt; span {
     &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt; &lt;!-- Tower --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- GitUp --&gt;
     &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt; &lt;!-- IntelliJ --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Magit --&gt;
+    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Lazygit --&gt;
     &lt;td&gt;❌&lt;/td&gt; &lt;!-- Gitui --&gt;
     &lt;td&gt;✅&lt;/td&gt; &lt;!-- git-branchless --&gt;

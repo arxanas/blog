@@ -7,8 +7,8 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/pl/</link>
     <atom:link href="https://blog.waleedkhan.name/pl/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 11 Apr 2023 12:30:50 -0500</pubDate>
-    <lastBuildDate>Tue, 11 Apr 2023 12:30:50 -0500</lastBuildDate>
+    <pubDate>Sun, 28 May 2023 14:46:07 -0500</pubDate>
+    <lastBuildDate>Sun, 28 May 2023 14:46:07 -0500</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
@@ -860,6 +860,7 @@ var disqus_config = function () {
 &lt;ul&gt;
   &lt;li&gt;Aktualizacja 2022-01-09: Dodałem IntelliJ.&lt;/li&gt;
   &lt;li&gt;Aktualizacja 2022-01-10: Dodałem Tower.&lt;/li&gt;
+  &lt;li&gt;Aktualizacja 2023-05-28: Podniosłem ocenę &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt; dla Magit.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Załączyłem mój własny projekt git-branchless, ale się nie liczy jako przykład innowacji w branży. Tylko jest tu, aby pokazać, że wiele z tych przepływów pracy jest naprawdę możliwych.&lt;/p&gt;
