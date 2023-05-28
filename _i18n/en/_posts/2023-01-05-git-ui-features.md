@@ -64,6 +64,7 @@ I picked some clients arbitrarily from [this list of clients](https://git-scm.co
 
 - *Update 2022-01-09: Added IntelliJ.*
 - *Update 2022-01-10: Added Tower.*
+- *Update 2023-05-28: Upgraded Magit's `reword` rating.*
 
 I included my own project [git-branchless](https://github.com/arxanas/git-branchless), so it doesn't really count as an example of innovation in the industry. I'm including it to demonstrate that many of these workflows are very much possible.
 
@@ -123,7 +124,7 @@ th.rotate > div > span {
     <td>⚠️&nbsp;<sup>2</sup></td> <!-- Tower -->
     <td>✅</td> <!-- GitUp -->
     <td>⚠️&nbsp;<sup>2</sup></td> <!-- IntelliJ -->
-    <td>❌</td> <!-- Magit -->
+    <td>⚠️&nbsp;<sup>2</sup></td> <!-- Magit -->
     <td>❌</td> <!-- Lazygit -->
     <td>❌</td> <!-- Gitui -->
     <td>✅</td> <!-- git-branchless -->

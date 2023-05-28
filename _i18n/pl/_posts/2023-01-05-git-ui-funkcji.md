@@ -72,6 +72,7 @@ Wybrałem arbitralnie kilku klientów z tej listy klientów. Z pewnością mylę
 
 * Aktualizacja 2022-01-09: Dodałem IntelliJ.
 * Aktualizacja 2022-01-10: Dodałem Tower.
+* Aktualizacja 2023-05-28: Podniosłem ocenę `reword` dla Magit.
 
 Załączyłem mój własny projekt git-branchless, ale się nie liczy jako przykład innowacji w branży. Tylko jest tu, aby pokazać, że wiele z tych przepływów pracy jest naprawdę możliwych.
 
