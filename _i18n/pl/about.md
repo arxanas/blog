@@ -2,7 +2,7 @@ Jestem inżynierem oprogramowania w rejonie Seattle, który tworzy wysokoskalowa
 
 * Wyślij mi email: [me@waleedkhan.name](mailto:me@waleedkhan.name)
 * Obserwuj mnie na Twitter: [@arxanas](https://twitter.com/arxanas)
-* Obserwuj mnie na Mastodon: [@arxanas@types.pl](https://elk.zone/types.pl/@arxanas)
+* Obserwuj mnie na Mastodon: [@arxanas@types.pl](https://types.pl/@arxanas)
 * Połącz się ze mną na [LinkedIn](https://www.linkedin.com/in/waleedkhan000/)
 
 Na tym blogu znajdziesz posty techniczne, zwykle dotyczące niektórych z poniższych tematów:

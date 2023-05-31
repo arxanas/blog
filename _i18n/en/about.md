@@ -2,7 +2,7 @@ I am a software engineer in the Seattle area who builds highly scalable develope
 
 * Email me: [me@waleedkhan.name](mailto:me@waleedkhan.name)
 * Follow me on Twitter: [@arxanas](https://twitter.com/arxanas)
-* Follow me on Mastodon: [@arxanas@types.pl](https://elk.zone/types.pl/@arxanas)
+* Follow me on Mastodon: [@arxanas@types.pl](https://types.pl/@arxanas)
 * Connect with me on [LinkedIn](https://www.linkedin.com/in/waleedkhan000/)
 
 On this blog, you'll find technical posts, typically around some of the following subjects:
