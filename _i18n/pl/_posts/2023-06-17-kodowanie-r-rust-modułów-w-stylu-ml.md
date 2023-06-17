@@ -489,3 +489,5 @@ Moduły w stylu ML obejmują inne funkcje niż powyższe. Oto krótka dyskusja o
     * Zależy od konkretnego kodowania modułu. Abstrakcje typów są wprowadzone ręcznie typami "associated" i zawsze są nierówne, podczas gdy typy przekazywane przez parametr typu generycznego mogą być uważane równe. Więc jeśli chcesz funktor generatywnego, możesz bezpośrednio wprowadzić nowy typ abstrakcyjny poprzez kolejną warstwę `trait` z typem "associated".
 
 Zobacz też [The AST typing problem](http://blog.ezyang.com/2013/05/the-ast-typing-problem/), abe znaleźć powiązane pytania dotyczące praktycznego kodowania modułów.
+
+{% include end_matter.md %}

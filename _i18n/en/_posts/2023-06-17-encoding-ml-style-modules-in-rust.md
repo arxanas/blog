@@ -486,3 +486,5 @@ ML-style modules include other features than the above. Here's a brief discussio
     * It depends on the concrete encoding of the module. Type abstractions are manually introduced with associated types and always unequal, while types passed via generic type parameter can be considered equal. So if you want a generative functor, you can directly introduce a new abstract type via another layer of `trait` with an associated type.
 
 See also [The AST typing problem](http://blog.ezyang.com/2013/05/the-ast-typing-problem/) for related questions on the practical encoding of modules.
+
+{% include end_matter.md %}

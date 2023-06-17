@@ -62,6 +62,9 @@ related_posts:
 
   - - port-python-to-rust/
     - rust-modules-for-python-users/
+    - tracing-rust-cli-apps/
+    - rust-incremental-test-times/
+    - encoding-ml-style-modules-in-rust/
 
   - - parsing-contextual-keywords/
     - data-comprehension-syntaxes/
