@@ -7,8 +7,8 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/pl/</link>
     <atom:link href="https://blog.waleedkhan.name/pl/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 17 Jun 2023 15:16:10 -0500</pubDate>
-    <lastBuildDate>Sat, 17 Jun 2023 15:16:10 -0500</lastBuildDate>
+    <pubDate>Sat, 17 Jun 2023 16:42:52 -0500</pubDate>
+    <lastBuildDate>Sat, 17 Jun 2023 16:42:52 -0500</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
@@ -30,6 +30,7 @@ employers.</description>
       &lt;li&gt;&lt;a href=&quot;#inne-kodowania&quot; id=&quot;markdown-toc-inne-kodowania&quot;&gt;Inne kodowania&lt;/a&gt;&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#komentarze&quot; id=&quot;markdown-toc-komentarze&quot;&gt;Komentarze&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;stwierdzenie-problemu&quot;&gt;Stwierdzenie problemu&lt;/h2&gt;
@@ -492,6 +493,38 @@ note: used non-generic type `&amp;amp;&apos;static str` for generic parameter
 &lt;/ul&gt;
 
 &lt;p&gt;Zobacz też &lt;a href=&quot;http://blog.ezyang.com/2013/05/the-ast-typing-problem/&quot;&gt;The AST typing problem&lt;/a&gt;, abe znaleźć powiązane pytania dotyczące praktycznego kodowania modułów.&lt;/p&gt;
+
+&lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+
+&lt;/ul&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/pl/kodowanie-w-rust-modułów-w-stylu-ml/&quot;;
+    this.page.identifier = &quot;kodowanie-w-rust-modułów-w-stylu-ml/&quot;;
+};
+
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
 </description>
         <pubDate>Sat, 17 Jun 2023 00:00:00 -0500</pubDate>
         <link>https://blog.waleedkhan.name/pl/kodowanie-w-rust-modułów-w-stylu-ml/</link>
