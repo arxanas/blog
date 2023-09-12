@@ -8,12 +8,12 @@
 
   
   
-    <title>Why LINQ syntax differs from SQL, list comprehensions, etc.</title>
+    <title>Writing brittle code</title>
   
-  <meta name="description" content="">
+  <meta name="description" content="Intended audience: software engineers, particularly those at large companies or organizations.">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="https://blog.waleedkhan.name/data-comprehension-syntaxes/">
+  <link rel="canonical" href="https://blog.waleedkhan.name/writing-brittle-code/">
   <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
 
@@ -61,8 +61,8 @@
         <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">Why LINQ syntax differs from SQL, list comprehensions, etc.</h1>
-    <p class="post-meta"><time datetime="2017-12-23T00:00:00-06:00" itemprop="datePublished">Dec 23, 2017</time>
+    <h1 class="post-title" itemprop="name headline">Writing brittle code</h1>
+    <p class="post-meta"><time datetime="2023-08-24T00:00:00-05:00" itemprop="datePublished">Aug 24, 2023</time>
     
     </p>
     
@@ -71,109 +71,29 @@
 
   <div class="post-content" itemprop="articleBody">
     
-    <ul id="markdown-toc">
-  <li><a href="#data-comprehension-syntaxes" id="markdown-toc-data-comprehension-syntaxes">Data comprehension syntaxes</a></li>
-  <li><a href="#its-a-better-mental-model" id="markdown-toc-its-a-better-mental-model">It’s a better mental model</a></li>
-  <li><a href="#its-better-for-tooling" id="markdown-toc-its-better-for-tooling">It’s better for tooling</a></li>
-  <li><a href="#related-posts" id="markdown-toc-related-posts">Related posts</a></li>
-  <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
-</ul>
+    <p><em>Intended audience: software engineers, particularly those at large companies or organizations.</em></p>
 
-<h2 id="data-comprehension-syntaxes">Data comprehension syntaxes</h2>
+<p>I particularly like this characterization from <a href="https://journal.infinitenegativeutility.com/leaving-haskell-behind"><em>Leaving Haskell behind</em> (2023)</a>:</p>
 
-<p>The order of clauses in SQL is as follows:</p>
+<blockquote>
+  <p>I would describe good Haskell code as “brittle”, and I mean that as a compliment. People tend to casually use “brittle” to mean “prone to breakage”, but in materials science what “brittle” means is that something breaks without bending: when a brittle material reaches the limits of its strength, it fractures instead of deforming. Haskell is a language where abstractions do not “bend” (or permit invalid programs) but rather “break” (fail to compile) in the face of problems.</p>
+</blockquote>
 
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">expression</span>
-<span class="k">FROM</span> <span class="n">data_source</span>
-<span class="k">WHERE</span> <span class="n">condition</span>
-</code></pre></div></div>
+<p>In my career so far, a great deal of the code and systems I’ve written has had to be maintained by generalists who work across a variety of domains and have no idea what’s going on (including <em>future me</em>). Writing <em>brittle</em> code has been the best approach to ensure maintainability.</p>
 
-<p>Python features a similar syntax in its list comprehensions. (In this article I
-don’t discuss syntax like Haskell’s list comprehensions or Scala’s
-for-comprehensions.)</p>
+<p>At work, right now, I am writing an internal web app to expose some of our tooling nicely. Nobody on our team, me included, is a front-end engineer!</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">expression</span>
-<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data_source</span>
-<span class="k">if</span> <span class="n">condition</span>
-</code></pre></div></div>
+<p>In <a href="/smash-training-retrospective/"><em>Smash Training retrospective</em></a>, I remark that I regretted using Vue for various reasons. The lack of static checking has made it difficult for <em>future me</em> to make small bugfixes. Implicit dependency tracking as a framework decision, as in Vue, turns out to be quite difficult for <em>future me</em> to manage mentally. (For example, there are <a href="https://v2.vuejs.org/v2/guide/reactivity.html#For-Arrays">caveats with arrays</a> that I encountered during maintenance.)</p>
 
-<p>You can see that these two are roughly parallel. The order of clauses is: the
-expression, the data source, and then the filtering condition.</p>
+<p>Even though React’s alternative approach of explicitly declaring dependencies is rather heavy-handed, it ends up being more tractable for <em>future me</em>, and probably for my coworkers as well. My technology choices were <em>insufficiently brittle</em> to accomodate future maintenance.</p>
 
-<p>But the LINQ syntax in C# orders these clauses differently:</p>
-
-<div class="language-cs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">from</span> <span class="n">data_source</span>
-<span class="k">where</span> <span class="n">condition</span>
-<span class="k">select</span> <span class="n">expression</span>
-</code></pre></div></div>
-
-<p>Why is it different from the established standard? It turns out it’s a
-deliberate design decision by the C# team.</p>
-
-<h2 id="its-a-better-mental-model">It’s a better mental model</h2>
-
-<p>One reason I’ve heard given by C# team members is that the SQL syntax doesn’t
-make very much sense. It might be intuitive from a natural-language standpoint,
-but it fails to accurately model how we can think about the data processing.</p>
-
-<p>When doing the database scan, of course we have to first identify where we are
-getting data from. Then we have to scan each row and determine if it meets the
-condition, and then we add some expression in terms of the row to the set of
-results that we are going to return.</p>
-
-<aside class="aside" id="not-exactly">
-          <header class="aside-header"><a href="#not-exactly">Not exactly</a></header>
-          <div class="aside-contents"><p>In practice this isn’t quite accurate for SQL. We can use the result of our
-expression in our filtering condition:</p>
-
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">foo</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">AS</span> <span class="n">bar</span>
-<span class="k">FROM</span> <span class="n">my_table</span>
-<span class="k">WHERE</span> <span class="n">bar</span> <span class="o">&gt;</span> <span class="mi">10</span> <span class="c1">-- This uses the expression `bar` we computed.</span>
-</code></pre></div></div>
-
-<p>But we can’t do this in Python:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">foo</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># Can't name this expression for use in the filter...
-</span><span class="k">for</span> <span class="n">foo</span> <span class="ow">in</span> <span class="n">my_table</span>
-<span class="k">if</span> <span class="n">foo</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;</span> <span class="mi">10</span>  <span class="c1"># ...so we have to recompute it.
-</span></code></pre></div></div>
+<aside class="aside" id="dont-tell-me-about-reacti">
+          <header class="aside-header"><a href="#dont-tell-me-about-reacti">Don&apos;t tell me about reactivity</a></header>
+          <div class="aside-contents"><p>I don’t care if the preceding example is entirely wrong from a factual or subjective perspective, so don’t tell me. It’s an ultimately individually-unimportant example of the larger point that I’m trying to make.</p>
 </div>
         </aside>
 
-<p>It’s arguably intuitive to go from more general (the entire aggregate data
-source) to more specific (the exact transformations on the specific data we want
-from the data source). This is reflected in how one would write out these loops
-by hand:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">foo</span> <span class="ow">in</span> <span class="n">data_source</span><span class="p">:</span>
-    <span class="k">if</span> <span class="n">foo</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
-        <span class="k">yield</span> <span class="n">foo</span>
-</code></pre></div></div>
-
-<h2 id="its-better-for-tooling">It’s better for tooling</h2>
-
-<p>One problem with the SQL syntax is that when you’ve written this:</p>
-
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">f</span>
-</code></pre></div></div>
-
-<p>you have a hard time of autocompleting the word starting with “f”. It could be a
-column name from any table in the database!</p>
-
-<p>C# doesn’t have this problem because you only write the filter and expression
-after you’ve written the data source:</p>
-
-<div class="language-cs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">from</span> <span class="n">data_source</span>
-<span class="k">where</span> <span class="n">f</span> <span class="c1">// easily autocompleted</span>
-
-<span class="k">from</span> <span class="n">data_source</span>
-<span class="k">where</span> <span class="n">foo</span> <span class="p">+</span> <span class="m">1</span> <span class="p">&gt;</span> <span class="m">10</span>
-<span class="k">select</span> <span class="n">f</span> <span class="c1">// likewise</span>
-</code></pre></div></div>
-
-<p>The usefulness of autocomplete in exploratory programming shouldn’t be
-understated; this alone is a compelling reason to use a different order for
-these clauses.</p>
+<p>The situation is quite different for specialists, who can make the investment of <em>becoming familiar with a system</em> to gain productivity with it. Someone accustomed to implicit dependency tracking will benefit from not having to write the dependencies explicitly. Due to my work domain, I am usually not one of those people!</p>
 
 <h2 id="related-posts">Related posts</h2>
 
@@ -191,19 +111,8 @@ these clauses.</p>
 <tbody>
 
   <tr>
-    <td>09&nbsp;Apr&nbsp;2017</td>
-    <td class="this-post">
-      
-      </td>
-    <td><a href="/parsing-contextual-keywords/">How to parse contextual keywords in a programming language</a>
-    </td>
-  </tr>
-
-  <tr>
     <td>23&nbsp;Dec&nbsp;2017</td>
     <td class="this-post">
-      
-      (this&nbsp;post)
       
       </td>
     <td><a href="/data-comprehension-syntaxes/">Why LINQ syntax differs from SQL, list comprehensions, etc.</a>
@@ -222,6 +131,8 @@ these clauses.</p>
   <tr>
     <td>24&nbsp;Aug&nbsp;2023</td>
     <td class="this-post">
+      
+      (this&nbsp;post)
       
       </td>
     <td><a href="/writing-brittle-code/">Writing brittle code</a>
@@ -250,8 +161,8 @@ these clauses.</p>
  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
 var disqus_config = function () {
-    this.page.url = "https://blog.waleedkhan.name/data-comprehension-syntaxes/";
-    this.page.identifier = "data-comprehension-syntaxes/";
+    this.page.url = "https://blog.waleedkhan.name/writing-brittle-code/";
+    this.page.identifier = "writing-brittle-code/";
 };
 
 (function() { // DON'T EDIT BELOW THIS LINE

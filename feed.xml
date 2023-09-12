@@ -7,9 +7,174 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 01 Sep 2023 07:49:19 -0500</pubDate>
-    <lastBuildDate>Fri, 01 Sep 2023 07:49:19 -0500</lastBuildDate>
+    <pubDate>Tue, 12 Sep 2023 13:52:56 -0500</pubDate>
+    <lastBuildDate>Tue, 12 Sep 2023 13:52:56 -0500</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
+    
+      <item>
+        <title>On trivial changes</title>
+        <description>&lt;p&gt;&lt;em&gt;Intended audience: software engineers; anyone with checklists as part of their workflows or routines.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;One day, perhaps three years into my career, I had a very small, one-line code change to make. I don’t remember exactly what it was, but I think it involved computing a value and interpolating it into a string. I considered committing it directly, but submitted it for code review despite how small of a change it was.&lt;/p&gt;
+
+&lt;p&gt;My reviewers pointed out three different bugs, which makes it perhaps the buggiest commit I’ve ever written (by density of bugs per lines of code). Since that day, I always submit code for review and I always wait for builds and tests to finish, even for changes which “obviously” don’t affect anything.&lt;/p&gt;
+
+&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+
+&lt;/ul&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/on-trivial-changes/&quot;;
+    this.page.identifier = &quot;on-trivial-changes/&quot;;
+};
+
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
+</description>
+        <pubDate>Fri, 01 Sep 2023 00:00:00 -0500</pubDate>
+        <link>https://blog.waleedkhan.name/on-trivial-changes/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/on-trivial-changes/</guid>
+        
+        <category>software-engineering</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Writing brittle code</title>
+        <description>&lt;p&gt;&lt;em&gt;Intended audience: software engineers, particularly those at large companies or organizations.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;I particularly like this characterization from &lt;a href=&quot;https://journal.infinitenegativeutility.com/leaving-haskell-behind&quot;&gt;&lt;em&gt;Leaving Haskell behind&lt;/em&gt; (2023)&lt;/a&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;I would describe good Haskell code as “brittle”, and I mean that as a compliment. People tend to casually use “brittle” to mean “prone to breakage”, but in materials science what “brittle” means is that something breaks without bending: when a brittle material reaches the limits of its strength, it fractures instead of deforming. Haskell is a language where abstractions do not “bend” (or permit invalid programs) but rather “break” (fail to compile) in the face of problems.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;In my career so far, a great deal of the code and systems I’ve written has had to be maintained by generalists who work across a variety of domains and have no idea what’s going on (including &lt;em&gt;future me&lt;/em&gt;). Writing &lt;em&gt;brittle&lt;/em&gt; code has been the best approach to ensure maintainability.&lt;/p&gt;
+
+&lt;p&gt;At work, right now, I am writing an internal web app to expose some of our tooling nicely. Nobody on our team, me included, is a front-end engineer!&lt;/p&gt;
+
+&lt;p&gt;In &lt;a href=&quot;/smash-training-retrospective/&quot;&gt;&lt;em&gt;Smash Training retrospective&lt;/em&gt;&lt;/a&gt;, I remark that I regretted using Vue for various reasons. The lack of static checking has made it difficult for &lt;em&gt;future me&lt;/em&gt; to make small bugfixes. Implicit dependency tracking as a framework decision, as in Vue, turns out to be quite difficult for &lt;em&gt;future me&lt;/em&gt; to manage mentally. (For example, there are &lt;a href=&quot;https://v2.vuejs.org/v2/guide/reactivity.html#For-Arrays&quot;&gt;caveats with arrays&lt;/a&gt; that I encountered during maintenance.)&lt;/p&gt;
+
+&lt;p&gt;Even though React’s alternative approach of explicitly declaring dependencies is rather heavy-handed, it ends up being more tractable for &lt;em&gt;future me&lt;/em&gt;, and probably for my coworkers as well. My technology choices were &lt;em&gt;insufficiently brittle&lt;/em&gt; to accomodate future maintenance.&lt;/p&gt;
+
+&lt;aside class=&quot;aside&quot; id=&quot;dont-tell-me-about-reacti&quot;&gt;
+          &lt;header class=&quot;aside-header&quot;&gt;&lt;a href=&quot;#dont-tell-me-about-reacti&quot;&gt;Don&amp;apos;t tell me about reactivity&lt;/a&gt;&lt;/header&gt;
+          &lt;div class=&quot;aside-contents&quot;&gt;&lt;p&gt;I don’t care if the preceding example is entirely wrong from a factual or subjective perspective, so don’t tell me. It’s an ultimately individually-unimportant example of the larger point that I’m trying to make.&lt;/p&gt;
+&lt;/div&gt;
+        &lt;/aside&gt;
+
+&lt;p&gt;The situation is quite different for specialists, who can make the investment of &lt;em&gt;becoming familiar with a system&lt;/em&gt; to gain productivity with it. Someone accustomed to implicit dependency tracking will benefit from not having to write the dependencies explicitly. Due to my work domain, I am usually not one of those people!&lt;/p&gt;
+
+&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
+
+&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
+
+&lt;table class=&quot;related-posts&quot;&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Date&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;23&amp;nbsp;Dec&amp;nbsp;2017&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/data-comprehension-syntaxes/&quot;&gt;Why LINQ syntax differs from SQL, list comprehensions, etc.&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;06&amp;nbsp;Dec&amp;nbsp;2020&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/smash-training-retrospective/&quot;&gt;Smash Training retrospective&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;24&amp;nbsp;Aug&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      (this&amp;nbsp;post)
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/writing-brittle-code/&quot;&gt;Writing brittle code&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+
+&lt;/ul&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/writing-brittle-code/&quot;;
+    this.page.identifier = &quot;writing-brittle-code/&quot;;
+};
+
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
+</description>
+        <pubDate>Thu, 24 Aug 2023 00:00:00 -0500</pubDate>
+        <link>https://blog.waleedkhan.name/writing-brittle-code/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/writing-brittle-code/</guid>
+        
+        <category>software-engineering</category>
+        
+        
+      </item>
     
       <item>
         <title>Encoding ML-style modules in Rust</title>
@@ -1495,515 +1660,6 @@ var disqus_config = function () {
         <pubDate>Wed, 11 Jan 2023 00:00:00 -0600</pubDate>
         <link>https://blog.waleedkhan.name/interactive-blogs/</link>
         <guid isPermaLink="true">https://blog.waleedkhan.name/interactive-blogs/</guid>
-        
-        <category>rant</category>
-        
-        <category>writing</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Where are my Git UI features from the future?</title>
-        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#git-sucks&quot; id=&quot;markdown-toc-git-sucks&quot;&gt;Git sucks&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#rubric&quot; id=&quot;markdown-toc-rubric&quot;&gt;Rubric&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#clients&quot; id=&quot;markdown-toc-clients&quot;&gt;Clients&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#awards&quot; id=&quot;markdown-toc-awards&quot;&gt;Awards&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#related-posts&quot; id=&quot;markdown-toc-related-posts&quot;&gt;Related posts&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;git-sucks&quot;&gt;Git sucks&lt;/h2&gt;
-
-&lt;p&gt;The &lt;a href=&quot;https://git-scm.com/&quot;&gt;Git version control system&lt;/a&gt; has been causing us misery for 15+ years. Since its inception, a thousand people have tried to make new clients for Git to improve usability.&lt;/p&gt;
-
-&lt;p&gt;But practically everyone has focused on providing a pretty facade to do more or less the same operations as Git on the command-line — as if Git’s command-line interface were already the pinnacle of usability.&lt;/p&gt;
-
-&lt;p&gt;No one bothers to consider: what are the &lt;em&gt;workflows&lt;/em&gt; that people actually want to do? What are the &lt;em&gt;features&lt;/em&gt; that would make those workflows easier? So instead we get clients which think that &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase -i&lt;/code&gt; as the best possible way to reword a commit message, or edit an old commit, or split a commit, or even worth exposing in the UI.&lt;/p&gt;
-
-&lt;h2 id=&quot;rubric&quot;&gt;Rubric&lt;/h2&gt;
-
-&lt;p&gt;I thought about some of the workflows I carry out frequently, and examined several Git clients (some of which are &lt;a href=&quot;https://en.wikipedia.org/wiki/Graphical_user_interface&quot;&gt;GUIs&lt;/a&gt; and some of which are &lt;a href=&quot;https://en.wikipedia.org/wiki/Text-based_user_interface&quot;&gt;TUIs&lt;/a&gt;) to see how well they supported these workflows.&lt;/p&gt;
-
-&lt;p&gt;Many of my readers won’t care for these workflows, but it’s not just about the workflows themselves; it’s about the resolve to improve workflows by not using the faulty set of primitives offered by Git. I do not care to argue about which workflows are best or should be supported.&lt;/p&gt;
-
-&lt;p&gt;Workflows:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt;&lt;/strong&gt;: It should be possible to update the commit message of a commit which isn’t currently checked out.
-    &lt;ul&gt;
-      &lt;li&gt;Rewording a commit is guaranteed to not cause a merge conflict, so requiring that the commit be checked out is unnecessary.&lt;/li&gt;
-      &lt;li&gt;It should also be possible to reword a commit which is the ancestor of multiple branches without abandoning some of those branches, but let’s not get our hopes up…&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sync&lt;/code&gt;&lt;/strong&gt;: It should be possible to sync &lt;em&gt;all&lt;/em&gt; of my branches (or some subset) via merge or rebase, in a single operation.
-    &lt;ul&gt;
-      &lt;li&gt;I do this all the time! Practically the first thing every morning when coming into work.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;split&lt;/code&gt;&lt;/strong&gt;: There should be a specific command to split a commit into two or more commits, including commits which aren’t currently checked out.
-    &lt;ul&gt;
-      &lt;li&gt;Splitting a commit is guaranteed to not cause a merge conflict, so requiring that the commit be checked out is unnecessary.&lt;/li&gt;
-      &lt;li&gt;Not accepting &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase -i&lt;/code&gt; solutions, as it’s very confusing to examine the state of the repository during a rebase.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;preview&lt;/code&gt;&lt;/strong&gt;: Before carrying out a merge or rebase, it should be possible to preview the result, including any conflicts that would arise.
-    &lt;ul&gt;
-      &lt;li&gt;That way, I don’t have to start the merge/rebase operation in order to see if it will succeed or whether it will be hard to resolve conflicts.&lt;/li&gt;
-      &lt;li&gt;Merge conflicts are perhaps the worst part about using Git, so it should be much easier to work with them (and avoid dealing with them!).&lt;/li&gt;
-      &lt;li&gt;The only people who seem to want this feature are people who come from other version control systems.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;undo&lt;/code&gt;&lt;/strong&gt;: I should be able to undo arbitrary operations, ideally including tracked but uncommitted changes.
-    &lt;ul&gt;
-      &lt;li&gt;This is &lt;em&gt;not&lt;/em&gt; the same as reverting a commit. Reverting a commit creates an altogether new commit with the inverse changes, whereas undoing an operation should restore the repository to the state it was in before the operation was carried out, so there would be no original commit to revert.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-load&lt;/code&gt;&lt;/strong&gt;: The UI should load large repositories quickly.
-    &lt;ul&gt;
-      &lt;li&gt;The UI shouldn’t hang at any point, and should show useful information as soon as it’s loaded. You shouldn’t have to wait for the entire repository to load before you can examine commits or branches.&lt;/li&gt;
-      &lt;li&gt;The program is allowed to be slow on the first invocation to build any necessary caches, but must be responsive on subsequent invocations.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;large-ops&lt;/code&gt;&lt;/strong&gt;: The UI should be responsive when carrying out various operations, such as examining commits and branches, or merging or rebasing.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Extra points:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;I will award &lt;strong&gt;honorary negative points&lt;/strong&gt; for any client which dares to treat &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase -i&lt;/code&gt; as if it were a fundamental primitive.&lt;/li&gt;
-  &lt;li&gt;I will award &lt;strong&gt;honorary bonus points&lt;/strong&gt; for any client which seems to respect the empirical usability research for Git (or other VCSes). Examples:
-    &lt;ul&gt;
-      &lt;li&gt;Gitless: &lt;a href=&quot;https://gitless.com/&quot;&gt;https://gitless.com/&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;IASGE: &lt;a href=&quot;https://investigating-archiving-git.gitlab.io/&quot;&gt;https://investigating-archiving-git.gitlab.io/&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Since I didn’t actually note down any of this, these criteria are just so that any vendors of these clients can know whether I am impressed or disappointed by them.&lt;/p&gt;
-
-&lt;h2 id=&quot;clients&quot;&gt;Clients&lt;/h2&gt;
-
-&lt;p&gt;I picked some clients arbitrarily from &lt;a href=&quot;https://git-scm.com/downloads/guis&quot;&gt;this list of clients&lt;/a&gt;. I am surely wrong about some of these points (or they’ve changed since I last looked), so leave a comment.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;em&gt;Update 2022-01-09: Added IntelliJ.&lt;/em&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;em&gt;Update 2022-01-10: Added Tower.&lt;/em&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;em&gt;Update 2023-05-28: Upgraded Magit’s &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reword&lt;/code&gt; rating.&lt;/em&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;I included my own project &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt;, so it doesn’t really count as an example of innovation in the industry. I’m including it to demonstrate that many of these workflows are very much possible.&lt;/p&gt;
-
-&lt;style type=&quot;text/css&quot;&gt;
-th.rotate {
-  /* Something you can count on */
-  height: 140px;
-  white-space: nowrap;
-}
-
-th.rotate &gt; div {
-  transform: 
-    translate(20px, 51px) /* magic numbers */
-    rotate(320deg);
-  width: 30px;
-}
-th.rotate &gt; div &gt; span {
-  padding: 5px 10px;
-}
-
-#data th:nth-child(even) &gt; div &gt; span, #data td:nth-child(even) {
-  background-color: #eee;
-}
-
-&lt;/style&gt;
-
-&lt;table id=&quot;data&quot;&gt;
-&lt;thead&gt;
-  &lt;tr&gt;
-    &lt;th&gt;&lt;/th&gt;
-    &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://git-scm.com/&quot;&gt;Git CLI&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
-    &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://www.gitkraken.com/&quot;&gt;GitKraken&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
-    &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://git-fork.com/&quot;&gt;Fork&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
-    &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://www.sourcetreeapp.com/&quot;&gt;Sourcetree&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
-    &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://www.sublimemerge.com/&quot;&gt;Sublime Merge&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
-    &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://www.syntevo.com/smartgit/&quot;&gt;SmartGit&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
-    &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://www.git-tower.com/&quot;&gt;Tower&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
-    &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://gitup.co/&quot;&gt;GitUp&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
-    &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://www.jetbrains.com/idea/&quot;&gt;IntelliJ&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
-    &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://magit.vc/&quot;&gt;Magit&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
-    &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://github.com/jesseduffield/lazygit&quot;&gt;Lazygit&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
-    &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://github.com/extrawurst/gitui&quot;&gt;Gitui&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
-    &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
-    &lt;th class=&quot;rotate&quot;&gt;&lt;div&gt;&lt;span&gt;&lt;a href=&quot;https://github.com/martinvonz/jj&quot;&gt;Jujutsu&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/th&gt;
-  &lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-  &lt;tr&gt;
-    &lt;th&gt;&lt;code&gt;reword&lt;/code&gt;&lt;/th&gt;
-    &lt;td&gt;❌&amp;nbsp;&lt;sup&gt;1&lt;/sup&gt;&lt;/td&gt; &lt;!-- Git CLI --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitKraken --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Fork --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sourcetree --&gt;
-    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
-    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt; &lt;!-- Tower --&gt;
-    &lt;td&gt;✅&lt;/td&gt; &lt;!-- GitUp --&gt;
-    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt; &lt;!-- IntelliJ --&gt;
-    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Lazygit --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Gitui --&gt;
-    &lt;td&gt;✅&lt;/td&gt; &lt;!-- git-branchless --&gt;
-    &lt;td&gt;✅&lt;/td&gt; &lt;!-- jj --&gt;
-  &lt;/tr&gt;
-  
-  &lt;tr&gt;
-    &lt;th&gt;&lt;code&gt;sync&lt;/code&gt;&lt;/th&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Git CLI --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitKraken --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Fork --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sourcetree --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Tower --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitUp --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- IntelliJ --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Magit --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Lazygit --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Gitui --&gt;
-    &lt;td&gt;✅&lt;/td&gt; &lt;!-- git-branchless --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- jj --&gt;
-  &lt;/tr&gt;
-  
-  &lt;tr&gt;
-    &lt;th&gt;&lt;code&gt;split&lt;/code&gt;&lt;/th&gt;
-    &lt;td&gt;❌&amp;nbsp;&lt;sup&gt;1&lt;/sup&gt;&lt;/td&gt; &lt;!-- Git CLI --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitKraken --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Fork --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sourcetree --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Tower --&gt;
-    &lt;td&gt;✅&lt;/td&gt; &lt;!-- GitUp --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- IntelliJ --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Magit --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Lazygit --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Gitui --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- git-branchless --&gt;
-    &lt;td&gt;✅&lt;/td&gt; &lt;!-- jj --&gt;
-  &lt;/tr&gt;
-  
-  &lt;tr&gt;
-    &lt;th&gt;&lt;code&gt;preview&lt;/code&gt;&lt;/th&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Git CLI --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitKraken --&gt;
-    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;3&lt;/sup&gt;&lt;/td&gt; &lt;!-- Fork --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sourcetree --&gt;
-    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;3&lt;/sup&gt;&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
-    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;3&lt;/sup&gt;&lt;/td&gt; &lt;!-- Tower --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitUp --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- IntelliJ --&gt;
-    &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;4&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Lazygit --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Gitui --&gt;
-    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;5&lt;/sup&gt;&lt;/td&gt; &lt;!-- git-branchless --&gt;
-    &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;6&lt;/sup&gt;&lt;/td&gt; &lt;!-- jj --&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;th&gt;&lt;code&gt;undo&lt;/code&gt;&lt;/th&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Git CLI --&gt;
-    &lt;td&gt;✅&lt;/td&gt; &lt;!-- GitKraken --&gt;
-    &lt;td&gt;❓&lt;/td&gt; &lt;!-- Fork --&gt;
-    &lt;td&gt;✅&lt;/td&gt; &lt;!-- Sourcetree --&gt;
-    &lt;td&gt;✅&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
-    &lt;td&gt;✅&lt;/td&gt; &lt;!-- Tower --&gt;
-    &lt;td&gt;✅&lt;/td&gt; &lt;!-- GitUp --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- IntelliJ --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Magit --&gt;
-    &lt;td&gt;⚠️&amp;nbsp;&lt;sup&gt;7&lt;/sup&gt;&lt;/td&gt; &lt;!-- Lazygit --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Gitui --&gt;
-    &lt;td&gt;✅&lt;/td&gt; &lt;!-- git-branchless --&gt;
-    &lt;td&gt;✅&lt;/td&gt; &lt;!-- jj --&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;th&gt;&lt;code&gt;large-load&lt;/code&gt;&lt;/th&gt;
-    &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;8&lt;/sup&gt;&lt;/td&gt; &lt;!-- Git CLI --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitKraken --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Fork --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Sourcetree --&gt;
-    &lt;td&gt;✅&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Tower --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitUp --&gt;
-    &lt;td&gt;✅&lt;/td&gt; &lt;!-- IntelliJ --&gt;
-    &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;9&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
-    &lt;td&gt;✅&lt;/td&gt; &lt;!-- Lazygit --&gt;
-    &lt;td&gt;✅&lt;/td&gt; &lt;!-- Gitui --&gt;
-    &lt;td&gt;✅&lt;/td&gt; &lt;!-- git-branchless --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- jj --&gt;
-  &lt;/tr&gt;
-  
-  &lt;tr&gt;
-    &lt;th&gt;&lt;code&gt;large-ops&lt;/code&gt;&lt;/th&gt;
-    &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;8&lt;/sup&gt;&lt;/td&gt; &lt;!-- Git CLI --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- GitKraken --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Fork --&gt;
-    &lt;td&gt;✅&lt;/td&gt; &lt;!-- Sourcetree --&gt;
-    &lt;td&gt;✅&lt;/td&gt; &lt;!-- Sublime Merge --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- SmartGit --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- Tower --&gt;
-    &lt;td&gt;✅&lt;/td&gt; &lt;!-- GitUp --&gt;
-    &lt;td&gt;✅&lt;/td&gt; &lt;!-- IntelliJ --&gt;
-    &lt;td&gt;✅&amp;nbsp;&lt;sup&gt;9&lt;/sup&gt;&lt;/td&gt; &lt;!-- Magit --&gt;
-    &lt;td&gt;✅&lt;/td&gt; &lt;!-- Lazygit --&gt;
-    &lt;td&gt;✅&lt;/td&gt; &lt;!-- Gitui --&gt;
-    &lt;td&gt;✅&lt;/td&gt; &lt;!-- git-branchless --&gt;
-    &lt;td&gt;❌&lt;/td&gt; &lt;!-- jj --&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Notes:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;sup&gt;1&lt;/sup&gt; It can be done via &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase -i&lt;/code&gt; or equivalent, but it’s not ergonomic, and it only works for commits reachable from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HEAD&lt;/code&gt; instead of from other branches.&lt;/li&gt;
-  &lt;li&gt;&lt;sup&gt;2&lt;/sup&gt; Rewording can be done without checking out the commit, but only for commits reachable from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HEAD&lt;/code&gt;. There may be additional limitations.&lt;/li&gt;
-  &lt;li&gt;&lt;sup&gt;3&lt;/sup&gt; Partial support; it can show whether the merge is fast-forward or not, but no additional details.&lt;/li&gt;
-  &lt;li&gt;&lt;sup&gt;4&lt;/sup&gt; Can be done via &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;magit-merge-preview&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;&lt;sup&gt;5&lt;/sup&gt; Partial support; if an operation would cause a merge conflict and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--merge&lt;/code&gt; wasn’t passed, then instead aborts and shows the number of files that would conflict.&lt;/li&gt;
-  &lt;li&gt;&lt;sup&gt;6&lt;/sup&gt; Jujutsu doesn’t let you preview merge conflicts &lt;em&gt;per se&lt;/em&gt;, but merges and rebases always succeed and the conflicts are stored in the commit, and then you can undo the operation if you don’t want to deal with the merge conflicts. You can even restore the old version of the commit well after you carried out the merge/rebase, if desired. This avoids interrupting your workflow, which is the ultimate goal of this feature, so I’m scoring it as a pass for this category.&lt;/li&gt;
-  &lt;li&gt;&lt;sup&gt;7&lt;/sup&gt; Undo support is experimental and based on the reflog, &lt;a href=&quot;https://github.com/arxanas/git-branchless/wiki/Architecture#comparison-with-the-reflog&quot;&gt;which can’t undo all types of operations&lt;/a&gt;.&lt;/li&gt;
-  &lt;li&gt;&lt;sup&gt;8&lt;/sup&gt; Git struggles with some operations on large repositories and can be improved upon, but we’ll consider this to be the baseline performance for large repositories.&lt;/li&gt;
-  &lt;li&gt;&lt;sup&gt;9&lt;/sup&gt; Presumably Magit has the same performance as Git, but I didn’t check because I don’t use Emacs.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;awards&quot;&gt;Awards&lt;/h2&gt;
-
-&lt;p&gt;Commendations:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;GitUp: the most innovative Git GUI of the above.&lt;/li&gt;
-  &lt;li&gt;GitKraken: innovating in some spaces, such as improved support for centralized workflows by warning about concurrently-edited files. These areas aren’t reflected above; I just noticed them on other occasions.&lt;/li&gt;
-  &lt;li&gt;Sublime Merge: incredibly responsive, as to be expected from the folks responsible for &lt;a href=&quot;https://www.sublimetext.com/&quot;&gt;Sublime Text&lt;/a&gt;.&lt;/li&gt;
-  &lt;li&gt;Tower: for having a pleasing undo implementation.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Demerits:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Fork: for making it really hard to search for documentation (“git fork undo” mostly produces results for undoing forking in general, not for the Fork client).&lt;/li&gt;
-  &lt;li&gt;SmartGit: for being deficient in every category tested.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
-
-&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
-
-&lt;table class=&quot;related-posts&quot;&gt;
-&lt;thead&gt;
-  &lt;tr&gt;
-    &lt;th&gt;Date&lt;/th&gt;
-    &lt;th&gt;&lt;/th&gt;
-    &lt;th&gt;Title&lt;/th&gt;
-  &lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;19&amp;nbsp;Jun&amp;nbsp;2021&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/git-undo/&quot;&gt;git undo: We can do better&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;12&amp;nbsp;Oct&amp;nbsp;2021&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/in-memory-rebases/&quot;&gt;Lightning-fast rebases with git-move&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;19&amp;nbsp;Oct&amp;nbsp;2022&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/build-aware-sparse-checkouts/&quot;&gt;Build-aware sparse checkouts&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;16&amp;nbsp;Nov&amp;nbsp;2022&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/bringing-revsets-to-git/&quot;&gt;Bringing revsets to Git&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;05&amp;nbsp;Jan&amp;nbsp;2023&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      (this&amp;nbsp;post)
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/git-ui-features/&quot;&gt;Where are my Git UI features from the future?&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
-
-&lt;ul&gt;
-
-&lt;li&gt;&lt;a class=&quot;icon-hacker-news&quot; href=&quot;https://news.ycombinator.com/item?id=34301543 &quot;&gt;Discussion on Hacker News&lt;/a&gt;&lt;/li&gt;
-
-
-&lt;li&gt;&lt;a class=&quot;icon-lobsters&quot; href=&quot;https://lobste.rs/s/7tnnbq/where_are_my_git_ui_features_from_future &quot;&gt;Discussion on Lobsters&lt;/a&gt;&lt;/li&gt;
-
-
-&lt;/ul&gt;
-
-&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
-
-&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
-&lt;script&gt;
-
-/**
- *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
- *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
-var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/git-ui-features/&quot;;
-    this.page.identifier = &quot;git-ui-features/&quot;;
-};
-
-(function() { // DON&apos;T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement(&apos;script&apos;);
-    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
-    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
-    (d.head || d.body).appendChild(s);
-})();
-&lt;/script&gt;
-
-&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
-
-</description>
-        <pubDate>Thu, 05 Jan 2023 00:00:00 -0600</pubDate>
-        <link>https://blog.waleedkhan.name/git-ui-features/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/git-ui-features/</guid>
-        
-        <category>git</category>
-        
-        <category>rant</category>
-        
-        <category>software-engineering</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>On bullet points</title>
-        <description>&lt;p&gt;In 1972&lt;sup id=&quot;fnref:1&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, the first “computer” was created. This has made a lot of people very angry and been widely regarded as a bad move.&lt;/p&gt;
-
-&lt;p&gt;One of the original uses for “computers” was to write documents. They promised us a novel way to read and write documents: &lt;a href=&quot;https://en.wikipedia.org/wiki/Hypermedia&quot;&gt;&lt;em&gt;hypermedia&lt;/em&gt;&lt;/a&gt;. A brilliant, “nonlinear” presentation of information. We could write documents more like a &lt;em&gt;conversation&lt;/em&gt;. We could embed references to other media, or take tangents and then return to the main topic, but only if the reader &lt;em&gt;wanted&lt;/em&gt; to.&lt;/p&gt;
-
-&lt;p&gt;And then every article written on the Internet since then has been in a linear, &lt;em&gt;boring&lt;/em&gt; fashion.&lt;/p&gt;
-
-&lt;p&gt;We’ve been had.&lt;/p&gt;
-
-&lt;p&gt;I have several “notes” documents in &lt;a href=&quot;https://docs.google.com&quot;&gt;Google Docs&lt;/a&gt; with ideas for writings that I haven’t fleshed out into proper blog posts. Recently, I took one and
-asked &lt;a href=&quot;https://chat.openai.com/&quot;&gt;ChatGPT&lt;/a&gt; to make an article out of it. And it did! It successfully inserted enough transition words into the article to resemble a linear, &lt;em&gt;boring&lt;/em&gt; article.&lt;/p&gt;
-
-&lt;p&gt;Then I realized that the reader then has to ingest all of those useful words and transform them back into bullet points of takeaways in their heads. Hell, maybe you’ll feed &lt;em&gt;this&lt;/em&gt; article into a auto-summarization bot and get a list of succinct bullet points out of it.&lt;/p&gt;
-
-&lt;p&gt;How incredible! With the power of AI, we’ve come full circle: I can write bullet points, a bot can turn it into an article, then another bot can turn them back into bullet points, and you can quickly skim the bullet points. What a time to be alive.&lt;/p&gt;
-
-&lt;p&gt;I’m just going to publish the bullet points directly. And you know what bullet points can do? Represent information &lt;em&gt;succinctly&lt;/em&gt; and &lt;em&gt;non-linearly&lt;/em&gt;:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;You can skip all those transition words.
-    &lt;ul&gt;&lt;li&gt;Especially the
-    &lt;span style=&quot;display: inline-block; height: 2em&quot;&gt;&lt;u style=&quot;font-family: &apos;Comic Sans MS&apos;, &apos;Comic Sans&apos;, sans-serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;fluffy&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/u&gt;&lt;br /&gt;&lt;span aria-label=&quot;&quot; style=&quot;margin-top: -0.5em; margin-left: 0.75em; font-variant: small-caps; font-size: smaller; position: absolute&quot;&gt;adjective&lt;/span&gt;&lt;/span&gt;
-    &lt;span style=&quot;display: inline-block; width: auto; height: 2em&quot;&gt;&lt;u style=&quot;font-family: &apos;Comic Sans MS&apos;, &apos;Comic Sans&apos;, sans-serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;redundant&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/u&gt;&lt;br /&gt;&lt;span aria-label=&quot;&quot; style=&quot;margin-top: -0.5em; margin-left: 2em; font-variant: small-caps; font-size: smaller; position: absolute&quot;&gt;adjective&lt;/span&gt;&lt;/span&gt;
-    ones, which I can delegate to sub-points, if desired.&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;You can skip over sub-points for topics you don&apos;t care about.
-    &lt;ul&gt;&lt;li&gt;Like if I waste your time with this sub-point!&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;You can construct a concept map directly in your head by absorbing the bullet point structure.
-    &lt;table style=&quot;margin-top: 1em; text-align: center&quot;&gt;
-    &lt;thead&gt;
-    &lt;tr&gt;&lt;th&gt;Before&lt;/th&gt;&lt;th&gt;&lt;/th&gt;&lt;th&gt;After&lt;/th&gt;&lt;/tr&gt;
-    &lt;/thead&gt;
-    &lt;tbody style=&quot;padding: 0&quot;&gt;
-    &lt;tr&gt;
-    &lt;td style=&quot;padding-top: 0&quot;&gt;You&apos;d have to reconstruct it from a block of text.&lt;/td&gt;
-    &lt;td style=&quot;padding-top: 0; font-size: 300%; padding-left: 1em; padding-right: 1em&quot;&gt;⇨&lt;/td&gt;
-    &lt;td style=&quot;padding-top: 0&quot;&gt;I can guide you along my argumentation using the literal structure of the text on the page.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;/tbody&gt;
-    &lt;/table&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;I’ll reserve long-form, &lt;em&gt;boring&lt;/em&gt; articles for &lt;em&gt;stories&lt;/em&gt; and &lt;em&gt;rants&lt;/em&gt; where I don’t &lt;em&gt;want&lt;/em&gt; you to consume the information efficiently. Where I’ll &lt;a href=&quot;https://tvtropes.org/pmwiki/pmwiki.php/Main/BoldInflation&quot;&gt;insert lots of &lt;em&gt;italics&lt;/em&gt;&lt;/a&gt; so that you have to read it with my tone of &lt;em&gt;cynicism&lt;/em&gt;!&lt;/p&gt;
-
-&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
-
-&lt;ul&gt;
-
-
-
-&lt;/ul&gt;
-
-&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
-
-&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
-&lt;script&gt;
-
-/**
- *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
- *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
-var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/on-bullet-points/&quot;;
-    this.page.identifier = &quot;on-bullet-points/&quot;;
-};
-
-(function() { // DON&apos;T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement(&apos;script&apos;);
-    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
-    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
-    (d.head || d.body).appendChild(s);
-})();
-&lt;/script&gt;
-
-&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
-
-&lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
-  &lt;ol&gt;
-    &lt;li id=&quot;fn:1&quot; role=&quot;doc-endnote&quot;&gt;
-      &lt;p&gt;For more information, refer to &lt;a href=&quot;https://james-iry.blogspot.com/2009/05/brief-incomplete-and-mostly-wrong.html&quot;&gt;&lt;em&gt;A Brief, Incomplete, and Mostly Wrong History of Programming Languages&lt;/em&gt;&lt;/a&gt; for the history of the C programming language, for which the first computer was originally created, despite its lack of tail call recursion and concurrency support. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/div&gt;
-</description>
-        <pubDate>Mon, 02 Jan 2023 00:00:00 -0600</pubDate>
-        <link>https://blog.waleedkhan.name/on-bullet-points/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/on-bullet-points/</guid>
         
         <category>rant</category>
         
