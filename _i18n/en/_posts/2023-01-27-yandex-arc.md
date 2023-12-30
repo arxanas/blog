@@ -9,7 +9,26 @@ tags:
   - software-engineering
 ---
 
-*Intended audience: developers of source control systems like Git or Mercurial.*
+<div class="publication-notes">
+  <table>
+    <tr>
+      <td>Intended audience</td>
+      <td>Developers of source control systems like Git or Mercurial.</td>
+    </tr>
+    <tr>
+      <td>Origin</td>
+      <td><ul>
+        <li><a href="https://discord.com/channels/1042895022950994071/1042907270473850890/1068630001240514691">My notes on Discord</a>.</li>
+        <li>My experience developing for source control systems.</li>
+        <li><a href="https://habr.com/ru/company/yandex/blog/482926/">The official Yandex blog</a>.</li>
+      </ul></td>
+    </tr>
+    <tr>
+      <td>Mood</td>
+      <td>Mildly interested.</td>
+    </tr>
+  </table>
+</div>
 
 There was a recent [source code leak](https://arseniyshestakov.com/2023/01/26/yandex-services-source-code-leak/) from [Yandex](https://en.wikipedia.org/wiki/Yandex). I haven't examined any of the files, but the topic itself reminds us that Yandex maintains a large [monorepo](https://monorepo.tools/), and has even built their own source control system to handle it, called Arc.
 

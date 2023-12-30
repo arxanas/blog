@@ -9,6 +9,26 @@ tags:
   - software-engineering
 ---
 
+<div class="publication-notes">
+  <table>
+    <tr>
+      <td>Intended audience</td>
+      <td>Rust users.</td>
+    </tr>
+    <tr>
+      <td>Origin</td>
+      <td><ul>
+        <li><a href="https://github.com/arxanas/git-branchless/discussions/732">My post on GitHub</a>.</li>
+        <li>My experience with Rust.</li>
+      </ul></td>
+    </tr>
+    <tr>
+      <td>Mood</td>
+      <td>Informative.</td>
+    </tr>
+  </table>
+</div>
+
  * toc
 {:toc}
 

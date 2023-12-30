@@ -9,7 +9,25 @@ tags:
   - software-engineering
 ---
 
-_Intended audience: prospective-to-intermediate Rust developers who worry about slow compilation times, the scale thereof, and preventative practices; advanced Rust developers who can help me improve my own compilation times._
+<div class="publication-notes">
+  <table>
+    <tr>
+      <td>Intended audience</td>
+      <td><ul>
+        <li>Prospective-to-intermediate Rust developers who worry about slow compilation times, the scale thereof, and preventative practices.</li>
+        <li>Advanced Rust developers who can help me improve my own compilation times.</li>
+      </ul></td>
+    </tr>
+    <tr>
+      <td>Origin</td>
+      <td>My experience with Rust.</td>
+    </tr>
+    <tr>
+      <td>Mood</td>
+      <td>Somewhat successful; somewhat disappointed.</td>
+    </tr>
+  </table>
+</div>
 
 Rust is known for slow compilation times. I spent a long time trying to improve incremental test build times for my project [git-branchless](https://github.com/arxanas/git-branchless) in [https://github.com/arxanas/git-branchless/pull/650](https://github.com/arxanas/git-branchless/pull/650). This is a discussion of the results.
 

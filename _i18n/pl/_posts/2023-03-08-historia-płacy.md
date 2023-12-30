@@ -9,7 +9,26 @@ tags:
   - software-engineering
 ---
 
-_Docelowi odbiorcy: obecny inżynierzy oprogramowania szukający informacji dla swojego poszukiwania pracy lub negocjacja; osoby ciekawe o kompensacji w branży inżyniera oprogramowania w US (“poziom 3”)._
+<div class="publication-notes">
+  <table>
+    <tr>
+      <td>Docelowi odbiorcy</td>
+      <td><ul>
+        <li>Obecny inżynierzy oprogramowania szukający informacji dla swojego poszukiwania pracy lub negocjacja</li>
+        <li>Osoby ciekawe o kompensacji w branży inżyniera oprogramowania w US (“poziom 3”).</li>
+      </ul></td>
+    </tr>
+    <tr>
+      <td>Pochodzenie</td>
+      <td>Moja historia pracy.</td>
+    </tr>
+    <tr>
+      <td>Nastrój</td>
+      <td>Wstępnie pomocny, ale ostrożny.</td>
+    </tr>
+    {% include translation_notice.html %}
+  </table>
+</div>
 
 * toc
 {:toc}

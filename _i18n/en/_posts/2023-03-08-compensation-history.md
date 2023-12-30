@@ -9,7 +9,25 @@ tags:
   - software-engineering
 ---
 
-_Intended audience: current software engineers seeking information for their own job search or negotation; people curious about the compensation in software engineering in the US ("tier 3")._
+<div class="publication-notes">
+  <table>
+    <tr>
+      <td>Intended audience</td>
+      <td><ul>
+        <li>Current software engineers seeking information for their own job search or negotation.</li>
+        <li>People curious about the compensation in software engineering in the US ("tier 3").</li>
+      </ul></td>
+    </tr>
+    <tr>
+      <td>Origin</td>
+      <td>My work history.</td>
+    </tr>
+    <tr>
+      <td>Mood</td>
+      <td>Tentatively helpful but wary.</td>
+    </tr>
+  </table>
+</div>
 
 * toc
 {:toc}

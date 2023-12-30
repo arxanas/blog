@@ -9,7 +9,27 @@ tags:
   - software-engineering
 ---
 
-_Docelowi odbiorcy: deweloperzy systemów kontroli źródła, tak jak Git i Mercurial._
+<div class="publication-notes">
+  <table>
+    <tr>
+      <td>Docelowi odbiorcy</td>
+      <td>Deweloperzy systemów kontroli źródła, tak jak Git i Mercurial.</td>
+    </tr>
+    <tr>
+      <td>Pochodzenie</td>
+      <td><ul>
+        <li><a href="https://discord.com/channels/1042895022950994071/1042907270473850890/1068630001240514691">Moje notatki w Discordzie</a>.</li>
+        <li>Moje doświadczenie w programowaniu dla systemów kontroli źródła.</li>
+        <li><a href="https://habr.com/ru/company/yandex/blog/482926/">Oficjalny blog Yandex</a>.</li>
+      </ul></td>
+    </tr>
+    <tr>
+      <td>Nastrój</td>
+      <td>Lekko zainteresowany.</td>
+    </tr>
+    {% include translation_notice.html %}
+  </table>
+</div>
 
 Ostatnio był przeciek koda z [Yandex](https://pl.wikipedia.org/wiki/Yandex). Ja nie spradzałem plików, ale temat właśnie przypomina nam, że Yandex utrzymuje swoje duże [monorepo](https://monorepo.tools/), a nawet zbudował własny [system kontroli źródła](https://pl.wikipedia.org/wiki/System_kontroli_wersji) [ang. “source control system”], żeby sobie z tym radzić, o nazwie “Arc”.
 

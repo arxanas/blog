@@ -9,7 +9,26 @@ tags:
   - software-engineering
 ---
 
-_Docelowi odbiorcy: potencjalni i średnio-zaawansowani deweloperzy Rust, którzy martwią się wolnymi czasami kompilacji, ich skalą i praktykami zapobiegawczymi; zaawansowani deweloperzy Rust, którzy pomogą mi poprawić czas kompilacji._
+<div class="publication-notes">
+  <table>
+    <tr>
+      <td>Docelowi odbiorcy</td>
+      <td><ul>
+        <li>Potencjalni i średnio-zaawansowani deweloperzy Rust, którzy martwią się wolnymi czasami kompilacji, ich skalą i praktykami zapobiegawczymi.</li>
+        <li>Zaawansowani deweloperzy Rust, którzy pomogą mi poprawić czas kompilacji.</li>
+      </ul></td>
+    </tr>
+    <tr>
+      <td>Pochodzenie</td>
+      <td>Moje doświadczenie w Rust.</td>
+    </tr>
+    <tr>
+      <td>Nastrój</td>
+      <td>Trochę udany; trochę rozczarowany.</td>
+    </tr>
+    {% include translation_notice.html %}
+  </table>
+</div>
 
 Rust jest znany z wolnego czasu kompilacji. Spędziłem dużo czasu próbując poprawić przyrostowe czasy kompilacji testowania dla mojego projektu [git-branchless](https://github.com/arxanas/git-branchless) w [https://github.com/arxanas/git-branchless/pull/650](https://github.com/arxanas/git-branchless/pull/650). Oto dyskusja wyników.
 

@@ -8,8 +8,33 @@ tags:
   - rust
 ---
 
-_Docelowi odbiorcy: programiści OCaml/SML uczący się języka Rust; programiści funkcjonalni, którzy wcześniej nie mieli styczności z języków takimi jak OCaml czy Haskell, ale mogą być zainteresowani pewną techniką abstrakcji. Należy zauważyć, że termin “moduł w stylu ML” odnosi się do [rodziny języków programowania ML](https://en.wikipedia.org/wiki/ML_(programming_language)), a nie do [uczenia maszynowego](https://pl.wikipedia.org/wiki/Uczenie_maszynowe)._
-
+<div class="publication-notes">
+  <table>
+    <tr>
+      <td>Docelowi odbiorcy</td>
+      <td><ul>
+        <li>Programiści OCaml/SML uczący się języka Rust.</li>
+        <li>Programiści funkcjonalni, którzy wcześniej nie mieli styczności z języków takimi jak OCaml czy Haskell, ale mogą być zainteresowani pewną techniką abstrakcji.</li>
+        <ul><li>
+        Należy zauważyć, że termin “moduł w stylu ML” odnosi się do <a href="https://en.wikipedia.org/wiki/ML_(programming_language)">rodziny języków programowania ML</a>, a nie do <a href="https://pl.wikipedia.org/wiki/Uczenie_maszynowe">uczenia maszynowego</a>.
+        </li></ul>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>Pochodzenie</td>
+      <td><ul>
+        <li>Doświadczenie w OCaml i Rust.</li>
+        <li>Doświadczenie w teorii typów.</li>
+      </ul></td>
+    </tr>
+    <tr>
+      <td>Nastrój</td>
+      <td>Pomocny</td>
+    </tr>
+    {% include translation_notice.html %}
+  </table>
+</div>
 
 * toc
 {:toc}

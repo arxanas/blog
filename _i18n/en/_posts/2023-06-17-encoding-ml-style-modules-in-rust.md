@@ -8,7 +8,32 @@ tags:
   - rust
 ---
 
-_Intended audience: OCaml/SML programmers learning Rust; new-wave functional programmers who haven’t used older languages like OCaml or Haskell, but who might be interested in a certain abstraction technique. Note that “ML-style module” refers to [the ML family of programming languages](https://en.wikipedia.org/wiki/ML_(programming_language)), not [machine learning](https://en.wikipedia.org/wiki/Machine_learning)._
+<div class="publication-notes">
+  <table>
+    <tr>
+      <td>Intended audience</td>
+      <td><ul>
+        <li>OCaml/SML programmers learning Rust.</li>
+        <li>New-wave functional programmers who haven’t used older languages like OCaml or Haskell, but who might be interested in a certain abstraction technique.</li>
+        <ul><li>
+        Note that “ML-style module” refers to <a href="https://en.wikipedia.org/wiki/ML_(programming_language)">the ML family of programming languages</a>, not <a href="https://en.wikipedia.org/wiki/Machine_learning">machine learning</a>.
+        </li></ul>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>Origin</td>
+      <td><ul>
+        <li>OCaml and Rust experience.</li>
+        <li>Type theory experience.</li>
+      </ul></td>
+    </tr>
+    <tr>
+      <td>Mood</td>
+      <td>Helpful.</td>
+    </tr>
+  </table>
+</div>
 
 * toc
 {:toc}

@@ -9,7 +9,26 @@ tags:
   - software-engineering
 ---
 
-_Docelowi odbiorcy: inżynierowie oprogramowanie pracujący z Git, którzy używają "patch stacks"/"stacked diffs", na przykład w jaki sposób Git jest używany w projektach Git i Linux, a także w wielu firmach wprowadzających "[trunk-based development](https://trunkbaseddevelopment.com/)"; ale nie użytkownicy Git, który uważają, że graf zatwierdzeń Git powinien odzwierciedlać rzeczywisty proces rozwijania._
+<div class="publication-notes">
+  <table>
+    <tr>
+      <td>Docelowi odbiorcy</td>
+      <td><ul>
+        <li>Inżynierowie oprogramowanie pracujący z Git, którzy używają "patch stacks"/"stacked diffs", na przykład w jaki sposób Git jest używany w projektach Git i Linux, a także w wielu firmach wprowadzających "<a href="https://trunkbaseddevelopment.com/">trunk-based development</a>".</li>
+        <li><em>Nie</em> użytkownicy Git, który uważają, że graf zatwierdzeń Git powinien odzwierciedlać rzeczywisty proces rozwijania.</li>
+      </ul></td>
+    </tr>
+    <tr>
+      <td>Pochodzenie</td>
+      <td>Moja praca nad <a href="https://github.com/arxanas/git-branchless">git-branchless</a>.</td>
+    </tr>
+    <tr>
+      <td>Nastrój</td>
+      <td>Prawdopodobnie niezważany.</td>
+    </tr>
+    {% include translation_notice.html %}
+  </table>
+</div>
 
 Pewna kategoria programistów używa Git z przypływem pracy "patch stack", na którym zbierają ciąg małych, indywidualnie przeglądanych zatwierdzeń, które razem realizują znaczną zmianę. W takich przykładach, często przydatne jest uruchamianie linters lub formatters na każdym zatwierdzeniu w stosie i zastosowanie wyników. Może to być jednak żmudne, a naiwne podejście może powodować niepotrzebne konflikty scalania. (Jednym z obejść jest zastosowanie formatter na każdym zatwierdzeniu w stosie _wstecz_.)
 

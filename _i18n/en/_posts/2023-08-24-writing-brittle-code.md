@@ -6,7 +6,22 @@ tags:
   - software-engineering
 ---
 
-_Intended audience: software engineers, particularly those at large companies or organizations._
+<div class="publication-notes">
+  <table>
+    <tr>
+      <td>Intended audience</td>
+      <td>Software engineers, particularly those at large companies or organizations.</td>
+    </tr>
+    <tr>
+      <td>Origin</td>
+      <td>General software engineering experience.</td>
+    </tr>
+    <tr>
+      <td>Mood</td>
+      <td>Cautionary.</td>
+    </tr>
+  </table>
+</div>
 
 I particularly like this characterization from [*Leaving Haskell behind* (2023)](https://journal.infinitenegativeutility.com/leaving-haskell-behind):
 

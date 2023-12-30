@@ -9,7 +9,25 @@ tags:
   - software-engineering
 ---
 
-_Intended audience: software engineers working with Git who use "patch stacks"/"stacked diffs", such as how Git is used for the Git and Linux projects, as well as for many companies practicing [trunk-based development](https://trunkbaseddevelopment.com/); but not Git users who think the Git commit graph should reflect the actual development process._
+<div class="publication-notes">
+  <table>
+    <tr>
+      <td>Intended audience</td>
+      <td><ul>
+        <li>Software engineers working with Git who use "patch stacks"/"stacked diffs", such as how Git is used for the Git and Linux projects, as well as for many companies practicing <a href="https://trunkbaseddevelopment.com/">trunk-based development</a>.</li>
+        <li><em>Not</em> Git users who think the Git commit graph should reflect the actual development process.</li>
+      </ul></td>
+    </tr>
+    <tr>
+      <td>Origin</td>
+      <td>My work on <a href="https://github.com/arxanas/git-branchless">git-branchless</a>.</td>
+    </tr>
+    <tr>
+      <td>Mood</td>
+      <td>Unheeded by most.</td>
+    </tr>
+  </table>
+</div>
 
 A certain category of developer uses Git with a "patch stack" workflow, in which they accumulate a sequence of small, individually-reviewable commits that together implement a large change. In these cases, it's oftentimes useful to run linters or formatters on each commit in the stack and apply the results. However, this can be tedious, and a naive approach can cause needless merge conflicts. (One workaround is to run formatters on each commit in the stack *backwards*.)
 

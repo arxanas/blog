@@ -1,0 +1,34 @@
+.publication-notes::before {
+    background-color: $grey-color-light;
+    content: "Publication notes";
+    display: block;
+    font-weight: bolder;
+    text-align: center;
+    width: 100%;
+}
+
+[lang="pl"] .publication-notes::before {
+    content: "Notatki opublikowania";
+}
+
+.publication-notes {
+    border-bottom: solid $grey-color-light 1px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+
+.publication-notes td {
+    background-color: $grey-color-light;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.publication-notes td:first-child {
+    font-weight: bolder;
+    text-align: right;
+}
+
+.publication-notes ul {
+    margin-bottom: 0;
+    margin-top: 0;
+}
