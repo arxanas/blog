@@ -20,7 +20,7 @@ body, h1, h2, h3, h4, h5, h6, p, blockquote, pre, hr, dl, dd, ol, ul, figure { m
 body { font: 400 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif; color: #111; background-color: #fdfdfd; -webkit-text-size-adjust: 100%; -webkit-font-feature-settings: "kern" 1; -moz-font-feature-settings: "kern" 1; -o-font-feature-settings: "kern" 1; font-feature-settings: "kern" 1; font-kerning: normal; }
 
 /** Set `margin-bottom` to maintain vertical rhythm */
-h1, h2, h3, h4, h5, h6, p, blockquote, pre, ul, ol, dl, figure, .highlight { margin-bottom: 15px; }
+h1, h2, h3, h4, h5, h6, p, blockquote, pre, ul, ol, dl, figure, .highlight { margin-bottom: calc($spacing-unit / 2); }
 
 /** Images */
 img { max-width: 100%; vertical-align: middle; }
@@ -46,7 +46,7 @@ a:visited { color: #1756a9; }
 a:hover { color: #111; text-decoration: underline; }
 
 /** Blockquotes */
-blockquote { color: #828282; border-left: 4px solid #e8e8e8; padding-left: 15px; font-size: 16px; font-style: italic; }
+blockquote { color: #828282; border-left: 4px solid #e8e8e8; padding-left: calc($spacing-unit / 2); font-size: 16px; font-style: italic; }
 
 blockquote > :last-child { margin-bottom: 0; }
 
@@ -62,7 +62,7 @@ pre > code { border: 0; padding-right: 0; padding-left: 0; }
 /** Wrapper */
 .wrapper { max-width: -webkit-calc(800px - (30px * 2)); max-width: calc(800px - (30px * 2)); margin-right: auto; margin-left: auto; padding-right: 30px; padding-left: 30px; }
 
-@media screen and (max-width: 800px) { .wrapper { max-width: -webkit-calc(800px - (30px)); max-width: calc(800px - (30px)); padding-right: 15px; padding-left: 15px; } }
+@media screen and (max-width: 800px) { .wrapper { max-width: -webkit-calc(800px - (30px)); max-width: calc(800px - (30px)); padding-right: calc($spacing-unit / 2); padding-left: calc($spacing-unit / 2); } }
 
 /** Clearfix */
 .footer-col-wrapper:after, .wrapper:after { content: ""; display: table; clear: both; }
@@ -132,7 +132,7 @@ html:lang("pl") .github-comment-container::before { content: "Wątki komentarzy"
 
 .site-nav .page-link:not(:last-child) { margin-right: 20px; }
 
-@media screen and (max-width: 600px) { .site-nav { position: absolute; top: 9px; right: 15px; background-color: #fdfdfd; border: 1px solid #e8e8e8; border-radius: 5px; text-align: right; } .site-nav .menu-icon { display: block; float: right; width: 36px; height: 26px; line-height: 0; padding-top: 10px; text-align: center; } .site-nav .menu-icon > svg { width: 18px; height: 15px; } .site-nav .menu-icon > svg path { fill: #424242; } .site-nav .trigger { clear: both; display: none; } .site-nav:hover .trigger { display: block; padding-bottom: 5px; } .site-nav .page-link { display: block; padding: 5px 10px; margin-left: 20px; } .site-nav .page-link:not(:last-child) { margin-right: 0; } }
+@media screen and (max-width: 600px) { .site-nav { position: absolute; top: 9px; right: calc($spacing-unit / 2); background-color: #fdfdfd; border: 1px solid #e8e8e8; border-radius: 5px; text-align: right; } .site-nav .menu-icon { display: block; float: right; width: 36px; height: 26px; line-height: 0; padding-top: 10px; text-align: center; } .site-nav .menu-icon > svg { width: 18px; height: 15px; } .site-nav .menu-icon > svg path { fill: #424242; } .site-nav .trigger { clear: both; display: none; } .site-nav:hover .trigger { display: block; padding-bottom: 5px; } .site-nav .page-link { display: block; padding: 5px 10px; margin-left: 20px; } .site-nav .page-link:not(:last-child) { margin-right: 0; } }
 
 /** Site footer */
 .site-footer { border-top: 1px solid #e8e8e8; padding: 30px 0; }
@@ -143,9 +143,9 @@ html:lang("pl") .github-comment-container::before { content: "Wątki komentarzy"
 
 .contact-list, .social-media-list { list-style: none; margin-left: 0; }
 
-.footer-col-wrapper { font-size: 15px; color: #828282; margin-left: -15px; }
+.footer-col-wrapper { font-size: 15px; color: #828282; margin-left: calc(-1 * $spacing-unit / 2); }
 
-.footer-col { float: left; margin-bottom: 15px; padding-left: 15px; }
+.footer-col { float: left; margin-bottom: calc($spacing-unit / 2); padding-left: calc($spacing-unit / 2); }
 
 .footer-col-1 { width: -webkit-calc(35% - (30px / 2)); width: calc(35% - (30px / 2)); }
 
@@ -204,6 +204,18 @@ html:lang("pl") .github-comment-container::before { content: "Wątki komentarzy"
 .center-image { margin: 0 auto; display: block; }
 
 video { width: 100%; margin-top: 1em; margin-bottom: 1em; }
+
+.publication-notes::before { background-color: #e8e8e8; content: "Publication notes"; display: block; font-weight: bolder; text-align: center; width: 100%; }
+
+[lang="pl"] .publication-notes::before { content: "Notatki opublikowania"; }
+
+.publication-notes { border-bottom: solid #e8e8e8 1px; margin-bottom: 10px; padding-bottom: 10px; }
+
+.publication-notes td { background-color: #e8e8e8; padding-left: 5px; padding-right: 5px; }
+
+.publication-notes td:first-child { font-weight: bolder; text-align: right; }
+
+.publication-notes ul { margin-bottom: 0; margin-top: 0; }
 
 /** Syntax highlighting styles */
 .highlight { background: #fff; }

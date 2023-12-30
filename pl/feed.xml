@@ -7,13 +7,45 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/pl/</link>
     <atom:link href="https://blog.waleedkhan.name/pl/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 12 Sep 2023 13:53:00 -0500</pubDate>
-    <lastBuildDate>Tue, 12 Sep 2023 13:53:00 -0500</lastBuildDate>
+    <pubDate>Sat, 30 Dec 2023 14:54:35 -0600</pubDate>
+    <lastBuildDate>Sat, 30 Dec 2023 14:54:35 -0600</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
         <title>Kodowanie w Rust modułów w stylu ML</title>
-        <description>&lt;p&gt;&lt;em&gt;Docelowi odbiorcy: programiści OCaml/SML uczący się języka Rust; programiści funkcjonalni, którzy wcześniej nie mieli styczności z języków takimi jak OCaml czy Haskell, ale mogą być zainteresowani pewną techniką abstrakcji. Należy zauważyć, że termin “moduł w stylu ML” odnosi się do &lt;a href=&quot;https://en.wikipedia.org/wiki/ML_(programming_language)&quot;&gt;rodziny języków programowania ML&lt;/a&gt;, a nie do &lt;a href=&quot;https://pl.wikipedia.org/wiki/Uczenie_maszynowe&quot;&gt;uczenia maszynowego&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+        <description>&lt;div class=&quot;publication-notes&quot;&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Docelowi odbiorcy&lt;/td&gt;
+      &lt;td&gt;&lt;ul&gt;
+        &lt;li&gt;Programiści OCaml/SML uczący się języka Rust.&lt;/li&gt;
+        &lt;li&gt;Programiści funkcjonalni, którzy wcześniej nie mieli styczności z języków takimi jak OCaml czy Haskell, ale mogą być zainteresowani pewną techniką abstrakcji.&lt;/li&gt;
+        &lt;ul&gt;&lt;li&gt;
+        Należy zauważyć, że termin “moduł w stylu ML” odnosi się do &lt;a href=&quot;https://en.wikipedia.org/wiki/ML_(programming_language)&quot;&gt;rodziny języków programowania ML&lt;/a&gt;, a nie do &lt;a href=&quot;https://pl.wikipedia.org/wiki/Uczenie_maszynowe&quot;&gt;uczenia maszynowego&lt;/a&gt;.
+        &lt;/li&gt;&lt;/ul&gt;
+      &lt;/ul&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Pochodzenie&lt;/td&gt;
+      &lt;td&gt;&lt;ul&gt;
+        &lt;li&gt;Doświadczenie w OCaml i Rust.&lt;/li&gt;
+        &lt;li&gt;Doświadczenie w teorii typów.&lt;/li&gt;
+      &lt;/ul&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Nastrój&lt;/td&gt;
+      &lt;td&gt;Pomocny&lt;/td&gt;
+    &lt;/tr&gt;
+    
+&lt;tr&gt;
+  &lt;td&gt;Język&lt;/td&gt;
+  &lt;td&gt;Obcy. Moim pierwszym język jest angielki. Jeśli zobaczysz błąd, niezależnie od tego, czy chodzi o pisownię, gramatykę czy dobór słow, skomentuj to!&lt;/td&gt;
+&lt;/tr&gt;
+
+
+  &lt;/table&gt;
+&lt;/div&gt;
 
 &lt;ul id=&quot;markdown-toc&quot;&gt;
   &lt;li&gt;&lt;a href=&quot;#stwierdzenie-problemu&quot; id=&quot;markdown-toc-stwierdzenie-problemu&quot;&gt;Stwierdzenie problemu&lt;/a&gt;&lt;/li&gt;
@@ -537,7 +569,32 @@ var disqus_config = function () {
     
       <item>
         <title>Szybkie formatowanie stosu zatwierdzeń</title>
-        <description>&lt;p&gt;&lt;em&gt;Docelowi odbiorcy: inżynierowie oprogramowanie pracujący z Git, którzy używają “patch stacks”/”stacked diffs”, na przykład w jaki sposób Git jest używany w projektach Git i Linux, a także w wielu firmach wprowadzających “&lt;a href=&quot;https://trunkbaseddevelopment.com/&quot;&gt;trunk-based development&lt;/a&gt;”; ale nie użytkownicy Git, który uważają, że graf zatwierdzeń Git powinien odzwierciedlać rzeczywisty proces rozwijania.&lt;/em&gt;&lt;/p&gt;
+        <description>&lt;div class=&quot;publication-notes&quot;&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Docelowi odbiorcy&lt;/td&gt;
+      &lt;td&gt;&lt;ul&gt;
+        &lt;li&gt;Inżynierowie oprogramowanie pracujący z Git, którzy używają &quot;patch stacks&quot;/&quot;stacked diffs&quot;, na przykład w jaki sposób Git jest używany w projektach Git i Linux, a także w wielu firmach wprowadzających &quot;&lt;a href=&quot;https://trunkbaseddevelopment.com/&quot;&gt;trunk-based development&lt;/a&gt;&quot;.&lt;/li&gt;
+        &lt;li&gt;&lt;em&gt;Nie&lt;/em&gt; użytkownicy Git, który uważają, że graf zatwierdzeń Git powinien odzwierciedlać rzeczywisty proces rozwijania.&lt;/li&gt;
+      &lt;/ul&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Pochodzenie&lt;/td&gt;
+      &lt;td&gt;Moja praca nad &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt;.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Nastrój&lt;/td&gt;
+      &lt;td&gt;Prawdopodobnie niezważany.&lt;/td&gt;
+    &lt;/tr&gt;
+    
+&lt;tr&gt;
+  &lt;td&gt;Język&lt;/td&gt;
+  &lt;td&gt;Obcy. Moim pierwszym język jest angielki. Jeśli zobaczysz błąd, niezależnie od tego, czy chodzi o pisownię, gramatykę czy dobór słow, skomentuj to!&lt;/td&gt;
+&lt;/tr&gt;
+
+
+  &lt;/table&gt;
+&lt;/div&gt;
 
 &lt;p&gt;Pewna kategoria programistów używa Git z przypływem pracy “patch stack”, na którym zbierają ciąg małych, indywidualnie przeglądanych zatwierdzeń, które razem realizują znaczną zmianę. W takich przykładach, często przydatne jest uruchamianie linters lub formatters na każdym zatwierdzeniu w stosie i zastosowanie wyników. Może to być jednak żmudne, a naiwne podejście może powodować niepotrzebne konflikty scalania. (Jednym z obejść jest zastosowanie formatter na każdym zatwierdzeniu w stosie &lt;em&gt;wstecz&lt;/em&gt;.)&lt;/p&gt;
 
@@ -597,7 +654,29 @@ var disqus_config = function () {
     
       <item>
         <title>e69de29bb2d1d6434b8b29ae775ad8c2e48c5391</title>
-        <description>&lt;p&gt;&lt;em&gt;Docelowi odbiorcy: inżynierowie oprogramowania pracujący z Git, którzy natrafili na tą wartośc i chcą potwierdzić, że ma ona szczególne znaczenie.&lt;/em&gt;&lt;/p&gt;
+        <description>&lt;div class=&quot;publication-notes&quot;&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Docelowi odbiorcy&lt;/td&gt;
+      &lt;td&gt;Inżynierowie oprogramowania pracujący z Git, którzy natrafili na tą wartośc i chcą potwierdzić, że ma ona szczególne znaczenie.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Pochodzenie&lt;/td&gt;
+      &lt;td&gt;Ogólne doświadczenie w Git.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Nastrój&lt;/td&gt;
+      &lt;td&gt;Pomocny.&lt;/td&gt;
+    &lt;/tr&gt;
+    
+&lt;tr&gt;
+  &lt;td&gt;Język&lt;/td&gt;
+  &lt;td&gt;Obcy. Moim pierwszym język jest angielki. Jeśli zobaczysz błąd, niezależnie od tego, czy chodzi o pisownię, gramatykę czy dobór słow, skomentuj to!&lt;/td&gt;
+&lt;/tr&gt;
+
+
+  &lt;/table&gt;
+&lt;/div&gt;
 
 &lt;p&gt;Git stosuje hash &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;e69de29bb2d1d6434b8b29ae775ad8c2e48c5391&lt;/code&gt; dla oznaczenia pustego blob (pusty plik).&lt;/p&gt;
 
@@ -659,7 +738,32 @@ var disqus_config = function () {
     
       <item>
         <title>Moja historia płacy</title>
-        <description>&lt;p&gt;&lt;em&gt;Docelowi odbiorcy: obecny inżynierzy oprogramowania szukający informacji dla swojego poszukiwania pracy lub negocjacja; osoby ciekawe o kompensacji w branży inżyniera oprogramowania w US (“poziom 3”).&lt;/em&gt;&lt;/p&gt;
+        <description>&lt;div class=&quot;publication-notes&quot;&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Docelowi odbiorcy&lt;/td&gt;
+      &lt;td&gt;&lt;ul&gt;
+        &lt;li&gt;Obecny inżynierzy oprogramowania szukający informacji dla swojego poszukiwania pracy lub negocjacja&lt;/li&gt;
+        &lt;li&gt;Osoby ciekawe o kompensacji w branży inżyniera oprogramowania w US (“poziom 3”).&lt;/li&gt;
+      &lt;/ul&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Pochodzenie&lt;/td&gt;
+      &lt;td&gt;Moja historia pracy.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Nastrój&lt;/td&gt;
+      &lt;td&gt;Wstępnie pomocny, ale ostrożny.&lt;/td&gt;
+    &lt;/tr&gt;
+    
+&lt;tr&gt;
+  &lt;td&gt;Język&lt;/td&gt;
+  &lt;td&gt;Obcy. Moim pierwszym język jest angielki. Jeśli zobaczysz błąd, niezależnie od tego, czy chodzi o pisownię, gramatykę czy dobór słow, skomentuj to!&lt;/td&gt;
+&lt;/tr&gt;
+
+
+  &lt;/table&gt;
+&lt;/div&gt;
 
 &lt;ul id=&quot;markdown-toc&quot;&gt;
   &lt;li&gt;&lt;a href=&quot;#historia-płacy&quot; id=&quot;markdown-toc-historia-płacy&quot;&gt;Historia płacy&lt;/a&gt;&lt;/li&gt;
@@ -724,7 +828,32 @@ var disqus_config = function () {
     
       <item>
         <title>Ulepszenie przyrostowe czasy testowania Rust</title>
-        <description>&lt;p&gt;&lt;em&gt;Docelowi odbiorcy: potencjalni i średnio-zaawansowani deweloperzy Rust, którzy martwią się wolnymi czasami kompilacji, ich skalą i praktykami zapobiegawczymi; zaawansowani deweloperzy Rust, którzy pomogą mi poprawić czas kompilacji.&lt;/em&gt;&lt;/p&gt;
+        <description>&lt;div class=&quot;publication-notes&quot;&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Docelowi odbiorcy&lt;/td&gt;
+      &lt;td&gt;&lt;ul&gt;
+        &lt;li&gt;Potencjalni i średnio-zaawansowani deweloperzy Rust, którzy martwią się wolnymi czasami kompilacji, ich skalą i praktykami zapobiegawczymi.&lt;/li&gt;
+        &lt;li&gt;Zaawansowani deweloperzy Rust, którzy pomogą mi poprawić czas kompilacji.&lt;/li&gt;
+      &lt;/ul&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Pochodzenie&lt;/td&gt;
+      &lt;td&gt;Moje doświadczenie w Rust.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Nastrój&lt;/td&gt;
+      &lt;td&gt;Trochę udany; trochę rozczarowany.&lt;/td&gt;
+    &lt;/tr&gt;
+    
+&lt;tr&gt;
+  &lt;td&gt;Język&lt;/td&gt;
+  &lt;td&gt;Obcy. Moim pierwszym język jest angielki. Jeśli zobaczysz błąd, niezależnie od tego, czy chodzi o pisownię, gramatykę czy dobór słow, skomentuj to!&lt;/td&gt;
+&lt;/tr&gt;
+
+
+  &lt;/table&gt;
+&lt;/div&gt;
 
 &lt;p&gt;Rust jest znany z wolnego czasu kompilacji. Spędziłem dużo czasu próbując poprawić przyrostowe czasy kompilacji testowania dla mojego projektu &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt; w &lt;a href=&quot;https://github.com/arxanas/git-branchless/pull/650&quot;&gt;https://github.com/arxanas/git-branchless/pull/650&lt;/a&gt;. Oto dyskusja wyników.&lt;/p&gt;
 
@@ -927,7 +1056,33 @@ var disqus_config = function () {
     
       <item>
         <title>System kontroli wersja Yandex Arc</title>
-        <description>&lt;p&gt;&lt;em&gt;Docelowi odbiorcy: deweloperzy systemów kontroli źródła, tak jak Git i Mercurial.&lt;/em&gt;&lt;/p&gt;
+        <description>&lt;div class=&quot;publication-notes&quot;&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Docelowi odbiorcy&lt;/td&gt;
+      &lt;td&gt;Deweloperzy systemów kontroli źródła, tak jak Git i Mercurial.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Pochodzenie&lt;/td&gt;
+      &lt;td&gt;&lt;ul&gt;
+        &lt;li&gt;&lt;a href=&quot;https://discord.com/channels/1042895022950994071/1042907270473850890/1068630001240514691&quot;&gt;Moje notatki w Discordzie&lt;/a&gt;.&lt;/li&gt;
+        &lt;li&gt;Moje doświadczenie w programowaniu dla systemów kontroli źródła.&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;https://habr.com/ru/company/yandex/blog/482926/&quot;&gt;Oficjalny blog Yandex&lt;/a&gt;.&lt;/li&gt;
+      &lt;/ul&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Nastrój&lt;/td&gt;
+      &lt;td&gt;Lekko zainteresowany.&lt;/td&gt;
+    &lt;/tr&gt;
+    
+&lt;tr&gt;
+  &lt;td&gt;Język&lt;/td&gt;
+  &lt;td&gt;Obcy. Moim pierwszym język jest angielki. Jeśli zobaczysz błąd, niezależnie od tego, czy chodzi o pisownię, gramatykę czy dobór słow, skomentuj to!&lt;/td&gt;
+&lt;/tr&gt;
+
+
+  &lt;/table&gt;
+&lt;/div&gt;
 
 &lt;p&gt;Ostatnio był przeciek koda z &lt;a href=&quot;https://pl.wikipedia.org/wiki/Yandex&quot;&gt;Yandex&lt;/a&gt;. Ja nie spradzałem plików, ale temat właśnie przypomina nam, że Yandex utrzymuje swoje duże &lt;a href=&quot;https://monorepo.tools/&quot;&gt;monorepo&lt;/a&gt;, a nawet zbudował własny &lt;a href=&quot;https://pl.wikipedia.org/wiki/System_kontroli_wersji&quot;&gt;system kontroli źródła&lt;/a&gt; [ang. “source control system”], żeby sobie z tym radzić, o nazwie “Arc”.&lt;/p&gt;
 
@@ -1008,7 +1163,34 @@ var disqus_config = function () {
     
       <item>
         <title>Używanie `tracing` w aplikacji Rust CLI</title>
-        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
+        <description>&lt;div class=&quot;publication-notes&quot;&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Docelowi odbiorcy&lt;/td&gt;
+      &lt;td&gt;Użytkownicy Rust.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Pochodzenie&lt;/td&gt;
+      &lt;td&gt;&lt;ul&gt;
+        &lt;li&gt;&lt;a href=&quot;https://github.com/arxanas/git-branchless/discussions/732&quot;&gt;Mój post na GitHub&lt;/a&gt;.&lt;/li&gt;
+        &lt;li&gt;Moje doświadczenie w Rust.&lt;/li&gt;
+      &lt;/ul&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Nastrój&lt;/td&gt;
+      &lt;td&gt;Informujący.&lt;/td&gt;
+    &lt;/tr&gt;
+    
+&lt;tr&gt;
+  &lt;td&gt;Język&lt;/td&gt;
+  &lt;td&gt;Obcy. Moim pierwszym język jest angielki. Jeśli zobaczysz błąd, niezależnie od tego, czy chodzi o pisownię, gramatykę czy dobór słow, skomentuj to!&lt;/td&gt;
+&lt;/tr&gt;
+
+
+  &lt;/table&gt;
+&lt;/div&gt;
+
+&lt;ul id=&quot;markdown-toc&quot;&gt;
   &lt;li&gt;&lt;a href=&quot;#dla-cargo&quot; id=&quot;markdown-toc-dla-cargo&quot;&gt;Dla Cargo&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#pełne-notatki&quot; id=&quot;markdown-toc-pełne-notatki&quot;&gt;Pełne notatki&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#komentarze&quot; id=&quot;markdown-toc-komentarze&quot;&gt;Komentarze&lt;/a&gt;&lt;/li&gt;

@@ -7,17 +7,460 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 12 Sep 2023 13:52:56 -0500</pubDate>
-    <lastBuildDate>Tue, 12 Sep 2023 13:52:56 -0500</lastBuildDate>
+    <pubDate>Sat, 30 Dec 2023 14:54:32 -0600</pubDate>
+    <lastBuildDate>Sat, 30 Dec 2023 14:54:32 -0600</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
+        <title>Testing terminal user interface apps</title>
+        <description>&lt;div class=&quot;publication-notes&quot;&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Intended audience&lt;/td&gt;
+      &lt;td&gt;Software engineers developing interactive terminal applications.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Origin&lt;/td&gt;
+      &lt;td&gt;&lt;ul&gt;
+        &lt;li&gt;Work notes published internally.&lt;/li&gt;
+        &lt;li&gt;My experience developing several TUI applications.&lt;/li&gt;
+      &lt;/ul&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Mood&lt;/td&gt;
+      &lt;td&gt;&lt;ul&gt;
+        &lt;li&gt;Instructive.&lt;/li&gt;
+        &lt;li&gt;I have a lot of work notes that I&apos;d like to publish more widely henceforth.&lt;/li&gt;
+      &lt;/ul&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+
+&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#introduction&quot; id=&quot;markdown-toc-introduction&quot;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#primer-on-ttys-and-ptys&quot; id=&quot;markdown-toc-primer-on-ttys-and-ptys&quot;&gt;Primer on TTYs and PTYs&lt;/a&gt;    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#escape-codes&quot; id=&quot;markdown-toc-escape-codes&quot;&gt;Escape codes&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#terminal-emulation&quot; id=&quot;markdown-toc-terminal-emulation&quot;&gt;Terminal emulation&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#testing-patterns&quot; id=&quot;markdown-toc-testing-patterns&quot;&gt;Testing patterns&lt;/a&gt;    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#integration-vs-end-to-end&quot; id=&quot;markdown-toc-integration-vs-end-to-end&quot;&gt;Integration vs end-to-end&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#snapshot-testing&quot; id=&quot;markdown-toc-snapshot-testing&quot;&gt;Snapshot testing&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#expect-style-testing&quot; id=&quot;markdown-toc-expect-style-testing&quot;&gt;“Expect”-style testing&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#end-to-end-example&quot; id=&quot;markdown-toc-end-to-end-example&quot;&gt;End-to-end example&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#integration-example&quot; id=&quot;markdown-toc-integration-example&quot;&gt;Integration example&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#related-posts&quot; id=&quot;markdown-toc-related-posts&quot;&gt;Related posts&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;Terminal user interface (TUI) applications are an efficient way of surfacing data in a visual and interactive manner while reusing significant portions of an existing program which normally prints to stdout/stderr. However, bugs in TUI applications can quickly cause users to lose confidence in the visualization tools.&lt;/p&gt;
+
+&lt;h2 id=&quot;primer-on-ttys-and-ptys&quot;&gt;Primer on TTYs and PTYs&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://stackoverflow.com/questions/4426280/what-do-pty-and-tty-mean&quot;&gt;A “TTY” is a “teletype” (or “teletypewriter”) and a “PTY” is a “pseudo-teletype” (or nowadays “pseudo-terminal”)&lt;/a&gt;. In the earliest days of Unix, users interfaced with the computer primarily via a TTY, but these days, the TTY is usually more of an abstraction over the terminal’s visual interface. See&lt;a href=&quot;https://www.linusakesson.net/programming/tty/&quot;&gt; The TTY demystified&lt;/a&gt; for more details.&lt;/p&gt;
+
+&lt;p&gt;The TTY abstraction is actually part of the operating system. The TTY devices available to programs can be found as the special files of the form &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/dev/tty*&lt;/code&gt;. You can determine if a file descriptor refers to a TTY using the&lt;a href=&quot;https://man7.org/linux/man-pages/man3/isatty.3.html&quot;&gt; isatty syscall&lt;/a&gt;. This function call is usually available in non-C languages, such as via Python’s&lt;a href=&quot;https://docs.python.org/3/library/os.html?highlight=isatty#os.isatty&quot;&gt; os.isatty&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;TTYs can be queried for information such as its dimensions via&lt;a href=&quot;https://man7.org/linux/man-pages/man4/tty_ioctl.4.html&quot;&gt; ioctl&lt;/a&gt;. It’s helpful to have a library to wrap querying and rendering to the TTY, or which offers a higher-level abstraction for the terminal UI.&lt;/p&gt;
+
+&lt;p&gt;When running automated tests, a TTY is probably not available (or if it is, it would be the TTY for the person who is running &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pytest&lt;/code&gt;, etc., which would not be good to use because other programs are already rendering to it). Instead, you could construct a PTY (&lt;a href=&quot;https://man7.org/linux/man-pages/man3/openpty.3.html&quot;&gt;with the opentty(3) syscall&lt;/a&gt;) or with a higher-level library.&lt;/p&gt;
+
+&lt;h3 id=&quot;escape-codes&quot;&gt;Escape codes&lt;/h3&gt;
+
+&lt;p&gt;Communication with a TTY is strictly by sending and receiving bytes, so how does the program actually draw a terminal interface on the TTY? It does so by sending special escape codes, such as&lt;a href=&quot;https://en.wikipedia.org/wiki/ANSI_escape_code&quot;&gt; ANSI escape codes&lt;/a&gt;. These are special sequences of bytes which can indicate things like “move the cursor to (X, Y)” or “enable bold and red coloring”.&lt;/p&gt;
+
+&lt;p&gt;The&lt;a href=&quot;https://en.wikipedia.org/wiki/VT100&quot;&gt; VT100&lt;/a&gt; was a popular physical teletypewriter device which implemented the ANSI escape codes. You may sometimes see the ANSI escape codes referred to as VT100 escape codes.&lt;/p&gt;
+
+&lt;h3 id=&quot;terminal-emulation&quot;&gt;Terminal emulation&lt;/h3&gt;
+
+&lt;p&gt;Since we don’t use VT100s anymore, we instead use &lt;em&gt;terminal emulators&lt;/em&gt;: programs which implement the reading/writing of the TTY device and rendering on screen. The basic set of ANSI escape codes is handled by every serious terminal emulator program (Terminal.app, iTerm2, PuTTY, Alacritty, etc.). You might also say that these terminal emulators are “VT100”-compatible.&lt;/p&gt;
+
+&lt;p&gt;Some terminal emulators support features outside those in the ANSI escape code set. For example,&lt;a href=&quot;https://iterm2.com/documentation-images.html&quot;&gt; iTerm2 can render inline pictures&lt;/a&gt; (as well as many other terminal emulators).&lt;/p&gt;
+
+&lt;p&gt;When we construct a PTY, we only get a bidirectional stream of bytes, not an actual picture of the screen. In automated testing, we therefore have to interpret all the escape codes and render the screen contents ourselves. To do so, we can use a terminal emulation library, such as&lt;a href=&quot;https://pyte.readthedocs.io/en/latest/&quot;&gt; pyte&lt;/a&gt; for Python or&lt;a href=&quot;https://crates.io/crates/portable-pty&quot;&gt; portable-pty&lt;/a&gt; for Rust. Typically, we would write a small “expect”-style framework on top of this to test the target application (see&lt;a href=&quot;https://docs.google.com/document/d/1aitauk0xLBzI9LbbXZcczM1YluVMfY4xcanVEq9gmM0/edit#heading=h.8slxfli9jhcz&quot;&gt; “Expect”-style testing&lt;/a&gt;).&lt;/p&gt;
+
+&lt;h2 id=&quot;testing-patterns&quot;&gt;Testing patterns&lt;/h2&gt;
+
+&lt;h3 id=&quot;integration-vs-end-to-end&quot;&gt;Integration vs end-to-end&lt;/h3&gt;
+
+&lt;p&gt;After having spent some time testing TUI apps, I find there are two general categories of testing:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Integration testing&lt;/strong&gt;:
+    &lt;ul&gt;
+      &lt;li&gt;Allows us to hook into the application event loop to inject synthetic events. Examples:
+        &lt;ul&gt;
+          &lt;li&gt;Execute a function and synchronously wait for it to complete.&lt;/li&gt;
+          &lt;li&gt;Take a “screenshot” of the application at the current time.&lt;/li&gt;
+          &lt;li&gt;Specify non-deterministic event data (such as an event that renders timing data).&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;It is highly desirable to structure such TUI apps as event-driven for testing purposes!&lt;/li&gt;
+      &lt;li&gt;Input can be at the user level (e.g. simulate “down arrow keypress”) or at the application level (e.g. trigger “open menu X”).
+        &lt;ul&gt;
+          &lt;li&gt;With user-level input, the interface itself is tested more completely, but it can make it difficult to write tests which involve complicated maneuvers (e.g. “scroll down to the third item representing menu X and then press enter”), and such tests will be more brittle when the interface changes.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Can choose to omit or sanitize non-deterministic data from the interface if necessary (e.g. timing data).&lt;/li&gt;
+      &lt;li&gt;Can mock out certain facilities as desired (e.g. do not trigger an actual build from the interface).&lt;/li&gt;
+      &lt;li&gt;Allows us to redirect rendering to a “virtual canvas” instead of rendering directly to the TTY/PTY. This is not strictly necessary (see end-to-end testing approaches with a PTY) but can simplify the testing interface (no need to use a library/write complicated TTY logic; taking “screenshots” will likely be easier to implement).&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;End-to-end testing&lt;/strong&gt;:
+    &lt;ul&gt;
+      &lt;li&gt;Simulate a program under test using only normal user input methods, such as keystrokes.&lt;/li&gt;
+      &lt;li&gt;Typically uses a PTY to simulate the interface. More discussion on TTY/PTY later.
+        &lt;ul&gt;
+          &lt;li&gt;Example: see&lt;a href=&quot;https://man7.org/linux/man-pages/man1/script.1.html&quot;&gt; script(1)&lt;/a&gt; for a tool which simulates the terminal session and can play it back later.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;May be difficult to prevent side-effectful operations from occurring (e.g. triggering a build from the interface).&lt;/li&gt;
+      &lt;li&gt;May need to sanitize the screen contents to remove non-deterministic data (e.g. timing data).&lt;/li&gt;
+      &lt;li&gt;Not possible to wait synchronously on internal operations, which requires some sort of external indication when an internal operation is complete, and tends to be flakier.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Generally speaking, integration testing will be more direct and less flaky, but end-to-end testing can be a good solution for very broad coverage of a program and to test programs which aren’t currently set up to support integration testing.&lt;/p&gt;
+
+&lt;h3 id=&quot;snapshot-testing&quot;&gt;Snapshot testing&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;em&gt;NB: This style of testing is also called “golden” testing and “expect” testing, along with several other names that don’t come to mind right now.&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This is a category of testing where the output from a function or program is gathered and compared to a known-good “snapshot” of that output. A “snapshot” can refer to simple textual data, structured data, or even actual snapshots of the UI of a program. Snapshot testing libraries typically come with a tool to quickly compare and update snapshot output.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Example: the&lt;a href=&quot;https://insta.rs/&quot;&gt; cargo-insta library for Rust&lt;/a&gt; implements snapshot testing.&lt;/li&gt;
+  &lt;li&gt;Example: the&lt;a href=&quot;https://vcrpy.readthedocs.io/en/latest/&quot;&gt; VCR.py library&lt;/a&gt; implements snapshot testing for network requests specifically.&lt;/li&gt;
+  &lt;li&gt;Example: the&lt;a href=&quot;https://jestjs.io/docs/snapshot-testing&quot;&gt; Jest library for Javascript&lt;/a&gt; implements snapshot testing.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;There are several advantages to snapshot testing:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Can be used in situations where there are multiple “correct” outputs, such as user interfaces.&lt;/li&gt;
+  &lt;li&gt;Good tooling will make it possible to quickly compare and update snapshot tests across all tests. This is important if a change to the UI affects most/all tests.
+    &lt;ul&gt;
+      &lt;li&gt;Good tooling will also make it possible to update multiple snapshot serial assertions in the &lt;em&gt;same&lt;/em&gt; test without failing on the first failure (which would require you to re-run the snapshot tool repeatedly until each successive snapshot is updated).&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Can be used to determine and capture the behavior of an existing system.&lt;/li&gt;
+  &lt;li&gt;Encourages program design such that components can be driven independently and their state can be dumped/examined in a meaningful way.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Snapshot testing is a better fit for testing TUIs than standard assertions, as much of the interface has functional requirements that aren’t easy to express with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;assert&lt;/code&gt; statements (or similar).&lt;/p&gt;
+
+&lt;p&gt;Some snapshot tools store the snapshots inline with the code, while others store them in separate files (or the tool may be configurable). I prefer to store my snapshots inline because I find it easier to reference them when writing or reviewing a test, but this obviously bloats the size of the test file significantly and could make it hard to navigate around the actual test code.&lt;/p&gt;
+
+&lt;h3 id=&quot;expect-style-testing&quot;&gt;“Expect”-style testing&lt;/h3&gt;
+
+&lt;p&gt;“Expect”-style testing originally refers to the&lt;a href=&quot;https://linux.die.net/man/1/expect&quot;&gt; expect(1)&lt;/a&gt; program:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Expect is a program that “talks” to other interactive programs according to a script. Following the script, Expect knows what can be expected from a program and what the correct response should be. An interpreted language provides branching and high-level control structures to direct the dialogue. In addition, the user can take control and interact directly when desired, afterward returning control to the script.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Sometimes “expect”-style testing is used synonymously with “snapshot” testing, such as in&lt;a href=&quot;https://jestjs.io/docs/snapshot-testing&quot;&gt; Jest&lt;/a&gt; or&lt;a href=&quot;https://pypi.org/project/expecttest/&quot;&gt; the expecttest Python library&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The basic structure of a program is to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;send&lt;/code&gt; some input, then use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;expect&lt;/code&gt; to wait for certain output. The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;expect&lt;/code&gt; may wait for a simple condition (e.g. wait until the string “Done” appears on the screen) or wait/assert the contents of the entire screen.&lt;/p&gt;
+
+&lt;h3 id=&quot;end-to-end-example&quot;&gt;End-to-end example&lt;/h3&gt;
+
+&lt;p&gt;Here’s an example of what an expect-based test might look like for a tool which makes certain Git commits (&lt;a href=&quot;https://github.com/arxanas/git-branchless/blob/88d9be97535cb4534ccd7f5ff5436618611e1076/git-branchless-record/tests/test_record.rs#L57-L66&quot;&gt;source&lt;/a&gt;, here is the definition of&lt;a href=&quot;https://github.com/arxanas/git-branchless/blob/88d9be97535cb4534ccd7f5ff5436618611e1076/git-branchless-testing/src/lib.rs#L816&quot;&gt; run_pty&lt;/a&gt;):&lt;/p&gt;
+
+&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;run_in_pty&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;git&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;s&quot;&gt;&quot;record&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;-i&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;-m&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;foo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+                &lt;span class=&quot;nn&quot;&gt;PtyAction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;Write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;f&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;// expand files&lt;/span&gt;
+                &lt;span class=&quot;nn&quot;&gt;PtyAction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;WaitUntilContains&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;contents1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+                &lt;span class=&quot;nn&quot;&gt;PtyAction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;Write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;q&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;// The above should not have committed anything.&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stdout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stderr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;git&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.run&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;show&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;nn&quot;&gt;insta&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;assert_snapshot!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stdout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;r###&quot;
+        commit 62fc20d2a290daea0d52bdc2ed2ad4be6491010e
+        Author: Testy McTestface &amp;lt;test@example.com&amp;gt;
+        Date:   Thu Oct 29 12:34:56 2020 -0100
+
+            create test1.txt
+
+        diff --git a/test1.txt b/test1.txt
+        new file mode 100644
+        index 0000000..7432a8f
+        --- /dev/null
+        +++ b/test1.txt
+        @@ -0,0 +1 @@
+        +test1 contents
+        &quot;###&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In fact, the only two primitives for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PtyAction&lt;/code&gt; are &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Write&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;WaitUntilContains&lt;/code&gt;. A third option could assert the contents of the entire screen. (Instead, a snapshot test of the output from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git show&lt;/code&gt; is included.)&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;em&gt;Tip: in your testing framework, implement a timeout for expectations and, when the timeout is exceeded, print what the test was expecting and what the screen contents actually were.&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;integration-example&quot;&gt;Integration example&lt;/h3&gt;
+
+&lt;p&gt;Here is an example of driving the internal state of a TUI program by passing a list of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Event&lt;/code&gt;s in directly:&lt;/p&gt;
+
+&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nd&quot;&gt;#[test]&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;test_toggle_all&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;eyre&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;before&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;TestingScreenshot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;after&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;TestingScreenshot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;event_source&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;EventSource&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;testing&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;mi&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+            &lt;span class=&quot;nn&quot;&gt;Event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ExpandAll&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;before&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;
+            &lt;span class=&quot;nn&quot;&gt;Event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ToggleAll&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;after&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;
+            &lt;span class=&quot;nn&quot;&gt;Event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;QuitAccept&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;state&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;example_contents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;recorder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Recorder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;event_source&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;recorder&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.run&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;nn&quot;&gt;insta&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;assert_display_snapshot!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;before&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;r###&quot;
+    &quot;[File] [Edit] [Select] [View]                                                   &quot;
+    &quot;(~) foo/bar                                                                  (-)&quot;
+    &quot;        ⋮                                                                       &quot;
+    &quot;       18 this is some text                                                     &quot;
+    &quot;       19 this is some text                                                     &quot;
+    &quot;       20 this is some text                                                     &quot;
+    &quot;  [~] Section 1/1                                                            [-]&quot;
+    &quot;    [×] - before text 1                                                         &quot;
+    &quot;    [×] - before text 2                                                         &quot;
+    &quot;    [×] + after text 1                                                          &quot;
+    &quot;    [ ] + after text 2                                                          &quot;
+    &quot;       23 this is some trailing text                                            &quot;
+    &quot;[×] baz                                                                      [-]&quot;
+    &quot;        1 Some leading text 1                                                   &quot;
+    &quot;        2 Some leading text 2                                                   &quot;
+    &quot;  [×] Section 1/1                                                            [-]&quot;
+    &quot;    [×] - before text 1                                                         &quot;
+    &quot;    [×] - before text 2                                                         &quot;
+    &quot;    [×] + after text 1                                                          &quot;
+    &quot;    [×] + after text 2                                                          &quot;
+    &quot;###&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;nn&quot;&gt;insta&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;assert_display_snapshot!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;after&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;r###&quot;
+    &quot;[File] [Edit] [Select] [View]                                                   &quot;
+    &quot;(~) foo/bar                                                                  (-)&quot;
+    &quot;        ⋮                                                                       &quot;
+    &quot;       18 this is some text                                                     &quot;
+    &quot;       19 this is some text                                                     &quot;
+    &quot;       20 this is some text                                                     &quot;
+    &quot;  [~] Section 1/1                                                            [-]&quot;
+    &quot;    [ ] - before text 1                                                         &quot;
+    &quot;    [ ] - before text 2                                                         &quot;
+    &quot;    [ ] + after text 1                                                          &quot;
+    &quot;    [×] + after text 2                                                          &quot;
+    &quot;       23 this is some trailing text                                            &quot;
+    &quot;[ ] baz                                                                      [-]&quot;
+    &quot;        1 Some leading text 1                                                   &quot;
+    &quot;        2 Some leading text 2                                                   &quot;
+    &quot;  [ ] Section 1/1                                                            [-]&quot;
+    &quot;    [ ] - before text 1                                                         &quot;
+    &quot;    [ ] - before text 2                                                         &quot;
+    &quot;    [ ] + after text 1                                                          &quot;
+    &quot;    [ ] + after text 2                                                          &quot;
+    &quot;###&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;Ok&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(())&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Notice how high-level events like “expand all” are passed to the TUI application. Implicitly, the TUI application is designed such that the “expand all” event will be fully processed and the interface will be re-rendered by the time we process the next event &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;after.event()&lt;/code&gt; and capture the screenshot.&lt;/p&gt;
+
+&lt;p&gt;The entire terminal user interface, including components such as a menu bar at the top, is captured. (If the menu bar items change, then the snapshot tests will all need to be updated, which is why good tooling is so important.)&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;em&gt;Tip: when comparing against a screen capture, include delimiters before and after the ends of lines (here we use the double quote character &lt;code&gt;&quot;&lt;/code&gt;) so that you can more easily compare leading and trailing whitespace, and so that editors don’t automatically strip whitespace or flag it as a warning.&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
+
+&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
+
+&lt;table class=&quot;related-posts&quot;&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Date&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;24&amp;nbsp;Aug&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/writing-brittle-code/&quot;&gt;Writing brittle code&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;01&amp;nbsp;Sep&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/on-trivial-changes/&quot;&gt;On trivial changes&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;30&amp;nbsp;Dec&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      (this&amp;nbsp;post)
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/testing-tui-apps/&quot;&gt;Testing terminal user interface apps&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+
+&lt;/ul&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/testing-tui-apps/&quot;;
+    this.page.identifier = &quot;testing-tui-apps/&quot;;
+};
+
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
+</description>
+        <pubDate>Sat, 30 Dec 2023 00:00:00 -0600</pubDate>
+        <link>https://blog.waleedkhan.name/testing-tui-apps/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/testing-tui-apps/</guid>
+        
+        <category>software-engineering</category>
+        
+        <category>software-verification</category>
+        
+        <category>reprint</category>
+        
+        
+      </item>
+    
+      <item>
         <title>On trivial changes</title>
-        <description>&lt;p&gt;&lt;em&gt;Intended audience: software engineers; anyone with checklists as part of their workflows or routines.&lt;/em&gt;&lt;/p&gt;
+        <description>&lt;div class=&quot;publication-notes&quot;&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Intended audience&lt;/td&gt;
+      &lt;td&gt;&lt;ul&gt;
+        &lt;li&gt;Software engineers.&lt;/li&gt;
+        &lt;li&gt;Anyone with checklists as part of their workflows or routines.&lt;/li&gt;
+      &lt;/ul&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Origin&lt;/td&gt;
+      &lt;td&gt;General software engineering experience.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Mood&lt;/td&gt;
+      &lt;td&gt;Amused.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
 
 &lt;p&gt;One day, perhaps three years into my career, I had a very small, one-line code change to make. I don’t remember exactly what it was, but I think it involved computing a value and interpolating it into a string. I considered committing it directly, but submitted it for code review despite how small of a change it was.&lt;/p&gt;
 
 &lt;p&gt;My reviewers pointed out three different bugs, which makes it perhaps the buggiest commit I’ve ever written (by density of bugs per lines of code). Since that day, I always submit code for review and I always wait for builds and tests to finish, even for changes which “obviously” don’t affect anything.&lt;/p&gt;
+
+&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
+
+&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
+
+&lt;table class=&quot;related-posts&quot;&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Date&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;24&amp;nbsp;Aug&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/writing-brittle-code/&quot;&gt;Writing brittle code&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;01&amp;nbsp;Sep&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      (this&amp;nbsp;post)
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/on-trivial-changes/&quot;&gt;On trivial changes&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;30&amp;nbsp;Dec&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/testing-tui-apps/&quot;&gt;Testing terminal user interface apps&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
 
@@ -57,12 +500,29 @@ var disqus_config = function () {
         
         <category>software-engineering</category>
         
+        <category>software-verification</category>
+        
         
       </item>
     
       <item>
         <title>Writing brittle code</title>
-        <description>&lt;p&gt;&lt;em&gt;Intended audience: software engineers, particularly those at large companies or organizations.&lt;/em&gt;&lt;/p&gt;
+        <description>&lt;div class=&quot;publication-notes&quot;&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Intended audience&lt;/td&gt;
+      &lt;td&gt;Software engineers, particularly those at large companies or organizations.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Origin&lt;/td&gt;
+      &lt;td&gt;General software engineering experience.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Mood&lt;/td&gt;
+      &lt;td&gt;Cautionary.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
 
 &lt;p&gt;I particularly like this characterization from &lt;a href=&quot;https://journal.infinitenegativeutility.com/leaving-haskell-behind&quot;&gt;&lt;em&gt;Leaving Haskell behind&lt;/em&gt; (2023)&lt;/a&gt;:&lt;/p&gt;
 
@@ -130,6 +590,24 @@ var disqus_config = function () {
     &lt;/td&gt;
   &lt;/tr&gt;
 
+  &lt;tr&gt;
+    &lt;td&gt;01&amp;nbsp;Sep&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/on-trivial-changes/&quot;&gt;On trivial changes&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;30&amp;nbsp;Dec&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/testing-tui-apps/&quot;&gt;Testing terminal user interface apps&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
 &lt;/tbody&gt;
 &lt;/table&gt;
 
@@ -173,12 +651,39 @@ var disqus_config = function () {
         
         <category>software-engineering</category>
         
+        <category>software-verification</category>
+        
         
       </item>
     
       <item>
         <title>Encoding ML-style modules in Rust</title>
-        <description>&lt;p&gt;&lt;em&gt;Intended audience: OCaml/SML programmers learning Rust; new-wave functional programmers who haven’t used older languages like OCaml or Haskell, but who might be interested in a certain abstraction technique. Note that “ML-style module” refers to &lt;a href=&quot;https://en.wikipedia.org/wiki/ML_(programming_language)&quot;&gt;the ML family of programming languages&lt;/a&gt;, not &lt;a href=&quot;https://en.wikipedia.org/wiki/Machine_learning&quot;&gt;machine learning&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+        <description>&lt;div class=&quot;publication-notes&quot;&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Intended audience&lt;/td&gt;
+      &lt;td&gt;&lt;ul&gt;
+        &lt;li&gt;OCaml/SML programmers learning Rust.&lt;/li&gt;
+        &lt;li&gt;New-wave functional programmers who haven’t used older languages like OCaml or Haskell, but who might be interested in a certain abstraction technique.&lt;/li&gt;
+        &lt;ul&gt;&lt;li&gt;
+        Note that “ML-style module” refers to &lt;a href=&quot;https://en.wikipedia.org/wiki/ML_(programming_language)&quot;&gt;the ML family of programming languages&lt;/a&gt;, not &lt;a href=&quot;https://en.wikipedia.org/wiki/Machine_learning&quot;&gt;machine learning&lt;/a&gt;.
+        &lt;/li&gt;&lt;/ul&gt;
+      &lt;/ul&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Origin&lt;/td&gt;
+      &lt;td&gt;&lt;ul&gt;
+        &lt;li&gt;OCaml and Rust experience.&lt;/li&gt;
+        &lt;li&gt;Type theory experience.&lt;/li&gt;
+      &lt;/ul&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Mood&lt;/td&gt;
+      &lt;td&gt;Helpful.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
 
 &lt;ul id=&quot;markdown-toc&quot;&gt;
   &lt;li&gt;&lt;a href=&quot;#problem-statement&quot; id=&quot;markdown-toc-problem-statement&quot;&gt;Problem statement&lt;/a&gt;&lt;/li&gt;
@@ -768,7 +1273,25 @@ var disqus_config = function () {
     
       <item>
         <title>Quickly formatting a stack of commits</title>
-        <description>&lt;p&gt;&lt;em&gt;Intended audience: software engineers working with Git who use “patch stacks”/”stacked diffs”, such as how Git is used for the Git and Linux projects, as well as for many companies practicing &lt;a href=&quot;https://trunkbaseddevelopment.com/&quot;&gt;trunk-based development&lt;/a&gt;; but not Git users who think the Git commit graph should reflect the actual development process.&lt;/em&gt;&lt;/p&gt;
+        <description>&lt;div class=&quot;publication-notes&quot;&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Intended audience&lt;/td&gt;
+      &lt;td&gt;&lt;ul&gt;
+        &lt;li&gt;Software engineers working with Git who use &quot;patch stacks&quot;/&quot;stacked diffs&quot;, such as how Git is used for the Git and Linux projects, as well as for many companies practicing &lt;a href=&quot;https://trunkbaseddevelopment.com/&quot;&gt;trunk-based development&lt;/a&gt;.&lt;/li&gt;
+        &lt;li&gt;&lt;em&gt;Not&lt;/em&gt; Git users who think the Git commit graph should reflect the actual development process.&lt;/li&gt;
+      &lt;/ul&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Origin&lt;/td&gt;
+      &lt;td&gt;My work on &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt;.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Mood&lt;/td&gt;
+      &lt;td&gt;Unheeded by most.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
 
 &lt;p&gt;A certain category of developer uses Git with a “patch stack” workflow, in which they accumulate a sequence of small, individually-reviewable commits that together implement a large change. In these cases, it’s oftentimes useful to run linters or formatters on each commit in the stack and apply the results. However, this can be tedious, and a naive approach can cause needless merge conflicts. (One workaround is to run formatters on each commit in the stack &lt;em&gt;backwards&lt;/em&gt;.)&lt;/p&gt;
 
@@ -828,7 +1351,22 @@ var disqus_config = function () {
     
       <item>
         <title>e69de29bb2d1d6434b8b29ae775ad8c2e48c5391</title>
-        <description>&lt;p&gt;&lt;em&gt;Intended audience: software engineers working with Git who happen to come across this value and want to confirm that it has particular significance.&lt;/em&gt;&lt;/p&gt;
+        <description>&lt;div class=&quot;publication-notes&quot;&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Intended audience&lt;/td&gt;
+      &lt;td&gt;Software engineers working with Git who happen to come across this value and want to confirm that it has particular significance.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Origin&lt;/td&gt;
+      &lt;td&gt;General experience with Git.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Mood&lt;/td&gt;
+      &lt;td&gt;Helpful.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
 
 &lt;p&gt;The hash &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;e69de29bb2d1d6434b8b29ae775ad8c2e48c5391&lt;/code&gt; is used by Git to indicate an empty blob (an empty file).&lt;/p&gt;
 
@@ -890,7 +1428,25 @@ var disqus_config = function () {
     
       <item>
         <title>My compensation history</title>
-        <description>&lt;p&gt;&lt;em&gt;Intended audience: current software engineers seeking information for their own job search or negotation; people curious about the compensation in software engineering in the US (“tier 3”).&lt;/em&gt;&lt;/p&gt;
+        <description>&lt;div class=&quot;publication-notes&quot;&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Intended audience&lt;/td&gt;
+      &lt;td&gt;&lt;ul&gt;
+        &lt;li&gt;Current software engineers seeking information for their own job search or negotation.&lt;/li&gt;
+        &lt;li&gt;People curious about the compensation in software engineering in the US (&quot;tier 3&quot;).&lt;/li&gt;
+      &lt;/ul&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Origin&lt;/td&gt;
+      &lt;td&gt;My work history.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Mood&lt;/td&gt;
+      &lt;td&gt;Tentatively helpful but wary.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
 
 &lt;ul id=&quot;markdown-toc&quot;&gt;
   &lt;li&gt;&lt;a href=&quot;#compensation-history&quot; id=&quot;markdown-toc-compensation-history&quot;&gt;Compensation history&lt;/a&gt;&lt;/li&gt;
@@ -955,7 +1511,25 @@ var disqus_config = function () {
     
       <item>
         <title>Improving incremental test times in Rust</title>
-        <description>&lt;p&gt;&lt;em&gt;Intended audience: prospective-to-intermediate Rust developers who worry about slow compilation times, the scale thereof, and preventative practices; advanced Rust developers who can help me improve my own compilation times.&lt;/em&gt;&lt;/p&gt;
+        <description>&lt;div class=&quot;publication-notes&quot;&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Intended audience&lt;/td&gt;
+      &lt;td&gt;&lt;ul&gt;
+        &lt;li&gt;Prospective-to-intermediate Rust developers who worry about slow compilation times, the scale thereof, and preventative practices.&lt;/li&gt;
+        &lt;li&gt;Advanced Rust developers who can help me improve my own compilation times.&lt;/li&gt;
+      &lt;/ul&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Origin&lt;/td&gt;
+      &lt;td&gt;My experience with Rust.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Mood&lt;/td&gt;
+      &lt;td&gt;Somewhat successful; somewhat disappointed.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
 
 &lt;p&gt;Rust is known for slow compilation times. I spent a long time trying to improve incremental test build times for my project &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt; in &lt;a href=&quot;https://github.com/arxanas/git-branchless/pull/650&quot;&gt;https://github.com/arxanas/git-branchless/pull/650&lt;/a&gt;. This is a discussion of the results.&lt;/p&gt;
 
@@ -1226,7 +1800,26 @@ var disqus_config = function () {
     
       <item>
         <title>Yandex&apos;s Arc source control system</title>
-        <description>&lt;p&gt;&lt;em&gt;Intended audience: developers of source control systems like Git or Mercurial.&lt;/em&gt;&lt;/p&gt;
+        <description>&lt;div class=&quot;publication-notes&quot;&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Intended audience&lt;/td&gt;
+      &lt;td&gt;Developers of source control systems like Git or Mercurial.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Origin&lt;/td&gt;
+      &lt;td&gt;&lt;ul&gt;
+        &lt;li&gt;&lt;a href=&quot;https://discord.com/channels/1042895022950994071/1042907270473850890/1068630001240514691&quot;&gt;My notes on Discord&lt;/a&gt;.&lt;/li&gt;
+        &lt;li&gt;My experience developing for source control systems.&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;https://habr.com/ru/company/yandex/blog/482926/&quot;&gt;The official Yandex blog&lt;/a&gt;.&lt;/li&gt;
+      &lt;/ul&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Mood&lt;/td&gt;
+      &lt;td&gt;Mildly interested.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
 
 &lt;p&gt;There was a recent &lt;a href=&quot;https://arseniyshestakov.com/2023/01/26/yandex-services-source-code-leak/&quot;&gt;source code leak&lt;/a&gt; from &lt;a href=&quot;https://en.wikipedia.org/wiki/Yandex&quot;&gt;Yandex&lt;/a&gt;. I haven’t examined any of the files, but the topic itself reminds us that Yandex maintains a large &lt;a href=&quot;https://monorepo.tools/&quot;&gt;monorepo&lt;/a&gt;, and has even built their own source control system to handle it, called Arc.&lt;/p&gt;
 
@@ -1302,12 +1895,34 @@ var disqus_config = function () {
         
         <category>software-engineering</category>
         
+        <category>reprint</category>
+        
         
       </item>
     
       <item>
         <title>Using `tracing` with Rust CLI applications</title>
-        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
+        <description>&lt;div class=&quot;publication-notes&quot;&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Intended audience&lt;/td&gt;
+      &lt;td&gt;Rust users.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Origin&lt;/td&gt;
+      &lt;td&gt;&lt;ul&gt;
+        &lt;li&gt;&lt;a href=&quot;https://github.com/arxanas/git-branchless/discussions/732&quot;&gt;My post on GitHub&lt;/a&gt;.&lt;/li&gt;
+        &lt;li&gt;My experience with Rust.&lt;/li&gt;
+      &lt;/ul&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Mood&lt;/td&gt;
+      &lt;td&gt;Informative.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+
+&lt;ul id=&quot;markdown-toc&quot;&gt;
   &lt;li&gt;&lt;a href=&quot;#for-cargo&quot; id=&quot;markdown-toc-for-cargo&quot;&gt;For Cargo&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#full-notes&quot; id=&quot;markdown-toc-full-notes&quot;&gt;Full notes&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#related-posts&quot; id=&quot;markdown-toc-related-posts&quot;&gt;Related posts&lt;/a&gt;&lt;/li&gt;
@@ -1494,176 +2109,7 @@ var disqus_config = function () {
         
         <category>software-engineering</category>
         
-        
-      </item>
-    
-      <item>
-        <title>Interactive blogs</title>
-        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#perish-not-this-blog&quot; id=&quot;markdown-toc-perish-not-this-blog&quot;&gt;Perish not this blog&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;My ideal blogging platform is &lt;a href=&quot;https://www.google.com/docs&quot;&gt;Google Docs&lt;/a&gt;, because it supports the following:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Live collaboration.&lt;/li&gt;
-  &lt;li&gt;Leaving inline comments on the text, rather than in a separate area.&lt;/li&gt;
-  &lt;li&gt;Suggesting inline edits. What a low-friction way to apply incremental improvements!
-    &lt;ul&gt;
-      &lt;li&gt;For this reason, I also prefer Wikis to Git when it comes to writing documentation, because the barrier to entry is much lower.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Unfortunately, Google Docs isn’t particularly accessible:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;It seems to not be indexable by search engines?&lt;/li&gt;
-  &lt;li&gt;Requires Javascript.&lt;/li&gt;
-  &lt;li&gt;Requires Google, which some people are opposed to, for privacy reasons.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;So I don’t publish my blog posts that way.&lt;/p&gt;
-
-&lt;style type=&quot;text/css&quot;&gt;
-@keyframes hypermedia {
-  0%, 100% {
-    left: -1em;
-    top: 0.4em;
-    z-index: 1;
-    font-size: normal;
-  }
-  
-  25% {
-    font-size: 1.3em;
-  }
-  
-  75% {
-    font-size: 0.7em;
-  }
-
-  50% {
-    left: 97%;
-    top: -0.6em;
-    z-index: 1;
-    font-size: normal;
-  }
-  
-  51%, 99% {
-    z-index: -1;
-  }
-}
-
-.hypermedia {
-  letter-spacing: 0.1em;
-  position: relative;
-  font-variant: small-caps;
-}
-
-.hypermedia::before {
-  content: &quot;✨&quot;;
-  position: absolute;
-  animation-name: hypermedia;
-  animation-duration: 6s;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
-}
-&lt;/style&gt;
-
-&lt;p&gt;But in the era of &lt;span class=&quot;hypermedia&quot;&gt;hypermedia&lt;/span&gt;, these features ought to be standard! We ought to &lt;span class=&quot;hypermedia&quot;&gt;have discussions&lt;/span&gt;, not fling articles into &lt;span class=&quot;hypermedia&quot;&gt;the void&lt;/span&gt;!&lt;/p&gt;
-
-&lt;p&gt;Medium used to show inline comments, &lt;a href=&quot;https://medium.com/@jashan/how-to-make-the-best-of-a-broken-commenting-system-113c8cc1fe71&quot;&gt;but doesn’t anymore&lt;/a&gt; (not that I am particularly keen to publish on Medium). I haven’t seen many other blogs that invite discussion via interactive features.&lt;/p&gt;
-
-&lt;p&gt;I was once reading &lt;a href=&quot;https://dev.realworldocaml.org/&quot;&gt;&lt;em&gt;Real World OCaml&lt;/em&gt;&lt;/a&gt; while its second edition was in draft. After each &lt;em&gt;sentence&lt;/em&gt;, it had a link to leave a comment. Now that’s a way to write a book! Why should a literal book be more interactive than our blogs?&lt;/p&gt;
-
-&lt;h2 id=&quot;perish-not-this-blog&quot;&gt;Perish not this blog&lt;/h2&gt;
-
-&lt;p&gt;As of recently, you can leave inline comments on paragraphs on my blog by hovering/tapping and clicking the “Comment” link that appears.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Other solutions:
-    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;https://utteranc.es&quot;&gt;https://utteranc.es&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;https://disqus.com/&quot;&gt;Disqus&lt;/a&gt;
-        &lt;ul&gt;
-          &lt;li&gt;Already used for comments on this blog, although it’s a little shady with respect to cookie usage.&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;These alternatives require spawning a comment thread for each commentable paragraph.
-        &lt;ul&gt;
-          &lt;li&gt;The UIs are not designed to be compact, so they didn’t fit into the flow of the blog well. You’d have a massive comment form for each paragraph.&lt;/li&gt;
-          &lt;li&gt;This would induce unnecessary load on the commenting servers, which is a little rude to them.&lt;/li&gt;
-          &lt;li&gt;This would make the page load more slowly as it queries &lt;em&gt;n&lt;/em&gt; comment threads.&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;You could take inspiration from a project like &lt;a href=&quot;https://aroc.github.io/side-comments-demo/&quot;&gt;SideComments.js&lt;/a&gt;.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;My implementation unfortunately relies on GitHub as the authentication provider and database. I’m sure many readers won’t have GitHub accounts.
-    &lt;ul&gt;
-      &lt;li&gt;That was the easiest way for me to implement it.&lt;/li&gt;
-      &lt;li&gt;The GitHub API is expressive enough to query all of the comments for a document in a single request.&lt;/li&gt;
-      &lt;li&gt;The GitHub API doesn’t need authentication or an API key to make requests!
-        &lt;ul&gt;
-          &lt;li&gt;Presumably you’ll be rate-limited more aggressively than if you were authenticated.&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;Opening a new GitHub Issues page to leave your comment is clumsy.&lt;/li&gt;
-      &lt;li&gt;In retrospect, perhaps I should have used GitHub discussions instead of GitHub Issues as the backing store, since they’re… discussions.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Paragraphs are identified using the post permalink/”slug” and by taking the first few normalized bytes of data in the paragraph and encoding as base64.
-    &lt;ul&gt;
-      &lt;li&gt;In theory, paragraph IDs therefore aren’t stable if the content changes later, but it seems like a minor problem.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Here’s the implementation at the time of this writing (137 lines of code): &lt;a href=&quot;https://github.com/arxanas/blog/blob/c34f0e18b81ed1d1b22636eaef2cabe7b6afd77e/scripts/github-comment-links.js&quot;&gt;github-comment-links.js&lt;/a&gt;.
-    &lt;ul&gt;
-      &lt;li&gt;Modern browser APIs make querying the GitHub API quite simple.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
-
-&lt;ul&gt;
-
-
-
-&lt;/ul&gt;
-
-&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
-
-&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
-&lt;script&gt;
-
-/**
- *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
- *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
-var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/interactive-blogs/&quot;;
-    this.page.identifier = &quot;interactive-blogs/&quot;;
-};
-
-(function() { // DON&apos;T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement(&apos;script&apos;);
-    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
-    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
-    (d.head || d.body).appendChild(s);
-})();
-&lt;/script&gt;
-
-&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
-
-</description>
-        <pubDate>Wed, 11 Jan 2023 00:00:00 -0600</pubDate>
-        <link>https://blog.waleedkhan.name/interactive-blogs/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/interactive-blogs/</guid>
-        
-        <category>rant</category>
-        
-        <category>writing</category>
+        <category>reprint</category>
         
         
       </item>

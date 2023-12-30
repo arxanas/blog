@@ -10,7 +10,7 @@
   
     <title>Improving incremental test times in Rust</title>
   
-  <meta name="description" content="Intended audience: prospective-to-intermediate Rust developers who worry about slow compilation times, the scale thereof, and preventative practices; advance...">
+  <meta name="description" content="            Intended audience              Prospective-to-intermediate Rust developers who worry about slow compilation times, the scale thereof, and prevent...">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://blog.waleedkhan.name/rust-incremental-test-times/">
@@ -72,13 +72,29 @@
       </span>
     
     </p>
-    
-
   </header>
 
   <div class="post-content" itemprop="articleBody">
     
-    <p><em>Intended audience: prospective-to-intermediate Rust developers who worry about slow compilation times, the scale thereof, and preventative practices; advanced Rust developers who can help me improve my own compilation times.</em></p>
+    <div class="publication-notes">
+  <table>
+    <tr>
+      <td>Intended audience</td>
+      <td><ul>
+        <li>Prospective-to-intermediate Rust developers who worry about slow compilation times, the scale thereof, and preventative practices.</li>
+        <li>Advanced Rust developers who can help me improve my own compilation times.</li>
+      </ul></td>
+    </tr>
+    <tr>
+      <td>Origin</td>
+      <td>My experience with Rust.</td>
+    </tr>
+    <tr>
+      <td>Mood</td>
+      <td>Somewhat successful; somewhat disappointed.</td>
+    </tr>
+  </table>
+</div>
 
 <p>Rust is known for slow compilation times. I spent a long time trying to improve incremental test build times for my project <a href="https://github.com/arxanas/git-branchless">git-branchless</a> in <a href="https://github.com/arxanas/git-branchless/pull/650">https://github.com/arxanas/git-branchless/pull/650</a>. This is a discussion of the results.</p>
 

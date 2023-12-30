@@ -10,7 +10,7 @@
   
     <title>Szybkie formatowanie stosu zatwierdzeń</title>
   
-  <meta name="description" content="Docelowi odbiorcy: inżynierowie oprogramowanie pracujący z Git, którzy używają “patch stacks”/”stacked diffs”, na przykład w jaki sposób Git jest używany w p...">
+  <meta name="description" content="            Docelowi odbiorcy              Inżynierowie oprogramowanie pracujący z Git, którzy używają "patch stacks"/"stacked diffs", na przykład w jaki spo...">
 
   <link rel="stylesheet" href="/pl/css/main.css">
   <link rel="canonical" href="https://blog.waleedkhan.name/pl/formatowanie-stosu-zatwierdzeń/">
@@ -72,16 +72,36 @@
       </span>
     
     </p>
-    
-<p><i>Język polski nie jest moim oczystym językiem. Jeśli zobaczysz błąd, niezależnie od tego, czy chodzi o pisownię, gramatykę czy dobór słow, skomentuj to!</i></p>
-<hr />
-
-
   </header>
 
   <div class="post-content" itemprop="articleBody">
     
-    <p><em>Docelowi odbiorcy: inżynierowie oprogramowanie pracujący z Git, którzy używają “patch stacks”/”stacked diffs”, na przykład w jaki sposób Git jest używany w projektach Git i Linux, a także w wielu firmach wprowadzających “<a href="https://trunkbaseddevelopment.com/">trunk-based development</a>”; ale nie użytkownicy Git, który uważają, że graf zatwierdzeń Git powinien odzwierciedlać rzeczywisty proces rozwijania.</em></p>
+    <div class="publication-notes">
+  <table>
+    <tr>
+      <td>Docelowi odbiorcy</td>
+      <td><ul>
+        <li>Inżynierowie oprogramowanie pracujący z Git, którzy używają "patch stacks"/"stacked diffs", na przykład w jaki sposób Git jest używany w projektach Git i Linux, a także w wielu firmach wprowadzających "<a href="https://trunkbaseddevelopment.com/">trunk-based development</a>".</li>
+        <li><em>Nie</em> użytkownicy Git, który uważają, że graf zatwierdzeń Git powinien odzwierciedlać rzeczywisty proces rozwijania.</li>
+      </ul></td>
+    </tr>
+    <tr>
+      <td>Pochodzenie</td>
+      <td>Moja praca nad <a href="https://github.com/arxanas/git-branchless">git-branchless</a>.</td>
+    </tr>
+    <tr>
+      <td>Nastrój</td>
+      <td>Prawdopodobnie niezważany.</td>
+    </tr>
+    
+<tr>
+  <td>Język</td>
+  <td>Obcy. Moim pierwszym język jest angielki. Jeśli zobaczysz błąd, niezależnie od tego, czy chodzi o pisownię, gramatykę czy dobór słow, skomentuj to!</td>
+</tr>
+
+
+  </table>
+</div>
 
 <p>Pewna kategoria programistów używa Git z przypływem pracy “patch stack”, na którym zbierają ciąg małych, indywidualnie przeglądanych zatwierdzeń, które razem realizują znaczną zmianę. W takich przykładach, często przydatne jest uruchamianie linters lub formatters na każdym zatwierdzeniu w stosie i zastosowanie wyników. Może to być jednak żmudne, a naiwne podejście może powodować niepotrzebne konflikty scalania. (Jednym z obejść jest zastosowanie formatter na każdym zatwierdzeniu w stosie <em>wstecz</em>.)</p>
 
