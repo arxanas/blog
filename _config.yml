@@ -78,3 +78,7 @@ related_posts:
   - - writing-brittle-code/
     - smash-training-retrospective/
     - data-comprehension-syntaxes/
+
+  - - writing-brittle-code/
+    - on-trivial-changes/
+    - testing-tui-apps/

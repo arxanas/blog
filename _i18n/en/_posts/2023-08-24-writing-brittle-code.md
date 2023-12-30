@@ -4,6 +4,7 @@ title: Writing brittle code
 permalink: writing-brittle-code/
 tags:
   - software-engineering
+  - software-verification
 ---
 
 <div class="publication-notes">

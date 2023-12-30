@@ -4,6 +4,7 @@ title: On trivial changes
 permalink: on-trivial-changes/
 tags:
   - software-engineering
+  - software-verification
 ---
 
 <div class="publication-notes">
