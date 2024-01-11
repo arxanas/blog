@@ -74,6 +74,7 @@ related_posts:
     - build-aware-sparse-checkouts/
     - bringing-revsets-to-git/
     - git-ui-features/
+    - patch-terminology/
 
   - - writing-brittle-code/
     - smash-training-retrospective/
