@@ -6,6 +6,7 @@ tags:
   - git
   - rust
   - software-engineering
+lobsters: https://lobste.rs/s/tk8s2h/lightning_fast_rebases_with_git_move
 ---
 
 You can use `git move` as a drop-in 10x faster replacement for `git rebase` (see [the demo](#timing)). The basic syntax is

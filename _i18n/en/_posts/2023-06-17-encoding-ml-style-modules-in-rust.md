@@ -6,6 +6,7 @@ translations:
   pl: "/pl/kodowanie-w-rust-modułów-w-stylu-ml/"
 tags:
   - rust
+lobsters: https://lobste.rs/s/hcwjcs/encoding_ml_style_modules_rust
 ---
 
 <div class="publication-notes">

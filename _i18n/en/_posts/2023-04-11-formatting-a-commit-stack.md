@@ -7,6 +7,7 @@ translations:
 tags:
   - git
   - software-engineering
+lobsters: https://lobste.rs/s/rpdt88/quickly_formatting_stack_commits
 ---
 
 <div class="publication-notes">

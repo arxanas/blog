@@ -8,6 +8,7 @@ tags:
   - rust
   - software-engineering
   - reprint
+lobsters: https://lobste.rs/s/ox9je5/using_tracing_with_rust_cli_applications
 ---
 
 <div class="publication-notes">

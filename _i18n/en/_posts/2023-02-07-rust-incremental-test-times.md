@@ -7,6 +7,7 @@ translations:
 tags:
   - rust
   - software-engineering
+lobsters: https://lobste.rs/s/ktyp2q/improving_incremental_test_times_rust
 ---
 
 <div class="publication-notes">
