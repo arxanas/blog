@@ -32,9 +32,17 @@ In my career so far, a great deal of the code and systems I've written has had t
 
 At work, right now, I am writing an internal web app to expose some of our tooling nicely. Nobody on our team, me included, is a front-end engineer!
 
+<div class="box" data-label="Considering that">
+
 In [*Smash Training retrospective*]({% permalink smash-training-retrospective %}), I remark that I regretted using Vue for various reasons. The lack of static checking has made it difficult for *future me* to make small bugfixes. Implicit dependency tracking as a framework decision, as in Vue, turns out to be quite difficult for *future me* to manage mentally. (For example, there are [caveats with arrays](https://v2.vuejs.org/v2/guide/reactivity.html#For-Arrays) that I encountered during maintenance.)
 
+</div>
+
+<div class="box" data-label="Nonetheless">
+
 Even though React's alternative approach of explicitly declaring dependencies is rather heavy-handed, it ends up being more tractable for *future me*, and probably for my coworkers as well. My technology choices were *insufficiently brittle* to accomodate future maintenance.
+
+</div>
 
 {% aside Don't tell me about reactivity %}
 

@@ -36,17 +36,53 @@ tags:
 
 ## Introduction
 
-Terminal user interface (TUI) applications are an efficient way of surfacing data in a visual and interactive manner while reusing significant portions of an existing program which normally prints to stdout/stderr. However, bugs in TUI applications can quickly cause users to lose confidence in the visualization tools.
+Terminal user interface (TUI) applications are
+
+<div class="box narrow">an efficient way of surfacing data in a visual and interactive manner</div>
+<div class="box narrow">while reusing significant portions of an existing program which normally prints to stdout/stderr.</div>
+
+<p>However, bugs in TUI applications can quickly cause users to lose confidence in the visualization tools.
+
+<span class="sidenote">This is a sidenote!</span></p>
 
 ## Primer on TTYs and PTYs
 
-[A “TTY” is a “teletype” (or “teletypewriter”) and a “PTY” is a “pseudo-teletype” (or nowadays “pseudo-terminal”)](https://stackoverflow.com/questions/4426280/what-do-pty-and-tty-mean). In the earliest days of Unix, users interfaced with the computer primarily via a TTY, but these days, the TTY is usually more of an abstraction over the terminal’s visual interface. See[ The TTY demystified](https://www.linusakesson.net/programming/tty/) for more details.
+[A “TTY” is a “teletype” (or “teletypewriter”) and a “PTY” is a “pseudo-teletype” (or nowadays “pseudo-terminal”)](https://stackoverflow.com/questions/4426280/what-do-pty-and-tty-mean).
 
-The TTY abstraction is actually part of the operating system. The TTY devices available to programs can be found as the special files of the form `/dev/tty*`. You can determine if a file descriptor refers to a TTY using the[ isatty syscall](https://man7.org/linux/man-pages/man3/isatty.3.html). This function call is usually available in non-C languages, such as via Python’s[ os.isatty](https://docs.python.org/3/library/os.html?highlight=isatty#os.isatty).
+<div class="box narrow"><p>In the earliest days of Unix, users interfaced with the computer primarily via a TTY,</p>
 
-TTYs can be queried for information such as its dimensions via[ ioctl](https://man7.org/linux/man-pages/man4/tty_ioctl.4.html). It’s helpful to have a library to wrap querying and rendering to the TTY, or which offers a higher-level abstraction for the terminal UI.
+  <div class="box narrow">but these days, the TTY is usually more of an abstraction over the terminal’s visual interface.</div>
 
-When running automated tests, a TTY is probably not available (or if it is, it would be the TTY for the person who is running `pytest`, etc., which would not be good to use because other programs are already rendering to it). Instead, you could construct a PTY ([with the opentty(3) syscall](https://man7.org/linux/man-pages/man3/openpty.3.html)) or with a higher-level library.
+  <p>See <a href="https://www.linusakesson.net/programming/tty/">The TTY demystified</a> for more details.</p>
+</div>
+
+The TTY abstraction is actually part of the operating system.
+
+<div class="box narrow">The TTY devices available to programs can be found as the special files of the form <code>/dev/tty*</code>.</div>
+
+<div class="box narrow">You can determine if a file descriptor refers to a TTY using the <a href="https://man7.org/linux/man-pages/man3/isatty.3.html"><code>isatty syscall</code></a>.
+
+  <div class="box narrow">This function call is usually available in non-C languages, such as via Python’s <a href="https://docs.python.org/3/library/os.html?highlight=isatty#os.isatty"><code>os.isatty</code></a>.</div>
+
+</div>
+
+TTYs can be queried for information such as its dimensions via <a href="https://man7.org/linux/man-pages/man4/tty_ioctl.4.html"><code>ioctl</code></a>.
+
+<div class="box narrow">It’s helpful to have a library to wrap querying and rendering to the TTY, or which offers a higher-level abstraction for the terminal UI.</div>
+
+When running automated tests,
+
+<div class="box">
+  <p>a TTY is probably not available</p>
+
+    <div class="box narrow">or if it is, it would be the TTY for the person who is running <code>pytest</code>, etc.</div>
+    <div class="box narrow">which would not be good to use because other programs are already rendering to it.</div>
+
+  <p>Instead, you could construct a PTY</p>
+
+    <div class="box narrow"><a href="https://man7.org/linux/man-pages/man3/openpty.3.html"><code>with the opentty(3) syscall</code></a></div>
+    <div class="box narrow">or with a higher-level library.</div>
+</div>
 
 ### Escape codes
 

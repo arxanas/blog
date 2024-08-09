@@ -37,3 +37,45 @@ $shadow-box-light-color: lighten($shadow-box-dark-color, 5%);
 .aside:target .aside-contents {
   display: block;
 }
+
+$box-border-color: #d5cfff;
+
+.box {
+  border-color: $box-border-color;
+  border-style: solid none none solid;
+  border-width: 1px;
+  padding: 1em 0 0 0.5em;
+  margin: 0 0 0.5em 0;
+}
+
+.box.narrow:has(+ .box) {
+  margin-bottom: 0;
+  padding-bottom: 0.5em;
+}
+
+p:has(+ .box) {
+  margin-bottom: 0.5em;
+}
+
+.box::before {
+  content: attr(data-label);
+  display: block;
+  font-variant: small-caps;
+  text-transform: uppercase;
+  background-color: $box-border-color;
+  letter-spacing: 0.1em;
+  margin: -1em -1em 0.5em -1em;
+  padding-left: 1em;
+}
+
+.box.narrow::before {
+
+}
+
+.sidenote {
+  float: right;
+  width: 20%;
+  margin-right: -21%;
+  position: relative;
+  transform: translateY(-30%);
+}

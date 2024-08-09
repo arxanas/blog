@@ -38,7 +38,7 @@
   content: url(iconmonster-reddit-4.svg);
   /* Couldn't figure out how to center the icon with respect to the text
    * following it, so just added extra margin here to kind-of center it. */
-  width: $base-line-height * $base-font-size - 4px;
+  width: $base-line-height * $base-font-size - 1em;
   margin-left: 2px;
   margin-right: 5px + 2px;
 }

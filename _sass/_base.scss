@@ -169,6 +169,11 @@ pre {
         padding-right: calc(#{$spacing-unit} / 2);
         padding-left: calc(#{$spacing-unit} / 2);
     }
+
+    border-width: 1px;
+    border-color: lightgray;
+    border-style: none solid none solid;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
 }
 
 
