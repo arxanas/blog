@@ -1,0 +1,34 @@
+## Copied from https://github.com/actions/starter-workflows/blob/c31fe3d5d44d7cb4c912f4c3213f7b4610f13ea2/pages/jekyll.yml
+name: Check build
+
+on:
+  # Trigger on pull requests (all branches)
+  pull_request:
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@8575951200e472d5f2d95c625da0c7bec8217c42 # v1.161.0
+        with:
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+          cache-version: 0 # Increment this number if you need to re-download cached gems
+
+      - name: Setup Github Pages
+        uses: actions/configure-pages@v3
+
+      - name: Build with Jekyll
+        # Outputs to the './_site' directory by default
+        run: bundle exec jekyll build
+        env:
+          JEKYLL_ENV: production
+
+      - name: Check for unused assets
+        run: ./_hooks/verify-no-unused-assets.sh
