@@ -1,5 +1,7 @@
+@use "sass:color";
+
 $shadow-box-dark-color: #dfdfdf;
-$shadow-box-light-color: lighten($shadow-box-dark-color, 5%);
+$shadow-box-light-color: color.adjust($shadow-box-dark-color, $lightness: 5%);
 
 .aside, .figure {
   background-color: $shadow-box-light-color;
