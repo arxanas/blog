@@ -76,6 +76,9 @@ related_posts:
     - git-ui-features/
     - patch-terminology/
 
+  - - build-aware-sparse-checkouts/
+    - incremental-watchman/
+
   - - writing-brittle-code/
     - smash-training-retrospective/
     - data-comprehension-syntaxes/
