@@ -4,6 +4,7 @@ title: Build-aware sparse checkouts
 permalink: build-aware-sparse-checkouts/
 tags:
   - bazel
+  - build-systems
   - git
 ---
 
