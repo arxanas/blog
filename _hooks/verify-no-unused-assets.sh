@@ -1,8 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
-readonly DRAFTS_DIR=('_i18n/en/_drafts' '_i18n/pl/_drafts')
-readonly POSTS_DIR=('_i18n/en/_posts' '_i18n/pl/_posts')
+readonly DRAFT_DIRS=('_i18n/en/_drafts' '_i18n/pl/_drafts')
+readonly POST_DIRS=('_i18n/en/_posts' '_i18n/pl/_posts')
 
 main() {
     local assets
@@ -15,8 +15,8 @@ main() {
         if [[ "$asset_name" == 'mathjax.js' ]]; then
           continue
         fi
-        if ! grep -Rq "$asset_name" "$DRAFTS_DIR" && \
-           ! grep -Rq "$asset_name" "$POSTS_DIR"; then
+        if ! grep -Rq "$asset_name" "${DRAFT_DIRS[@]}" && \
+           ! grep -Rq "$asset_name" "${POST_DIRS[@]}"; then
             echo "unused asset: $i"
             ret=1
         fi
