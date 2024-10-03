@@ -39,8 +39,6 @@ tags:
 
 ## Slides
 
-**⚠️ Note**: This talk hasn't been given yet, and the slides are still in flux. Please don't share widely yet.
-
 This talk was given at the [Seattle Build Enthusiasts Fall 2024 meetup](https://groups.io/g/Seattle-Build-Enthusiasts/topic/seattle_build_enthusiast/108248211) (2024-10-02).
 
 - Speaker notes correspond to the intended transcript.
