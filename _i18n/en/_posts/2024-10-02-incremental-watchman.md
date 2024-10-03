@@ -43,6 +43,7 @@ This talk was given at the [Seattle Build Enthusiasts Fall 2024 meetup](https://
 
 - Speaker notes correspond to the intended transcript.
 - Deleted slides with extra information are available at the end.
+- Direct Google Slides link: <https://docs.google.com/presentation/d/1geE7rGTCpIk5UTjH-sw9aL_Zszi1ncCRnFi55t0CDlk/>
 
 <div class="iframe-container">
 <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRSwp0EbldxIkD72bzEoKDHzLzah95w2ABa1doSwqeKTMneSz1_O1DqNNb7qJCi4xXbPdp1A7Blk5PV/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
