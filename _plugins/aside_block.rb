@@ -23,10 +23,10 @@ module Jekyll
         title = xml_escape(@title)
 
         html = <<-HTML
-        <aside class="aside" id="#{slug}">
-          <header class="aside-header"><a href="##{slug}">#{title}</a></header>
-          <div class="aside-contents">#{contents}</div>
-        </aside>
+        <details id="#{slug}">
+          <summary>#{title}</summary>
+          <div>#{contents}</div>
+        </details>
         HTML
         html.strip
       end

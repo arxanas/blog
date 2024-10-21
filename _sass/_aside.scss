@@ -1,11 +1,6 @@
-@use "sass:color";
-
-$shadow-box-dark-color: #dfdfdf;
-$shadow-box-light-color: color.adjust($shadow-box-dark-color, $lightness: 5%);
-
-.aside, .figure {
-  background-color: $shadow-box-light-color;
-  border-radius: 5px;
+details, figure {
+  border: solid $note-color 2px;
+  background: $note-background-color;
   display: block;
   margin-bottom: 20px;
   padding: 20px;
@@ -15,8 +10,9 @@ $shadow-box-light-color: color.adjust($shadow-box-dark-color, $lightness: 5%);
   }
 }
 
-.aside-header {
-  display: inline;
+summary {
+  color: $note-text-color;
+  cursor: pointer;
   font-weight: 700;
 
   &:before {
@@ -30,12 +26,4 @@ $shadow-box-light-color: color.adjust($shadow-box-dark-color, $lightness: 5%);
     position: relative;
     top: -1px;
   }
-}
-
-.aside-contents {
-  display: none;
-}
-
-.aside:target .aside-contents {
-  display: block;
 }
