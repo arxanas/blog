@@ -117,3 +117,21 @@ html:lang("pl") .github-comment-container::before {
   float: right;
   right: 0;
 }
+
+:root {
+  --note-color: #cfecff;
+  --note-padding: 3px;
+}
+
+.note {
+	background-color: var(--note-color);
+	font-family: Georgia, Garamond, serif;
+	padding: var(--note-padding);
+	text-transform: uppercase;
+  display: inline;
+}
+
+.note-block {
+  border: solid var(--note-color) 2px;
+  padding: var(--note-padding);
+}
