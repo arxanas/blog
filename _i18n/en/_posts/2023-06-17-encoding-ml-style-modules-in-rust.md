@@ -67,8 +67,7 @@ But ML-style modules can be parametrized on _types_ (similar to templates or gen
 
 Although Rust descends from OCaml, it doesn’t inherit an ML-style module system. Instead, Rust’s trait system resembles [Haskell’s typeclasses](https://en.wikipedia.org/wiki/Type_class). However, with some additional features (associated types), we can simulate ML-style modules in Rust.
 
-_(Pedagogical note: the canonical example for ML-style modules over typeclasses is perhaps creating a new kind of tree-set which accepts different orderings, rather than being restricted to a single ordering per type. I think that example is rather boring to consider because it doesn't solve Real Engineering Problems, and because the typeclass solution — creating a wrapper type with the new ordering — is roughly the same amount of work for the programmer.)_
-
+<p class="note-block"><span class="note">Pedagogically:</span> The canonical example for ML-style modules over typeclasses is perhaps creating a new kind of tree-set which accepts different orderings, ratther than being restricted to a single ordering per type. I think that example is rather boring to consider because it doesn't solve Real Engineering Problems, and because the typeclass solution — creating a wrapper type with the new ordering — is roughly the same amount of work for the programmer.</p>
 
 ## Caching a function
 
@@ -124,12 +123,19 @@ fn main() {
 }
 ```
 
-Of course, it’s also possible to create a `struct` which holds the internal `cache`, and to simply demand that the caller invoke the wrapped function via a `.call` method _(technical note: Rust does not currently support overloading the function call operator)_.
+Of course, it’s also possible to create a `struct` which holds the internal `cache`, and to simply demand that the caller invoke the wrapped function via a `.call` method.
+
+<p class="note-block"><span class="note">Technical note:</span> Rust does not currently support overloading the function call operator.</p>
 
 
 ### Caching functions generically
 
-Now to abstract this by one level: what if we want to write a generic caching function that can cache the results of _any_ function, not just `str_len` specifically? _(Technical note: to simplify the situation, we’ll restrict ourselves to caching the results of only functions which accept exactly one parameter, as [Rust currently does not support variadic generics](https://github.com/rust-lang/rfcs/issues/376).) _We can accomplish this with a generic function:
+Now to abstract this by one level: what if we want to write a generic caching function that can cache the results of _any_ function, not just `str_len` specifically?
+
+<p class="note-block"><span class="note">Technical note:</span> To simplify the situation, we’ll restrict ourselves to caching the results of only functions which accept exactly one parameter, as <a href="https://github.com/rust-lang/rfcs/issues/376" >Rust currently does not support variadic generics</a>.
+</p>
+
+We can accomplish this with a generic function:
 
 ```rust
 // Create a function which is generic over the key and value types,
@@ -237,7 +243,7 @@ That is, _every use of our function type has to also include the generic type pa
 
 ### Modules in OCaml
 
-ML-style modules can “hide” the generic types in a way that generic functions alone can’t accomplish _(technical note: using a form of [existential types](https://en.wikipedia.org/wiki/Type_system#Existential_types))_. To express a similar example using ML-style modules, you can skim over — and probably not understand — the following OCaml code:
+ML-style modules can “hide” the generic types in a way that generic functions alone can’t accomplish (<span class="note-block"><span class="note">technical note:</span> using a form of [existential types](https://en.wikipedia.org/wiki/Type_system#Existential_types)</span>). To express a similar example using ML-style modules, you can skim over — and probably not understand — the following OCaml code:
 
 ```ocaml
 module type Backend = sig
@@ -301,7 +307,7 @@ let () =
 
 ### Associated types
 
-To accomplish something similar to ML-style modules, we can use [Rust’s associated types](https://doc.rust-lang.org/rust-by-example/generics/assoc_items/types.html). The first thing we’ll do is convert our function types into traits (_technical note: ultimately, a form of [defunctionalization](https://en.wikipedia.org/wiki/Defunctionalization))_.
+To accomplish something similar to ML-style modules, we can use [Rust’s associated types](https://doc.rust-lang.org/rust-by-example/generics/assoc_items/types.html). The first thing we’ll do is convert our function types into traits (<span class="note-block"><span class="note">technical note:</span> ultimately, a form of [defunctionalization](https://en.wikipedia.org/wiki/Defunctionalization)</span>).
 
 ```rust
 trait Backend {
@@ -342,7 +348,7 @@ impl Backend for StrLenBackend {
 }
 ```
 
-Now, how do we define a generic version of a “cached” backend which works for _any_ kind of `Backend`? A simple generic function like `compute_cached&lt;B: Backend>` doesn’t work, since we want it to store state. Instead, we declare _another_ type which is parametrized on a `Backend` type:
+Now, how do we define a generic version of a “cached” backend which works for _any_ kind of `Backend`? A simple generic function like `compute_cached<B: Backend>` doesn’t work, since we want it to store state. Instead, we declare _another_ type which is parametrized on a `Backend` type:
 
 ```rust
 struct CachedBackend<B: Backend> {
