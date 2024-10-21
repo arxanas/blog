@@ -37,6 +37,10 @@ p, blockquote, pre,
 ul, ol, dl, figure,
 %vertical-rhythm {
     margin-bottom: calc(#{$spacing-unit} / 2);
+
+    &:last-child {
+        margin-bottom: 0;
+    }
 }
 
 

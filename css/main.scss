@@ -23,6 +23,14 @@ $grey-color:       #828282;
 $grey-color-light: color.adjust($grey-color, $lightness: 40%);
 $grey-color-dark:  color.adjust($grey-color, $lightness: -25%);
 
+$note-color:       #cfecff;
+$note-text-color:  $text-color;
+$note-background-color: color.adjust($note-color, $lightness: 5%);
+$note-border-width: 2px;
+$note-padding:     3px;
+$warning-color:    gold;
+$error-color:      lightpink;
+
 // Width of the content area
 $content-width:    800px;
 

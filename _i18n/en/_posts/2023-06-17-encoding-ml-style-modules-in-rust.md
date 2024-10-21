@@ -50,7 +50,7 @@ If you _didn’t_ want to add any internal state, there are many solutions:
 
 * You could use [default implementations for trait methods](https://doc.rust-lang.org/book/ch10-02-traits.html#default-implementations).
 * You could use [extension traits](https://rust-lang.github.io/rfcs/0445-extension-trait-conventions.html).
-* You could use [`impl dyn`](https://radicle.community/t/rust-s-impl-dyn-trait-syntax/102) _(technical note: uses dynamic dispatch at runtime)_.
+* You could use [`impl dyn`](https://radicle.community/t/rust-s-impl-dyn-trait-syntax/102) (<span class="note-block"><span class="note">technical note:</span> uses dynamic dispatch at runtime</span>).
 * You could use free (global) functions which are generic and accept any type implementing the trait.
 
 One example of this problem would be implementing a caching layer _once_ that could then be applied to _any_ implementation of some `Backend` trait.
