@@ -118,7 +118,7 @@ html:lang("pl") .github-comment-container::before {
   right: 0;
 }
 
-.note {
+.note-tag {
 	background-color: $note-color;
   color: $note-text-color;
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -140,9 +140,8 @@ html:lang("pl") .github-comment-container::before {
   }
 }
 
-.note-block {
+.note-inline, .note-block {
   border: solid $note-color $note-border-width;
-  padding: $note-padding;
 
   &.note-warning {
     border-color: $warning-color;
@@ -153,10 +152,16 @@ html:lang("pl") .github-comment-container::before {
   }
 }
 
+.note-inline {
+  padding-right: $note-padding;
+  line-height: $base-line-height;
+}
+
 .note-block {
+  padding: $note-padding;
   margin-bottom: calc(#{$spacing-unit} / 2);
 }
 
 .note-block:has(+ .note-block) {
-  margin-bottom: -$note-border-width - 1px;
+  margin-bottom: calc(#{$spacing-unit} / 4);
 }
