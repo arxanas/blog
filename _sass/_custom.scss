@@ -119,17 +119,20 @@ html:lang("pl") .github-comment-container::before {
 }
 
 .note-tag {
-	background-color: $note-color;
-  color: $note-text-color;
-	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	padding: $note-padding;
-	text-transform: uppercase;
   display: inline;
-  font-stretch: condensed;
   font-size: smaller;
   height: $base-line-height;
   line-height: $base-line-height;
   vertical-align: text-top;
+}
+
+.note-tag, .note-table-header {
+	background-color: $note-color;
+  color: $note-text-color;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	padding: $note-tag-padding;
+	text-transform: uppercase;
+  font-stretch: condensed;
 
   &.note-warning {
     background-color: $warning-color;
@@ -140,7 +143,7 @@ html:lang("pl") .github-comment-container::before {
   }
 }
 
-.note-inline, .note-block {
+.note-inline, .note-block, .note-table tbody td {
   border: solid $note-color $note-border-width;
 
   &.note-warning {
@@ -153,15 +156,54 @@ html:lang("pl") .github-comment-container::before {
 }
 
 .note-inline {
-  padding-right: $note-padding;
+  padding-right: $note-block-padding;
   line-height: $base-line-height;
 }
 
 .note-block {
-  padding: $note-padding;
+  padding: $note-block-padding;
   margin-bottom: calc(#{$spacing-unit} / 2);
 }
 
 .note-block:has(+ .note-block) {
-  margin-bottom: calc(#{$spacing-unit} / 4);
+  margin-bottom: -1px;
+}
+
+.note-table {
+  margin-bottom: $spacing-unit;
+
+  thead {
+    text-align: center;
+    font-size: 1.1rem;
+
+    .note-table-header {
+      margin-bottom: 3px; // make room for chevron below
+      background-color: $note-color;
+      color: $note-text-color;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      padding: $note-tag-padding;
+      text-transform: uppercase;
+      font-stretch: condensed;
+      position: relative;
+
+      &::after {
+        content: "▼";
+        color: $note-color;
+        height: 0;
+        left: 0;
+        margin-inline: auto;
+        position: absolute;
+        right: 0;
+        top: calc(1em + ($note-block-padding + $note-border-width) * 2);
+        transform-origin: center;
+        transform: scale(2, 0.5);
+        width: fit-content;
+      }
+    }
+  }
+
+  tbody td {
+    padding: $note-block-padding;
+    vertical-align: top;
+  }
 }

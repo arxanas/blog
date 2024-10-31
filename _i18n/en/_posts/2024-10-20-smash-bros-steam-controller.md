@@ -48,7 +48,7 @@ Depending on your interests, you'll prefer to skip one or more of these sections
 - [Design](#design): How the controller scheme is designed for *Smash Bros.* to exploit the unique hardware.
 - [Implementation](#implementation): Technical details about the Coding and Algorithms&trade;.
 
-<p class="note-block note-warning"><span class="note note-warning">My apologies:</span> I hate documents with a "how to read this document" foreword, so I'm sorry to have sujected you to one.</p>
+<p class="note-block note-warning"><span class="note-tag note-warning">My apologies:</span> I hate documents with a "how to read this document" foreword, so I'm sorry to have sujected you to one.</p>
 
 ## Summary
 
@@ -66,15 +66,15 @@ Challenges:
 Results:
 
 - The Steam Controller is delightful when it works!
-  - <span class="note note-warning">Unfortunately:</span> It's not yet reliable enough for tournament usage. If you're a hardware enthusiast, maybe you could improve it?
-  - <span class="note">In particular:</span> In order to implement touch detection, I had to fit a 3D curve to experimentally-gathered data, but my techniques produced either too many false positives or false negatives.
+  - <span class="note-tag note-warning">Unfortunately:</span> It's not yet reliable enough for tournament usage. If you're a hardware enthusiast, maybe you could improve it?
+  - <span class="note-tag">In particular:</span> In order to implement touch detection, I had to fit a 3D curve to experimentally-gathered data, but my techniques produced either too many false positives or false negatives.
 - I had to write a [small amount of firmware code](https://github.com/greggersaurus/OpenSteamController/compare/master...arxanas:OpenSteamController:smash-bros)
-  - <span class="note">Unfortunately:</span> I have very little hardware experience. (<span class="note note-error">Regrettably:</span> Most hardware I tinker with mysteriously malfunctions or dies shortly afterwards 😬.)
-  - <span class="note">Fortunately:</span> Somebody else had already reverse-engineered the Steam Controller's firmware _and_ wrote a Nintendo-Switch-compatible emulation layer.
+  - <span class="note-tag">Unfortunately:</span> I have very little hardware experience. (<span class="note-tag note-error">Regrettably:</span> Most hardware I tinker with mysteriously malfunctions or dies shortly afterwards 😬.)
+  - <span class="note-tag">Fortunately:</span> Somebody else had already reverse-engineered the Steam Controller's firmware _and_ wrote a Nintendo-Switch-compatible emulation layer.
 - I had to conduct a ton of experimentation.
-  - <span class="note">To contrast:</span> It's like I'm a real engineer, not a software engineer! I had to [take measurements and put them in a spreadsheet][steam-controller-measurements] and everything.
+  - <span class="note-tag">To contrast:</span> It's like I'm a real engineer, not a software engineer! I had to [take measurements and put them in a spreadsheet][steam-controller-measurements] and everything.
 - My custom controller button scheme is pretty cool (in my opinion).
-  - <span class="note">For example:</span> You never have to move your thumbs off the touchpad.
+  - <span class="note-tag">For example:</span> You never have to move your thumbs off the touchpad.
 
 [steam-controller-measurements]: https://docs.google.com/spreadsheets/d/1OsZ_8aARLt2CsAgTYeFL9fWcoAd76ydiDuHzA4Uyvms/edit?usp=sharing
 
@@ -95,13 +95,13 @@ It looks like this:
 
 Features:
 
-* <span class="note">Notably:</span> Where joysticks would be on a traditional game controller, there are instead two touchpads.
+* <span class="note-tag">Notably:</span> Where joysticks would be on a traditional game controller, there are instead two touchpads.
 * Each touchpad has an associated [haptic feedback generator](https://en.wikipedia.org/wiki/Haptic_technology).
     * Used for per-touchpad vibration during gameplay.
-    * <span class="note">But also:</span> It can play normal sound if you use a high enough frequency (pitch), which is how the Steam Controller's "startup [jingles](https://en.wikipedia.org/wiki/Jingle)" are implemented.
-* <span class="note">Notably:</span> There are buttons on the back of the controller ("paddles" or "grips") in addition to the normal buttons on the face and shoulder of the controller.
+    * <span class="note-tag">But also:</span> It can play normal sound if you use a high enough frequency (pitch), which is how the Steam Controller's "startup [jingles](https://en.wikipedia.org/wiki/Jingle)" are implemented.
+* <span class="note-tag">Notably:</span> There are buttons on the back of the controller ("paddles" or "grips") in addition to the normal buttons on the face and shoulder of the controller.
     * This is nice since you can now recruit an additional finger from each hand into gameplay.
-    * <span class="note">Lately:</span> Mainstream controllers have been adopting buttons on the back.
+    * <span class="note-tag">Lately:</span> Mainstream controllers have been adopting buttons on the back.
 * The hardware features have been inherited by Valve's [Steam Deck](https://en.wikipedia.org/wiki/Steam_Deck), which has:
   * two touchpads,
   * two joysticks,
@@ -112,8 +112,8 @@ Community:
 
 * Surprisingly active, such as [/r/SteamController](https://www.reddit.com/r/SteamController/).
 * Some users remark that the design and flexibility of the Steam Controller is uniquely accessible among game controllers.
-  * <span class="note">Such as:</span> Those with [tendonitis](https://www.reddit.com/r/SteamController/comments/1979eze/comment/kiw9neo/?utm_source=reddit&utm_medium=web2x&context=3) or [EEC syndrome](https://en.wikipedia.org/wiki/Ectrodactyly%E2%80%93ectodermal_dysplasia%E2%80%93cleft_syndrome).
-  * <span class="note">In fact:</span> Some people report that the Steam Controller is the *only* controller that they can use.
+  * <span class="note-tag">Such as:</span> Those with [tendonitis](https://www.reddit.com/r/SteamController/comments/1979eze/comment/kiw9neo/?utm_source=reddit&utm_medium=web2x&context=3) or [EEC syndrome](https://en.wikipedia.org/wiki/Ectrodactyly%E2%80%93ectodermal_dysplasia%E2%80%93cleft_syndrome).
+  * <span class="note-tag">In fact:</span> Some people report that the Steam Controller is the *only* controller that they can use.
 
 
 ## Rationale
@@ -140,9 +140,9 @@ Although I've gotten feedback from friends that the Steam Controller grips are t
 
 Before this, I had used a Steam Controller for PC gaming, after which I realized that pushing around joysticks is much less comfortable than sliding your finger across a touchpad:
 
-<p class="note-block"><span class="note">Casual:</span> When you push deeply into the joystick... the joystick pushes also into you! Ouch!</p>
+<p class="note-block"><span class="note-tag">Casual:</span> When you push deeply into the joystick... the joystick pushes also into you! Ouch!</p>
 
-<p class="note-block"><span class="note">Technical:</span>
+<p class="note-block"><span class="note-tag">Technical:</span>
 
 As you push the joystick, it exerts a proportional counteracting <a href="https://en.wikipedia.org/wiki/Hooke%27s_law">spring force</a> on your finger. In contrast, sliding your finger across a touchpad does not require you to counteract spring force as you move your finger, nor do you have to exert continued force just to maintain your finger in place at a certain position.
 
@@ -152,10 +152,10 @@ I didn't realize just how much effort I spent pushing around joysticks, and I fi
 
 There's a potential competitive advantage as well:
 
-<p class="note-block"><span class="note">Casual:</span> Tapping a position on the touchpad is faster than pushing the joystick to that position.</p>
+<p class="note-block"><span class="note-tag">Casual:</span> Tapping a position on the touchpad is faster than pushing the joystick to that position.</p>
 
 <aside class="note-block">
-<p><span class="note">Technical:</span>
+<p><span class="note-tag">Technical:</span>
 
 You can perform certain inputs faster. You can position your finger physically <em>above</em> the touchpad (suspended in the air) without triggering an input, and drop your finger onto the touchpad at the appropriate time.</p>
 
@@ -172,14 +172,14 @@ You can perform certain inputs faster. You can position your finger physically <
 
 </aside>
 
-<span class="note">Amusingly:</span> I had mild trouble adjusting to the instant inputs. <span class="note">For example:</span> When timing fast-falls, I would fail because I would tap the touchpad too early, because I was subconsciously adjusting for the non-existent joystick travel time.
+<span class="note-tag">Amusingly:</span> I had mild trouble adjusting to the instant inputs. <span class="note-tag">For example:</span> When timing fast-falls, I would fail because I would tap the touchpad too early, because I was subconsciously adjusting for the non-existent joystick travel time.
 
-<span class="note note-error">However:</span> As I discovered later, the joystick's spring force is actually quite important!
+<span class="note-tag note-error">However:</span> As I discovered later, the joystick's spring force is actually quite important!
 
-<p class="note-block"><span class="note">Casual:</span> When the joystick pushes against your finger, you can intuitively estimate where your finger is with respect to the joystick's neutral position.</p>
+<p class="note-block"><span class="note-tag">Casual:</span> When the joystick pushes against your finger, you can intuitively estimate where your finger is with respect to the joystick's neutral position.</p>
 
 <aside class="note-block">
-<p><span class="note">Technical:</span>
+<p><span class="note-tag">Technical:</span>
 
 The joystick counter-force provides critical <a href="https://en.wikipedia.org/wiki/Proprioception">proprioceptive feedback</a>. [TODO: point out that the force you apply is equal and opposite to the counter-force to hold it at rest.] The magnitude of the counteracting spring force indicates the distance from neutral, while the direction indicates the direction.</p>
 
@@ -188,7 +188,7 @@ The touchpad is mostly smooth. In order to determine where your finger is restin
 </p>
 
 <p>
-<span class="note">As an alternative:</span>
+<span class="note-tag">As an alternative:</span>
 We can replace proprioceptive feedback with haptic feedback (see <a href="#virtual-notches">virtual notches</a>) &mdash; and arguably produce a better-than-physical experience.
 </p>
 
@@ -208,7 +208,7 @@ We can replace proprioceptive feedback with haptic feedback (see <a href="#virtu
 TODO: link [https://www.reddit.com/r/SmashBrosUltimate/comments/19eizw3/i_probably_lost_so_many_sets_because_of_this/](https://www.reddit.com/r/SmashBrosUltimate/comments/19eizw3/i_probably_lost_so_many_sets_because_of_this/) ?
 
 <div class="note-block note-warning">
-<p><span class="note note-warning">However</span>: The other mechanical components on the Steam Controller might break with extended usage. Reports from users on Steam Controller longevity vary.</p>
+<p><span class="note-tag note-warning">However</span>: The other mechanical components on the Steam Controller might break with extended usage. Reports from users on Steam Controller longevity vary.</p>
 
 <p>If mechanical reliability were my only criterion, I would consider buying an alternative controller that uses <a href="https://en.wikipedia.org/wiki/Hall_effect">Hall effect</a> sensors for joysticks.</p>
 </div>
@@ -223,7 +223,7 @@ One common class of misinput for me is when I shift my right thumb from the joys
 
 With the clickable touchpads along with the two additional "paddle" buttons on the back of the controller, I'll demonstrate a control scheme that doesn't require moving my fingers between controls at all. TODO: link to custom controls.
 
-<p class="note-block"><span class="note">Note:</span> Most game controllers support clicking the joysticks as an input, but it usually requires a lot of force, and can be difficult to do while also pressing the joystick in a direction.</p>
+<p class="note-block"><span class="note-tag">Note:</span> Most game controllers support clicking the joysticks as an input, but it usually requires a lot of force, and can be difficult to do while also pressing the joystick in a direction.</p>
 
 ## Design
 
