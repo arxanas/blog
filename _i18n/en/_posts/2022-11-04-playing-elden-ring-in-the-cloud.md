@@ -2,6 +2,8 @@
 layout: post
 title: Playing Elden Ring in the cloud
 permalink: playing-elden-ring-in-the-cloud/
+series:
+  next: playing-elden-ring-in-the-cloud-update-1/
 tags:
   - gaming
 ---
@@ -12,10 +14,7 @@ _[Elden Ring](https://en.wikipedia.org/wiki/Elden_Ring)_ was recently released f
 There's necessarily more latency when streaming games than when playing locally. I can expect an additional ~50ms round-trip to my nearest AWS datacenter (us-west-2). Elden Ring doesn't require much in terms of low latency: during combat, most attacks have long startup animations during which you can react, for which 50ms is not noticeable. But various other real-time games are sensitive to that amount of latency to the point where it would not be reasonable to play competitively via stream.
 {% endaside %}
 
----
-
- * toc
-{:toc}
+{% include toc.md %}
 
 ### Managed gaming services
 

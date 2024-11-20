@@ -79,6 +79,7 @@ related_posts:
   - - build-aware-sparse-checkouts/
     - incremental-watchman/
 
+  # FIXME: What do these posts have to do with each other??
   - - writing-brittle-code/
     - smash-training-retrospective/
     - data-comprehension-syntaxes/

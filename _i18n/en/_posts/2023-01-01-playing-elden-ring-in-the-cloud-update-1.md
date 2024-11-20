@@ -2,9 +2,13 @@
 layout: post
 title: "Update #1: Playing Elden Ring in the cloud"
 permalink: playing-elden-ring-in-the-cloud-update-1/
+series:
+  prev: playing-elden-ring-in-the-cloud/
 tags:
   - gaming
 ---
+
+{% include toc.md %}
 
 In [*Playing Elden Ring in the cloud*][playing-elden-ring-in-the-cloud], I went through a lot of trouble setting up a cloud PC gaming server. Since then, I bought a [Steam Deck](https://store.steampowered.com/steamdeck). Overall, I've been enjoying this solution a lot more. It works offline (on the plane) and for latency-sensitive games.
 

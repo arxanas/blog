@@ -1,34 +1,37 @@
-.publication-notes::before {
-    background-color: $note-background-color;
-    content: "Publication notes";
-    display: block;
-    font-weight: bolder;
-    text-align: center;
-    width: 100%;
-}
-
-[lang="pl"] .publication-notes::before {
-    content: "Notatki opublikowania";
-}
-
 .publication-notes {
-    border-bottom: solid $note-color 1px;
-    margin-bottom: 10px;
-    padding-bottom: 10px;
-}
+    margin-bottom: $spacing-unit;
 
-.publication-notes td {
-    background-color: $note-background-color;
-    padding-left: 5px;
-    padding-right: 5px;
-}
+    &::before {
+        background-color: $note-background-color;
+        border: solid $note-color $note-border-width;
+        content: "Publication notes";
+        display: block;
+        font-weight: bolder;
+        // HACK: I don't know where these margin values come from, but the seem
+        // to be needed to align the element with the cells below it:
+        margin-left: 2px;
+        margin-right: 2px;
+        text-align: center;
 
-.publication-notes td:first-child {
-    font-weight: bolder;
-    text-align: right;
-}
+        [lang="pl"] & {
+            content: "Notatki opublikowania";
+        }
+    }
 
-.publication-notes ul {
-    margin-bottom: 0;
-    margin-top: 0;
+    td {
+        background-color: $note-background-color;
+        border: solid $note-color $note-border-width;
+        padding-left: 5px;
+        padding-right: 5px;
+
+        &:first-child {
+            font-weight: bolder;
+            text-align: right;
+        }
+
+        ul {
+            margin-bottom: 0;
+            margin-top: 0;
+        }
+    }
 }
