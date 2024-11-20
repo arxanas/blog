@@ -2,18 +2,19 @@
 layout: post
 title: Automatically detecting and replying to recruiter spam
 permalink: detect-recruiter-spam/
+series:
+  next: detect-recruiter-spam-update-1/
 tags:
   - career
   - machine-learning
   - python
 ---
 
- * toc
-{:toc}
-
 The code for this post is at my Github repository: [github.com/arxanas/detect-recruiter-spam](https://github.com/arxanas/detect-recruiter-spam). However, I have not included my pre-trained model, since it contains sensitive information derived from  my email inbox. If you would like to use my API endpoint, send me an email.
 
 If you just want to see the results, skip to [Results](#results).
+
+{% include toc.md %}
 
 ## Introduction
 

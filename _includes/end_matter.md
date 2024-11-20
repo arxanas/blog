@@ -1,4 +1,3 @@
-{% if page.related_posts %}
 {% if site.lang == "pl" %}
 ## Powiązane posty
 
@@ -19,7 +18,8 @@ The following are hand-curated posts which you might find interesting.
 </thead>
 
 <tbody>
-{% for related_post in page.related_posts %}
+{% assign related_posts = page.related_posts | sort_posts %}
+{% for related_post in related_posts %}
   <tr>
     <td>{{ related_post.date | date: "%d&nbsp;%b&nbsp;%Y" }}</td>
     <td class="this-post">
@@ -38,8 +38,6 @@ The following are hand-curated posts which you might find interesting.
 Chcesz zobaczyć więcej moich postów? Obserwuj mnie <a href="https://twitter.com/arxanas">na Twitterze</a> albo subskrybuj <a href="{{ "/feed.xml" | prepend: site.baseurl }}">za pomocą RSS</a>.
 {% else %}
 Want to see more of my posts? Follow me <a href="https://twitter.com/arxanas">on Twitter</a> or subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a>.
-{% endif %}
-
 {% endif %}
 
 {% if site.lang == "pl" %}

@@ -13,7 +13,7 @@ layout: default
         <a href="{{ translation[1] | prepend: site.baseurl_root }}">Czytaj po polsku 🇵🇱</a>
         {% elsif translation[0] == "en" %}
         <a href="{{ translation[1] | prepend: site.baseurl_root }}">Read in English 🇺🇸</a>
-      {% endif %}
+        {% endif %}
       </span>
     {% endfor %}
     </p>

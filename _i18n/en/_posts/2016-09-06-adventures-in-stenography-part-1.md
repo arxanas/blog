@@ -2,13 +2,14 @@
 layout: post
 title: "Stenography adventures with Plover and the Ergodox EZ, part 1"
 permalink: steno-adventures-part-1/
+series:
+  next: steno-adventures-part-2/
 tags:
   - c
   - stenography
 ---
 
- * toc
-{:toc}
+{% include toc.md %}
 
 ## Overview
 

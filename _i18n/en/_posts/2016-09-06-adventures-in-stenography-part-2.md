@@ -2,20 +2,16 @@
 layout: post
 title: "Stenography adventures with Plover and the Ergodox EZ, part 2"
 permalink: steno-adventures-part-2/
+series:
+  prev: steno-adventures-part-1/
 tags:
   - c
   - stenography
 ---
 
- * toc
-{:toc}
+{% include toc.md %}
 
 {% capture ergodox-ez %}Ergodox&nbsp;EZ{% endcapture %}
-
-This is part 2 of my exploits with Plover and the {{ ergodox-ez }}. [Click here
-for part 1][part-1].
-
-  [part-1]: {% permalink steno-adventures-part-1 %}
 
 ## Firmware features
 

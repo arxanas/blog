@@ -2,11 +2,15 @@
 layout: post
 title: "Update #1: Automatically detecting and replying to recruiter spam"
 permalink: detect-recruiter-spam-update-1/
+series:
+  prev: detect-recruiter-spam/
 tags:
   - career
   - machine-learning
   - python
 ---
+
+{% include toc.md %}
 
 In [*Automatically detecting and replying to recruiter spam*][detect-recruiter-spam], I discussed an approach to automatically classifying and detecting unsolicited recruiter messages. Since then:
 
