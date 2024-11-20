@@ -23,14 +23,15 @@ $grey-color:       #828282;
 $grey-color-light: color.adjust($grey-color, $lightness: 40%);
 $grey-color-dark:  color.adjust($grey-color, $lightness: -25%);
 
-$note-color:            #cfecff;
+$info-color:          #cfecff;
+$warning-color:       gold;
+$error-color:         lightpink;
+
 $note-text-color:       $text-color;
-$note-background-color: color.adjust($note-color, $lightness: 5%);
+$note-background-color: color.adjust($info-color, $lightness: 5%);
 $note-border-width:     2px;
 $note-tag-padding:      3px;
 $note-block-padding:    3px;
-$warning-color:       gold;
-$error-color:         lightpink;
 
 // Width of the content area
 $content-width:    800px;
@@ -63,6 +64,7 @@ $on-laptop:        800px;
         "iframe",
         "layout",
         "media",
+        "note",
         "publication-notes",
         "syntax-highlighting"
 ;

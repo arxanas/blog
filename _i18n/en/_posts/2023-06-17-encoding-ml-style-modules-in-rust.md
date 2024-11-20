@@ -48,7 +48,7 @@ If you _didn’t_ want to add any internal state, there are many solutions:
 
 * You could use [default implementations for trait methods](https://doc.rust-lang.org/book/ch10-02-traits.html#default-implementations).
 * You could use [extension traits](https://rust-lang.github.io/rfcs/0445-extension-trait-conventions.html).
-* You could use [`impl dyn`](https://radicle.community/t/rust-s-impl-dyn-trait-syntax/102) (<span class="note-inline"><span class="note-tag">technical note:</span> uses dynamic dispatch at runtime</span>).
+* You could use [`impl dyn`](https://radicle.community/t/rust-s-impl-dyn-trait-syntax/102) (<span class="note-inline"><span class="note-tag note-info">technical note:</span> uses dynamic dispatch at runtime</span>).
 * You could use free (global) functions which are generic and accept any type implementing the trait.
 
 One example of this problem would be implementing a caching layer _once_ that could then be applied to _any_ implementation of some `Backend` trait.
@@ -65,7 +65,9 @@ But ML-style modules can be parametrized on _types_ (similar to templates or gen
 
 Although Rust descends from OCaml, it doesn’t inherit an ML-style module system. Instead, Rust’s trait system resembles [Haskell’s typeclasses](https://en.wikipedia.org/wiki/Type_class). However, with some additional features (associated types), we can simulate ML-style modules in Rust.
 
-<p class="note-block"><span class="note-tag">Pedagogically:</span> The canonical example for ML-style modules over typeclasses is perhaps creating a new kind of tree-set which accepts different orderings, ratther than being restricted to a single ordering per type. I think that example is rather boring to consider because it doesn't solve Real Engineering Problems, and because the typeclass solution — creating a wrapper type with the new ordering — is roughly the same amount of work for the programmer.</p>
+{% noteblock note-info %}
+<span class="note-tag note-info">Pedagogically:</span> The canonical example for ML-style modules over typeclasses is perhaps creating a new kind of tree-set which accepts different orderings, ratther than being restricted to a single ordering per type. I think that example is rather boring to consider because it doesn't solve Real Engineering Problems, and because the typeclass solution — creating a wrapper type with the new ordering — is roughly the same amount of work for the programmer.
+{% endnoteblock %}
 
 ## Caching a function
 
@@ -123,15 +125,17 @@ fn main() {
 
 Of course, it’s also possible to create a `struct` which holds the internal `cache`, and to simply demand that the caller invoke the wrapped function via a `.call` method.
 
-<p class="note-block"><span class="note-tag">Technical note:</span> Rust does not currently support overloading the function call operator.</p>
-
+{% noteblock note-info %}
+<span class="note-tag note-info">Technical note:</span> Rust does not currently support overloading the function call operator.
+{% endnoteblock %}
 
 ### Caching functions generically
 
 Now to abstract this by one level: what if we want to write a generic caching function that can cache the results of _any_ function, not just `str_len` specifically?
 
-<p class="note-block"><span class="note-tag">Technical note:</span> To simplify the situation, we’ll restrict ourselves to caching the results of only functions which accept exactly one parameter, as <a href="https://github.com/rust-lang/rfcs/issues/376" >Rust currently does not support variadic generics</a>.
-</p>
+{% noteblock note-info %}
+<span class="note-tag note-info">Technical note:</span> To simplify the situation, we’ll restrict ourselves to caching the results of only functions which accept exactly one parameter, as [Rust currently does not support variadic generics](https://github.com/rust-lang/rfcs/issues/376).
+{% endnoteblock %}
 
 We can accomplish this with a generic function:
 
@@ -241,7 +245,7 @@ That is, _every use of our function type has to also include the generic type pa
 
 ### Modules in OCaml
 
-ML-style modules can “hide” the generic types in a way that generic functions alone can’t accomplish (<span class="note-inline"><span class="note-tag">technical note:</span> using a form of [existential types](https://en.wikipedia.org/wiki/Type_system#Existential_types)</span>). To express a similar example using ML-style modules, you can skim over — and probably not understand — the following OCaml code:
+ML-style modules can “hide” the generic types in a way that generic functions alone can’t accomplish (<span class="note-inline"><span class="note-tag note-info">technical note:</span> using a form of [existential types](https://en.wikipedia.org/wiki/Type_system#Existential_types)</span>). To express a similar example using ML-style modules, you can skim over — and probably not understand — the following OCaml code:
 
 ```ocaml
 module type Backend = sig
@@ -305,7 +309,7 @@ let () =
 
 ### Associated types
 
-To accomplish something similar to ML-style modules, we can use [Rust’s associated types](https://doc.rust-lang.org/rust-by-example/generics/assoc_items/types.html). The first thing we’ll do is convert our function types into traits (<span class="note-inline"><span class="note-tag">technical note:</span> ultimately, a form of [defunctionalization](https://en.wikipedia.org/wiki/Defunctionalization)</span>).
+To accomplish something similar to ML-style modules, we can use [Rust’s associated types](https://doc.rust-lang.org/rust-by-example/generics/assoc_items/types.html). The first thing we’ll do is convert our function types into traits (<span class="note-inline"><span class="note-tag note-info">technical note:</span> ultimately, a form of [defunctionalization](https://en.wikipedia.org/wiki/Defunctionalization)</span>).
 
 ```rust
 trait Backend {

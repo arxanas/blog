@@ -21,6 +21,9 @@ module Jekyll
         slug = slug[0...25]
 
         title = xml_escape(@title)
+        if @title.empty?
+          raise Exception.new("no title for aside block")
+        end
 
         html = <<-HTML
         <details id="#{slug}">

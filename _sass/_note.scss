@@ -1,0 +1,229 @@
+/**
+ * "Note" system for encoding syntactic elements more directly in the text.
+ *
+ * As per https://blog.waleedkhan.name/on-bullet-points/, it would be better to
+ * encode syntactic elements directly, rather than having the writer convert to
+ * prose and the reader convert back into syntax. Ideally, I would start marking
+ * syntactic elements so that the structure of the writing is clearer. This is
+ * an experimental step towards doing so.
+ *
+ * ## Inline tags
+ *
+ * Annotate inline elements with class `note-tag`. Example:
+ *
+ * ```html
+ * <span class="note-tag">However:</span> Some other text...
+ * ```
+ * 
+ * Without any other classes, `note-tag` elements take on default styling which
+ * is intended to be unobtrusive. Add another class
+ * (`note-info`/`note-warning`/`note-error`) to emphasize it in a certain way.
+ *
+ * These tags are used at the beginning of a block of text with a transition
+ * word to deemphasize the transition and allow one to more easily determine the
+ * structure of the sentence. In particular, the surrounding text should still
+ * be meaningful even if the tag's text were removed. Hence, they should not
+ * contain important semantic content.
+ *
+ * Current exception: Tags used at the beginning of note-blocks are semantic and
+ * indicate the purpose of the block. It might be desirable to change this?
+ *
+ * To specify inline segments whose start *and* end are marked, use the
+ * `note-inline` class.
+ *
+ * ## Block tags
+ *
+ * To specify entire tagged blocks, use the Jekyll `{% noteblock <class> %}`
+ * tag, which will then compile down to a block element with class `note-block`.
+ *
+ * These are useful for "aside"-style prose, which goes into more detail than
+ * the main text. In particular, different levels of detail (such as "Casual:"
+ * vs "Technical:") might be described in a sequence of blocks to target
+ * different audiences.
+ *
+ * To indicate an aside that follows at different levels of detail, also use a
+ * `<span class="note-see-next"></span>` tag to point out the following aside.
+ */
+
+%note-tag {
+  color: $note-text-color;
+  display: inline;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: smaller;
+  font-stretch: condensed;
+  height: $base-line-height;
+  line-height: $base-line-height;
+  padding: $note-tag-padding;
+  text-transform: uppercase;
+  vertical-align: text-top;
+}
+
+%note-background-color {
+  @extend %note-tag;
+
+  // TODO: default styling is applied to `note-tag` as if it were `note-info` (a
+  // class that doesn't currently exist). It might be best to migrate everything
+  // to `note-info` to be a little more explicit.
+  &.note-info {
+    background-color: $info-color;
+  }
+
+  &.note-warning {
+    background-color: $warning-color;
+  }
+
+  &.note-error {
+    background-color: $error-color;
+  }
+}
+
+.note-tag {
+  @extend %note-background-color;
+  background-color: $grey-color-light;
+  white-space: nowrap;
+}
+
+%note-border {
+  border: solid $grey-color-light $note-border-width;
+
+  &.note-info {
+    border-color: $info-color;
+  }
+
+  &.note-warning {
+    border-color: $warning-color;
+  }
+
+  &.note-error {
+    border-color: $error-color;
+  }
+}
+
+.note-inline {
+  @extend %note-border;
+  padding-right: $note-block-padding;
+  line-height: $base-line-height;
+}
+
+.note-block {
+  @extend %note-border;
+  padding: $note-block-padding;
+  margin-bottom: calc(#{$spacing-unit} / 2);
+
+  &:has(+ .note-block) {
+    margin-bottom: -1px;
+  }
+}
+
+.note-braces {
+  &::before {
+    content: "{";
+    margin-right: 3px;
+  }
+  &::after {
+    content: "}";
+    margin-left: 3px;
+  }
+  &::before, &::after {
+    color: $grey-color;
+    font-weight: 200;
+    // font-size: 1.1rem;
+    font-size: 1.2rem;
+  }
+
+  // Stands for "conjunction"; this might be a bad term, because uses of
+  // `note-tag` are also usually conjunctions.
+  .note-conj {
+    // TODO: decide on styling here and clean up
+    // border-top-style: solid;
+    // border-bottom-style: solid;
+    // border-color: $grey-color;
+    // border-width: 1px;
+    background-color: $grey-color-light;
+    // border-radius: 1em;
+    padding: 3px;
+
+    // &::before {
+    //   content: "–";
+    //   // margin-right: 3px;
+    // }
+    // &::after {
+    //   content: "–";
+    //   // margin-left: 3px;
+    // }
+    // &::before, &::after {
+    //   color: $grey-color;
+    //   // font-size: 0.6rem;
+    //   // vertical-align: middle;
+    // }
+  }
+
+  // Common typo on my part 😬, highlight in the text:
+  .note-conf {
+    color: red;
+    border: dashed red 1px;
+  }
+}
+
+// TODO: use `content` so that the actual character isn't rendered copyably
+.note-see-next {
+  &::before {
+    content: "";
+    border-top-style: solid;
+    border-color: $info-color;
+    border-width: $note-border-width;
+  }
+
+  &::after {
+    content: "⤵";
+    background-color: $info-color;
+    color: $note-text-color;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    padding: $note-tag-padding;
+    font-weight: bold;
+    margin-top: $spacing-unit;
+    margin-bottom: $spacing-unit;
+  }
+}
+
+.note-table {
+  margin-bottom: $spacing-unit;
+
+  thead {
+    text-align: center;
+    font-size: 1.1rem;
+
+    .note-table-header {
+      @extend %note-tag;
+
+      margin-bottom: 3px; // make room for chevron below
+      background-color: $info-color;
+      color: $note-text-color;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      padding: $note-tag-padding;
+      text-transform: uppercase;
+      font-stretch: condensed;
+      position: relative;
+
+      &::after {
+        content: "▼";
+        color: $info-color;
+        height: 0;
+        left: 0;
+        margin-inline: auto;
+        position: absolute;
+        right: 0;
+        top: calc(1em + ($note-block-padding + $note-border-width) * 2);
+        transform-origin: center;
+        transform: scale(2, 0.5);
+        width: fit-content;
+      }
+    }
+  }
+
+  tbody td {
+    @extend %note-border;
+    padding: $note-block-padding;
+    vertical-align: top;
+  }
+}
