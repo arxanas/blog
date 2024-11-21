@@ -31,6 +31,8 @@ tags:
   </table>
 </div>
 
+{% include toc.md %}
+
 There was a recent [source code leak](https://arseniyshestakov.com/2023/01/26/yandex-services-source-code-leak/) from [Yandex](https://en.wikipedia.org/wiki/Yandex). I haven't examined any of the files, but the topic itself reminds us that Yandex maintains a large [monorepo](https://monorepo.tools/), and has even built their own source control system to handle it, called Arc.
 
 Original article from Yandex (2020): <https://habr.com/ru/company/yandex/blog/482926/>

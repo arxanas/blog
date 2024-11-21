@@ -6,6 +6,8 @@ tags:
   - technology
 ---
 
+{% include toc.md %}
+
 For work, I got one of the new Macbooks with only four USB-C ports. So, naturally, I need a dongle to connect it to my USB-A peripherals.
 
 I got a USB-C hub, which lets me connect an HDMI cable, my mouse and keyboard, and power cable to the laptop. So now I can connect my laptop to my workstation by plugging in only one wire (without the need for a specialized dock). This is actually more convenient than my previous setup with my personal laptop, where I had to connect the HDMI cable separately from the USB hub.

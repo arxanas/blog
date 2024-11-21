@@ -12,9 +12,6 @@ hn:  https://news.ycombinator.com/item?id=34301543
 lobsters: https://lobste.rs/s/7tnnbq/where_are_my_git_ui_features_from_future
 ---
 
- * toc
-{:toc}
-
 ## Git sucks
 
 The [Git version control system](https://git-scm.com/) has been causing us misery for 15+ years. Since its inception, a thousand people have tried to make new clients for Git to improve usability.
@@ -22,6 +19,8 @@ The [Git version control system](https://git-scm.com/) has been causing us miser
 But practically everyone has focused on providing a pretty facade to do more or less the same operations as Git on the command-line --- as if Git's command-line interface were already the pinnacle of usability.
 
 No one bothers to consider: what are the *workflows* that people actually want to do? What are the *features* that would make those workflows easier? So instead we get clients which think that `git rebase -i` as the best possible way to reword a commit message, or edit an old commit, or split a commit, or even worth exposing in the UI.
+
+{% include toc.md %}
 
 ## Rubric
 

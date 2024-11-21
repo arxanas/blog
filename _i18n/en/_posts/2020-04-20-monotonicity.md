@@ -6,9 +6,6 @@ tags:
   - software-engineering
 ---
 
-* toc
-{:toc}
-
 ## Introduction
 
 Immutable values are easy to reason about in complex systems, because they never change. Many functional languages strongly encourage the developer to use immutable values. For example, Clojure has a strong emphasis on using immutable values, so that multithreading can be made easy and safe.
@@ -18,6 +15,8 @@ However, making everything immutable can be impractical, especially in establish
 In this article, I describe a property called _monotonicity_, which is a halfway point between mutable and immutable values. Structuring your code around monotonicity can make it easier to reason about values without having to make them immutable, even in languages with good support for immutable values.
 
 The concepts in this article are probably obvious to anyone who took a databases course in college, but I didn't!
+
+{% include toc.md %}
 
 ## What is monotonicity?
 

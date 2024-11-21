@@ -10,11 +10,17 @@ tags:
 
 My team and I recently gave a talk at [Git Merge 2022](https://github.blog/2022-06-15-git-merge-2022/) on our tool [Focus](https://github.com/twitter/focus), which integrates Git sparse checkouts with the Bazel build system.
 
+{% include toc.md %}
+
+## Talk
+
 Talk recording (~15 minutes):
 
 <div class="iframe-container">
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/OsIJ99lkSdM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
+
+## Slides
 
 And here are some slides I published internally. These go into the technical details of content-hashing, and also have doodles:
 

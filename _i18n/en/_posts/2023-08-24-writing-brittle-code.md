@@ -24,6 +24,8 @@ tags:
   </table>
 </div>
 
+{% include toc.md %}
+
 I particularly like this characterization from [*Leaving Haskell behind* (2023)](https://journal.infinitenegativeutility.com/leaving-haskell-behind):
 
 > I would describe good Haskell code as “brittle”, and I mean that as a compliment. People tend to casually use “brittle” to mean “prone to breakage”, but in materials science what “brittle” means is that something breaks without bending: when a brittle material reaches the limits of its strength, it fractures instead of deforming. Haskell is a language where abstractions do not “bend” (or permit invalid programs) but rather “break” (fail to compile) in the face of problems.

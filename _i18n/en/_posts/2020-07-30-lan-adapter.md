@@ -8,8 +8,7 @@ tags:
 reddit: https://www.reddit.com/r/SmashBrosUltimate/comments/i0y9bq/a_lan_adapter_isnt_everything/
 ---
 
- * toc
-{:toc}
+{% include toc.md %}
 
 ## On online mode
 

@@ -6,10 +6,9 @@ tags:
   - programming-languages
 ---
 
-* toc
-{:toc}
-
 *Thanks to Lucian Wischik for reviewing this article.*
+
+{% include toc.md %}
 
 ## What's the problem with contextual keywords?
 

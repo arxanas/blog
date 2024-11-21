@@ -6,9 +6,6 @@ tags:
   - stenography
 ---
 
-  * toc
-{:toc}
-
 ## Introduction
 
 The machine stenography system generally in use in the US is based off of [Ward
@@ -24,6 +21,8 @@ Generally I use a theory heavy on tucking and briefs. I try to make sure that my
 rules are consistent. Common words that are not consistent with my rules are
 usually relegated to less convenient strokes, such as `WAO*EF` = "we've" and
 "WA*EF" = "weave", or `KOU` = "could you" and `KO*U` = "cow".
+
+{% include toc.md %}
 
 ## Basic phonology
 

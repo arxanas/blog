@@ -31,12 +31,11 @@ tags:
   </table>
 </div>
 
-* toc
-{:toc}
-
 ## Introduction
 
-Terminal user interface (TUI) applications are an efficient way of surfacing data in a visual and interactive manner while reusing significant portions of an existing program which normally prints to stdout/stderr. However, bugs in TUI applications can quickly cause users to lose confidence in the visualization tools.
+Terminal user interface (TUI) applications are an efficient way of surfacing data in a visual and interactive manner while reusing significant portions of an existing program which normally prints to stdout/stderr. However, bugs in TUI applications can quickly cause users to lose confidence in the visualization tools. This article details methods for testing TUI applications.
+
+{% include toc.md %}
 
 ## Primer on TTYs and PTYs
 

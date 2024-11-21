@@ -6,6 +6,8 @@ tags:
   - software-engineering
 ---
 
+{% include toc.md %}
+
 Once in a while, I get feedback on a code review remarking that I ought to extract a certain string literal into a constant. For example, that this:
 
 ```rust

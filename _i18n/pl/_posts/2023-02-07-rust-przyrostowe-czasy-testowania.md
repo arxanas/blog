@@ -32,8 +32,7 @@ tags:
 
 Rust jest znany z wolnego czasu kompilacji. Spędziłem dużo czasu próbując poprawić przyrostowe czasy kompilacji testowania dla mojego projektu [git-branchless](https://github.com/arxanas/git-branchless) w [https://github.com/arxanas/git-branchless/pull/650](https://github.com/arxanas/git-branchless/pull/650). Oto dyskusja wyników.
 
-* toc
-{:toc}
+{% include toc.md %}
 
 ## Streszczenie wykonawcze
 

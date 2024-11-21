@@ -9,8 +9,7 @@ tags:
   - writing
 ---
 
-* toc
-{:toc}
+{% include toc.md %}
 
 My ideal blogging platform is [Google Docs](https://www.google.com/docs), because it supports the following:
 

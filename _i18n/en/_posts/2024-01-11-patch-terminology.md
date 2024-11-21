@@ -31,10 +31,7 @@ tags:
   </table>
 </div>
 
- * toc
-{:toc}
-
-
+{% include toc.md %}
 
 ## Methodology
 

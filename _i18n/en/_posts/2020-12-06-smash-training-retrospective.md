@@ -12,8 +12,7 @@ tags:
 
 In this article, I discuss the choices I made for this project. The source code is available at [https://github.com/arxanas/smashtraining](https://github.com/arxanas/smashtraining).
 
-* toc
-{:toc}
+{% include toc.md %}
 
 ## Project requirements
 

@@ -6,10 +6,7 @@ tags:
   - stenography
 ---
 
-  * toc
-{:toc}
-
-# Introduction
+## Introduction
 
 After suffering from a minor repetitive-stress injury near the end of the school
 year, I resolved to learn stenography with [Plover] during my summer internship.
@@ -34,7 +31,9 @@ paragraphs may be referring to the earlier days in the week, and the later
 paragraphs to the later days in the week. The majority of the content is
 unedited, so read at your own risk.
 
-# Week 1: 0 wpm
+{% include toc.md %}
+
+## Week 1: 0 wpm
 
 I've been trying to memorize where all the keys are. I taped some strips of
 paper to my keyboard as a reference. Then I discovered that one often needs to
@@ -48,7 +47,7 @@ I attached a sticky note to my monitor to remind me of all the vowel chords
 
 Work is okay, too, I guess.
 
-# Week 2
+## Week 2
 
 I've mostly memorized where each of the letters are, but still have to look down
 somewhat frequently. I'm getting decent at some of the strokes, but I have
@@ -66,7 +65,7 @@ full-time employment.
 
   [arpeggiation]: http://plover.stenoknight.com/2011/02/plover-211-released.html
 
-# Week 3
+## Week 3
 
 I've made significant progress and can type full sentences out now! But my wit
 is significantly impaired over online chat because I am not quick enough to
@@ -79,7 +78,7 @@ to write out the paragraph in the typing test.
 Shipped four commits to production this week. The productivity is not related
 to my steno skill.
 
-# Week 4: 15 wpm
+## Week 4: 15 wpm
 
 I did [a typing test] and discovered that my typing speed is 6 wpm. If this rate
 of progress keeps up, I could hope to be typing a blazing 18 wpm by the end of
@@ -98,7 +97,7 @@ non-touch typist, so it seems to be going pretty well, but I miss my 120 wpm
 Dvorak typing speed. I might also just be getting used to the specific typing
 test I'm using.
 
-# Week 5: 20 wpm
+## Week 5: 20 wpm
 
 My typing speed has plateaued somewhat, but the strokes are coming a little more
 naturally now. I suppose that it's just a long trek up to my previous typing
@@ -118,7 +117,7 @@ words is far more conservative than in other forms of communication (such as,
 say, a journal entry), favoring many short words and pronouns over long,
 domain-specific nouns. I should really invest in an N-key rollover keyboard...
 
-# Week 6
+## Week 6
 
 I seem to have fully plateaued at this point. I'm not sure whether the best
 thing for it is to do targeted exercises, or simply to do a lot more general
@@ -144,7 +143,7 @@ to type the thing you just typed. I'm finding it to be useful so far. In
 particular, it shows ways to use prefixes and suffixes to write the word, which
 has allowed me to learn prefixes like 'mis' and 'auto'.
 
-# Week 7: 25 wpm
+## Week 7: 25 wpm
 
 Little progress lately. I think the key to getting faster is to challenge myself
 to type as fast as I possibly can; I dimly remember doing something to that
@@ -157,7 +156,7 @@ stroke as fast as possible.)
 [Retrospective note: both speed and accuracy are important things to practice
 separately, not just speed.]
 
-# Week 8
+## Week 8
 
 I think the time has come that it will be very hard to progress in typing speed
 without an NKRO keyboard. A lot of my time is spent backspacing trying to fix
@@ -174,7 +173,7 @@ weeks. If I had known that ahead of time, I would have ordered it a lot earlier.
 (Although it seems to have been sent out rather earlier than the projected lead
 time; maybe it's just a worst-case estimate.)
 
-# Week 9
+## Week 9
 
 I received my ErgoDox earlier than the initial email would have suggested.
 There was a Plover keymap, but it wasn't quite how I wanted it [coming soon: a
@@ -192,7 +191,7 @@ near future given the amount of time I spent configuring the keyboard and the
 amount of work I have yet to do. This journal will have to do for the time being
 (as it is being typed with steno).
 
-# Week 10: 35 wpm
+## Week 10: 35 wpm
 
 I've gotten used to the ErgoDox keyboard. I did another typing test and found
 that I'm up to 35 wpm, which is a reasonable improvement. I'd have to do a lot
@@ -212,7 +211,7 @@ expecting to be able to do. I spent a few hours doing steno games; I found
 
   [qwertysteno]: http://qwertysteno.com/Home/
 
-# Week 11: 40 wpm
+## Week 11: 40 wpm
 
 Not much to report. My typing speed seems to be about 40 wpm. For some reason
 [TypeRacer] disorients me a lot and I have trouble playing it effectively. If I
@@ -220,13 +219,13 @@ had time to play typing games all day I would become so much better so quickly,
 but unfortunately I'm not paid to do that. (Maybe I should intern at a
 stenography firm next...)
 
-# Week 12: 50 wpm
+## Week 12: 50 wpm
 
 I worked on my typing speed during the end of last week and for a couple of
 hours during the weekend. I'd say my typing speed is now just shy of 50 wpm,
 with bursts of up to 70 wpm. This is pretty encouraging progress!
 
-# Week 13-14: 60-70 wpm
+## Week 13-14: 60-70 wpm
 
 My internship has ended, so I haven't been keeping that close track of my
 progress lately. I've been practicing on TypeRacer periodically. By week 13 I

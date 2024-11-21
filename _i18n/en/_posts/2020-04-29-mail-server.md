@@ -7,6 +7,8 @@ tags:
   - software-engineering
 ---
 
+{% include toc.md %}
+
 I used to run my own mail server on this domain. That's because I receive email at this domain, and being a student at the time, I didn't want to pay an additional cost for an email service on top of the domain and hosting costs.
 
 It was surprisingly complex. After a lot of frustrating debugging, I installed and configured Postfix and Dovecot. Looking back at it now, maybe I can understand a little of the awful mail situation that the authors of [The UNIX-HATERS Handbook](https://web.mit.edu/~simsong/www/ugh.pdf) lamented.

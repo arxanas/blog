@@ -8,8 +8,7 @@ tags:
   - software-engineering
 ---
 
- * toc
-{:toc}
+{% include toc.md %}
 
 ## Why would one get such a silly URL?
 

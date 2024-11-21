@@ -9,8 +9,7 @@ tags:
   - writing
 ---
 
-* toc
-{:toc}
+{% include toc.md %}
 
 Dla mnie, najlepszym platformą na blogging jest [Google Docs](https://www.google.com/docs), bo obsługuje poniższe:
 

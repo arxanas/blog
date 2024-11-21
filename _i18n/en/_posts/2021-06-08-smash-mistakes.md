@@ -8,13 +8,9 @@ tags:
 reddit: https://www.reddit.com/r/CrazyHand/comments/nv7hv5/my_easiesttofix_smash_mistakes/
 ---
 
- * toc
-{:toc}
-
-
-
 These are the easiest-to-fix mistakes that I’d been making in Smash so far, even well into Elite Smash. I main Chrom, but these are largely character-agnostic. I'm curious to hear yours in the comments as well.
 
+{% include toc.md %}
 
 ## Not jumping out of shield
 

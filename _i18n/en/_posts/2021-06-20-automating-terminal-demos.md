@@ -6,8 +6,7 @@ tags:
   - software-engineering
 ---
 
- * toc
-{:toc}
+{% include toc.md %}
 
 ## Problem
 
