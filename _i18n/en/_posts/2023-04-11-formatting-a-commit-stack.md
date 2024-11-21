@@ -30,6 +30,8 @@ lobsters: https://lobste.rs/s/rpdt88/quickly_formatting_stack_commits
   </table>
 </div>
 
+{% include toc.md %}
+
 A certain category of developer uses Git with a "patch stack" workflow, in which they accumulate a sequence of small, individually-reviewable commits that together implement a large change. In these cases, it's oftentimes useful to run linters or formatters on each commit in the stack and apply the results. However, this can be tedious, and a naive approach can cause needless merge conflicts. (One workaround is to run formatters on each commit in the stack *backwards*.)
 
 [git-branchless](https://github.com/arxanas/git-branchless)'s `git test` command offers a solution to quickly run formatters, etc., on an entire stack of commits without causing merge conflicts. Additionally, it can be performed in parallel, and it caches results so that reformats of the same commits are skipped. You can see the [announcement post](https://github.com/arxanas/git-branchless/discussions/803) or [the documentation for `git test`](https://github.com/arxanas/git-branchless/wiki/Command:-git-test).

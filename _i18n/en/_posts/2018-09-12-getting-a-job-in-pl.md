@@ -8,9 +8,6 @@ tags:
 reddit: https://www.reddit.com/r/ProgrammingLanguages/comments/9ffiky/how_to_get_a_job_in_programming_languages/
 ---
 
- * toc
-{:toc}
-
 ## Introduction
 
 I recently saw this posted to Twitter:
@@ -30,6 +27,8 @@ multiple developer-years on a programming language project.
 I had figured out after having taken my compilers course in college that I
 wanted to go into programming languages as a full-time profession. This article
 is the guide I wish I had when I was searching for jobs.
+
+{% include toc.md %}
 
 ## Academia
 

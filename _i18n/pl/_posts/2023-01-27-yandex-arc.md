@@ -31,6 +31,8 @@ tags:
   </table>
 </div>
 
+{% include toc.md %}
+
 Ostatnio był przeciek koda z [Yandex](https://pl.wikipedia.org/wiki/Yandex). Ja nie spradzałem plików, ale temat właśnie przypomina nam, że Yandex utrzymuje swoje duże [monorepo](https://monorepo.tools/), a nawet zbudował własny [system kontroli źródła](https://pl.wikipedia.org/wiki/System_kontroli_wersji) [ang. “source control system”], żeby sobie z tym radzić, o nazwie “Arc”.
 
 Oryginalny artykuł z Yandex (2020): [https://habr.com/ru/company/yandex/blog/482926/](https://habr.com/ru/company/yandex/blog/482926/)

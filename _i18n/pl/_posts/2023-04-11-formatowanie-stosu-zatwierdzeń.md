@@ -30,6 +30,8 @@ tags:
   </table>
 </div>
 
+{% include toc.md %}
+
 Pewna kategoria programistów używa Git z przypływem pracy "patch stack", na którym zbierają ciąg małych, indywidualnie przeglądanych zatwierdzeń, które razem realizują znaczną zmianę. W takich przykładach, często przydatne jest uruchamianie linters lub formatters na każdym zatwierdzeniu w stosie i zastosowanie wyników. Może to być jednak żmudne, a naiwne podejście może powodować niepotrzebne konflikty scalania. (Jednym z obejść jest zastosowanie formatter na każdym zatwierdzeniu w stosie _wstecz_.)
 
 Komenda `git test` z git-branchless przedstawia rozwiązanie do szybkiego uruchamiania formatters, itd., na całym stosie zatwierdzeń bez produkowania konfliktów scalania. Dodatkowo, może to zostać wykonywany równoległe, i zapisuje wyniki, żeby ponowne formatowania tego samego zatwierdzenia zostawił pominięte. Możesz zobaczyć [post z ogłoszeniem](https://github.com/arxanas/git-branchless/discussions/803) lub [dokumentację `git test`](https://github.com/arxanas/git-branchless/wiki/Command:-git-test).

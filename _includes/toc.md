@@ -1,10 +1,12 @@
 
 <div markdown="1" class="series-and-toc">
 
-<!-- TODO: update everywhere to include `toc.md`? -->
-
 {% if page.series.posts.size > 1 %}
+{% if site.lang == "pl" %}
+<p class="series-header">Posty w tej serii:</p>
+{% else %}
 <p class="series-header">Posts in series:</p>
+{% endif %}
 
 <ol>
 {% for post in page.series.posts %}
@@ -13,7 +15,11 @@
 </ol>
 {% endif %}
 
+{% if site.lang == "pl" %}
+<p class="toc-header">Spis treści:</p>
+{% else %}
 <p class="toc-header">Table of contents:</p>
+{% endif %}
 
 * toc
 {:toc}

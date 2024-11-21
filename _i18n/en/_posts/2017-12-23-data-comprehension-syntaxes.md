@@ -6,9 +6,6 @@ tags:
   - programming-languages
 ---
 
- * toc
-{:toc}
-
 ## Data comprehension syntaxes
 
 The order of clauses in SQL is as follows:
@@ -42,6 +39,8 @@ select expression
 
 Why is it different from the established standard? It turns out it's a
 deliberate design decision by the C# team.
+
+{% include toc.md %}
 
 ## It's a better mental model
 

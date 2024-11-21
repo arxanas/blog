@@ -8,6 +8,8 @@ tags:
 hn: https://news.ycombinator.com/item?id=21785524
 ---
 
+{% include toc.md %}
+
 ### Update
 
 This is fortunately not true, [as the folks on Hacker News informed me](https://news.ycombinator.com/item?id=21785524). I misunderstood what the dialog was

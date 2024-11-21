@@ -7,9 +7,6 @@ tags:
   - reference
 ---
 
-* toc
-{:toc}
-
 OCaml has a similar compilation model to C or C++. (Indeed, the OCaml compiler
 will let you link the two together.) However, it's complicated by the fact that
 it can target both bytecode and native code. As a result, there are a lot of
@@ -22,6 +19,8 @@ I'm documenting here what I've found about each of them.
 **Update 2022-03-18**: The online book *Real World OCaml* now has [a summary of file extensions][rwo-file-extensions].
 
   [rwo-file-extensions]: https://dev.realworldocaml.org/compiler-backend.html#scrollNav-4
+
+{% include toc.md %}
 
 ## Bytecode vs native
 

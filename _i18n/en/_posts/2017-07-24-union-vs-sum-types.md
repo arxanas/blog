@@ -9,9 +9,6 @@ reddit: https://www.reddit.com/r/ProgrammingLanguages/comments/lbgegk/nulltracki
 lobsters: https://lobste.rs/s/nxsyw2/null_tracking_difference_between_union
 ---
 
- * toc
-{:toc}
-
 Functional programming features have been making their way into mainstream
 languages lately, such as with new programming languages like Scala and Rust, or
 new type systems for existing languages like TypeScript or Flow.
@@ -35,6 +32,8 @@ search.
 In this article, I explain the difference between union and sum types and how
 they differ in practice. I discuss both of these approaches for null-tracking,
 but also cover how they differ for other purposes.
+
+{% include toc.md %}
 
 ## Union types
 

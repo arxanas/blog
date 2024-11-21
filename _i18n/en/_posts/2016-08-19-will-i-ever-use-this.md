@@ -12,6 +12,8 @@ necessary to be an effective software engineer. I won't say that it is
 necessary, but I present an anecdote from an internship of mine, in which I have
 an unexpected encounter of certain esoteric computer science topics.
 
+{% include toc.md %}
+
 ## An anecdote
 
 *May 24, 2016 —* It is the second week of my internship at `$BIG_COMPANY`. I

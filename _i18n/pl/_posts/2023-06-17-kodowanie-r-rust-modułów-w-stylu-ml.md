@@ -36,9 +36,7 @@ tags:
   </table>
 </div>
 
-* toc
-{:toc}
-
+{% include toc.md %}
 
 ## Stwierdzenie problemu
 

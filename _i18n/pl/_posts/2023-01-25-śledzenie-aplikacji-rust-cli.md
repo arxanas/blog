@@ -30,15 +30,14 @@ tags:
   </table>
 </div>
 
- * toc
-{:toc}
 
 [@epage](https://github.com/epage) w [https://github.com/arxanas/git-branchless/discussions/732](https://github.com/arxanas/git-branchless/discussions/732) zapytał:
 
- 	Widzę, że mówią o `tracing`, ale głównie z perspektywy “web” i jestem ciekawy, jak to doświadczenie przekłada się na CLI. Zamierzam zastosować go w niektórych mniejszych CLI, żeby zdobyć trochę doświadczenia, aby zrozumieć, w jaki sposób może pomóc `cargo`.
+> Widzę, że mówią o `tracing`, ale głównie z perspektywy “web” i jestem ciekawy, jak to doświadczenie przekłada się na CLI. Zamierzam zastosować go w niektórych mniejszych CLI, żeby zdobyć trochę doświadczenia, aby zrozumieć, w jaki sposób może pomóc `cargo`.
 
-Ponownie publikuję moją odpowiedź tutaj, [w formie wypunktowanej](https://blog.waleedkhan.name/on-bullet-points/):
+Ponownie publikuję moją odpowiedź tutaj, [w formie wypunktowanej](https://blog.waleedkhan.name/on-bullet-points/).
 
+{% include toc.md %}
 
 ## Dla Cargo
 

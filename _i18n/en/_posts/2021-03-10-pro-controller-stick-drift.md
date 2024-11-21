@@ -14,8 +14,7 @@ These controllers are prone to *stick drift*: a phenomenon where inputs are regi
 
 This post is a brief summary of stick drift problems, which may be relevant to those interested in playing *Smash Bros.* (particularly *Ultimate*) competitively.
 
-* toc
-{:toc}
+{% include toc.md %}
 
 ## Reputation
 

@@ -7,6 +7,8 @@ tags:
   - smash-bros
 ---
 
+{% include toc.md %}
+
 This is a simple mistake that I used to make as a beginner. It took surprisingly long to realize the precise nature of the mistake, so I'm posting about it here.
 
 Suppose you're landing and trying to avoid an opponent. You want to avoid their "threat bubble" while landing: the maximum range that their attacks can reach in the time it takes you to land.

@@ -7,9 +7,6 @@ tags:
   - stenography
 ---
 
- * toc
-{:toc}
-
 ## Why make conversational macros?
 
 For ergonomic reasons, I use [free, open-source stenography software][plover] to
@@ -39,6 +36,8 @@ like "non-small cell lung cancer" which can be produced in one chord.
 I'd like to improve the breadth of conversational entries in my dictionary for
 use in instant messaging. So how do I know which entries to add? The best way is
 to actually analyze all of my instant messages.
+
+{% include toc.md %}
 
 ## How do I get all of my Messenger conversations?
 

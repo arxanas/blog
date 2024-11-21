@@ -12,9 +12,6 @@ hn:  https://news.ycombinator.com/item?id=34301543
 lobsters: https://lobste.rs/s/7tnnbq/where_are_my_git_ui_features_from_future
 ---
 
- * toc
-{:toc}
-
 ## Git jest do bani
 
 [System kontroli wersji "Git"](https://git-scm.com/) od 15+ lat przynosi nam nieszczęście. Od momentu powstania, tysiące osób próbowało stworzyć nowe klienty Git’a aby poprawić jego użyteczność.
@@ -23,6 +20,7 @@ Jednak, prawie każda z nich skupiła się budować ładną fasadę nad Git’e
 
 Nikt nie raczy się zastanowić: jakie są _przepływy pracy_, które osoby właśnie chcą wykonywać? Jakie są _funkcji_, ułatwiające takie przepływy pracy? Zamiast, dostajemy klienty, które uważają, że `git rebase -i` to najlepszy sposób, aby zmienić komunikat zatwierdzenia, aby edytować zatwierdzenie, aby rozdzielić zatwierdzenie — albo, że warto nawet pokazać w UI tę funkcję.
 
+{% include toc.md %}
 
 ## Rubryka
 

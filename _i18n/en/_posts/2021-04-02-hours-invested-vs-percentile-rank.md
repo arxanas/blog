@@ -13,8 +13,7 @@ The "10,000-hour rule" is the idea suggested in Malcolm Gladwell's book [*Outlie
 
 I switched from competitive chess to competitive videogaming. It's interesting to compare the amount of time invested in each and examine how skillful I became in their respective competitive scenes as a result.
 
-* toc
-{:toc}
+{% include toc.md %}
 
 ## Switching away from chess
 

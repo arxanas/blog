@@ -10,8 +10,7 @@ tags:
 
 I've been working on [git-branchless](https://github.com/arxanas/git-branchless), a Git workflow similar to the Mercurial "stacked-diff" workflows used at Google and Facebook. I originally wrote it in Python, but later ported it to Rust. This post details various aspects of the porting process.
 
-* toc
-{:toc}
+{% include toc.md %}
 
 ## Introduction
 

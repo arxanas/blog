@@ -7,9 +7,6 @@ tags:
   - qt
 ---
 
-* toc
-{:toc}
-
 ## Introduction
 
 There are several options to develop GUI apps in Python. One of these is with
@@ -67,6 +64,8 @@ Type "help", "copyright", "credits" or "license" for more information.
 ```
 
 {% endaside %}
+
+{% include toc.md %}
 
 ## About .ui files
 

@@ -32,9 +32,7 @@ lobsters: https://lobste.rs/s/ktyp2q/improving_incremental_test_times_rust
 
 Rust is known for slow compilation times. I spent a long time trying to improve incremental test build times for my project [git-branchless](https://github.com/arxanas/git-branchless) in [https://github.com/arxanas/git-branchless/pull/650](https://github.com/arxanas/git-branchless/pull/650). This is a discussion of the results.
 
-* toc
-{:toc}
-
+{% include toc.md %}
 
 ## Executive summary
 

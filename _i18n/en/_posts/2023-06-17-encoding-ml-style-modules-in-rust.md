@@ -36,9 +36,7 @@ lobsters: https://lobste.rs/s/hcwjcs/encoding_ml_style_modules_rust
   </table>
 </div>
 
-* toc
-{:toc}
-
+{% include toc.md %}
 
 ## Problem statement
 

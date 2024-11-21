@@ -23,10 +23,7 @@ $ git move -b <branch> -d <dest>
 
 **Is performance the only added feature?** `git move` also offers several other quality-of-life improvements over `git rebase`. For example, it can move entire subtrees, not just branches. See [the `git move` documentation](https://github.com/arxanas/git-branchless/wiki/Command:-git-move) for more information.
 
----
-
- * toc
-{:toc}
+{% include toc.md %}
 
 ## Timing
 

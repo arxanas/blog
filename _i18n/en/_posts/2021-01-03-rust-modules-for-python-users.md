@@ -12,8 +12,7 @@ Every time I go back to Rust, I have to figure out how the module system works a
 
 These notes are for Rust 2018.
 
-* toc
-{:toc}
+{% include toc.md %}
 
 ### Crates
 

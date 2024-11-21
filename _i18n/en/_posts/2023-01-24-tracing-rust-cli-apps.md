@@ -31,16 +31,15 @@ lobsters: https://lobste.rs/s/ox9je5/using_tracing_with_rust_cli_applications
   </table>
 </div>
 
- * toc
-{:toc}
-
 [@epage](https://github.com/epage) in <https://github.com/arxanas/git-branchless/discussions/732> asked:
 
 > I see talk of tracing but mostly from a web perspective and I'm curious how the experience translates to a CLI. I am looking to adopt it in some smaller CLIs to get some experience to understand how it could possibly help cargo.
 
-I'm republishing my answer here, in [bullet point form][on-bullet-points]:
+I'm republishing my answer here, in [bullet point form][on-bullet-points].
 
   [on-bullet-points]: {% permalink on-bullet-points %}
+
+{% include toc.md %}
 
 ## For Cargo
 
