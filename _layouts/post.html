@@ -20,7 +20,7 @@ layout: default
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    {% if page.typeset_math %}
+    {% if page.math.katex %}
       <noscript>
         <p><i>{{ site.translations[site.lang].enable_javascript_for_math }}</i></p>
       </noscript>

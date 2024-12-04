@@ -58,7 +58,7 @@ Want to see more of my posts? Follow me <a href="https://twitter.com/arxanas">on
 {% endif %}
 </ul>
 
-{% if page.typeset_math %}
+{% if page.math.katex %}
 <link rel="stylesheet" href="{{ "/css/katex.min.css" | prepend: site.baseurl_root }}" />
 {% endif %}
 
