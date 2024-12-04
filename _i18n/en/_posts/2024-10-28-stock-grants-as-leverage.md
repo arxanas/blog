@@ -7,6 +7,7 @@ tags:
   - software-engineering
 ---
 
+@nocommit: do not publish, this is just for note-tag testing
 TODO: revise below
 <div class="publication-notes">
   <table>
