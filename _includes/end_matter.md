@@ -58,9 +58,9 @@ Want to see more of my posts? Follow me <a href="https://twitter.com/arxanas">on
 {% endif %}
 </ul>
 
-{% if page.math.katex %}
+<!-- {% if page.math %}
 <link rel="stylesheet" href="{{ "/css/katex.min.css" | prepend: site.baseurl_root }}" />
-{% endif %}
+{% endif %} -->
 
 <script type="text/javascript" src="{{ "/scripts/github-comment-links.js" | prepend: site.baseurl_root }}"></script>
 

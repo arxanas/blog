@@ -17,6 +17,7 @@ The touchpads are one of the main reasons I wanted to [play *Smash Bros.* with a
 <span class="note-tag note-warning">Ultimately:</span> Reliable touch detection turned out to be a difficult problem, and I wonder if there's an underlying hardware issue or concept that I'm not accounting for.
 
 If you have any ideas on how to resolve this issue, I'd love to hear them! Comment on the article or email me at <me@waleedkhan.name>.
+TODO: offer payment/contract?
 {% endnoteblock %}
 
 {% include toc.md %}
@@ -53,8 +54,8 @@ The official firmware doesn't seem to have touch detection issues when I used a 
 - **The issue does not occur**: There is no issue in the official firmware, which suggests that the problem can be resolved entirely in firmware.
 - **The issue is not triggered**: The issue does not tend to occur with the input patterns I use in PC gaming.
   - <span class="note-tag">Such as:</span> In competitive *Smash Bros.*, I rely on precise touches near the edge of the touchpad with specific angles from the center.
-- **The issue is not noticeable**: The issue was occurring, but I simply didn't notice on account of not relying on a significant degree of accuracy.
-  - <span class="note-tag">For example:</span> I was playing *Elden Ring* (casually), which needs *deliberate* movement and attack timing, but not necessarily *precise* movement and attack timing. In comparison to competitive *Smash Bros.*, the timing windows are quite generous.
+- **The issue is not noticeable**: The issue was occurring, but I simply didn't notice it because I wasn't relying on a significant degree of precision.
+  - <span class="note-tag">For example:</span> I was playing *Elden Ring* (casually), which needs *deliberate* movement and attack timing, but not necessarily *precise* movement and attack timing. The timing windows for *Elden Ring* are quite generous in comparison to competitive *Smash Bros.*.
 
 ## Concepts
 
@@ -78,7 +79,7 @@ From the [Pinnacle spec sheet][pinnacle-spec-sheet]:
 
 My mental model is that there's a sensor array below the touchpad with the electrodes on each axis positioned in a line.
 
-- **Compute X-value** (or respectively Y-value): Determined by comparing relative strengths of signals of each electrode for the appropriate axis.
+- **Compute X-value** (or respectively **Y-value**): Determined by comparing relative strengths of signals of each electrode for the appropriate axis.
 - **Compute Z-value**: Determined by checking the absolute strengths of the signals for each electrode and calibrating against some known quantity.
   - The spec sheet mentions that the Pinnacle device performs an initial calibration on startup.
 
@@ -87,6 +88,8 @@ TODO: discuss implications
 TODO: discuss AnyMeas mode
 
 ### Signal format
+
+TODO: discuss how the signal turns into a sine wave and how to interpret; discuss potential Fourier analysis for multi-touch support
 
 TODO: draw picture?
 
@@ -112,13 +115,23 @@ script[type="text/tikz"] + .tikz-loading-text {
 </style>
 <div class="tikz-diagram">
 <script type="text/tikz">
-\begin{tikzpicture}[scale=1.5]
-\draw[gray] (-2, -2) grid (2, 2);
-\draw[blue] (-2, 0) sin (-1, 1) cos (0, 0) sin (1, -1) cos (2, 0);
-\begin{scope}[shift={(5,0)}]
-\draw[gray] (-2, -2) grid (2, 2);
-\draw[blue,rotate=90] (-2, 0) sin (-1, 1) cos (0, 0) sin (1, -1) cos (2, 0);
-\end{scope}
+\tikzset{axis line style/.style={thin, gray, -stealth}}
+
+\newcommand*{\TickSize}{2pt}%
+
+\begin{tikzpicture}
+\draw[very thick,blue] (3,-4) ellipse ({4} and {3});
+
+\draw [axis line style] (-2.5,0) -- (8.5,0);% x-axis
+\draw [axis line style] (0,-8.5) -- (0,2.5);% y-axis
+
+\foreach \x in {-1,1,...,8} {\draw ($(\x,0) + (0,-\TickSize)$) -- ($(\x,0) + (0,\TickSize)$)
+        node [above] {$\x$};
+}
+
+\foreach \y in {-7,-5,...,2} { \draw ($(0,\y) + (-\TickSize,0)$) -- ($(0,\y) + (\TickSize,0)$)
+        node [right] {$\y$};
+}
 \end{tikzpicture}
 </script>
 <p class="tikz-loading-text">Loading diagram (TikZ format)...</p>
@@ -128,5 +141,84 @@ script[type="text/tikz"] + .tikz-loading-text {
 ### Signal strength
 
 TODO: talk about quadratic scaling of signal
+
+### Signal compensation
+
+TODO: discuss compensation in original source code: https://github.com/greggersaurus/OpenSteamController/blob/325801542fcb762d19a91addd801f0630c825966/Firmware/OpenSteamController/src/trackpad.c#L877-L1036
+
+
+```c
+    // This is based on simulation of official firmware. Cannot say I
+    //  understand it...
+    int32_t compensated_val = tpadAdcDatas[trackpad][0] - tpadAdcComps[trackpad][0];
+    adc_vals_x[0] = compensated_val;
+    adc_vals_x[1] = compensated_val;
+    adc_vals_x[2] = -compensated_val;
+    adc_vals_x[3] = compensated_val;
+    adc_vals_x[4] = compensated_val;
+    adc_vals_x[5] = compensated_val;
+    adc_vals_x[6] = -compensated_val;
+    adc_vals_x[7] = -compensated_val;
+    adc_vals_x[8] = -compensated_val;
+    adc_vals_x[9] = compensated_val;
+    adc_vals_x[10] = -compensated_val;
+    adc_vals_x[11] = -compensated_val;
+
+    // ... 100+ lines of similar code ...
+```
+
+TODO: and also https://github.com/greggersaurus/OpenSteamController/blob/325801542fcb762d19a91addd801f0630c825966/Firmware/OpenSteamController/src/trackpad.c#L1351-L1366:
+
+```c
+    // Load Compensation Matrix Data (I think...):
+    //  According to datasheet: A compensation matrix of 92 values (each 
+    //  value is 16 bits signed) is stored sequentially in Pinnacle RAM, 
+    //  with the first value being stored at 0x01DF. 
+    uint8_t era_data[8];
+
+    // Comensation Matrix Data for AnyMeas ADCs for Y axis location?
+    era_data[0] = 0x00;
+    era_data[1] = 0x00;
+    era_data[2] = 0x07;
+    era_data[3] = 0xf8;
+    era_data[4] = 0x00;
+    era_data[5] = 0x00;
+    era_data[6] = 0x05;
+    era_data[7] = 0x50;
+    writeTpadExtRegs(trackpad, 0x015b, 8, era_data);
+
+    // ... 100+ lines of similar code ...
+```
+
+## Modeling
+
+TODO: link to logbook at https://docs.google.com/document/d/14TnsZ2K7c_PGhVDgSLViv2tUAwimnl9Ms_7b9Skf3xA/edit?usp=sharing
+
+### Denoising
+
+TODO: discuss measurement spikes
+
+### Fitting parabolas
+
+TODO: discuss approach, link to Google Sheets (maybe: <https://docs.google.com/spreadsheets/d/1OsZ_8aARLt2CsAgTYeFL9fWcoAd76ydiDuHzA4Uyvms/edit?gid=1130248548#gid=1130248548>), discuss how it wasn't very accurate outside of the axes
+
+### Fitting paraboloids
+
+TODO: Link to "Interpolate second-degree polynomial for touch detection" at https://github.com/arxanas/OpenSteamController/commit/d23e2fb90556683016c6f9f2fa075484287c8d50
+
+TODO: which optimizes the following:
+
+```python
+def func(xy, a, b, c, d, e, f):
+    x, y = xy
+    return a + b * x + c * y + d * x**2 + e * y**2 + f * x * y
+
+(x_popt, x_pcov) = sp.optimize.curve_fit(func, (x_coord, y_coord), x_ampl)
+(y_popt, y_pcov) = sp.optimize.curve_fit(func, (x_coord, y_coord), y_ampl)
+```
+
+### Nearest-neighbor interpolation
+
+TODO: Link to "Nearest-neighbor model for touch detection, and use 1000 as the threshold" at https://github.com/arxanas/OpenSteamController/commit/fff499bfafd8b66e1d75407248a6908c4b6327c2#diff-07832111422b71a33a357e037cdd1b46827d9b8617b60219fd379a4fb5123507L14
 
 {% include end_matter.md %}
