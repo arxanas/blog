@@ -3,7 +3,7 @@ layout: post
 title: '"Will I ever use this in the real world?"'
 permalink: will-i-ever-use-this/
 tags:
-  - cs-education
+  - learning
   - software-engineering
 ---
 
