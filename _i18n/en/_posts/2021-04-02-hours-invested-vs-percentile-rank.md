@@ -4,7 +4,7 @@ title: "Anecdata: hours invested vs percentile rank"
 permalink: hours-invested-vs-percentile-rank/
 tags:
   - chess
-  - deliberate-practice
+  - learning
   - gaming
   - smash-bros
 ---
