@@ -4,7 +4,8 @@ title: Null-tracking, or the difference between union and sum types
 permalink: union-vs-sum-types/
 tags:
   - programming-languages
-typeset_math: true
+math:
+  katex: true
 reddit: https://www.reddit.com/r/ProgrammingLanguages/comments/lbgegk/nulltracking_or_the_difference_between_union_and/
 lobsters: https://lobste.rs/s/nxsyw2/null_tracking_difference_between_union
 ---
