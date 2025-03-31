@@ -3,7 +3,7 @@
 
     &::before {
         background-color: $note-background-color;
-        border: solid $note-color $note-border-width;
+        border: solid $info-color $note-border-width;
         content: "Publication notes";
         display: block;
         font-weight: bolder;
@@ -20,7 +20,7 @@
 
     td {
         background-color: $note-background-color;
-        border: solid $note-color $note-border-width;
+        border: solid $info-color $note-border-width;
         padding-left: 5px;
         padding-right: 5px;
 
