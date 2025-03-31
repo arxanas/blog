@@ -65,6 +65,9 @@ module RelatedPosts
       for post in site.posts.docs
         related_groups = related_post_groups.select { |group| group.include?(post.data['permalink']) }
         related_group_permalinks = related_groups.flatten
+        # TODO: redesign this so that we union together all related posts for
+        # all posts in the series. (then update `_config.yml` to remove explicit
+        # other elements from series).
         if post.data['series'].nil?
           series_post_permalinks = []
         else
