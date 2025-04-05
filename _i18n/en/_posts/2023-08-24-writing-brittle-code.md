@@ -5,6 +5,8 @@ permalink: writing-brittle-code/
 tags:
   - software-engineering
   - software-verification
+hn: https://news.ycombinator.com/item?id=42886081
+lobsters: https://lobste.rs/s/8sttca/writing_brittle_code
 ---
 
 <div class="publication-notes">

@@ -4,6 +4,7 @@ title: Monotonicity is a halfway point between mutability and immutability
 permalink: monotonicity/
 tags:
   - software-engineering
+lobsters: https://lobste.rs/s/clvj0z/monotonicity_is_halfway_point_between
 ---
 
 ## Introduction

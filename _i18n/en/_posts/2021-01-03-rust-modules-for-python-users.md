@@ -6,6 +6,7 @@ tags:
   - python
   - rust
   - software-engineering
+hn: https://news.ycombinator.com/item?id=25624929
 ---
 
 Every time I go back to Rust, I have to figure out how the module system works again. Here are some of my notes comparing it to Python's module system.
