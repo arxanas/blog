@@ -1,0 +1,17 @@
+[tools]
+# NOTE: The `.ruby-version` file is automatically read, as per:
+# - https://mise.jdx.dev/lang/ruby.html
+# - https://mise.jdx.dev/configuration.html#idiomatic-version-files
+
+[tasks.build]
+depends = ["setup"]
+run = "bundle exec jekyll build"
+
+[tasks.setup]
+outputs = { auto = true }
+run = "bundle install"
+sources = ["Gemfile", "Gemfile.lock"]
+
+[tasks.watch]
+depends = ["setup"]
+run = "bundle exec jekyll serve --drafts --incremental"
