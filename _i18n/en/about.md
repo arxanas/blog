@@ -1,4 +1,4 @@
-I am a software engineer in the Seattle area who builds highly scalable developer tooling. I'm currently employed full-time to do so, and I am also working on developer tooling projects such as [git-branchless](https://github.com/arxanas/git-branchless). How to reach me:
+I'm Waleed Khan, a software engineer in the Seattle area who builds highly scalable developer tooling. I'm currently employed full-time to do so, and I am also working on developer tooling projects such as [git-branchless](https://github.com/arxanas/git-branchless). How to reach me:
 
 * Email me: [me@waleedkhan.name](mailto:me@waleedkhan.name)
 * Follow me on Twitter: [@arxanas](https://twitter.com/arxanas)
