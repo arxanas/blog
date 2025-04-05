@@ -12,6 +12,6 @@ On this blog, you'll find technical posts, typically around some of the followin
 
 And posts about some of my hobbies:
 
-* Competitive [Super Smash Bros. Ultimate](https://en.wikipedia.org/wiki/Super_Smash_Bros._Ultimate)
+* Competitive [*Super Smash Bros. Ultimate*](https://en.wikipedia.org/wiki/Super_Smash_Bros._Ultimate)
 * [Machine stenography](https://en.wikipedia.org/wiki/Stenotype)
 * [Arrangement](https://en.wikipedia.org/wiki/Arrangement) for piano
