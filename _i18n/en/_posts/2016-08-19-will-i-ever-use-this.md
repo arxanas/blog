@@ -5,6 +5,7 @@ permalink: will-i-ever-use-this/
 tags:
   - learning
   - software-engineering
+lobsters: https://lobste.rs/s/w17cjs/will_i_ever_use_this_real_world
 ---
 
 Sometimes people argue on the internet about whether a formal CS education is
