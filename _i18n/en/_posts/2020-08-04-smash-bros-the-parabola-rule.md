@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Smash Bros: the parabola rule"
+title: "Smash Bros.: the parabola rule"
 permalink: smash-bros-parabola-rule/
 tags:
   - gaming
