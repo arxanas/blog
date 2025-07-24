@@ -38,7 +38,7 @@ tags:
 
 ## Slides
 
-This talk was given at the [Seattle Build Enthusiasts Fall 2024 meetup](https://groups.io/g/Seattle-Build-Enthusiasts/topic/seattle_build_enthusiast/108248211) (<time datetime="2024-10-022">2024-10-02</time>).
+This talk was given at the [Seattle Build Enthusiasts Fall 2024 meetup](https://groups.io/g/Seattle-Build-Enthusiasts/topic/seattle_build_enthusiast/108248211) (<time datetime="2024-10-02">2024-10-02</time>).
 
 - Deleted slides with extra information are available at the end.
 - Direct Google Slides link: <https://docs.google.com/presentation/d/1geE7rGTCpIk5UTjH-sw9aL_Zszi1ncCRnFi55t0CDlk/>
