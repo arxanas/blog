@@ -1,0 +1,88 @@
+name: Deploy preview
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
+
+permissions:
+  contents: write
+  pull-requests: write
+  deployments: write
+
+concurrency:
+  group: preview-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        if: github.event.action != 'closed'
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version-file: '.ruby-version'
+          bundler-cache: true
+
+      - name: Build Jekyll site
+        if: github.event.action != 'closed'
+        run: |
+          bundle install
+          # Build with the PR-specific base URL
+          # Note: The "pr-" prefix is hardcoded by rossjrw/pr-preview-action
+          bundle exec jekyll build --baseurl /preview/pr-${{ github.event.number }}
+        env:
+          JEKYLL_ENV: production
+
+      - name: Deploy PR Preview
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: ./_site/
+          preview-branch: gh-pages
+          umbrella-dir: preview
+          action: auto
+          # Access the deployment via the `github-actions deployed to [...]`
+          # event in the pull request timeline.
+          comment: false
+
+      - name: Get deployment URL
+        if: github.event.action != 'closed'
+        id: deployment-url
+        run: |
+          # Note: The "pr-" prefix is hardcoded by rossjrw/pr-preview-action
+          echo "url=https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/preview/pr-${{ github.event.number }}/" >> $GITHUB_OUTPUT
+
+      - name: Create deployment status
+        if: github.event.action != 'closed'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Create deployment
+            const deployment = await github.rest.repos.createDeployment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: context.payload.pull_request.head.sha,
+              environment: `pull request #${context.payload.pull_request.number} preview`,
+              transient_environment: true,
+              auto_merge: false,
+              required_contexts: [],
+              description: `Preview for pull request #${context.payload.pull_request.number}`
+            });
+
+            // Create deployment status with URL
+            await github.rest.repos.createDeploymentStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              deployment_id: deployment.data.id,
+              state: 'success',
+              environment_url: '${{ steps.deployment-url.outputs.url }}',
+              description: 'Preview deployed successfully',
+              auto_inactive: true
+            });
