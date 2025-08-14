@@ -41,15 +41,21 @@ jobs:
         env:
           JEKYLL_ENV: production
 
-      - name: Deploy PR Preview
+      # FIXME: This only pushes to the `gh-pages` branch. It's technically
+      # possible for the deployment to fail or not complete before we return,
+      # which won't be surfaced directly.
+      # FIXME: Old versions of the preview are likely to remain in the browser
+      # cache. It would probably be best to generate different URLs for each
+      # version of the preview somehow.
+      - name: Deploy preview
         uses: rossjrw/pr-preview-action@v1
         with:
           source-dir: ./_site/
           preview-branch: gh-pages
           umbrella-dir: preview
           action: auto
-          # Access the deployment via the `github-actions deployed to [...]`
-          # event in the pull request timeline.
+          # You can access the deployment via the "Environments" list on the
+          # pull request page.
           comment: false
 
       - name: Get deployment URL
