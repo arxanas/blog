@@ -264,3 +264,5 @@ There are some speaker notes in Google Slides. They didn't correspond to what I 
 (61–63) (missing: conclusion and remark on AI-accelerated development increasing the need for clever search systems)
 
 (64–78) (deleted slides with various bullet points)
+
+{% include end_matter.md %}
