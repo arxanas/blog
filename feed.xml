@@ -7,9 +7,264 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 14 Aug 2025 19:46:39 +0000</pubDate>
-    <lastBuildDate>Thu, 14 Aug 2025 19:46:39 +0000</lastBuildDate>
+    <pubDate>Thu, 14 Aug 2025 21:12:53 +0000</pubDate>
+    <lastBuildDate>Thu, 14 Aug 2025 21:12:53 +0000</lastBuildDate>
     <generator>Jekyll v4.3.4</generator>
+    
+      <item>
+        <title>Lithe, less analysis with Datalog</title>
+        <description>&lt;div class=&quot;publication-notes&quot;&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Intended audience&lt;/td&gt;
+      &lt;td&gt;&lt;ul&gt;
+        &lt;li&gt;Static analysis enthusiasts&lt;/li&gt;
+        &lt;li&gt;Logic programming enthusiasts&lt;/li&gt;
+      &lt;/ul&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Origin&lt;/td&gt;
+      &lt;td&gt;&lt;ul&gt;
+        &lt;li&gt;Recent experience with &lt;a href=&quot;https://souffle-lang.github.io/&quot;&gt;Soufflé&lt;/a&gt; Datalog.&lt;/li&gt;
+        &lt;li&gt;Discussion with Max Bernstein about his blog post &lt;a href=&quot;https://bernsteinbear.com/blog/linear-scan/&quot;&gt;&lt;i&gt;Linear scan register allocation on SSA&lt;/i&gt;&lt;/a&gt;, resulting in his blog post &lt;a href=&quot;https://bernsteinbear.com/blog/liveness-datalog/&quot;&gt;&lt;i&gt;Liveness analysis with Datalog&lt;/i&gt;&lt;/a&gt;.&lt;/li&gt;
+      &lt;/ul&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Mood&lt;/td&gt;
+      &lt;td&gt;&lt;ul&gt;
+        &lt;li&gt;Liberated&lt;/li&gt;
+      &lt;/ul&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;series-and-toc&quot;&gt;
+
+  &lt;p class=&quot;toc-header&quot;&gt;Table of contents:&lt;/p&gt;
+
+&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#soufflé&quot; id=&quot;markdown-toc-soufflé&quot;&gt;Soufflé&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#rapid-prototyping&quot; id=&quot;markdown-toc-rapid-prototyping&quot;&gt;Rapid prototyping&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#the-curse-of-brevity&quot; id=&quot;markdown-toc-the-curse-of-brevity&quot;&gt;The curse of brevity&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#related-posts&quot; id=&quot;markdown-toc-related-posts&quot;&gt;Related posts&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&quot;soufflé&quot;&gt;Soufflé&lt;/h2&gt;
+
+&lt;p&gt;I recently experimented with &lt;a href=&quot;https://souffle-lang.github.io/&quot;&gt;Soufflé&lt;/a&gt; &lt;a href=&quot;https://en.wikipedia.org/wiki/Datalog&quot;&gt;Datalog&lt;/a&gt; for a certain work problem: comparing CI jobs’ declared dependencies with dependencies inferred via abstract interpretation (which is worth a separate post).&lt;/p&gt;
+
+&lt;p&gt;Recently, I saw the blog post &lt;a href=&quot;https://bernsteinbear.com/blog/linear-scan/&quot;&gt;&lt;em&gt;Linear scan register allocation on SSA&lt;/em&gt;&lt;/a&gt; and noted that there was quite a lot of imperative implementation code, to the point where it might obstruct experimentating with the underlying ideas.&lt;/p&gt;
+
+&lt;p&gt;I suggested that the author could use Datalog instead to simplify the analyses, and we worked through the example of rewriting the &lt;a href=&quot;https://en.wikipedia.org/wiki/Live-variable_analysis&quot;&gt;liveness analysis&lt;/a&gt; in Soufflé, resulting in the blog post &lt;a href=&quot;https://bernsteinbear.com/blog/liveness-datalog/&quot;&gt;&lt;em&gt;Liveness analysis with Datalog&lt;/em&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;rapid-prototyping&quot;&gt;Rapid prototyping&lt;/h2&gt;
+
+&lt;p&gt;As per its homepage, Soufflé promises to enable “rapid prototyping”:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Rapid-prototyping for your analysis problems with logic; enabling deep design-space explorations; designed for large-scale static analysis; e.g., points-to analysis for Java, taint-analysis, security checks.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;And from my recent experience, I found that it delivered!&lt;/p&gt;
+
+&lt;div class=&quot;note-block note-info&quot;&gt;
+          &lt;p&gt;&lt;span class=&quot;note-tag note-info&quot;&gt;For example:&lt;/span&gt; When I wanted to implement the rule that, in &lt;a href=&quot;https://bazel.build/&quot;&gt;Bazel&lt;/a&gt;, the target
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;foo/...&lt;/code&gt; expands to all targets under &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;foo&lt;/code&gt;, I just had to add one rule:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-datalog&quot;&gt;BazelLDep(repo, package, &quot;...&quot;, $BazelTarget(repo, package, target)) :-
+  BazelLDep(repo, package, target, _),
+  target != &quot;...&quot;.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;It can be read as:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;A target of the form &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;package&amp;gt;/...&lt;/code&gt; has a dependency on every target of the form &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;package&amp;gt;/&amp;lt;target&amp;gt;&lt;/code&gt;, as long as that target is not &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;...&lt;/code&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;And then this rule automatically combines with all the other rules about dependencies that I’d written in the analysis.&lt;/p&gt;
+
+&lt;p&gt;Who originally created the nodes of the form &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;foo/...&lt;/code&gt;? Where are all the places that might consume them? I don’t know! I don’t care! I just let the Datalog engine figure it out.&lt;/p&gt;
+
+        &lt;/div&gt;
+
+&lt;h2 id=&quot;the-curse-of-brevity&quot;&gt;The curse of brevity&lt;/h2&gt;
+
+&lt;p&gt;In that &lt;a href=&quot;https://bernsteinbear.com/blog/liveness-datalog/&quot;&gt;blog post&lt;/a&gt;, the demonstration seems more blithe than lithe, because we end up showcasing basically two lines of Datalog:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-datalog&quot;&gt;live_out(b, v) :- block_succ(s, b), live_in(s, v).
+live_in(b, v) :- (live_out(b, v) ; block_use(b, v)), !block_def(b, v).
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;div class=&quot;note-block &quot;&gt;
+          &lt;p&gt;&lt;span class=&quot;note-tag&quot;&gt;Not even that:&lt;/span&gt; Our original formulation used only a single rule! We split it into two rules for clarity.&lt;/p&gt;
+
+        &lt;/div&gt;
+
+&lt;p&gt;So what’s the big deal? Well, it’s an order-of-magnitude reduction compared to the original code!&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;analyze_liveness&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;order&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;post_order&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;gen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kill&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;compute_initial_liveness_sets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;order&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;live_in&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Hash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;changed&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;changed&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;changed&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;false&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;block&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;order&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;block_live&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;block&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;successors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;map&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;succ&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;live_in&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;succ&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;reduce&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:|&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;block_live&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;block&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;block_live&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kill&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;block&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;live_in&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;block&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;block_live&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;changed&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;live_in&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;block&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;block_live&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;live_in&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The Soufflé &lt;a href=&quot;https://souffle-lang.github.io/examples&quot;&gt;examples page&lt;/a&gt; has the same problem. They look trivial. Does this look like a substantial program to you?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-datalog&quot;&gt;.decl alias( a:var, b:var )
+.output alias
+alias(X,X) :- assign(X,_).
+alias(X,X) :- assign(_,X).
+alias(X,Y) :- assign(X,Y).
+alias(X,Y) :- ld(X,A,F), alias(A,B), st(B,F,Y).
+
+.decl pointsTo( a:var, o:obj )
+.output pointsTo
+pointsTo(X,Y) :- new(X,Y).
+pointsTo(X,Y) :- alias(X,Z), pointsTo(Z,Y).
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;But when I first read that page, I was blown away — only because I already knew how much code it would take in a traditional programming language.&lt;/p&gt;
+
+&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
+
+&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
+
+&lt;table class=&quot;related-posts&quot;&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Date&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+
+  &lt;tr&gt;
+    &lt;td&gt;24&amp;nbsp;Jul&amp;nbsp;2017&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/union-vs-sum-types/&quot;&gt;Null-tracking, or the difference between union and sum types&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;23&amp;nbsp;Dec&amp;nbsp;2017&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/data-comprehension-syntaxes/&quot;&gt;Why LINQ syntax differs from SQL, list comprehensions, etc.&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;20&amp;nbsp;Apr&amp;nbsp;2020&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/monotonicity/&quot;&gt;Monotonicity is a halfway point between mutability and immutability&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;14&amp;nbsp;Jun&amp;nbsp;2022&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/functions-are-constants/&quot;&gt;Functions are constants too&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;17&amp;nbsp;Jun&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/encoding-ml-style-modules-in-rust/&quot;&gt;Encoding ML-style modules in Rust&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;14&amp;nbsp;Aug&amp;nbsp;2025&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      (this&amp;nbsp;post)
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/lithe-less-analysis-with-datalog/&quot;&gt;Lithe, less analysis with Datalog&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+
+&lt;/ul&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/lithe-less-analysis-with-datalog/&quot;;
+    this.page.identifier = &quot;lithe-less-analysis-with-datalog/&quot;;
+};
+
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
+</description>
+        <pubDate>Thu, 14 Aug 2025 00:00:00 +0000</pubDate>
+        <link>https://blog.waleedkhan.name/lithe-less-analysis-with-datalog/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/lithe-less-analysis-with-datalog/</guid>
+        
+        <category>programming-languages</category>
+        
+        <category>reprint</category>
+        
+        <category>software-engineering</category>
+        
+        
+      </item>
     
       <item>
         <title>Searching source control graphs</title>
@@ -46,6 +301,8 @@ employers.</description>
 &lt;ul id=&quot;markdown-toc&quot;&gt;
   &lt;li&gt;&lt;a href=&quot;#slides&quot; id=&quot;markdown-toc-slides&quot;&gt;Slides&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#speaker-notes&quot; id=&quot;markdown-toc-speaker-notes&quot;&gt;Speaker notes&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#related-posts&quot; id=&quot;markdown-toc-related-posts&quot;&gt;Related posts&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;/div&gt;
@@ -294,6 +551,70 @@ employers.</description>
 &lt;p&gt;(61–63) (missing: conclusion and remark on AI-accelerated development increasing the need for clever search systems)&lt;/p&gt;
 
 &lt;p&gt;(64–78) (deleted slides with various bullet points)&lt;/p&gt;
+
+&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
+
+&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
+
+&lt;table class=&quot;related-posts&quot;&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Date&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+
+  &lt;tr&gt;
+    &lt;td&gt;24&amp;nbsp;Jul&amp;nbsp;2025&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      (this&amp;nbsp;post)
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/searching-source-control-graphs/&quot;&gt;Searching source control graphs&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+
+&lt;/ul&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/searching-source-control-graphs/&quot;;
+    this.page.identifier = &quot;searching-source-control-graphs/&quot;;
+};
+
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
 </description>
         <pubDate>Thu, 24 Jul 2025 00:00:00 +0000</pubDate>
         <link>https://blog.waleedkhan.name/searching-source-control-graphs/</link>
@@ -2783,6 +3104,33 @@ note: used non-generic type `&amp;amp;&apos;static str` for generic parameter
 
 
   &lt;tr&gt;
+    &lt;td&gt;24&amp;nbsp;Jul&amp;nbsp;2017&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/union-vs-sum-types/&quot;&gt;Null-tracking, or the difference between union and sum types&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;23&amp;nbsp;Dec&amp;nbsp;2017&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/data-comprehension-syntaxes/&quot;&gt;Why LINQ syntax differs from SQL, list comprehensions, etc.&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;20&amp;nbsp;Apr&amp;nbsp;2020&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/monotonicity/&quot;&gt;Monotonicity is a halfway point between mutability and immutability&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
     &lt;td&gt;03&amp;nbsp;Jan&amp;nbsp;2021&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
@@ -2797,6 +3145,15 @@ note: used non-generic type `&amp;amp;&apos;static str` for generic parameter
       
       &lt;/td&gt;
     &lt;td&gt;&lt;a href=&quot;/port-python-to-rust/&quot;&gt;Incrementally porting a small Python project to Rust&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;14&amp;nbsp;Jun&amp;nbsp;2022&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/functions-are-constants/&quot;&gt;Functions are constants too&lt;/a&gt;
     &lt;/td&gt;
   &lt;/tr&gt;
 
@@ -2826,6 +3183,15 @@ note: used non-generic type `&amp;amp;&apos;static str` for generic parameter
       
       &lt;/td&gt;
     &lt;td&gt;&lt;a href=&quot;/encoding-ml-style-modules-in-rust/&quot;&gt;Encoding ML-style modules in Rust&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;14&amp;nbsp;Aug&amp;nbsp;2025&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/lithe-less-analysis-with-datalog/&quot;&gt;Lithe, less analysis with Datalog&lt;/a&gt;
     &lt;/td&gt;
   &lt;/tr&gt;
 
@@ -2871,6 +3237,8 @@ var disqus_config = function () {
         <pubDate>Sat, 17 Jun 2023 00:00:00 +0000</pubDate>
         <link>https://blog.waleedkhan.name/encoding-ml-style-modules-in-rust/</link>
         <guid isPermaLink="true">https://blog.waleedkhan.name/encoding-ml-style-modules-in-rust/</guid>
+        
+        <category>programming-languages</category>
         
         <category>rust</category>
         
@@ -2994,128 +3362,6 @@ var disqus_config = function () {
         <guid isPermaLink="true">https://blog.waleedkhan.name/formatting-a-commit-stack/</guid>
         
         <category>git</category>
-        
-        <category>software-engineering</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>e69de29bb2d1d6434b8b29ae775ad8c2e48c5391</title>
-        <description>&lt;div class=&quot;publication-notes&quot;&gt;
-  &lt;table&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Intended audience&lt;/td&gt;
-      &lt;td&gt;Software engineers working with Git who happen to come across this value and want to confirm that it has particular significance.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Origin&lt;/td&gt;
-      &lt;td&gt;General experience with Git.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Mood&lt;/td&gt;
-      &lt;td&gt;Helpful.&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/table&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;series-and-toc&quot;&gt;
-
-  &lt;p class=&quot;toc-header&quot;&gt;Table of contents:&lt;/p&gt;
-
-&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#related-posts&quot; id=&quot;markdown-toc-related-posts&quot;&gt;Related posts&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;The hash &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;e69de29bb2d1d6434b8b29ae775ad8c2e48c5391&lt;/code&gt; is used by Git to indicate an empty blob (an empty file).&lt;/p&gt;
-
-&lt;p&gt;To verify this, we can construct the object content manually and hash it. The format for object contents is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;type&amp;gt; &amp;lt;size&amp;gt;\0&amp;lt;contents&amp;gt;&lt;/code&gt; (where &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;\0&lt;/code&gt; denotes the &lt;a href=&quot;https://en.wikipedia.org/wiki/Null_character&quot;&gt;null byte&lt;/a&gt;). In this case, the type is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;blob&lt;/code&gt; and the size is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;0&lt;/code&gt;, and there are no contents. We can compute the hash with one of the following commands:&lt;/p&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;printf&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;blob 0\0&apos;&lt;/span&gt; | shasum
-e69de29bb2d1d6434b8b29ae775ad8c2e48c5391  -
-
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;printf&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;blob 0\0&apos;&lt;/span&gt; | openssl dgst &lt;span class=&quot;nt&quot;&gt;-sha1&lt;/span&gt;  
-e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;See also &lt;a href=&quot;https://stackoverflow.com/q/47465226/344643&quot;&gt;&lt;em&gt;Why does Git hash only the Contents of A File?&lt;/em&gt;&lt;/a&gt; for some related discussion.&lt;/p&gt;
-
-&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
-
-&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
-
-&lt;table class=&quot;related-posts&quot;&gt;
-&lt;thead&gt;
-  &lt;tr&gt;
-    &lt;th&gt;Date&lt;/th&gt;
-    &lt;th&gt;&lt;/th&gt;
-    &lt;th&gt;Title&lt;/th&gt;
-  &lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-
-
-  &lt;tr&gt;
-    &lt;td&gt;14&amp;nbsp;Mar&amp;nbsp;2023&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      (this&amp;nbsp;post)
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/&quot;&gt;e69de29bb2d1d6434b8b29ae775ad8c2e48c5391&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
-
-&lt;ul&gt;
-
-
-&lt;li&gt;&lt;a class=&quot;icon-lobsters&quot; href=&quot;https://lobste.rs/s/9xj8ii/e69de29bb2d1d6434b8b29ae775ad8c2e48 &quot;&gt;Discussion on Lobsters&lt;/a&gt;&lt;/li&gt;
-
-
-&lt;/ul&gt;
-
-&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
-
-&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
-&lt;script&gt;
-
-/**
- *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
- *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
-var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/&quot;;
-    this.page.identifier = &quot;e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/&quot;;
-};
-
-(function() { // DON&apos;T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement(&apos;script&apos;);
-    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
-    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
-    (d.head || d.body).appendChild(s);
-})();
-&lt;/script&gt;
-
-&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
-
-</description>
-        <pubDate>Tue, 14 Mar 2023 00:00:00 +0000</pubDate>
-        <link>https://blog.waleedkhan.name/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/</guid>
-        
-        <category>git</category>
-        
-        <category>reference</category>
         
         <category>software-engineering</category>
         
