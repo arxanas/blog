@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  
+    <title>Improving incremental test times in Rust</title>
+  
+  <meta name="author" content="Waleed Khan">
+  <meta name="description" content="            Intended audience              Prospective-to-intermediate Rust developers who worry about slow compilation times, the scale thereof, and prevent...">
+
+  <link rel="stylesheet" href="/preview/pr-45/css/main.css">
+  <link rel="canonical" href="https://blog.waleedkhan.name/preview/pr-45/rust-incremental-test-times/">
+  <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/preview/pr-45/feed.xml">
+  <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+  
+
+  <link rel="me" href="https://github.com/arxanas">
+  <link rel="me" href="https://twitter.com/arxanas">
+  <link rel="me" href="mailto:me@waleedkhan.name">
+
+  
+  
+
+  <!-- See https://indieweb.org/webmention.io -->
+  <link rel="webmention" href="https://webmention.io/blog.waleedkhan.name/webmention" />
+  <link rel="pingback" href="https://webmention.io/webmention?forward=https://blog.waleedkhan.name/webmention" />
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/preview/pr-45/">Steno & PL</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          <a class="page-link" href="/preview/pr-45/about/">About</a>
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Improving incremental test times in Rust</h1>
+    <p class="post-meta"><time datetime="2023-02-07T00:00:00+00:00" itemprop="datePublished">Feb 7, 2023</time>
+    
+      <span class="post-meta">
+        <br />
+        
+        <a href="/preview/pr-45/pl/rust-przyrostowe-czasy-testowania/">Czytaj po polsku 🇵🇱</a>
+        
+      </span>
+    
+    </p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    
+    <div class="publication-notes">
+  <table>
+    <tr>
+      <td>Intended audience</td>
+      <td><ul>
+        <li>Prospective-to-intermediate Rust developers who worry about slow compilation times, the scale thereof, and preventative practices.</li>
+        <li>Advanced Rust developers who can help me improve my own compilation times.</li>
+      </ul></td>
+    </tr>
+    <tr>
+      <td>Origin</td>
+      <td>My experience with Rust.</td>
+    </tr>
+    <tr>
+      <td>Mood</td>
+      <td>Somewhat successful; somewhat disappointed.</td>
+    </tr>
+  </table>
+</div>
+
+<p>Rust is known for slow compilation times. I spent a long time trying to improve incremental test build times for my project <a href="https://github.com/arxanas/git-branchless">git-branchless</a> in <a href="https://github.com/arxanas/git-branchless/pull/650">https://github.com/arxanas/git-branchless/pull/650</a>. This is a discussion of the results.</p>
+
+<div class="series-and-toc">
+
+  <p class="toc-header">Table of contents:</p>
+
+<ul id="markdown-toc">
+  <li><a href="#executive-summary" id="markdown-toc-executive-summary">Executive summary</a></li>
+  <li><a href="#project-details" id="markdown-toc-project-details">Project details</a></li>
+  <li><a href="#splitting-into-more-crates" id="markdown-toc-splitting-into-more-crates">Splitting into more crates</a></li>
+  <li><a href="#no-op-timing" id="markdown-toc-no-op-timing">No-op timing</a></li>
+  <li><a href="#no-more-profiling" id="markdown-toc-no-more-profiling">No more profiling?</a></li>
+  <li><a href="#no-more-ideas" id="markdown-toc-no-more-ideas">No more ideas?</a></li>
+  <li><a href="#related-posts" id="markdown-toc-related-posts">Related posts</a></li>
+  <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
+</ul>
+
+</div>
+
+<h2 id="executive-summary">Executive summary</h2>
+
+<ul>
+  <li>Incremental testing refers only to changing the <em>integration test code</em> and rebuilding. The source code remains unchanged.</li>
+  <li>In the end, I was able to reduce incremental test time from ~6.9sec to ~1.7sec (~4x). Other techniques to improve compilation time produced marginal or no improvements.</li>
+</ul>
+
+<p>For your reference, here’s the best articles for conceptual understanding of the Rust build model and improving compilation time:</p>
+
+<ul>
+  <li><a href="https://matklad.github.io/2021/09/04/fast-rust-builds.html">Fast Rust Builds</a> (<a href="https://matklad.github.io">matklad.github.io</a>, 2021)</li>
+  <li><a href="https://matklad.github.io/2021/05/31/how-to-test.html">How to Test</a> (<a href="https://matklad.github.io">matklad.github.io</a>, 2021)</li>
+  <li><a href="https://fasterthanli.me/articles/why-is-my-rust-build-so-slow">Why is my Rust build so slow?</a> (<a href="https://fasterthanli.me/">fasterthanli.me</a>, 2021)</li>
+  <li><a href="https://endler.dev/2020/rust-compile-times/">Tips for Faster Rust Builds</a> (<a href="https://endler.dev">endler.dev</a>, 2020-2022)
+    <ul>
+      <li>Actually, I didn’t review this article at the time, but I did at the time of this writing.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="project-details">Project details</h2>
+
+<p>Here’s how big my project <a href="https://github.com/arxanas/git-branchless">git-branchless</a> was before the pull request:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">git-branchless/src</code>: 12060 lines.</li>
+  <li><code class="language-plaintext highlighter-rouge">git-branchless/tests</code>: 12897 lines.
+    <ul>
+      <li>Note that it relies heavily on snapshot testing, so most of these lines of code are multiline string literals.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">git-branchless-lib/src</code>: 12406 lines.</li>
+</ul>
+
+<p>It’s permissible that compilation and linking time should be slow, but in order to optimize my development feedback loop, I need test times to be fast. Specifically, I want to be able to iterate on the development of a single certain test. (IntelliJ has a nice feature to automatically re-run a given test when there are source changes, but the utility is diminished when it takes too long to recompile the test.)</p>
+
+<p>To start, building the <code class="language-plaintext highlighter-rouge">test_amend</code> binary (which tests the <code class="language-plaintext highlighter-rouge">amend</code> subcommand) after a single comment addition to the test file itself (no library changes!) takes ~6.9sec:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>hyperfine <span class="nt">--warmup</span> 3 <span class="nt">--prepare</span> <span class="s1">'echo "// @nocommit test" &gt;&gt;git-branchless/tests/command/test_amend.rs'</span> <span class="s1">'cargo test --test mod --no-run'</span>   
+Benchmark 1: cargo <span class="nb">test</span> <span class="nt">--test</span> mod <span class="nt">--no-run</span>
+  Time <span class="o">(</span>mean ± σ<span class="o">)</span>:      6.927 s ±  0.123 s    <span class="o">[</span>User: 7.652 s, System: 1.738 s]
+  Range <span class="o">(</span>min … max<span class="o">)</span>:    6.754 s …  7.161 s    10 runs
+</code></pre></div></div>
+
+<p>Staggering! This is not a large project, and we’re only making changes to the <em>tests</em>, so it shouldn’t require so much iteration time.</p>
+
+<h2 id="splitting-into-more-crates">Splitting into more crates</h2>
+
+<p><a href="https://github.com/arxanas/git-branchless/pull/650">In the pull request</a>, I extract code into an additional nine crates, resulting in an incremental test build time of ~1.7sec (~4x improvement):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>hyperfine <span class="nt">--warmup</span> 3 <span class="nt">--prepare</span> <span class="s1">'echo "// @nocommit test" &gt;&gt;git-branchless/tests/test_amend.rs'</span> <span class="s1">'cargo test --test test_amend --no-run'</span>   
+Benchmark 1: cargo <span class="nb">test</span> <span class="nt">--test</span> test_amend <span class="nt">--no-run</span>
+  Time <span class="o">(</span>mean ± σ<span class="o">)</span>:      1.771 s ±  0.012 s    <span class="o">[</span>User: 1.471 s, System: 0.330 s]
+  Range <span class="o">(</span>min … max<span class="o">)</span>:    1.750 s …  1.793 s    10 runs
+</code></pre></div></div>
+
+<p>In relative terms, this is a significant improvement, but in absolute terms, this is rather poor, in my opinion. I would expect 100-200ms to parse, expand macros, typecheck, and generate code (with no optimizations) for a file of this size (~1k lines, mostly long string values).</p>
+
+<p>Furthermore, splitting into multiple crates makes it harder to distribute my project via <a href="https://crates.io/"><code class="language-plaintext highlighter-rouge">crates.io</code></a>:</p>
+
+<ul>
+  <li>Each crate must individually be published to <code class="language-plaintext highlighter-rouge">crates.io</code> (you cannot publish a crate with <code class="language-plaintext highlighter-rouge">git</code> dependencies to <code class="language-plaintext highlighter-rouge">crates.io</code>)
+    <ul>
+      <li>So I have to manage versioning and licensing of each crate.</li>
+    </ul>
+  </li>
+  <li>According to my user survey, the majority of my users install via <code class="language-plaintext highlighter-rouge">cargo</code>. For the question “How did you install git-branchless?”, the responses are as follows (as of 2023-02-07):
+    <ul>
+      <li>7/18 (38.9%): via <code class="language-plaintext highlighter-rouge">cargo install git-branchless</code></li>
+      <li>4/18 (22.2%): via traditional system package manager</li>
+      <li>4/18 (22.2%): via Nix or NixOS</li>
+      <li>2/18 (11.1%): via cloning the repository and manually building and installing</li>
+      <li>1/18 (5.6%): via GitHub Actions build artifact</li>
+    </ul>
+  </li>
+</ul>
+
+<p>It’s unfortunate that I have to expose internal modules publicly on <code class="language-plaintext highlighter-rouge">crates.io</code> just to get reasonable compilation times.</p>
+
+<h2 id="no-op-timing">No-op timing</h2>
+
+<p>At this point, I measure the no-op time to be ~350ms for a smaller test crate with few dependencies:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>hyperfine <span class="nt">--warmup</span> 3 <span class="s1">'cargo test -p git-branchless-test --no-run'</span>      	 
+Benchmark 1: cargo <span class="nb">test</span> <span class="nt">-p</span> git-branchless-test <span class="nt">--no-run</span>
+  Time <span class="o">(</span>mean ± σ<span class="o">)</span>: 	344.2 ms ±   3.5 ms	<span class="o">[</span>User: 246.2 ms, System: 91.9 ms]
+  Range <span class="o">(</span>min … max<span class="o">)</span>:   340.4 ms … 351.0 ms	10 runs
+</code></pre></div></div>
+
+<p>This is surprising. I would expect the overhead for a no-op build to be similar to <code class="language-plaintext highlighter-rouge">git status</code>, maybe 15ms:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>hyperfine <span class="nt">--warmup</span> 3 <span class="s1">'git status'</span>
+Benchmark 1: git status
+  Time <span class="o">(</span>mean ± σ<span class="o">)</span>:  	13.5 ms ±   2.5 ms	<span class="o">[</span>User: 4.9 ms, System: 6.1 ms]
+  Range <span class="o">(</span>min … max<span class="o">)</span>:	11.1 ms …  24.7 ms	197 runs
+</code></pre></div></div>
+
+<p>There might be some kind of deeper issue here. <a href="https://nexte.st/book/antivirus-gatekeeper.html">The <code class="language-plaintext highlighter-rouge">cargo nextest</code> documentation</a> warns that some anti-malware systems can introduce artificial startup latency when checking executables:</p>
+
+<blockquote>
+  <p>A typical sign of this happening is even the simplest of tests in cargo nextest run taking more than 0.2 seconds.</p>
+</blockquote>
+
+<p>As per the documentation, I marked my terminal software as “Developer Tools” under macOS, but couldn’t reduce the no-op compilation time.</p>
+
+<h2 id="no-more-profiling">No more profiling?</h2>
+
+<p>I tried with a subcommand crate that I made recently which should still have few dependencies:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>hyperfine <span class="nt">--warmup</span> 3 <span class="nt">--prepare</span> <span class="s1">'echo "// @nocommit test" &gt;&gt;git-branchless-test/tests/test_test.rs'</span> <span class="s1">'cargo test -p git-branchless-test --no-run'</span>
+Benchmark 1: cargo <span class="nb">test</span> <span class="nt">-p</span> git-branchless-test <span class="nt">--no-run</span>
+  Time <span class="o">(</span>mean ± σ<span class="o">)</span>:  	1.855 s ±  0.034 s	<span class="o">[</span>User: 1.476 s, System: 0.335 s]
+  Range <span class="o">(</span>min … max<span class="o">)</span>:	1.831 s …  1.939 s	10 runs
+</code></pre></div></div>
+
+<p>The cargo build timings for the incremental build doesn’t help. It just shows that the test I’m building takes 100% of the spent time.</p>
+
+<figure class="figure">
+        <a href="/preview/pr-45/assets/posts/rust-incremental-test-times/cargo-timings-git-branchless-test-crate.png"><img class="center-image" src="/preview/pr-45/assets/posts/rust-incremental-test-times/cargo-timings-git-branchless-test-crate.png" alt="The timing graph for building the `git-branchless-test` crate." title="The timing graph for building the `git-branchless-test` crate." /></a>
+        <figcaption class="caption"><p>The timing graph for building the <code class="language-plaintext highlighter-rouge">git-branchless-test</code> crate.</p>
+</figcaption>
+      </figure>
+
+<h2 id="no-more-ideas">No more ideas?</h2>
+
+<p>Some ideas that didn’t work:</p>
+
+<ul>
+  <li>Combining integration tests into a single binary. (I’m happy to run individual binaries as necessary, anyways.)</li>
+  <li>Reducing the top monomorphization sites them (<code class="language-plaintext highlighter-rouge">AsRef</code> calls, etc. appeared in <code class="language-plaintext highlighter-rouge">cargo llvm-lines</code>, but reducing them didn’t seem to improve compilation times).</li>
+  <li>Using <a href="https://github.com/mozilla/sccache"><code class="language-plaintext highlighter-rouge">sccache</code></a>.</li>
+  <li>Using <a href="https://nexte.st/"><code class="language-plaintext highlighter-rouge">cargo-nextest</code></a>.</li>
+  <li>Using <a href="https://github.com/michaeleisel/zld"><code class="language-plaintext highlighter-rouge">zld</code></a>/<a href="https://github.com/rui314/mold"><code class="language-plaintext highlighter-rouge">mold</code></a>/<a href="https://github.com/bluewhalesystems/sold"><code class="language-plaintext highlighter-rouge">sold</code></a> as the linker.</li>
+  <li>Setting <code class="language-plaintext highlighter-rouge">profile.dev.split-debuginfo = “unpacked”</code> (for macOS).</li>
+  <li>Setting <code class="language-plaintext highlighter-rouge">profile.dev.build-override.opt-level = 3</code>.
+    <ul>
+      <li>Unfortunately, there are lots of procedural macros, particularly <a href="https://docs.rs/tracing/latest/tracing/"><code class="language-plaintext highlighter-rouge">tracing</code></a>’s <code class="language-plaintext highlighter-rouge">#[instrument]</code>.</li>
+    </ul>
+  </li>
+  <li>Setting <code class="language-plaintext highlighter-rouge">profile.dev.debug = 0</code>. This actually does save ~20ms, but it’s not enough of an improvement by itself.</li>
+</ul>
+
+<p>So now I’m stuck. That’s the most I can improve Rust incremental test times. Let me know if you have any other ideas.</p>
+
+<h2 id="related-posts">Related posts</h2>
+
+<p>The following are hand-curated posts which you might find interesting.</p>
+
+<table class="related-posts">
+<thead>
+  <tr>
+    <th>Date</th>
+    <th></th>
+    <th>Title</th>
+  </tr>
+</thead>
+
+<tbody>
+
+
+  <tr>
+    <td>03&nbsp;Jan&nbsp;2021</td>
+    <td class="this-post">
+      
+      </td>
+    <td><a href="/rust-modules-for-python-users/">The Rust module system for Python users</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>29&nbsp;Apr&nbsp;2021</td>
+    <td class="this-post">
+      
+      </td>
+    <td><a href="/port-python-to-rust/">Incrementally porting a small Python project to Rust</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>24&nbsp;Jan&nbsp;2023</td>
+    <td class="this-post">
+      
+      </td>
+    <td><a href="/tracing-rust-cli-apps/">Using `tracing` with Rust CLI applications</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>07&nbsp;Feb&nbsp;2023</td>
+    <td class="this-post">
+      
+      (this&nbsp;post)
+      
+      </td>
+    <td><a href="/rust-incremental-test-times/">Improving incremental test times in Rust</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>17&nbsp;Jun&nbsp;2023</td>
+    <td class="this-post">
+      
+      </td>
+    <td><a href="/encoding-ml-style-modules-in-rust/">Encoding ML-style modules in Rust</a>
+    </td>
+  </tr>
+
+</tbody>
+</table>
+
+<p>Want to see more of my posts? Follow me <a href="https://twitter.com/arxanas">on Twitter</a> or subscribe <a href="/preview/pr-45/feed.xml">via RSS</a>.</p>
+
+<h2 id="comments">Comments</h2>
+
+<ul>
+
+
+<li><a class="icon-lobsters" href="https://lobste.rs/s/ktyp2q/improving_incremental_test_times_rust ">Discussion on Lobsters</a></li>
+
+
+</ul>
+
+<script type="text/javascript" src="/preview/pr-45/scripts/github-comment-links.js"></script>
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = "https://blog.waleedkhan.name/preview/pr-45/rust-incremental-test-times/";
+    this.page.identifier = "rust-incremental-test-times/";
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//waleedkhan-name.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Steno & PL</h2>
+    
+    <p class="rss-subscribe">subscribe <a href="/preview/pr-45/feed.xml">via RSS</a></p>
+    
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>Waleed Khan</li>
+          <li><a href="mailto:me@waleedkhan.name">me@waleedkhan.name</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/arxanas"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">arxanas</span></a>
+
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/arxanas"><span class="icon icon--twitter"><svg viewBox="0 0 16 16"><path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/></svg>
+</span><span class="username">arxanas</span></a>
+
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>This is a personal blog. Unless otherwise stated, the opinions expressed here are my own, and not those of my past or present employers.</p>
+      </div>
+    </div>
+
+  </div>
+
+  
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-53066274-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+</footer>
+
+
+  </body>
+
+</html>

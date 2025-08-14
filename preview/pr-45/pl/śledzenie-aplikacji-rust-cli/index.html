@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  
+    <title>Używanie `tracing` w aplikacji Rust CLI</title>
+  
+  <meta name="author" content="Waleed Khan">
+  <meta name="description" content="            Docelowi odbiorcy      Użytkownicy Rust.              Pochodzenie              Mój post na GitHub.        Moje doświadczenie w Rust.             ...">
+
+  <link rel="stylesheet" href="/preview/pr-45/pl/css/main.css">
+  <link rel="canonical" href="https://blog.waleedkhan.name/preview/pr-45/pl/śledzenie-aplikacji-rust-cli/">
+  <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/preview/pr-45/pl/feed.xml">
+  <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+  
+
+  <link rel="me" href="https://github.com/arxanas">
+  <link rel="me" href="https://twitter.com/arxanas">
+  <link rel="me" href="mailto:me@waleedkhan.name">
+
+  
+  
+
+  <!-- See https://indieweb.org/webmention.io -->
+  <link rel="webmention" href="https://webmention.io/blog.waleedkhan.name/webmention" />
+  <link rel="pingback" href="https://webmention.io/webmention?forward=https://blog.waleedkhan.name/webmention" />
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/preview/pr-45/pl/">Steno & PL</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          <a class="page-link" href="/preview/pr-45/pl/o-mnie/">O mnie</a>
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Używanie `tracing` w aplikacji Rust CLI</h1>
+    <p class="post-meta"><time datetime="2023-01-25T00:00:00+00:00" itemprop="datePublished">Jan 25, 2023</time>
+    
+      <span class="post-meta">
+        <br />
+        
+        <a href="/preview/pr-45/tracing-rust-cli-apps/">Read in English 🇺🇸</a>
+        
+      </span>
+    
+    </p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    
+    <div class="publication-notes">
+  <table>
+    <tr>
+      <td>Docelowi odbiorcy</td>
+      <td>Użytkownicy Rust.</td>
+    </tr>
+    <tr>
+      <td>Pochodzenie</td>
+      <td><ul>
+        <li><a href="https://github.com/arxanas/git-branchless/discussions/732">Mój post na GitHub</a>.</li>
+        <li>Moje doświadczenie w Rust.</li>
+      </ul></td>
+    </tr>
+    <tr>
+      <td>Nastrój</td>
+      <td>Informujący.</td>
+    </tr>
+    
+<tr>
+  <td>Język</td>
+  <td>Obcy. Moim pierwszym język jest angielki. Jeśli zobaczysz błąd, niezależnie od tego, czy chodzi o pisownię, gramatykę czy dobór słow, skomentuj to!</td>
+</tr>
+
+
+  </table>
+</div>
+
+<p><a href="https://github.com/epage">@epage</a> w <a href="https://github.com/arxanas/git-branchless/discussions/732">https://github.com/arxanas/git-branchless/discussions/732</a> zapytał:</p>
+
+<blockquote>
+  <p>Widzę, że mówią o <code class="language-plaintext highlighter-rouge">tracing</code>, ale głównie z perspektywy “web” i jestem ciekawy, jak to doświadczenie przekłada się na CLI. Zamierzam zastosować go w niektórych mniejszych CLI, żeby zdobyć trochę doświadczenia, aby zrozumieć, w jaki sposób może pomóc <code class="language-plaintext highlighter-rouge">cargo</code>.</p>
+</blockquote>
+
+<p>Ponownie publikuję moją odpowiedź tutaj, <a href="https://blog.waleedkhan.name/on-bullet-points/">w formie wypunktowanej</a>.</p>
+
+<div class="series-and-toc">
+
+  <p class="toc-header">Spis treści:</p>
+
+<ul id="markdown-toc">
+  <li><a href="#dla-cargo" id="markdown-toc-dla-cargo">Dla Cargo</a></li>
+  <li><a href="#pełne-notatki" id="markdown-toc-pełne-notatki">Pełne notatki</a></li>
+  <li><a href="#powiązane-posty" id="markdown-toc-powiązane-posty">Powiązane posty</a></li>
+  <li><a href="#komentarze" id="markdown-toc-komentarze">Komentarze</a></li>
+</ul>
+
+</div>
+
+<h2 id="dla-cargo">Dla Cargo</h2>
+
+<p>W przypadku Cargo chciałbym podkreślić następujące punkty:</p>
+
+<ul>
+  <li>Zachęca do robienia właściwych rzeczy za pomocą makr do ustrukturyzowanego logowania [ang. “structured logging”]. Dodatkowe obliczenia nie są przeprowadzane, jeśli nie zostaną używane przez subskrybenta, co w przeciwnym razie mogłoby spowodować regres wydajności.</li>
+  <li>Śledzenie “spantraces” w celu profilowania jest niewygodne, ponieważ trzeba ręcznie dodawać adnotacje do każdej funkcji, która ma być śledzona. Nie wiem, czy można to poprawić za pomocą “stack traces”.</li>
+  <li>Można łatwo wysyłać dane do wielu różnych subskrybentów, w tym do niestandardowych (…jeśli wiadomo, jakie funkcje wywołać). Na przykład, <code class="language-plaintext highlighter-rouge">tracing_subscriber::fmt_layer::Layer::with_writer</code> pozwala zbudować warstwę, która zużywa sformatowane informacje logowania i zapisuje je w dowolnym miejscu.
+    <ul>
+      <li>Można używać gotowych komponentów, takich jak subskrybent śledzenia Chrome [ang. “Chrome tracing”, jakaś].</li>
+    </ul>
+  </li>
+  <li>Ktoś może to skonfigurować raz, a inni nie muszą się tym zbytnio przejmować.</li>
+  <li>Dla mnie, profilowanie okazało się bardzo skuteczne.</li>
+</ul>
+
+<h2 id="pełne-notatki">Pełne notatki</h2>
+
+<ul>
+  <li>Przez używanie <code class="language-plaintext highlighter-rouge">eyre</code>/<code class="language-plaintext highlighter-rouge">color_eyre</code> można dołączyć parametry funkcji do “spantraces”. Jest to dość cenne podczas debugowania, ponieważ widzę m.in. OID zatwierdzenia [ang. “commit OID”] w “spantrace” dla zatwierdzenia, które powoduje problemy, bez konieczności ręcznego wyodrębniania go przez dodanie większej liczby logów.</li>
+  <li>Konfigurowanie <code class="language-plaintext highlighter-rouge">tracing</code> po raz pierwszy jest uciążliwe, ale po tym w dużej mierze nie musisz go dotykać.
+    <ul>
+      <li>Oto moja funkcja, która to robi: <a href="https://github.com/arxanas/git-branchless/blob/4b76af669258e80a6f6eb4ddf45bbb358da80248/git-branchless/src/commands/mod.rs#L437">https://github.com/arxanas/git-branchless/blob/4b76af669258e80a6f6eb4ddf45bbb358da80248/git-branchless/src/commands/mod.rs#L437</a></li>
+      <li>Z powodzeniem skonfigurowałem instrukcje logowania do drukowania za pomocą mojego własnego typu (<code class="language-plaintext highlighter-rouge">Effects</code>), zamiast drukowania bezpośrednio na stdout/stderr, ponieważ może to blokować liczniki postępu [ang. “progress meters”] lub inne interaktywnie dane wyjście.</li>
+      <li>Skonfigurowałem go tak, że podprocesy nie zostaną zawarte w śledzeniu nadrzędnym; otrzymują własne pliki wyjściowe. Szczerze mówiąc, nie sądzę, żebym musiał badać śledzenie podprocesów.</li>
+      <li>Kiedyś było to mniej ergonomiczne, ale ostatnio ulepszyli coś związanego z kompozycją warstw, na przykład filtrowanie jednej warstwy na podstawie innej warstwy; zobacz <a href="https://github.com/arxanas/git-branchless/commit/5428f1b9dbed356accf854774cad053c22d19b1f">https://github.com/arxanas/git-branchless/commit/5428f1b9dbed356accf854774cad053c22d19b1f</a></li>
+      <li>Niektóre komunikaty o błędach dotyczące kompozycji warstw mogą być nieczytelne z powodu domyślnego użycia polimorfizmu statycznego. Na przykład trudno jest warunkowo skonstruować warstwę do włączenia. Typy stają się bardzo długimi łańcuchami zagnieżdżonych parametrów typu ogólnego [ang. “generic type parameters”].
+        <ul>
+          <li>Na szczęście <code class="language-plaintext highlighter-rouge">Option&lt;Layer&gt;</code> jest również warstwą, więc możesz przekazać <code class="language-plaintext highlighter-rouge">Some(layer)</code> lub <code class="language-plaintext highlighter-rouge">None</code> w zależności od stosownego warunku, zamiast próbować bezpośrednio wywoływać metody rejestru.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Makro <code class="language-plaintext highlighter-rouge">#[instrument]</code> to jedyny realistyczny sposób dołączania funkcji do “spantraces” dla <code class="language-plaintext highlighter-rouge">eyre</code>/<code class="language-plaintext highlighter-rouge">color_eyre</code>.
+    <ul>
+      <li>Niszczy to autopoprawki [ang. “autofixes”, tak jak w IDE] (prawdopodobnie należy to uznać za błąd w <code class="language-plaintext highlighter-rouge">rust-analyzer</code>).</li>
+      <li>Może to wymazać lokalizację błędów, ponieważ czasami błąd jest przypisywany do funkcji jako całości, a nie do konkretnej linii.</li>
+      <li>Może to wydłużyć czas kompilacji, ponieważ jest to makro proceduralne [ang. “procedural macro”, <a href="https://doc.rust-lang.org/reference/procedural-macros.html">pojęcia z Rusta</a>]. Jak być może wiesz, procedury makr proceduralnych, takie jak <code class="language-plaintext highlighter-rouge">syn</code> [ang. <a href="https://crates.io/crates/syn">Rust crate zwany “syn”</a>, nie ma czegoś wspólnego z słowem “syn”], zwykle znajdują się na ścieżce krytycznej [ang. “critical path”] kompilacji, ale jeśli zobowiążesz się w ogóle nie używać makr proceduralnych, możesz je pominąć.</li>
+    </ul>
+  </li>
+  <li>Profilowanie poprzez zrzut do warstwy śledzenia Chrome jest skuteczne.
+    <ul>
+      <li>Spójrz na <a href="https://github.com/arxanas/git-branchless/wiki/Runbook#profiling">https://github.com/arxanas/git-branchless/wiki/Runbook#profiling</a>, aby uzyskać szczegółowe informacje na temat procedur profilowania.</li>
+      <li>Wielokrotnie korzystałem z tego systemu do debugowania problemów/regresji w związku wydajnością. Istniejące wizualizatory śledzenia Chrome są całkiem przydatne do analizy podziału spędzonego czasu.</li>
+      <li>Zawarcie parametrów funkcji było wyjątkowo przydatne, ponieważ mogłem bezpośrednio zobaczyć wycinek danych wyjściowych profilowania, który trwał zbyt długo, i sprawdzić odpowiedni OID zatwierdzenia, dzięki czemu mogłem zbadać i przetestować to konkretne zatwierdzenie.</li>
+    </ul>
+  </li>
+  <li>Spróbowałem użyć śledzenia jako danych wejściowych do mojego własnego systemu raportowania postępów (tak, aby wywołania funkcji były bezpośrednio powiązane z paskami postępu, które pojawiają się na ekranie). Było to możliwe, ale ostatecznie zrezygnowałem z tego podejścia, ponieważ operacje logiczne nie odpowiadały dokładnie jeden do jednego wywołaniom funkcji, a zbyt łatwo było zapomnieć o poprawnym opatrzeniu metodą adnotacją.</li>
+  <li>W ogóle nie próbowałem śledzenia z async/.await.</li>
+  <li>W ogóle nie próbowałem <a href="https://github.com/tokio-rs/console">https://github.com/tokio-rs/console</a>, ale chciałbym wiedzieć, czy jest to dla Was przydatne.</li>
+  <li>Ustrukturyzowane logowanie jest świetne.
+    <ul>
+      <li>Samo użycie makr ustrukturyzowanego logowania z reprezentacjami debugowania (np. <code class="language-plaintext highlighter-rouge">warn(?var, "Message")</code>) jest znacznie bardziej ergonomiczne niż ręczne interpolowanie wartości do stringów.</li>
+      <li>Obsługuje również takie rzeczy, jak renderowanie znaków niedrukowalnych, gdzie wcześniej musiałbym uważać, aby uwzględnić wartości stringów w cudzysłowach itp.</li>
+      <li>Zasadniczo można zobaczyć te zdarzenia i ich wartości w wynikach profilowania, chociaż nie musiałem profilować na podstawie pojedynczych zdarzeń, tylko na podstawie całego zakresu.</li>
+      <li>Jest to bardziej wydajne, ponieważ nie będziemy budować sznurów, jeśli wartości nie zostaną zużyte przez żadnego subskrybenta w czasie wykonywania.</li>
+    </ul>
+  </li>
+  <li>Istnieje dziwna niezgodność między wersją <code class="language-plaintext highlighter-rouge">tracing_subscriber</code> używaną przez mój kod i <code class="language-plaintext highlighter-rouge">color_eyre</code>, co oznacza, że ​​zablokowałem ją w znanej dobrej wersji tutaj: <a href="https://github.com/arxanas/git-branchless/pull/533/">https://github.com/arxanas/git-branchless/pull/533/ zatwierdzenia/e97954a9a9fab4039ad269d6b8982bb8bd95b133</a>.
+    <ul>
+      <li>Myślę, że <code class="language-plaintext highlighter-rouge">color_eyre</code> musi po prostu zaktualizować swoją wersję śledzenia-subskrybenta, ale od tamtej pory się tym nie zajmowałem.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="powiązane-posty">Powiązane posty</h2>
+
+<p>Poniżej znajduje się kilka ręcznie wybranych postów, które mogą Cię zainteresować.</p>
+
+<table class="related-posts">
+<thead>
+  <tr>
+    <th>Date</th>
+    <th></th>
+    <th>Title</th>
+  </tr>
+</thead>
+
+<tbody>
+
+
+  <tr>
+    <td>25&nbsp;Jan&nbsp;2023</td>
+    <td class="this-post">
+      
+      (this&nbsp;post)
+      
+      </td>
+    <td><a href="/śledzenie-aplikacji-rust-cli/">Używanie `tracing` w aplikacji Rust CLI</a>
+    </td>
+  </tr>
+
+</tbody>
+</table>
+
+<p>Chcesz zobaczyć więcej moich postów? Obserwuj mnie <a href="https://twitter.com/arxanas">na Twitterze</a> albo subskrybuj <a href="/preview/pr-45/pl/feed.xml">za pomocą RSS</a>.</p>
+
+<h2 id="komentarze">Komentarze</h2>
+
+<ul>
+
+
+
+</ul>
+
+<script type="text/javascript" src="/preview/pr-45/scripts/github-comment-links.js"></script>
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = "https://blog.waleedkhan.name/preview/pr-45/pl/śledzenie-aplikacji-rust-cli/";
+    this.page.identifier = "śledzenie-aplikacji-rust-cli/";
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//waleedkhan-name.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Steno & PL</h2>
+    
+    <p class="rss-subscribe">subskrybuj <a href="/preview/pr-45/pl/feed.xml">za pomocą RSS</a></p>
+    
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>Waleed Khan</li>
+          <li><a href="mailto:me@waleedkhan.name">me@waleedkhan.name</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/arxanas"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">arxanas</span></a>
+
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/arxanas"><span class="icon icon--twitter"><svg viewBox="0 0 16 16"><path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/></svg>
+</span><span class="username">arxanas</span></a>
+
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>To jest blog osobisty. Jeśli nie wykazano inaczej, wyrażone tutaj opinie są moimi własnymi, a nie opiniami moich byłych lub obecnych pracodawców.</p>
+      </div>
+    </div>
+
+  </div>
+
+  
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-53066274-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+</footer>
+
+
+  </body>
+
+</html>

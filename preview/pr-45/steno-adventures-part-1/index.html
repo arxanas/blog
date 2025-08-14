@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  
+    <title>Stenography adventures with Plover and the Ergodox EZ, part 1</title>
+  
+  <meta name="author" content="Waleed Khan">
+  <meta name="description" content="  Posts in series:  Stenography adventures with Plover and the Ergodox EZ, part 1Stenography adventures with Plover and the Ergodox EZ, part 2  Table of cont...">
+
+  <link rel="stylesheet" href="/preview/pr-45/css/main.css">
+  <link rel="canonical" href="https://blog.waleedkhan.name/preview/pr-45/steno-adventures-part-1/">
+  <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/preview/pr-45/feed.xml">
+  <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+  
+
+  <link rel="me" href="https://github.com/arxanas">
+  <link rel="me" href="https://twitter.com/arxanas">
+  <link rel="me" href="mailto:me@waleedkhan.name">
+
+  
+    <link rel="next" href="https://blog.waleedkhan.name/preview/pr-45/steno-adventures-part-2/">
+  
+  
+
+  <!-- See https://indieweb.org/webmention.io -->
+  <link rel="webmention" href="https://webmention.io/blog.waleedkhan.name/webmention" />
+  <link rel="pingback" href="https://webmention.io/webmention?forward=https://blog.waleedkhan.name/webmention" />
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/preview/pr-45/">Steno & PL</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          <a class="page-link" href="/preview/pr-45/about/">About</a>
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Stenography adventures with Plover and the Ergodox EZ, part 1</h1>
+    <p class="post-meta"><time datetime="2016-09-06T00:00:00+00:00" itemprop="datePublished">Sep 6, 2016</time>
+    
+    </p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    
+    
+<div class="series-and-toc">
+
+  <p class="series-header">Posts in series:</p>
+
+  <ol>
+
+<li><a href="/preview/pr-45/steno-adventures-part-1/">Stenography adventures with Plover and the Ergodox EZ, part 1</a></li>
+
+<li><a href="/preview/pr-45/steno-adventures-part-2/">Stenography adventures with Plover and the Ergodox EZ, part 2</a></li>
+
+</ol>
+
+  <p class="toc-header">Table of contents:</p>
+
+<ul id="markdown-toc">
+  <li><a href="#overview" id="markdown-toc-overview">Overview</a></li>
+  <li><a href="#ergonomics-is-important" id="markdown-toc-ergonomics-is-important">Ergonomics is important</a>    <ul>
+      <li><a href="#what-is-stenography-and-how-is-it-ergonomic" id="markdown-toc-what-is-stenography-and-how-is-it-ergonomic">What is stenography, and how is it ergonomic?</a></li>
+    </ul>
+  </li>
+  <li><a href="#what-does-plover-do" id="markdown-toc-what-does-plover-do">What does Plover do?</a>    <ul>
+      <li><a href="#the-tragic-keyboard-situation" id="markdown-toc-the-tragic-keyboard-situation">The tragic keyboard situation</a></li>
+      <li><a href="#so-how-does-one-find-a-compatible-keyboard" id="markdown-toc-so-how-does-one-find-a-compatible-keyboard">So how does one find a compatible keyboard?</a></li>
+      <li><a href="#before-you-buy" id="markdown-toc-before-you-buy">Before you buy</a></li>
+    </ul>
+  </li>
+  <li><a href="#now-on-to-part-2" id="markdown-toc-now-on-to-part-2">Now, on to part 2…</a></li>
+  <li><a href="#related-posts" id="markdown-toc-related-posts">Related posts</a></li>
+  <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
+</ul>
+
+</div>
+
+<h2 id="overview">Overview</h2>
+
+<p>In this article I explain my switch to <a href="http://www.openstenoproject.org/plover/">typing with Plover</a>, an
+open-source <a href="https://en.wikipedia.org/wiki/Shorthand">stenography</a> program, to help with ergonomics and incidentally my
+typing speed. This resulted in me getting a cool keyboard: the
+<a href="https://ergodox-ez.com/">Ergodox EZ</a>.</p>
+
+<p>Next, I detail my journey of setting up the Ergodox EZ for use with Plover.
+The reader may find this interesting if they like hacking on keyboard firmware,
+or useful if they want to set up their own Ergodox EZ with Plover.</p>
+
+<p>This post is split up into two parts. The first part (below) details my
+motivations, the stenography system, and the Ergodox EZ itself. <a href="/preview/pr-45/steno-adventures-part-2/">Part
+2</a> details the process of installing and modifying the firmware to be
+useful for stenography.</p>
+
+<h2 id="ergonomics-is-important">Ergonomics is important</h2>
+
+<p>One night, during my final semester at university, I was coding a class project.
+Lately, my fingers had been aching and my forearms had been twinging, which is a
+sure sign that one should look into the ergonomics of their keyboarding. But I
+was in the flow that night and I did not stop coding.</p>
+
+<p>That night, I was beset with more severe forearm pain, to the point that I had
+trouble falling asleep. I had to acknowledge my problem, and scheduled an
+appointment with an occupational therapist. They recommended some stretches,
+which I took into consideration, but I did not imagine that they would be
+sufficient to prevent a future repetitive-stress injury. Consequently, I took
+matters into my own hands.</p>
+
+<details id="stretches-actually-work">
+          <summary>Stretches actually work</summary>
+          <div><p>Later that summer, while typing at work, I found my fingers had been throbbing
+somewhat for the last few hours. At first glance, I had thought the stretches
+recommended by ergonomics professionals would help with my wrists or maybe the
+base of my fingers, but not with the middle bits of my fingers where my
+throbbing occurred.</p>
+
+<p>But I went ahead and tried some of the stretches anyways. Within minutes I
+experienced relief, despite my previous skepticism. I was very naive to dismiss
+the advice of experts, and perhaps more ignorant than the average person about
+the utility of stretches. Do not repeat my mistake.</p>
+
+<p>I do these stretches semi-regularly now when I feel my fingers are a bit stiff,
+and certainly before they start hurting. I don’t know if my prescribed set of
+stretches can prevent future repetitive-stress injuries on its own, but I do not
+intend to tax my hands enough to find out.</p>
+</div>
+        </details>
+
+<h3 id="what-is-stenography-and-how-is-it-ergonomic">What is stenography, and how is it ergonomic?</h3>
+
+<p>I had heard about an open-source stenography program called “Plover” a few times
+in the past on Hacker News. Stenography refers to <a href="https://en.wikipedia.org/wiki/Shorthand">the practice of transcribing
+in shorthand</a>. Court reporters can use stenography machines to
+transcribe the court proceedings in real-time.</p>
+
+<details id="not-to-be-confused-with-s">
+          <summary>Not to be confused with steganography</summary>
+          <div><p><em>Stenography</em> is the act of transcribing quickly.</p>
+
+<p><em>Steganography</em> is the practice of concealing messages such that it’s not
+apparent that there is even a message at all.</p>
+
+<p>These are two very different things. I mixed these words up until I began
+actually practicing stenography.</p>
+</div>
+        </details>
+
+<p>I for one am a reasonably accomplished typist, at 120 words per minute with
+Dvorak. But human speech is about 180 words per minute, so I would be left in
+the dust fairly quickly. How do court reporters do it?</p>
+
+<p>Their stenography system is designed so that they press multiple keys at once to
+stroke an entire syllable or word. They have special keyboards (called
+<a href="https://en.wikipedia.org/wiki/Stenotype">“stenotype machines”</a>) that are designed to accommodate English
+phonetic patterns.</p>
+
+<details id="how-do-the-phonetics-work">
+          <summary>How do the phonetics work?</summary>
+          <div><p>For example, the word “stretches” can be typed in one stroke: <code class="language-plaintext highlighter-rouge">STREFPS</code> on the
+keyboard below. Most of the letters are pronounced normally, but some
+combinations will produce different sounds. For example, the ‘n’ sound is formed
+with <code class="language-plaintext highlighter-rouge">TPH</code>. In “stretches”, the <code class="language-plaintext highlighter-rouge">FP</code> combination forms the ‘ch’ sound.</p>
+
+<p>Roughly, the letters are pronounced from left to right. The S on the left spans
+two keys; either works.</p>
+
+<figure class="figure">
+        <a href="/preview/pr-45/assets/posts/adventures-in-stenography-part-1/stretches.gif"><img class="center-image" src="/preview/pr-45/assets/posts/adventures-in-stenography-part-1/stretches.gif" alt="The steno keyboard layout, typing the word &quot;stretches&quot;." title="The steno keyboard layout, typing the word &quot;stretches&quot;." /></a>
+        <figcaption class="caption"><p>The steno keyboard layout, typing the word &#8220;stretches&#8221;. Adapted from
+          <a href="http://qwertysteno.com/Basics/Introduction.php">qwertysteno.com</a></p>
+</figcaption>
+      </figure>
+
+<p>Sometimes, the operator has to type two keys with one finger. The word
+“different” can be stroked as <code class="language-plaintext highlighter-rouge">TKEUFRPBT</code>, which involves four sets of keys that
+need two fingers to strike: <code class="language-plaintext highlighter-rouge">TK</code>, <code class="language-plaintext highlighter-rouge">EU</code>, <code class="language-plaintext highlighter-rouge">FR</code>, and <code class="language-plaintext highlighter-rouge">PB</code>.</p>
+
+<p>The phonetic translations are as follows:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">TK</code> is the ‘d’ sound.</li>
+  <li><code class="language-plaintext highlighter-rouge">EU</code> is the short ‘i’ sound.</li>
+  <li><code class="language-plaintext highlighter-rouge">F</code> and <code class="language-plaintext highlighter-rouge">R</code> are just ‘f’ and ‘r’.</li>
+  <li><code class="language-plaintext highlighter-rouge">PB</code> is the ‘n’ sound.</li>
+  <li><code class="language-plaintext highlighter-rouge">T</code> is just the ‘t’ sound.</li>
+</ul>
+
+<p>Essentially, this is an elaborate macro system that uses chording and a
+mnemonically laid-out keyboard.</p>
+</div>
+        </details>
+
+<p>Not only are they faster than conventional typists, but they type on the order
+of five times fewer keystrokes as well, reducing muscle strain dramatically. The
+downsides are that one requires specialized hardware (ameliorated by Plover, as
+I discuss below) and must invest the time to learn this system. Mirabai Knight,
+founder of the <a href="http://www.openstenoproject.org/">Open Steno Project</a>, has <a href="http://plover.stenoknight.com/2010/03/how-to-speak-with-your-fingers.html">a comprehensive list of
+reasons</a> why you might want to use Plover.</p>
+
+<h2 id="what-does-plover-do">What does Plover do?</h2>
+
+<p>Conventional stenographers use a specialized stenography machine for their
+transcription. The lowest-end of these machines start at around $500 — in used
+condition, no less — and they also require proprietary steno software.</p>
+
+<p>Plover is a program that…</p>
+
+<ol>
+  <li>
+    <p>Interfaces with these steno machines directly by implementing their
+protocols, cutting out the proprietary software.</p>
+  </li>
+  <li>
+    <p>Allows an individual to use their keyboard as a steno machine instead. One
+just positions their hands in a certain way and pretends that they are
+typing on a steno keyboard.</p>
+  </li>
+  <li>
+    <p>Types into any window. Traditional steno software has you type into a
+buffer window and then paste it into an application later. With Plover, you
+can write documents, emails, and chat messages directly.</p>
+  </li>
+</ol>
+
+<h3 id="the-tragic-keyboard-situation">The tragic keyboard situation</h3>
+
+<p>If one is to use their keyboard as a steno machine, it must have <a href="https://en.wikipedia.org/wiki/Rollover_(key)#n-key_rollover">N-key rollover
+(NKRO)</a>, which most do not. With a reasonably nice mechanical keyboard,
+one can press no more than six keys or so and have them all register (which we
+would call 6-key rollover, or 6KRO). Most commodity keyboards support far fewer
+simultaneous presses.</p>
+
+<p>The stenographer often presses more than 10 keys simultaneously, so these
+commodity keyboards simply can’t be used effectively for stenography. Therefore
+we need a keyboard that can support any number of simultaneous presses (“N-key”,
+with N meaning it supports any number), or one with a high value of N (there are
+22 keys on a steno keyboard, so a number around there would be good).</p>
+
+<p>Even many high-end keyboards do not support an arbitrary number of keys at once
+due to <a href="https://gist.github.com/nelstrom/11232558#gistcomment-1422490">manufacturers not implementing a more complex USB profile</a>.
+One can opt to use a PS/2 cable (which my laptop doesn’t have a port for), or
+get a keyboard with firmware that does support NKRO.</p>
+
+<details id="why-do-keyboards-suck-at-">
+          <summary>Why do keyboards suck at typing keys?</summary>
+          <div><p>You would think that keyboards would at least be good at the very thing they’re
+designed to do! Most keyboards don’t handle very many keys at once because it is
+expensive to do so, and frankly, most users don’t need to type that many keys
+simultaneously.</p>
+
+<p>A simplified design of a keyboard is to line wires in rows and columns
+underneath the keys. When a key is pressed, it completes the circuits of the two
+wires below it (one going horizontally and one going vertically). The firmware
+can look up the row-column pair in a table and determine the key being pressed.</p>
+
+<figure class="figure">
+        <a href="/preview/pr-45/assets/posts/adventures-in-stenography-part-1/unambiguous-keys.png"><img class="center-image" src="/preview/pr-45/assets/posts/adventures-in-stenography-part-1/unambiguous-keys.png" alt="Pressing a key triggers wires that can be used to look up the key." title="Pressing a key triggers wires that can be used to look up the key." /></a>
+        <figcaption class="caption"><p>Pressing a key triggers wires that can be
+          used to look up the key.</p>
+</figcaption>
+      </figure>
+
+<p>If one were to actually design a keyboard like this, it would have ambiguous
+inputs. Look at the ‘A’ and ‘W’ keys on a Qwerty keyboard. Pressing these both
+at once would result in a configuration of wires that is the same as the pattern
+when pressing ‘Q’ and ‘S’ at once.</p>
+
+<figure class="figure">
+        <a href="/preview/pr-45/assets/posts/adventures-in-stenography-part-1/ambiguous-keys.png"><img class="center-image" src="/preview/pr-45/assets/posts/adventures-in-stenography-part-1/ambiguous-keys.png" alt="If too many wires are pressed at once, multiple keys being pressed would be ambiguous." title="If too many wires are pressed at once, multiple keys being pressed would be ambiguous." /></a>
+        <figcaption class="caption"><p>If too many wires are pressed at once, multiple keys being pressed
+          would be ambiguous.</p>
+</figcaption>
+      </figure>
+
+<p>Actual keyboards don’t do exactly this, considering that one can type two
+characters at once on most keyboards. But they still don’t handle arbitrary
+numbers of simultaneous keypresses.</p>
+
+<p>High-end keyboards can support arbitrary numbers of keypresses by attaching
+expensive diodes to each individual key. But then the USB protocol doesn’t
+immediately support the high number of keys, as linked above.</p>
+</div>
+        </details>
+
+<h3 id="so-how-does-one-find-a-compatible-keyboard">So how does one find a compatible keyboard?</h3>
+
+<p>One will have to check for “NKRO over USB” in the product description if they
+intend to use USB; “NKRO” by itself usually means over PS/2. <a href="http://stenoknight.com/wiki/N-key_rollover#Known_supported_keyboards">There are several
+known-to-work NKRO options</a>, starting from about $40. At the
+extreme opposite end of the price spectrum, I ordered my Ergodox EZ for
+$325.</p>
+
+<details id="how-could-one-be-so-reckl">
+          <summary>How could one be so reckless as to drop $325 on a keyboard?</summary>
+          <div><p>My own keyboard came with all of the optional knick-knacks: the wrist rests and
+tilt/tent kit. Additionally, I ordered it on-demand; many will order it on
+Massdrop in groups, which results in a lower unit price.</p>
+
+<p>Even if I couldn’t use this keyboard for stenography, I would probably still use
+the keyboard daily for ergonomic reasons:</p>
+
+<ul>
+  <li>It is a split keyboard layout. I would recommend it heartily: letting the
+hands maintain their own comfortable distance from each other is quite nice.</li>
+  <li>The firmware is entirely customizable. I have Dvorak set up at the firmware
+level, which is convenient.</li>
+  <li>The firmware supports mouse keys (also media keys, etc.). When I can’t use a
+keyboarding extension like <a href="http://5digits.org/pentadactyl/">Pentadactyl</a> or
+<a href="https://shortcatapp.com/">Shortcat</a> in a program, I still don’t have to reach for an accursed
+mouse.</li>
+  <li>Unexpectedly, the keyboard is nice for using my laptop while lying in bed.
+I can lay back and have my hands comfortably at my sides, rather than tilted
+upward and resting on the edge of the laptop (which is probably terrible for the
+nerves).</li>
+</ul>
+
+<p>(Or I could be rationalizing. I sure hope not.)</p>
+</div>
+        </details>
+
+<p>The Ergodox EZ is a split keyboard with thumb clusters on each half
+instead of a single space bar. There are two long, vertical keys in each
+cluster. If one looks at the stenographer’s keyboard layout, they will notice
+that it has a set of four vowel keys — two for each thumb. So if one were to set
+up the Ergodox EZ appropriately, they would have an almost-steno-machine
+that doubles as a regular keyboard.</p>
+
+<figure class="figure">
+        <a href="/preview/pr-45/assets/posts/adventures-in-stenography-part-1/ergodox-ez.jpg"><img class="center-image" src="/preview/pr-45/assets/posts/adventures-in-stenography-part-1/ergodox-ez.jpg" alt="The Ergodox EZ keyboard. Notice the thumb clusters." title="The Ergodox EZ keyboard. Notice the thumb clusters." /></a>
+        <figcaption class="caption"><p>The Ergodox&nbsp;EZ keyboard <a href="https://twitter.com/ergodoxez/status/681630158512500736">on somebody else&#8217;s desk</a>. Notice the thumb clusters.</p>
+</figcaption>
+      </figure>
+
+<h3 id="before-you-buy">Before you buy</h3>
+
+<p>If you’re going to buy an Ergodox EZ, here’s a couple of things that I
+discovered only after joining the Plover chat room:</p>
+
+<ul>
+  <li>
+    <p>The blank keycap and non-blank keycap versions are actually shaped
+differently! The blank version is more arched, which could potentially
+cause problems trying to hit adjacent keys at once, although I haven’t tried it.</p>
+  </li>
+  <li>
+    <p>The keyswitches control how much force you need to use to press a key.
+Steno machines typically require on the order of 15g to actuate. I got the
+Gateron Brown switches, which are recommended as general-purpose switches,
+but they have a 55g actuation force. (Stenography is anything but
+general-purpose.)</p>
+
+    <p>The lightest switches available for the Ergodox EZ are the Gateron
+Whites, at 35g. If you intend to steno a lot on the Ergodox EZ (that
+is, you don’t intend to get a student or professional steno machine after
+using the Ergodox EZ as a learning device), then you probably ought
+to get those instead.</p>
+  </li>
+</ul>
+
+<h2 id="now-on-to-part-2">Now, on to part 2…</h2>
+
+<p>…in which I get frustrated at the sorry state of firmware and build my own.
+<a href="/preview/pr-45/steno-adventures-part-2/">Click here for part 2</a>.</p>
+
+<h2 id="related-posts">Related posts</h2>
+
+<p>The following are hand-curated posts which you might find interesting.</p>
+
+<table class="related-posts">
+<thead>
+  <tr>
+    <th>Date</th>
+    <th></th>
+    <th>Title</th>
+  </tr>
+</thead>
+
+<tbody>
+
+
+  <tr>
+    <td>24&nbsp;Aug&nbsp;2016</td>
+    <td class="this-post">
+      
+      </td>
+    <td><a href="/steno-journal/">Steno Journal: Weeks 1-12</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>06&nbsp;Sep&nbsp;2016</td>
+    <td class="this-post">
+      
+      (this&nbsp;post)
+      
+      </td>
+    <td><a href="/steno-adventures-part-1/">Stenography adventures with Plover and the Ergodox EZ, part 1</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>06&nbsp;Sep&nbsp;2016</td>
+    <td class="this-post">
+      
+      </td>
+    <td><a href="/steno-adventures-part-2/">Stenography adventures with Plover and the Ergodox EZ, part 2</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>21&nbsp;May&nbsp;2018</td>
+    <td class="this-post">
+      
+      </td>
+    <td><a href="/my-steno-system/">My steno system</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>05&nbsp;Apr&nbsp;2025</td>
+    <td class="this-post">
+      
+      </td>
+    <td><a href="/language-learning-anecdotes/">Language-learning anecdotes</a>
+    </td>
+  </tr>
+
+</tbody>
+</table>
+
+<p>Want to see more of my posts? Follow me <a href="https://twitter.com/arxanas">on Twitter</a> or subscribe <a href="/preview/pr-45/feed.xml">via RSS</a>.</p>
+
+<h2 id="comments">Comments</h2>
+
+<ul>
+
+
+
+</ul>
+
+<script type="text/javascript" src="/preview/pr-45/scripts/github-comment-links.js"></script>
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = "https://blog.waleedkhan.name/preview/pr-45/steno-adventures-part-1/";
+    this.page.identifier = "steno-adventures-part-1/";
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//waleedkhan-name.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Steno & PL</h2>
+    
+    <p class="rss-subscribe">subscribe <a href="/preview/pr-45/feed.xml">via RSS</a></p>
+    
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>Waleed Khan</li>
+          <li><a href="mailto:me@waleedkhan.name">me@waleedkhan.name</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/arxanas"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">arxanas</span></a>
+
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/arxanas"><span class="icon icon--twitter"><svg viewBox="0 0 16 16"><path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/></svg>
+</span><span class="username">arxanas</span></a>
+
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>This is a personal blog. Unless otherwise stated, the opinions expressed here are my own, and not those of my past or present employers.</p>
+      </div>
+    </div>
+
+  </div>
+
+  
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-53066274-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+</footer>
+
+
+  </body>
+
+</html>
