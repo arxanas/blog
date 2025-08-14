@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  
+    <title>Anecdata: hours invested vs percentile rank</title>
+  
+  <meta name="author" content="Waleed Khan">
+  <meta name="description" content="The “10,000-hour rule” is the idea suggested in Malcolm Gladwell’s book Outliers that you need about 10,000 hours of practice to become an expert in a given ...">
+
+  <link rel="stylesheet" href="/preview/44/css/main.css">
+  <link rel="canonical" href="https://blog.waleedkhan.name/preview/44/hours-invested-vs-percentile-rank/">
+  <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/preview/44/feed.xml">
+  <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+  
+
+  <link rel="me" href="https://github.com/arxanas">
+  <link rel="me" href="https://twitter.com/arxanas">
+  <link rel="me" href="mailto:me@waleedkhan.name">
+
+  
+  
+
+  <!-- See https://indieweb.org/webmention.io -->
+  <link rel="webmention" href="https://webmention.io/blog.waleedkhan.name/webmention" />
+  <link rel="pingback" href="https://webmention.io/webmention?forward=https://blog.waleedkhan.name/webmention" />
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/preview/44/">Steno & PL</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          <a class="page-link" href="/preview/44/about/">About</a>
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Anecdata: hours invested vs percentile rank</h1>
+    <p class="post-meta"><time datetime="2021-04-02T00:00:00+00:00" itemprop="datePublished">Apr 2, 2021</time>
+    
+    </p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    
+    <p>The “10,000-hour rule” is the idea suggested in Malcolm Gladwell’s book <a href="https://en.wikipedia.org/wiki/Outliers_(book)"><em>Outliers</em></a> that you need about 10,000 hours of practice to become an expert in a given field. The specifics are disputed (both in terms of the absolute amount of time, and how much of skill is explained by practice time), but it’s a simple way to evaluate one’s progress towards experthood.</p>
+
+<p>I switched from competitive chess to competitive videogaming. It’s interesting to compare the amount of time invested in each and examine how skillful I became in their respective competitive scenes as a result.</p>
+
+<div class="series-and-toc">
+
+  <p class="toc-header">Table of contents:</p>
+
+<ul id="markdown-toc">
+  <li><a href="#switching-away-from-chess" id="markdown-toc-switching-away-from-chess">Switching away from chess</a></li>
+  <li><a href="#data" id="markdown-toc-data">Data</a>    <ul>
+      <li><a href="#chess" id="markdown-toc-chess">Chess</a>        <ul>
+          <li><a href="#background-practicing-chess" id="markdown-toc-background-practicing-chess">Background: practicing chess</a></li>
+          <li><a href="#percentile-calculation" id="markdown-toc-percentile-calculation">Percentile calculation</a></li>
+          <li><a href="#practice-time-breakdown" id="markdown-toc-practice-time-breakdown">Practice time breakdown</a></li>
+        </ul>
+      </li>
+      <li><a href="#smash" id="markdown-toc-smash">Smash</a>        <ul>
+          <li><a href="#background-practicing-smash" id="markdown-toc-background-practicing-smash">Background: practicing Smash</a></li>
+          <li><a href="#percentile-calculation-1" id="markdown-toc-percentile-calculation-1">Percentile calculation</a></li>
+          <li><a href="#practice-time-breakdown-1" id="markdown-toc-practice-time-breakdown-1">Practice time breakdown</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#analysis" id="markdown-toc-analysis">Analysis</a>    <ul>
+      <li><a href="#summary" id="markdown-toc-summary">Summary</a></li>
+      <li><a href="#caveats" id="markdown-toc-caveats">Caveats</a>        <ul>
+          <li><a href="#blitz-chess" id="markdown-toc-blitz-chess">Blitz chess</a></li>
+          <li><a href="#online-smash" id="markdown-toc-online-smash">Online Smash</a></li>
+          <li><a href="#differing-player-pools" id="markdown-toc-differing-player-pools">Differing player pools</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#conclusions" id="markdown-toc-conclusions">Conclusions</a>    <ul>
+      <li><a href="#is-smash-a-better-use-of-my-time" id="markdown-toc-is-smash-a-better-use-of-my-time">Is <em>Smash</em> a better use of my time?</a></li>
+      <li><a href="#can-i-reach-expert-strength-in-smash" id="markdown-toc-can-i-reach-expert-strength-in-smash">Can I reach expert strength in <em>Smash</em>?</a></li>
+      <li><a href="#are-there-any-lessons-for-my-other-hobbies" id="markdown-toc-are-there-any-lessons-for-my-other-hobbies">Are there any lessons for my other hobbies?</a></li>
+    </ul>
+  </li>
+  <li><a href="#related-posts" id="markdown-toc-related-posts">Related posts</a></li>
+  <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
+</ul>
+
+</div>
+
+<h2 id="switching-away-from-chess">Switching away from chess</h2>
+
+<p>For the last few years, I have been aiming at becoming a world-class player in my choice of game. Of course, whether I will achieve that goal is a different matter!</p>
+
+<p>I started investing in competitive chess in January 2014, while studying at university, around the time <a href="https://en.wikipedia.org/wiki/Magnus_Carlsen">Magnus Carlsen</a> won the world championship and consequently sparked a renewed interest in chess for many.</p>
+
+<p>I graduated from university in April 2016, took up a full-time job, and played continuously until March 2019. I decided to quit in favor of playing the fighting game <a href="https://en.wikipedia.org/wiki/Super_Smash_Bros._Ultimate"><em>Super Smash Bros. Ultimate</em></a> competitively. It was released in December 2018, just a few months prior.</p>
+
+<p>I decided to switch for two main reasons:</p>
+
+<ul>
+  <li>The competition in chess is much fiercer. The game has been popular for hundreds of years, and the learning tools and resources have developed much more than for the <em>Smash Bros.</em> franchise, whose first entrant was released in 1999.</li>
+  <li>I generally enjoy playing <em>Smash</em> more than chess, which means that I naturally invest more practice time into it.</li>
+</ul>
+
+<p>Since I invested a significant amount of time in chess before dropping it, I want to look back at the data in this article and decide it was justified from a strictly numerical point of view. This might also impart some useful lessons for my other hobbies (currently piano and learning Polish).</p>
+
+<h2 id="data">Data</h2>
+
+<p>You can skip this section to go to <a href="#analysis">Analysis</a> if the details of the data don’t interest you.</p>
+
+<h3 id="chess">Chess</h3>
+
+<p>As a kid, I knew the rules and played in a handful of scholastic tournaments of laughable strength. For my chess blitz rating, I started at an estimated <strong>22nd percentile</strong> and spent <strong>1068 hours practicing</strong> to proceed to the <strong>77th percentile</strong>.  Blitz strength may not be a good measure of skill, so see the analysis later.</p>
+
+<h4 id="background-practicing-chess">Background: practicing chess</h4>
+
+<p>Chess practice is primarily broken into time spent playing games and time spent studying. Studying is further divided into many areas:</p>
+
+<ul>
+  <li><em>Tactics training</em>: The majority of training time is spent here. There are many automated tools to improve tactical skill, since it can be evaluated entirely by computer.</li>
+  <li><em>Strategic training</em>: This is harder to train. Usually, one learns by reading about abstract principles in books, analyzing games, or receiving professional instruction.</li>
+  <li><em>Endgame training</em>: At the endgame of chess, there are few pieces remaining on the board, and a mix of endgame-specific tactical and strategic principles need to be studied.</li>
+  <li><em>Opening training</em>: Usually, it’s recommended for beginners not to focus on this, as the advantages are marginal compared to time spent on other areas of the game.</li>
+  <li>Analyzing one’s own games.</li>
+  <li>Analyzing top players’ games.</li>
+</ul>
+
+<h4 id="percentile-calculation">Percentile calculation</h4>
+
+<p>I estimated the percentile for my blitz strength. In a blitz game, each side has under ten minutes (or equivalent, due to chess clock rules) to make all their moves.</p>
+
+<p>I started a blitz rating of 850 at Chess.com. I wasn’t able to access the estimated percentile on Chess.com, so I added 300 rating points to roughly convert it to a Lichess rating, and used their leaderboards. I switched to primarly playing on Lichess for most games, where I ended with a blitz rating of 1801, which is the 77th percentile according to the Lichess leaderboards.</p>
+
+<h4 id="practice-time-breakdown">Practice time breakdown</h4>
+
+<ul>
+  <li><a href="https://chesstempo.com/">ChessTempo</a> tactics training: 746.5 hours.</li>
+  <li><a href="https://lichess.org/">Lichess</a> game time: 275 hours (1753 games).</li>
+  <li><a href="https://chess.com/">Chess.com</a> game time: estimated 47 hours (300 games).
+    <ul>
+      <li>I couldn’t find this information on Chess.com easily. I took the average time per game from Lichess (275 hours / 1753 games) and multiplied it by my total number of games on Chess.com (300 games).</li>
+    </ul>
+  </li>
+  <li>Lichess percentile: 77% blitz (from the <a href="https://lichess.org/stat/rating/distribution/blitz">blitz leaderboard</a>), 80% rapid (from the <a href="https://lichess.org/stat/rating/distribution/rapid">rapid leaderboard</a>).
+    <ul>
+      <li>Chess.com also has percentile information, but it’s not available to me unless I’ve played a game recently.</li>
+    </ul>
+  </li>
+  <li>A small amount of time (&lt;20 hours) reading a couple of chess books.</li>
+  <li>A small amount of time (&lt;20 hours) playing at the local chess club. (The events take place in a windowless basement for up to 12 hours at a time, so I only went a couple of times.)</li>
+</ul>
+
+<p>I took the lower bound of 746 + 275 + 47 = 1068 hours.</p>
+
+<h3 id="smash">Smash</h3>
+
+<p>I played <em>Super Smash Bros. Brawl</em> as a kid, but only very casually. I’ve also had a variety of other dexterity-focused video games and hobbies.</p>
+
+<p>I started at the <strong>4th percentile</strong> and spent an estimated <strong>1204</strong> hours to reach the <strong>99th percentile</strong> of online players.</p>
+
+<h4 id="background-practicing-smash">Background: practicing Smash</h4>
+
+<p>There is a “training mode” in <em>Smash Ultimate</em>, which allows you to test out moves and combos against CPU opponents or real training partners. People use training mode to do drills, which are necessary to execute the fine-grained movements required by the game.</p>
+
+<p>The training mode is somewhat deficient compared to other fighting games when it comes to practicing combos rather than doing drills. While you’re executing a combo, the opponent may be able to input certain moves to escape, which the CPU will not do. If you don’t have a training partner, there are some software mods and hardware devices which can simulate these inputs. I didn’t have access to a training partner, and I didn’t use one of these automated solutions.</p>
+
+<p>I watched a few training videos on YouTube for general <em>Smash</em> skills and specific to my character. I even <a href="/smash-training-retrospective/">created a training tool</a> for myself to practice drills. This is an example of where I think the training tools are not well-developed in Smash compared to chess, and having access to a new tool could in principle accelerate the growth of new entrants.</p>
+
+<p>Other than training mode, players play games, either in-person or online. They can also analyze them later, although the built-in tools for doing so are not convenient to use. I spent a significant amount of time in training mode, but I mostly played games.</p>
+
+<h4 id="percentile-calculation-1">Percentile calculation</h4>
+
+<p>The <em>Smash</em> online gameplay uses an inverted ranking system, in which your ranking is the number of players that you’re better than. It’s probably backed by an traditional rating system. Annoyingly, this means that your ranking will change over time without any meaningful differences in your skill.</p>
+
+<p>When a player reaches a percentile certain threshold, they’re admitted into “Elite Smash”. User-reported numbers have allowed people to reverse-engineer the total number of ranked players at any given time. In my experience, the estimate is fairly accurate (say, within 25,000).</p>
+
+<p>Unfortunately, I don’t remember the exact player count when I started. Some trawling through historical Reddit threads suggests it was at least 3,000,000 players. I remember being below 100,000 rank when I started, so that optimistically puts me at the 4th percentile.</p>
+
+<h4 id="practice-time-breakdown-1">Practice time breakdown</h4>
+
+<p>The Nintendo Switch records in-game time for the games you play. According to the Nintendo Switch’s in-game play time, I spent approximately 1204 hours to reach the 99.0th percentile. Some of that time was spent in loading screens or playing casually with friends.</p>
+
+<h2 id="analysis">Analysis</h2>
+
+<h3 id="summary">Summary</h3>
+
+<p>The data is summarized below:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Game</th>
+      <th style="text-align: right">Start percentile</th>
+      <th style="text-align: right">Hours spent</th>
+      <th style="text-align: right">End percentile</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">Chess</td>
+      <td style="text-align: right">22%</td>
+      <td style="text-align: right">1068</td>
+      <td style="text-align: right">77%</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><em>Smash Ultimate</em></td>
+      <td style="text-align: right">4%</td>
+      <td style="text-align: right">1204</td>
+      <td style="text-align: right">99%</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Based on just the numbers, it looks like practicing <em>Smash Ultimate</em> is a significantly better use of my time!</p>
+
+<h3 id="caveats">Caveats</h3>
+
+<h4 id="blitz-chess">Blitz chess</h4>
+
+<p>I primarily played “blitz” chess. In a blitz game, each side has under ten minutes (or equivalent, due to chess clock rules) to make all their moves. The conventional wisdom is that one should focus on standard chess to improve their general skills, and blitz chess to improve their blitz skills.</p>
+
+<p>I also played “rapid” chess games (which range between ten and thirty minutes). These games are much closer to the kind of games played in tournaments, but arguably still not slow enough. Interestingly, my rapid ratings were almost exactly the same as my blitz ratings:</p>
+
+<ul>
+  <li>Chess.com: blitz 1644, rapid 1645</li>
+  <li>Lichess: blitz 1801, rapid 1804</li>
+</ul>
+
+<p>One could reasonably argue that I made much less progress in chess than in <em>Smash</em> because I didn’t play enough slow chess. I’m not necessarily convinced by this conclusion:</p>
+
+<ul>
+  <li>Playing blitz games rather than slow games means more games with shorter feedback loops. Why should that be a bad thing? I think the determination of quality of this practice time is how much I thought about the game while playing it, rather than how long the game happened to be. Personally, I played blitz chess deliberately, focusing on finding a strong move, rather than running down the clock or playing on instinct.</li>
+  <li>746 hours / 1068 hours = 69% of my practice time was spent on tactics training. Does that mean that the other 31% of time was so poorly spent that it explains the 22-point percentile difference between chess and <em>Smash</em>?</li>
+</ul>
+
+<p>I have not formally researched this topic to see if the question has been answered in the literature.</p>
+
+<h4 id="online-smash">Online Smash</h4>
+
+<p>The online experience for chess is as good or better than over-the-board experience. It’s generally easier to see all the pieces and move them around. Most chess sites implement a “pre-move” system, which is convenient, and makes it possible to play games at a speed which aren’t realistic over-the board.</p>
+
+<p>On the other hand, the online experience for <em>Smash Ultimate</em> is not very good. In an in-person game, there are six frames (0.1 seconds) of input delay between pressing a button and having it happen. The online gameplay automatically enforces a minimum of five extra frames of delay, almost doubling the input delay compared to an in-person game, regardless of the actual geographic latency between players.</p>
+
+<p>Furthermore, the netcode for <em>Smash Ultimate</em> uses a primarily “delay-based” mechanism, where all messages have to be acknowledged by all parties before gameplay can proceed. The current state-of-the-art for online fighting games is “rollback-based”, where each party can speculatively execute actions on behalf of the other party, and fix the game state only if the prediction was wrong.</p>
+
+<p>As a result of these factors, <em>Smash Ultimate</em> has more latency than you would expect from a different fighting game, to the point where the metagame changes significantly online, and players generally can’t play optimally. Online <em>Smash Ultimate</em> tournaments are not regarded seriously in the competitive scene, compared to in-person tournaments.</p>
+
+<h4 id="differing-player-pools">Differing player pools</h4>
+
+<p><em>Smash Bros.</em> has always been marketed by Nintendo as a primarily casual game, whereas chess may be considered to have a more serious player-base. So reaching the 99th percentile in online <em>Smash</em> play is not as meaningful as reaching the 99th percentile in online chess play.</p>
+
+<p>In-person tournaments have a more serious self-selected pool of players. Since I quit my local chess club, and since COVID-19 shut down in-person <em>Smash</em> tournaments, it’s hard for me to get a sense of how I compare in the competitive scene. My guess is that I’m below the 50th percentile among in-person tournament players for both games.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<h3 id="is-smash-a-better-use-of-my-time">Is <em>Smash</em> a better use of my time?</h3>
+
+<p>Certainly. Regardless of the absolute amount of time spent or the percentiles achieved, I managed to spend about the same amount of practice time in chess over five years as I did in <em>Smash</em> over two years. This indicates that I naturally enjoy it a lot more, and I will probably be better at it as a result.</p>
+
+<h3 id="can-i-reach-expert-strength-in-smash">Can I reach expert strength in <em>Smash</em>?</h3>
+
+<p>If we assume that it takes 10,000 hours of practice, then maybe. At the rate of 1200 practice hours over two years, one would expect that I could reach the 10,000 hour mark in about 6.3 years from now.</p>
+
+<p>A particular concern for competitive videogaming is that one can expect response times to <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0094215">start declining at the age of 24</a>. I am 24 at the time of this writing, so I would be 30 years of age by the time I reached 10,000 hours, which will put me at a natural disadvantage compared to younger players. It might not be an insurmountable obstacle — it’s not as if 30-year-olds are known for their infamously-poor response times.</p>
+
+<p>One case-study is the <em>Super Smash Bros. Melee</em> player <a href="https://www.ssbwiki.com/Smasher:Zain">Zain</a>, who started playing competitively in 2014, and started producing top results within five years. It’s an encouraging result in terms of the absolute timeline. On the other hand, it’s possible that he simply practices around 3.5x as much as me (that is, 2000 hours a year, rather than 1200 hours in two years).</p>
+
+<p>Since <em>Smash</em> is not as well developed as chess, it might be that I could reach an expert level in less time than the 10,000 hours. Or it simply might not require 10,000 hours.</p>
+
+<h3 id="are-there-any-lessons-for-my-other-hobbies">Are there any lessons for my other hobbies?</h3>
+
+<p>My piano-playing ability is quite poor at the moment. I would estimate I’ve spent around 300 total practice hours on it, since it took it up in November 2019. Unfortunately, I took no objective measurements.</p>
+
+<p>Unlike competitive videogaming, where one is matched to an opponent of similar strength, a piano player typically compares themselves to the best players in the field. It’s sometimes demoralizing to compare my performances of the same pieces with theirs. But it’s a relief to see that no matter how I feel now, I can expect to see significant improvements in ability as I reach even the 1000-hour mark.</p>
+
+<h2 id="related-posts">Related posts</h2>
+
+<p>The following are hand-curated posts which you might find interesting.</p>
+
+<table class="related-posts">
+<thead>
+  <tr>
+    <th>Date</th>
+    <th></th>
+    <th>Title</th>
+  </tr>
+</thead>
+
+<tbody>
+
+
+  <tr>
+    <td>30&nbsp;Jul&nbsp;2020</td>
+    <td class="this-post">
+      
+      </td>
+    <td><a href="/lan-adapter/">A LAN adapter isn't everything</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>04&nbsp;Aug&nbsp;2020</td>
+    <td class="this-post">
+      
+      </td>
+    <td><a href="/smash-bros-parabola-rule/">Smash Bros: the parabola rule</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>10&nbsp;Mar&nbsp;2021</td>
+    <td class="this-post">
+      
+      </td>
+    <td><a href="/pro-controller-stick-drift/">On Pro Controller stick drift</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>02&nbsp;Apr&nbsp;2021</td>
+    <td class="this-post">
+      
+      (this&nbsp;post)
+      
+      </td>
+    <td><a href="/hours-invested-vs-percentile-rank/">Anecdata: hours invested vs percentile rank</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>08&nbsp;Jun&nbsp;2021</td>
+    <td class="this-post">
+      
+      </td>
+    <td><a href="/smash-mistakes/">My easiest-to-fix Smash mistakes</a>
+    </td>
+  </tr>
+
+</tbody>
+</table>
+
+<p>Want to see more of my posts? Follow me <a href="https://twitter.com/arxanas">on Twitter</a> or subscribe <a href="/preview/44/feed.xml">via RSS</a>.</p>
+
+<h2 id="comments">Comments</h2>
+
+<ul>
+
+
+
+</ul>
+
+<script type="text/javascript" src="/preview/44/scripts/github-comment-links.js"></script>
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = "https://blog.waleedkhan.name/preview/44/hours-invested-vs-percentile-rank/";
+    this.page.identifier = "hours-invested-vs-percentile-rank/";
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//waleedkhan-name.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Steno & PL</h2>
+    
+    <p class="rss-subscribe">subscribe <a href="/preview/44/feed.xml">via RSS</a></p>
+    
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>Waleed Khan</li>
+          <li><a href="mailto:me@waleedkhan.name">me@waleedkhan.name</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/arxanas"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">arxanas</span></a>
+
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/arxanas"><span class="icon icon--twitter"><svg viewBox="0 0 16 16"><path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/></svg>
+</span><span class="username">arxanas</span></a>
+
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>This is a personal blog. Unless otherwise stated, the opinions expressed here are my own, and not those of my past or present employers.</p>
+      </div>
+    </div>
+
+  </div>
+
+  
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-53066274-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+</footer>
+
+
+  </body>
+
+</html>
