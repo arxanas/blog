@@ -3,6 +3,7 @@ layout: post
 title: "Functions are constants too"
 permalink: functions-are-constants/
 tags:
+  - programming-languages
   - software-engineering
 ---
 

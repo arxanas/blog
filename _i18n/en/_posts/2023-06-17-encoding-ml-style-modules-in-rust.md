@@ -5,6 +5,7 @@ permalink: encoding-ml-style-modules-in-rust/
 translations:
   pl: "/pl/kodowanie-w-rust-modułów-w-stylu-ml/"
 tags:
+  - programming-languages
   - rust
 lobsters: https://lobste.rs/s/hcwjcs/encoding_ml_style_modules_rust
 ---
