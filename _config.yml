@@ -88,3 +88,10 @@ related_posts:
   - - writing-brittle-code/
     - on-trivial-changes/
     - testing-tui-apps/
+
+  - - union-vs-sum-types/
+    - functions-are-constants/
+    - monotonicity/
+    - data-comprehension-syntaxes/
+    - encoding-ml-style-modules-in-rust/
+    - lithe-less-analysis-with-datalog/
