@@ -13,9 +13,9 @@
   <meta name="author" content="Waleed Khan">
   <meta name="description" content="            Intended audience              Intermediate to advanced Git users.        Developers of version control systems.                    Origin       ...">
 
-  <link rel="stylesheet" href="/preview/44/css/main.css">
-  <link rel="canonical" href="https://blog.waleedkhan.name/preview/44/bringing-revsets-to-git/">
-  <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/preview/44/feed.xml">
+  <link rel="stylesheet" href="/preview/pr-44/css/main.css">
+  <link rel="canonical" href="https://blog.waleedkhan.name/preview/pr-44/bringing-revsets-to-git/">
+  <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/preview/pr-44/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
   
 
@@ -38,7 +38,7 @@
 
   <div class="wrapper">
 
-    <a class="site-title" href="/preview/44/">Steno & PL</a>
+    <a class="site-title" href="/preview/pr-44/">Steno & PL</a>
 
     <nav class="site-nav">
       <a href="#" class="menu-icon">
@@ -51,7 +51,7 @@
 
       <div class="trigger">
         
-          <a class="page-link" href="/preview/44/about/">About</a>
+          <a class="page-link" href="/preview/pr-44/about/">About</a>
         
       </div>
     </nav>
@@ -170,7 +170,7 @@
 <p>git-branchless offers a “smartlog” command which attempts to show you only relevant commits. By default, it includes all of your local work up until the main branch, but not other people’s commits. Mine looks like this right now:</p>
 
 <figure class="figure">
-        <a href="/preview/44/assets/posts/bringing-revsets-to-git/smartlog-default.png"><img class="center-image" src="/preview/44/assets/posts/bringing-revsets-to-git/smartlog-default.png" alt="Image of the smartlog view with a few draft commits and branches." title="Image of the smartlog view with a few draft commits and branches." /></a>
+        <a href="/preview/pr-44/assets/posts/bringing-revsets-to-git/smartlog-default.png"><img class="center-image" src="/preview/pr-44/assets/posts/bringing-revsets-to-git/smartlog-default.png" alt="Image of the smartlog view with a few draft commits and branches." title="Image of the smartlog view with a few draft commits and branches." /></a>
         <figcaption class="caption"><p>Image of the smartlog view with a few draft commits and branches.</p>
 </figcaption>
       </figure>
@@ -178,7 +178,7 @@
 <p>But you can also filter commits using revsets. To show only my draft work which touches the <code class="language-plaintext highlighter-rouge">git-branchless-lib/src/git</code> directory, I can issue this command:</p>
 
 <figure class="figure">
-        <a href="/preview/44/assets/posts/bringing-revsets-to-git/smartlog-with-omitted-commits.png"><img class="center-image" src="/preview/44/assets/posts/bringing-revsets-to-git/smartlog-with-omitted-commits.png" alt="Image of the smartlog view as before, but with only two draft commits visible (excluding those on the main branch)." title="Image of the smartlog view as before, but with only two draft commits visible (excluding those on the main branch)." /></a>
+        <a href="/preview/pr-44/assets/posts/bringing-revsets-to-git/smartlog-with-omitted-commits.png"><img class="center-image" src="/preview/pr-44/assets/posts/bringing-revsets-to-git/smartlog-with-omitted-commits.png" alt="Image of the smartlog view as before, but with only two draft commits visible (excluding those on the main branch)." title="Image of the smartlog view as before, but with only two draft commits visible (excluding those on the main branch)." /></a>
         <figcaption class="caption"><p>Image of the smartlog view as before, but with only two draft commits visible (excluding those on the main branch).</p>
 </figcaption>
       </figure>
@@ -186,7 +186,7 @@
 <p>Another common use-case might be to render the relative topology of branches in just this stack:</p>
 
 <figure class="figure">
-        <a href="/preview/44/assets/posts/bringing-revsets-to-git/smartlog-branch-topology.png"><img class="center-image" src="/preview/44/assets/posts/bringing-revsets-to-git/smartlog-branch-topology.png" alt="Image of a different smartlog view as before, showing branch-1 and branch-3 with an omitted commit between them." title="Image of a different smartlog view as before, showing branch-1 and branch-3 with an omitted commit between them." /></a>
+        <a href="/preview/pr-44/assets/posts/bringing-revsets-to-git/smartlog-branch-topology.png"><img class="center-image" src="/preview/pr-44/assets/posts/bringing-revsets-to-git/smartlog-branch-topology.png" alt="Image of a different smartlog view as before, showing branch-1 and branch-3 with an omitted commit between them." title="Image of a different smartlog view as before, showing branch-1 and branch-3 with an omitted commit between them." /></a>
         <figcaption class="caption"><p>Image of a different smartlog view as before, showing branch-1 and branch-3 with an omitted commit between them.</p>
 </figcaption>
       </figure>
@@ -200,7 +200,7 @@
 <p>For example, suppose you have some refactoring changes to the file <code class="language-plaintext highlighter-rouge">foo</code> on your current branch, and you want to separate them into a new branch for review:</p>
 
 <figure class="figure">
-        <a href="/preview/44/assets/posts/bringing-revsets-to-git/drawn-smartlog.png"><img class="center-image" src="/preview/44/assets/posts/bringing-revsets-to-git/drawn-smartlog.png" alt="Image of a feature branch with four commits. Each commit shows two touched files underneath it." title="Image of a feature branch with four commits. Each commit shows two touched files underneath it." /></a>
+        <a href="/preview/pr-44/assets/posts/bringing-revsets-to-git/drawn-smartlog.png"><img class="center-image" src="/preview/pr-44/assets/posts/bringing-revsets-to-git/drawn-smartlog.png" alt="Image of a feature branch with four commits. Each commit shows two touched files underneath it." title="Image of a feature branch with four commits. Each commit shows two touched files underneath it." /></a>
         <figcaption class="caption"><p>Image of a feature branch with four commits. Each commit shows two touched files underneath it.</p>
 </figcaption>
       </figure>
@@ -208,7 +208,7 @@
 <p>You can use revsets to select just the commits touching <code class="language-plaintext highlighter-rouge">foo</code> in the current branch:</p>
 
 <figure class="figure">
-        <a href="/preview/44/assets/posts/bringing-revsets-to-git/drawn-smartlog-filtered-commits.png"><img class="center-image" src="/preview/44/assets/posts/bringing-revsets-to-git/drawn-smartlog-filtered-commits.png" alt="Image of the same feature branch as before, but with the first and third commits outlined in red and the touched file &apos;foo&apos; in red." title="Image of the same feature branch as before, but with the first and third commits outlined in red and the touched file &apos;foo&apos; in red." /></a>
+        <a href="/preview/pr-44/assets/posts/bringing-revsets-to-git/drawn-smartlog-filtered-commits.png"><img class="center-image" src="/preview/pr-44/assets/posts/bringing-revsets-to-git/drawn-smartlog-filtered-commits.png" alt="Image of the same feature branch as before, but with the first and third commits outlined in red and the touched file &apos;foo&apos; in red." title="Image of the same feature branch as before, but with the first and third commits outlined in red and the touched file &apos;foo&apos; in red." /></a>
         <figcaption class="caption"><p>Image of the same feature branch as before, but with the first and third commits outlined in red and the touched file &#8216;foo&#8217; in red.</p>
 </figcaption>
       </figure>
@@ -219,7 +219,7 @@
 </code></pre></div></div>
 
 <figure class="figure">
-        <a href="/preview/44/assets/posts/bringing-revsets-to-git/drawn-smartlog-extract-commits.png"><img class="center-image" src="/preview/44/assets/posts/bringing-revsets-to-git/drawn-smartlog-extract-commits.png" alt="Image of the same feature branch as before, but the first and third commits are shown to be missing from the original feature branch, with dotted outlines indicating their former positions. They have been moved to a new feature branch, still preserving their relative order." title="Image of the same feature branch as before, but the first and third commits are shown to be missing from the original feature branch, with dotted outlines indicating their former positions. They have been moved to a new feature branch, still preserving their relative order." /></a>
+        <a href="/preview/pr-44/assets/posts/bringing-revsets-to-git/drawn-smartlog-extract-commits.png"><img class="center-image" src="/preview/pr-44/assets/posts/bringing-revsets-to-git/drawn-smartlog-extract-commits.png" alt="Image of the same feature branch as before, but the first and third commits are shown to be missing from the original feature branch, with dotted outlines indicating their former positions. They have been moved to a new feature branch, still preserving their relative order." title="Image of the same feature branch as before, but the first and third commits are shown to be missing from the original feature branch, with dotted outlines indicating their former positions. They have been moved to a new feature branch, still preserving their relative order." /></a>
         <figcaption class="caption"><p>Image of the same feature branch as before, but the first and third commits are shown to be missing from the original feature branch, with dotted outlines indicating their former positions. They have been moved to a new feature branch, still preserving their relative order.</p>
 </figcaption>
       </figure>
@@ -230,7 +230,7 @@
 </code></pre></div></div>
 
 <figure class="figure">
-        <a href="/preview/44/assets/posts/bringing-revsets-to-git/drawn-smartlog-reordered-commits.png"><img class="center-image" src="/preview/44/assets/posts/bringing-revsets-to-git/drawn-smartlog-reordered-commits.png" alt="Image of the same feature branch as before, but the first and third commits are shown to be missing from their original positions in the feature branch, with dotted outlines indicating their former positions. They have been moved to the beginning of that same feature branch, still preserving their relative order, now before the second and fourth commits, also preserving their relative order." title="Image of the same feature branch as before, but the first and third commits are shown to be missing from their original positions in the feature branch, with dotted outlines indicating their former positions. They have been moved to the beginning of that same feature branch, still preserving their relative order, now before the second and fourth commits, also preserving their relative order." /></a>
+        <a href="/preview/pr-44/assets/posts/bringing-revsets-to-git/drawn-smartlog-reordered-commits.png"><img class="center-image" src="/preview/pr-44/assets/posts/bringing-revsets-to-git/drawn-smartlog-reordered-commits.png" alt="Image of the same feature branch as before, but the first and third commits are shown to be missing from their original positions in the feature branch, with dotted outlines indicating their former positions. They have been moved to the beginning of that same feature branch, still preserving their relative order, now before the second and fourth commits, also preserving their relative order." title="Image of the same feature branch as before, but the first and third commits are shown to be missing from their original positions in the feature branch, with dotted outlines indicating their former positions. They have been moved to the beginning of that same feature branch, still preserving their relative order, now before the second and fourth commits, also preserving their relative order." /></a>
         <figcaption class="caption"><p>Image of the same feature branch as before, but the first and third commits are shown to be missing from their original positions in the feature branch, with dotted outlines indicating their former positions. They have been moved to the beginning of that same feature branch, still preserving their relative order, now before the second and fourth commits, also preserving their relative order.</p>
 </figcaption>
       </figure>
@@ -350,7 +350,7 @@
 </tbody>
 </table>
 
-<p>Want to see more of my posts? Follow me <a href="https://twitter.com/arxanas">on Twitter</a> or subscribe <a href="/preview/44/feed.xml">via RSS</a>.</p>
+<p>Want to see more of my posts? Follow me <a href="https://twitter.com/arxanas">on Twitter</a> or subscribe <a href="/preview/pr-44/feed.xml">via RSS</a>.</p>
 
 <h2 id="comments">Comments</h2>
 
@@ -366,7 +366,7 @@
 
 </ul>
 
-<script type="text/javascript" src="/preview/44/scripts/github-comment-links.js"></script>
+<script type="text/javascript" src="/preview/pr-44/scripts/github-comment-links.js"></script>
 
 <div id="disqus_thread"></div>
 <script>
@@ -375,7 +375,7 @@
  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
 var disqus_config = function () {
-    this.page.url = "https://blog.waleedkhan.name/preview/44/bringing-revsets-to-git/";
+    this.page.url = "https://blog.waleedkhan.name/preview/pr-44/bringing-revsets-to-git/";
     this.page.identifier = "bringing-revsets-to-git/";
 };
 
@@ -403,7 +403,7 @@ var disqus_config = function () {
 
     <h2 class="footer-heading">Steno & PL</h2>
     
-    <p class="rss-subscribe">subscribe <a href="/preview/44/feed.xml">via RSS</a></p>
+    <p class="rss-subscribe">subscribe <a href="/preview/pr-44/feed.xml">via RSS</a></p>
     
 
     <div class="footer-col-wrapper">

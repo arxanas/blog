@@ -5,10 +5,10 @@
     <description>This is a personal blog. Unless otherwise stated, the opinions
 expressed here are my own, and not those of my past or present
 employers.</description>
-    <link>https://blog.waleedkhan.name/preview/44/pl/</link>
-    <atom:link href="https://blog.waleedkhan.name/preview/44/pl/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 14 Aug 2025 19:33:04 +0000</pubDate>
-    <lastBuildDate>Thu, 14 Aug 2025 19:33:04 +0000</lastBuildDate>
+    <link>https://blog.waleedkhan.name/preview/pr-44/pl/</link>
+    <atom:link href="https://blog.waleedkhan.name/preview/pr-44/pl/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Thu, 14 Aug 2025 19:40:06 +0000</pubDate>
+    <lastBuildDate>Thu, 14 Aug 2025 19:40:06 +0000</lastBuildDate>
     <generator>Jekyll v4.3.4</generator>
     
       <item>
@@ -563,7 +563,7 @@ note: used non-generic type `&amp;amp;&apos;static str` for generic parameter
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/preview/44/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/preview/pr-44/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
@@ -573,7 +573,7 @@ note: used non-generic type `&amp;amp;&apos;static str` for generic parameter
 
 &lt;/ul&gt;
 
-&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/pr-44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
 
 &lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
 &lt;script&gt;
@@ -582,7 +582,7 @@ note: used non-generic type `&amp;amp;&apos;static str` for generic parameter
  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
 var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/preview/44/pl/kodowanie-w-rust-modułów-w-stylu-ml/&quot;;
+    this.page.url = &quot;https://blog.waleedkhan.name/preview/pr-44/pl/kodowanie-w-rust-modułów-w-stylu-ml/&quot;;
     this.page.identifier = &quot;kodowanie-w-rust-modułów-w-stylu-ml/&quot;;
 };
 
@@ -598,8 +598,8 @@ var disqus_config = function () {
 
 </description>
         <pubDate>Sat, 17 Jun 2023 00:00:00 +0000</pubDate>
-        <link>https://blog.waleedkhan.name/preview/44/pl/kodowanie-w-rust-modułów-w-stylu-ml/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/44/pl/kodowanie-w-rust-modułów-w-stylu-ml/</guid>
+        <link>https://blog.waleedkhan.name/preview/pr-44/pl/kodowanie-w-rust-modułów-w-stylu-ml/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/pr-44/pl/kodowanie-w-rust-modułów-w-stylu-ml/</guid>
         
         <category>rust</category>
         
@@ -689,7 +689,7 @@ var disqus_config = function () {
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/preview/44/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/preview/pr-44/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
@@ -699,7 +699,7 @@ var disqus_config = function () {
 
 &lt;/ul&gt;
 
-&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/pr-44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
 
 &lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
 &lt;script&gt;
@@ -708,7 +708,7 @@ var disqus_config = function () {
  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
 var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/preview/44/pl/formatowanie-stosu-zatwierdzeń/&quot;;
+    this.page.url = &quot;https://blog.waleedkhan.name/preview/pr-44/pl/formatowanie-stosu-zatwierdzeń/&quot;;
     this.page.identifier = &quot;formatowanie-stosu-zatwierdzeń/&quot;;
 };
 
@@ -724,8 +724,8 @@ var disqus_config = function () {
 
 </description>
         <pubDate>Tue, 11 Apr 2023 00:00:00 +0000</pubDate>
-        <link>https://blog.waleedkhan.name/preview/44/pl/formatowanie-stosu-zatwierdzeń/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/44/pl/formatowanie-stosu-zatwierdzeń/</guid>
+        <link>https://blog.waleedkhan.name/preview/pr-44/pl/formatowanie-stosu-zatwierdzeń/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/pr-44/pl/formatowanie-stosu-zatwierdzeń/</guid>
         
         <category>git</category>
         
@@ -814,7 +814,7 @@ e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/preview/44/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/preview/pr-44/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
@@ -824,7 +824,7 @@ e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
 
 &lt;/ul&gt;
 
-&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/pr-44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
 
 &lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
 &lt;script&gt;
@@ -833,7 +833,7 @@ e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
 var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/preview/44/pl/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/&quot;;
+    this.page.url = &quot;https://blog.waleedkhan.name/preview/pr-44/pl/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/&quot;;
     this.page.identifier = &quot;e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/&quot;;
 };
 
@@ -849,8 +849,8 @@ var disqus_config = function () {
 
 </description>
         <pubDate>Tue, 14 Mar 2023 00:00:00 +0000</pubDate>
-        <link>https://blog.waleedkhan.name/preview/44/pl/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/44/pl/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/</guid>
+        <link>https://blog.waleedkhan.name/preview/pr-44/pl/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/pr-44/pl/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/</guid>
         
         <category>git</category>
         
@@ -913,7 +913,7 @@ var disqus_config = function () {
   &lt;li&gt;W przypadku finansy, kompensacja zwykle jest dostana w postaci pensji i rocznej premii opartej na wynikach.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;Jeśli masz pytania dotyczące kompensacji lub negocjacji jako inżynier oprogramowania w US, &lt;a href=&quot;/preview/44/pl/o-mnie/&quot;&gt;moje dane kontaktowe znajdziesz tutaj&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Jeśli masz pytania dotyczące kompensacji lub negocjacji jako inżynier oprogramowania w US, &lt;a href=&quot;/preview/pr-44/pl/o-mnie/&quot;&gt;moje dane kontaktowe znajdziesz tutaj&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;powiązane-posty&quot;&gt;Powiązane posty&lt;/h2&gt;
 
@@ -945,7 +945,7 @@ var disqus_config = function () {
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/preview/44/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/preview/pr-44/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
@@ -955,7 +955,7 @@ var disqus_config = function () {
 
 &lt;/ul&gt;
 
-&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/pr-44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
 
 &lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
 &lt;script&gt;
@@ -964,7 +964,7 @@ var disqus_config = function () {
  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
 var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/preview/44/pl/historia-płacy/&quot;;
+    this.page.url = &quot;https://blog.waleedkhan.name/preview/pr-44/pl/historia-płacy/&quot;;
     this.page.identifier = &quot;historia-płacy/&quot;;
 };
 
@@ -980,8 +980,8 @@ var disqus_config = function () {
 
 </description>
         <pubDate>Wed, 08 Mar 2023 00:00:00 +0000</pubDate>
-        <link>https://blog.waleedkhan.name/preview/44/pl/historia-płacy/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/44/pl/historia-płacy/</guid>
+        <link>https://blog.waleedkhan.name/preview/pr-44/pl/historia-płacy/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/pr-44/pl/historia-płacy/</guid>
         
         <category>finance</category>
         
@@ -1156,7 +1156,7 @@ Benchmark 1: cargo &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt; &lt;span c
 &lt;p&gt;Wykres czasu kompilacji według &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cargo build&lt;/code&gt; nie pomaga. Tylko pokazuje to, że budowany test wymaga 100% czasu:&lt;/p&gt;
 
 &lt;figure class=&quot;figure&quot;&gt;
-        &lt;a href=&quot;/preview/44/assets/posts/rust-przyrostowe-czasy-testowania/cargo-timings-git-branchless-test-crate.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/preview/44/assets/posts/rust-przyrostowe-czasy-testowania/cargo-timings-git-branchless-test-crate.png&quot; alt=&quot;The timing graph for building the `git-branchless-test` crate.&quot; title=&quot;The timing graph for building the `git-branchless-test` crate.&quot; /&gt;&lt;/a&gt;
+        &lt;a href=&quot;/preview/pr-44/assets/posts/rust-przyrostowe-czasy-testowania/cargo-timings-git-branchless-test-crate.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/preview/pr-44/assets/posts/rust-przyrostowe-czasy-testowania/cargo-timings-git-branchless-test-crate.png&quot; alt=&quot;The timing graph for building the `git-branchless-test` crate.&quot; title=&quot;The timing graph for building the `git-branchless-test` crate.&quot; /&gt;&lt;/a&gt;
         &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;The timing graph for building the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-branchless-test&lt;/code&gt; crate.&lt;/p&gt;
 &lt;/figcaption&gt;
       &lt;/figure&gt;
@@ -1212,7 +1212,7 @@ Benchmark 1: cargo &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt; &lt;span c
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/preview/44/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/preview/pr-44/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
@@ -1222,7 +1222,7 @@ Benchmark 1: cargo &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt; &lt;span c
 
 &lt;/ul&gt;
 
-&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/pr-44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
 
 &lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
 &lt;script&gt;
@@ -1231,7 +1231,7 @@ Benchmark 1: cargo &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt; &lt;span c
  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
 var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/preview/44/pl/rust-przyrostowe-czasy-testowania/&quot;;
+    this.page.url = &quot;https://blog.waleedkhan.name/preview/pr-44/pl/rust-przyrostowe-czasy-testowania/&quot;;
     this.page.identifier = &quot;rust-przyrostowe-czasy-testowania/&quot;;
 };
 
@@ -1247,8 +1247,8 @@ var disqus_config = function () {
 
 </description>
         <pubDate>Tue, 07 Feb 2023 00:00:00 +0000</pubDate>
-        <link>https://blog.waleedkhan.name/preview/44/pl/rust-przyrostowe-czasy-testowania/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/44/pl/rust-przyrostowe-czasy-testowania/</guid>
+        <link>https://blog.waleedkhan.name/preview/pr-44/pl/rust-przyrostowe-czasy-testowania/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/pr-44/pl/rust-przyrostowe-czasy-testowania/</guid>
         
         <category>rust</category>
         
@@ -1362,7 +1362,7 @@ var disqus_config = function () {
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/preview/44/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/preview/pr-44/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
@@ -1372,7 +1372,7 @@ var disqus_config = function () {
 
 &lt;/ul&gt;
 
-&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/pr-44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
 
 &lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
 &lt;script&gt;
@@ -1381,7 +1381,7 @@ var disqus_config = function () {
  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
 var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/preview/44/pl/yandex-arc/&quot;;
+    this.page.url = &quot;https://blog.waleedkhan.name/preview/pr-44/pl/yandex-arc/&quot;;
     this.page.identifier = &quot;yandex-arc/&quot;;
 };
 
@@ -1397,8 +1397,8 @@ var disqus_config = function () {
 
 </description>
         <pubDate>Fri, 27 Jan 2023 00:00:00 +0000</pubDate>
-        <link>https://blog.waleedkhan.name/preview/44/pl/yandex-arc/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/44/pl/yandex-arc/</guid>
+        <link>https://blog.waleedkhan.name/preview/pr-44/pl/yandex-arc/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/pr-44/pl/yandex-arc/</guid>
         
         <category>git</category>
         
@@ -1552,7 +1552,7 @@ var disqus_config = function () {
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/preview/44/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/preview/pr-44/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
@@ -1562,7 +1562,7 @@ var disqus_config = function () {
 
 &lt;/ul&gt;
 
-&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/pr-44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
 
 &lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
 &lt;script&gt;
@@ -1571,7 +1571,7 @@ var disqus_config = function () {
  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
 var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/preview/44/pl/śledzenie-aplikacji-rust-cli/&quot;;
+    this.page.url = &quot;https://blog.waleedkhan.name/preview/pr-44/pl/śledzenie-aplikacji-rust-cli/&quot;;
     this.page.identifier = &quot;śledzenie-aplikacji-rust-cli/&quot;;
 };
 
@@ -1587,8 +1587,8 @@ var disqus_config = function () {
 
 </description>
         <pubDate>Wed, 25 Jan 2023 00:00:00 +0000</pubDate>
-        <link>https://blog.waleedkhan.name/preview/44/pl/śledzenie-aplikacji-rust-cli/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/44/pl/śledzenie-aplikacji-rust-cli/</guid>
+        <link>https://blog.waleedkhan.name/preview/pr-44/pl/śledzenie-aplikacji-rust-cli/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/pr-44/pl/śledzenie-aplikacji-rust-cli/</guid>
         
         <category>rust</category>
         
@@ -1763,7 +1763,7 @@ var disqus_config = function () {
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/preview/44/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/preview/pr-44/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
@@ -1773,7 +1773,7 @@ var disqus_config = function () {
 
 &lt;/ul&gt;
 
-&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/pr-44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
 
 &lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
 &lt;script&gt;
@@ -1782,7 +1782,7 @@ var disqus_config = function () {
  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
 var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/preview/44/pl/interaktywne-blogi/&quot;;
+    this.page.url = &quot;https://blog.waleedkhan.name/preview/pr-44/pl/interaktywne-blogi/&quot;;
     this.page.identifier = &quot;interaktywne-blogi/&quot;;
 };
 
@@ -1798,8 +1798,8 @@ var disqus_config = function () {
 
 </description>
         <pubDate>Wed, 11 Jan 2023 00:00:00 +0000</pubDate>
-        <link>https://blog.waleedkhan.name/preview/44/pl/interaktywne-blogi/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/44/pl/interaktywne-blogi/</guid>
+        <link>https://blog.waleedkhan.name/preview/pr-44/pl/interaktywne-blogi/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/pr-44/pl/interaktywne-blogi/</guid>
         
         <category>rant</category>
         
@@ -2140,7 +2140,7 @@ th.rotate &gt; div &gt; span {
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/preview/44/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/preview/pr-44/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
@@ -2154,7 +2154,7 @@ th.rotate &gt; div &gt; span {
 
 &lt;/ul&gt;
 
-&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/pr-44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
 
 &lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
 &lt;script&gt;
@@ -2163,7 +2163,7 @@ th.rotate &gt; div &gt; span {
  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
 var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/preview/44/pl/git-ui-funkcji/&quot;;
+    this.page.url = &quot;https://blog.waleedkhan.name/preview/pr-44/pl/git-ui-funkcji/&quot;;
     this.page.identifier = &quot;git-ui-funkcji/&quot;;
 };
 
@@ -2179,8 +2179,8 @@ var disqus_config = function () {
 
 </description>
         <pubDate>Thu, 05 Jan 2023 00:00:00 +0000</pubDate>
-        <link>https://blog.waleedkhan.name/preview/44/pl/git-ui-funkcji/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/44/pl/git-ui-funkcji/</guid>
+        <link>https://blog.waleedkhan.name/preview/pr-44/pl/git-ui-funkcji/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/pr-44/pl/git-ui-funkcji/</guid>
         
         <category>git</category>
         

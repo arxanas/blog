@@ -5,10 +5,10 @@
     <description>This is a personal blog. Unless otherwise stated, the opinions
 expressed here are my own, and not those of my past or present
 employers.</description>
-    <link>https://blog.waleedkhan.name/preview/44/</link>
-    <atom:link href="https://blog.waleedkhan.name/preview/44/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 14 Aug 2025 19:33:02 +0000</pubDate>
-    <lastBuildDate>Thu, 14 Aug 2025 19:33:02 +0000</lastBuildDate>
+    <link>https://blog.waleedkhan.name/preview/pr-44/</link>
+    <atom:link href="https://blog.waleedkhan.name/preview/pr-44/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Thu, 14 Aug 2025 19:40:03 +0000</pubDate>
+    <lastBuildDate>Thu, 14 Aug 2025 19:40:03 +0000</lastBuildDate>
     <generator>Jekyll v4.3.4</generator>
     
       <item>
@@ -296,8 +296,8 @@ employers.</description>
 &lt;p&gt;(64–78) (deleted slides with various bullet points)&lt;/p&gt;
 </description>
         <pubDate>Thu, 24 Jul 2025 00:00:00 +0000</pubDate>
-        <link>https://blog.waleedkhan.name/preview/44/searching-source-control-graphs/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/44/searching-source-control-graphs/</guid>
+        <link>https://blog.waleedkhan.name/preview/pr-44/searching-source-control-graphs/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/pr-44/searching-source-control-graphs/</guid>
         
         <category>build-systems</category>
         
@@ -380,7 +380,7 @@ employers.</description>
 &lt;p&gt;Here’s an error screen from &lt;a href=&quot;https://en.wikipedia.org/wiki/Twitter&quot;&gt;Twitter&lt;/a&gt; (from many years ago), localized to &lt;a href=&quot;https://en.wikipedia.org/wiki/Polish_language&quot;&gt;Polish&lt;/a&gt;:&lt;/p&gt;
 
 &lt;figure class=&quot;figure&quot;&gt;
-        &lt;a href=&quot;/preview/44/assets/posts/language-learning-anecdotes/we-all-scream-for-ice-cream.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/preview/44/assets/posts/language-learning-anecdotes/we-all-scream-for-ice-cream.png&quot; alt=&quot;Error page with text in Polish and a fallen ice cream cone graphic in the background.&quot; title=&quot;Error page with text in Polish and a fallen ice cream cone graphic in the background.&quot; /&gt;&lt;/a&gt;
+        &lt;a href=&quot;/preview/pr-44/assets/posts/language-learning-anecdotes/we-all-scream-for-ice-cream.png&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/preview/pr-44/assets/posts/language-learning-anecdotes/we-all-scream-for-ice-cream.png&quot; alt=&quot;Error page with text in Polish and a fallen ice cream cone graphic in the background.&quot; title=&quot;Error page with text in Polish and a fallen ice cream cone graphic in the background.&quot; /&gt;&lt;/a&gt;
         &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;On this error page, the text along with the ice cream cone in the background refer to the rhyme &lt;a href=&quot;https://en.wikipedia.org/wiki/Ice_Cream_(I_Scream,_You_Scream,_We_All_Scream_for_Ice_Cream)&quot;&gt;&amp;#8220;I Scream, You Scream, We All Scream for Ice Cream&amp;#8221;&lt;/a&gt;.&lt;/p&gt;
 &lt;/figcaption&gt;
       &lt;/figure&gt;
@@ -435,7 +435,7 @@ employers.</description>
 &lt;p&gt;Here’s a humorous misspelling in &lt;a href=&quot;https://en.wikipedia.org/wiki/Polish_language&quot;&gt;Polish&lt;/a&gt;:&lt;/p&gt;
 
 &lt;figure class=&quot;figure&quot;&gt;
-        &lt;a href=&quot;/preview/44/assets/posts/language-learning-anecdotes/jeżu-ufam-tobie.jpg&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/preview/44/assets/posts/language-learning-anecdotes/jeżu-ufam-tobie.jpg&quot; alt=&quot;A Facebook post that says &amp;quot;Jeżu Ufam Tobie&amp;quot; with an attached portrait of Jesus. The Facebook auto-translation reads &amp;quot;Hedgehog I trust you&amp;quot;.&quot; title=&quot;A Facebook post that says &amp;quot;Jeżu Ufam Tobie&amp;quot; with an attached portrait of Jesus. The Facebook auto-translation reads &amp;quot;Hedgehog I trust you&amp;quot;.&quot; /&gt;&lt;/a&gt;
+        &lt;a href=&quot;/preview/pr-44/assets/posts/language-learning-anecdotes/jeżu-ufam-tobie.jpg&quot;&gt;&lt;img class=&quot;center-image&quot; src=&quot;/preview/pr-44/assets/posts/language-learning-anecdotes/jeżu-ufam-tobie.jpg&quot; alt=&quot;A Facebook post that says &amp;quot;Jeżu Ufam Tobie&amp;quot; with an attached portrait of Jesus. The Facebook auto-translation reads &amp;quot;Hedgehog I trust you&amp;quot;.&quot; title=&quot;A Facebook post that says &amp;quot;Jeżu Ufam Tobie&amp;quot; with an attached portrait of Jesus. The Facebook auto-translation reads &amp;quot;Hedgehog I trust you&amp;quot;.&quot; /&gt;&lt;/a&gt;
         &lt;figcaption class=&quot;caption&quot;&gt;&lt;p&gt;A Facebook post that says “Jeżu Ufam Tobie” with an attached portrait of Jesus. The Facebook auto-translation reads “Hedgehog I trust you”.&lt;/p&gt;
 &lt;/figcaption&gt;
       &lt;/figure&gt;
@@ -915,7 +915,7 @@ employers.</description>
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/preview/44/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/preview/pr-44/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
 
@@ -925,7 +925,7 @@ employers.</description>
 
 &lt;/ul&gt;
 
-&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/pr-44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
 
 &lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
 &lt;script&gt;
@@ -934,7 +934,7 @@ employers.</description>
  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
 var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/preview/44/language-learning-anecdotes/&quot;;
+    this.page.url = &quot;https://blog.waleedkhan.name/preview/pr-44/language-learning-anecdotes/&quot;;
     this.page.identifier = &quot;language-learning-anecdotes/&quot;;
 };
 
@@ -950,8 +950,8 @@ var disqus_config = function () {
 
 </description>
         <pubDate>Sat, 05 Apr 2025 00:00:00 +0000</pubDate>
-        <link>https://blog.waleedkhan.name/preview/44/language-learning-anecdotes/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/44/language-learning-anecdotes/</guid>
+        <link>https://blog.waleedkhan.name/preview/pr-44/language-learning-anecdotes/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/pr-44/language-learning-anecdotes/</guid>
         
         <category>learning</category>
         
@@ -1233,7 +1233,7 @@ var disqus_config = function () {
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/preview/44/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/preview/pr-44/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
 
@@ -1243,7 +1243,7 @@ var disqus_config = function () {
 
 &lt;/ul&gt;
 
-&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/pr-44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
 
 &lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
 &lt;script&gt;
@@ -1252,7 +1252,7 @@ var disqus_config = function () {
  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
 var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/preview/44/incremental-watchman/&quot;;
+    this.page.url = &quot;https://blog.waleedkhan.name/preview/pr-44/incremental-watchman/&quot;;
     this.page.identifier = &quot;incremental-watchman/&quot;;
 };
 
@@ -1268,8 +1268,8 @@ var disqus_config = function () {
 
 </description>
         <pubDate>Wed, 02 Oct 2024 00:00:00 +0000</pubDate>
-        <link>https://blog.waleedkhan.name/preview/44/incremental-watchman/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/44/incremental-watchman/</guid>
+        <link>https://blog.waleedkhan.name/preview/pr-44/incremental-watchman/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/pr-44/incremental-watchman/</guid>
         
         <category>build-systems</category>
         
@@ -1513,7 +1513,7 @@ var disqus_config = function () {
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/preview/44/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/preview/pr-44/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
 
@@ -1523,7 +1523,7 @@ var disqus_config = function () {
 
 &lt;/ul&gt;
 
-&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/pr-44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
 
 &lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
 &lt;script&gt;
@@ -1532,7 +1532,7 @@ var disqus_config = function () {
  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
 var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/preview/44/patch-terminology/&quot;;
+    this.page.url = &quot;https://blog.waleedkhan.name/preview/pr-44/patch-terminology/&quot;;
     this.page.identifier = &quot;patch-terminology/&quot;;
 };
 
@@ -1548,8 +1548,8 @@ var disqus_config = function () {
 
 </description>
         <pubDate>Thu, 11 Jan 2024 00:00:00 +0000</pubDate>
-        <link>https://blog.waleedkhan.name/preview/44/patch-terminology/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/44/patch-terminology/</guid>
+        <link>https://blog.waleedkhan.name/preview/pr-44/patch-terminology/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/pr-44/patch-terminology/</guid>
         
         <category>git</category>
         
@@ -1896,7 +1896,7 @@ var disqus_config = function () {
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/preview/44/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/preview/pr-44/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
 
@@ -1906,7 +1906,7 @@ var disqus_config = function () {
 
 &lt;/ul&gt;
 
-&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/pr-44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
 
 &lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
 &lt;script&gt;
@@ -1915,7 +1915,7 @@ var disqus_config = function () {
  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
 var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/preview/44/testing-tui-apps/&quot;;
+    this.page.url = &quot;https://blog.waleedkhan.name/preview/pr-44/testing-tui-apps/&quot;;
     this.page.identifier = &quot;testing-tui-apps/&quot;;
 };
 
@@ -1931,8 +1931,8 @@ var disqus_config = function () {
 
 </description>
         <pubDate>Sat, 30 Dec 2023 00:00:00 +0000</pubDate>
-        <link>https://blog.waleedkhan.name/preview/44/testing-tui-apps/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/44/testing-tui-apps/</guid>
+        <link>https://blog.waleedkhan.name/preview/pr-44/testing-tui-apps/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/pr-44/testing-tui-apps/</guid>
         
         <category>software-engineering</category>
         
@@ -2028,7 +2028,7 @@ var disqus_config = function () {
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/preview/44/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/preview/pr-44/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
 
@@ -2038,7 +2038,7 @@ var disqus_config = function () {
 
 &lt;/ul&gt;
 
-&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/pr-44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
 
 &lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
 &lt;script&gt;
@@ -2047,7 +2047,7 @@ var disqus_config = function () {
  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
 var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/preview/44/on-trivial-changes/&quot;;
+    this.page.url = &quot;https://blog.waleedkhan.name/preview/pr-44/on-trivial-changes/&quot;;
     this.page.identifier = &quot;on-trivial-changes/&quot;;
 };
 
@@ -2063,8 +2063,8 @@ var disqus_config = function () {
 
 </description>
         <pubDate>Fri, 01 Sep 2023 00:00:00 +0000</pubDate>
-        <link>https://blog.waleedkhan.name/preview/44/on-trivial-changes/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/44/on-trivial-changes/</guid>
+        <link>https://blog.waleedkhan.name/preview/pr-44/on-trivial-changes/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/pr-44/on-trivial-changes/</guid>
         
         <category>software-engineering</category>
         
@@ -2113,7 +2113,7 @@ var disqus_config = function () {
 
 &lt;p&gt;At work, right now, I am writing an internal web app to expose some of our tooling nicely. Nobody on our team, me included, is a front-end engineer!&lt;/p&gt;
 
-&lt;p&gt;In &lt;a href=&quot;/preview/44/smash-training-retrospective/&quot;&gt;&lt;em&gt;Smash Training retrospective&lt;/em&gt;&lt;/a&gt;, I remark that I regretted using Vue for various reasons. The lack of static checking has made it difficult for &lt;em&gt;future me&lt;/em&gt; to make small bugfixes. Implicit dependency tracking as a framework decision, as in Vue, turns out to be quite difficult for &lt;em&gt;future me&lt;/em&gt; to manage mentally. (For example, there are &lt;a href=&quot;https://v2.vuejs.org/v2/guide/reactivity.html#For-Arrays&quot;&gt;caveats with arrays&lt;/a&gt; that I encountered during maintenance.)&lt;/p&gt;
+&lt;p&gt;In &lt;a href=&quot;/preview/pr-44/smash-training-retrospective/&quot;&gt;&lt;em&gt;Smash Training retrospective&lt;/em&gt;&lt;/a&gt;, I remark that I regretted using Vue for various reasons. The lack of static checking has made it difficult for &lt;em&gt;future me&lt;/em&gt; to make small bugfixes. Implicit dependency tracking as a framework decision, as in Vue, turns out to be quite difficult for &lt;em&gt;future me&lt;/em&gt; to manage mentally. (For example, there are &lt;a href=&quot;https://v2.vuejs.org/v2/guide/reactivity.html#For-Arrays&quot;&gt;caveats with arrays&lt;/a&gt; that I encountered during maintenance.)&lt;/p&gt;
 
 &lt;p&gt;Even though React’s alternative approach of explicitly declaring dependencies is rather heavy-handed, it ends up being more tractable for &lt;em&gt;future me&lt;/em&gt;, and probably for my coworkers as well. My technology choices were &lt;em&gt;insufficiently brittle&lt;/em&gt; to accomodate future maintenance.&lt;/p&gt;
 
@@ -2191,7 +2191,7 @@ var disqus_config = function () {
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/preview/44/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/preview/pr-44/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
 
@@ -2205,7 +2205,7 @@ var disqus_config = function () {
 
 &lt;/ul&gt;
 
-&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/pr-44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
 
 &lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
 &lt;script&gt;
@@ -2214,7 +2214,7 @@ var disqus_config = function () {
  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
 var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/preview/44/writing-brittle-code/&quot;;
+    this.page.url = &quot;https://blog.waleedkhan.name/preview/pr-44/writing-brittle-code/&quot;;
     this.page.identifier = &quot;writing-brittle-code/&quot;;
 };
 
@@ -2230,8 +2230,8 @@ var disqus_config = function () {
 
 </description>
         <pubDate>Thu, 24 Aug 2023 00:00:00 +0000</pubDate>
-        <link>https://blog.waleedkhan.name/preview/44/writing-brittle-code/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/44/writing-brittle-code/</guid>
+        <link>https://blog.waleedkhan.name/preview/pr-44/writing-brittle-code/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/pr-44/writing-brittle-code/</guid>
         
         <category>software-engineering</category>
         
@@ -2834,7 +2834,7 @@ note: used non-generic type `&amp;amp;&apos;static str` for generic parameter
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/preview/44/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/preview/pr-44/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
 
@@ -2846,7 +2846,7 @@ note: used non-generic type `&amp;amp;&apos;static str` for generic parameter
 
 &lt;/ul&gt;
 
-&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/pr-44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
 
 &lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
 &lt;script&gt;
@@ -2855,7 +2855,7 @@ note: used non-generic type `&amp;amp;&apos;static str` for generic parameter
  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
 var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/preview/44/encoding-ml-style-modules-in-rust/&quot;;
+    this.page.url = &quot;https://blog.waleedkhan.name/preview/pr-44/encoding-ml-style-modules-in-rust/&quot;;
     this.page.identifier = &quot;encoding-ml-style-modules-in-rust/&quot;;
 };
 
@@ -2871,8 +2871,8 @@ var disqus_config = function () {
 
 </description>
         <pubDate>Sat, 17 Jun 2023 00:00:00 +0000</pubDate>
-        <link>https://blog.waleedkhan.name/preview/44/encoding-ml-style-modules-in-rust/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/44/encoding-ml-style-modules-in-rust/</guid>
+        <link>https://blog.waleedkhan.name/preview/pr-44/encoding-ml-style-modules-in-rust/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/pr-44/encoding-ml-style-modules-in-rust/</guid>
         
         <category>rust</category>
         
@@ -2955,7 +2955,7 @@ var disqus_config = function () {
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/preview/44/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/preview/pr-44/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
 
@@ -2967,7 +2967,7 @@ var disqus_config = function () {
 
 &lt;/ul&gt;
 
-&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/pr-44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
 
 &lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
 &lt;script&gt;
@@ -2976,7 +2976,7 @@ var disqus_config = function () {
  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
 var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/preview/44/formatting-a-commit-stack/&quot;;
+    this.page.url = &quot;https://blog.waleedkhan.name/preview/pr-44/formatting-a-commit-stack/&quot;;
     this.page.identifier = &quot;formatting-a-commit-stack/&quot;;
 };
 
@@ -2992,8 +2992,8 @@ var disqus_config = function () {
 
 </description>
         <pubDate>Tue, 11 Apr 2023 00:00:00 +0000</pubDate>
-        <link>https://blog.waleedkhan.name/preview/44/formatting-a-commit-stack/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/44/formatting-a-commit-stack/</guid>
+        <link>https://blog.waleedkhan.name/preview/pr-44/formatting-a-commit-stack/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/pr-44/formatting-a-commit-stack/</guid>
         
         <category>git</category>
         
@@ -3075,7 +3075,7 @@ e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/preview/44/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/preview/pr-44/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
 
@@ -3087,7 +3087,7 @@ e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
 
 &lt;/ul&gt;
 
-&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;/preview/pr-44/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
 
 &lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
 &lt;script&gt;
@@ -3096,7 +3096,7 @@ e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
 var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/preview/44/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/&quot;;
+    this.page.url = &quot;https://blog.waleedkhan.name/preview/pr-44/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/&quot;;
     this.page.identifier = &quot;e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/&quot;;
 };
 
@@ -3112,8 +3112,8 @@ var disqus_config = function () {
 
 </description>
         <pubDate>Tue, 14 Mar 2023 00:00:00 +0000</pubDate>
-        <link>https://blog.waleedkhan.name/preview/44/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/44/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/</guid>
+        <link>https://blog.waleedkhan.name/preview/pr-44/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/preview/pr-44/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/</guid>
         
         <category>git</category>
         
