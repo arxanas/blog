@@ -10,16 +10,21 @@
   
     <title>Using `tracing` with Rust CLI applications</title>
   
+  <meta name="author" content="Waleed Khan">
   <meta name="description" content="            Intended audience      Rust users.              Origin              My post on GitHub.        My experience with Rust.                    Mood   ...">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://blog.waleedkhan.name/tracing-rust-cli-apps/">
   <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+  
 
   <link rel="me" href="https://github.com/arxanas">
   <link rel="me" href="https://twitter.com/arxanas">
   <link rel="me" href="mailto:me@waleedkhan.name">
+
+  
+  
 
   <!-- See https://indieweb.org/webmention.io -->
   <link rel="webmention" href="https://webmention.io/blog.waleedkhan.name/webmention" />
@@ -62,7 +67,7 @@
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">Using `tracing` with Rust CLI applications</h1>
-    <p class="post-meta"><time datetime="2023-01-24T00:00:00-06:00" itemprop="datePublished">Jan 24, 2023</time>
+    <p class="post-meta"><time datetime="2023-01-24T00:00:00+00:00" itemprop="datePublished">Jan 24, 2023</time>
     
       <span class="post-meta">
         <br />
@@ -96,6 +101,18 @@
   </table>
 </div>
 
+<p><a href="https://github.com/epage">@epage</a> in <a href="https://github.com/arxanas/git-branchless/discussions/732">https://github.com/arxanas/git-branchless/discussions/732</a> asked:</p>
+
+<blockquote>
+  <p>I see talk of tracing but mostly from a web perspective and I’m curious how the experience translates to a CLI. I am looking to adopt it in some smaller CLIs to get some experience to understand how it could possibly help cargo.</p>
+</blockquote>
+
+<p>I’m republishing my answer here, in <a href="/on-bullet-points/">bullet point form</a>.</p>
+
+<div class="series-and-toc">
+
+  <p class="toc-header">Table of contents:</p>
+
 <ul id="markdown-toc">
   <li><a href="#for-cargo" id="markdown-toc-for-cargo">For Cargo</a></li>
   <li><a href="#full-notes" id="markdown-toc-full-notes">Full notes</a></li>
@@ -103,13 +120,7 @@
   <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
 </ul>
 
-<p><a href="https://github.com/epage">@epage</a> in <a href="https://github.com/arxanas/git-branchless/discussions/732">https://github.com/arxanas/git-branchless/discussions/732</a> asked:</p>
-
-<blockquote>
-  <p>I see talk of tracing but mostly from a web perspective and I’m curious how the experience translates to a CLI. I am looking to adopt it in some smaller CLIs to get some experience to understand how it could possibly help cargo.</p>
-</blockquote>
-
-<p>I’m republishing my answer here, in <a href="/on-bullet-points/">bullet point form</a>:</p>
+</div>
 
 <h2 id="for-cargo">For Cargo</h2>
 
@@ -191,6 +202,7 @@
 
 <tbody>
 
+
   <tr>
     <td>03&nbsp;Jan&nbsp;2021</td>
     <td class="this-post">
@@ -247,6 +259,8 @@
 
 <ul>
 
+
+<li><a class="icon-lobsters" href="https://lobste.rs/s/ox9je5/using_tracing_with_rust_cli_applications ">Discussion on Lobsters</a></li>
 
 
 </ul>

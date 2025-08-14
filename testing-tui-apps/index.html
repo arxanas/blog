@@ -10,16 +10,21 @@
   
     <title>Testing terminal user interface apps</title>
   
+  <meta name="author" content="Waleed Khan">
   <meta name="description" content="            Intended audience      Software engineers developing interactive terminal applications.              Origin              Work notes published int...">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://blog.waleedkhan.name/testing-tui-apps/">
   <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+  
 
   <link rel="me" href="https://github.com/arxanas">
   <link rel="me" href="https://twitter.com/arxanas">
   <link rel="me" href="mailto:me@waleedkhan.name">
+
+  
+  
 
   <!-- See https://indieweb.org/webmention.io -->
   <link rel="webmention" href="https://webmention.io/blog.waleedkhan.name/webmention" />
@@ -62,7 +67,7 @@
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">Testing terminal user interface apps</h1>
-    <p class="post-meta"><time datetime="2023-12-30T00:00:00-06:00" itemprop="datePublished">Dec 30, 2023</time>
+    <p class="post-meta"><time datetime="2023-12-30T00:00:00+00:00" itemprop="datePublished">Dec 30, 2023</time>
     
     </p>
   </header>
@@ -92,6 +97,14 @@
   </table>
 </div>
 
+<h2 id="introduction">Introduction</h2>
+
+<p>Terminal user interface (TUI) applications are an efficient way of surfacing data in a visual and interactive manner while reusing significant portions of an existing program which normally prints to stdout/stderr. However, bugs in TUI applications can quickly cause users to lose confidence in the visualization tools. This article details methods for testing TUI applications.</p>
+
+<div class="series-and-toc">
+
+  <p class="toc-header">Table of contents:</p>
+
 <ul id="markdown-toc">
   <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a></li>
   <li><a href="#primer-on-ttys-and-ptys" id="markdown-toc-primer-on-ttys-and-ptys">Primer on TTYs and PTYs</a>    <ul>
@@ -111,9 +124,7 @@
   <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
 </ul>
 
-<h2 id="introduction">Introduction</h2>
-
-<p>Terminal user interface (TUI) applications are an efficient way of surfacing data in a visual and interactive manner while reusing significant portions of an existing program which normally prints to stdout/stderr. However, bugs in TUI applications can quickly cause users to lose confidence in the visualization tools.</p>
+</div>
 
 <h2 id="primer-on-ttys-and-ptys">Primer on TTYs and PTYs</h2>
 
@@ -236,7 +247,7 @@
             <span class="s">"record"</span><span class="p">,</span>
             <span class="o">&amp;</span><span class="p">[</span><span class="s">"-i"</span><span class="p">,</span> <span class="s">"-m"</span><span class="p">,</span> <span class="s">"foo"</span><span class="p">],</span>
             <span class="o">&amp;</span><span class="p">[</span>
-                <span class="nn">PtyAction</span><span class="p">::</span><span class="nf">Write</span><span class="p">(</span><span class="s">"f"</span><span class="p">),</span> <span class="c">// expand files</span>
+                <span class="nn">PtyAction</span><span class="p">::</span><span class="nf">Write</span><span class="p">(</span><span class="s">"f"</span><span class="p">),</span> <span class="c1">// expand files</span>
                 <span class="nn">PtyAction</span><span class="p">::</span><span class="nf">WaitUntilContains</span><span class="p">(</span><span class="s">"contents1"</span><span class="p">),</span>
                 <span class="nn">PtyAction</span><span class="p">::</span><span class="nf">Write</span><span class="p">(</span><span class="s">"q"</span><span class="p">),</span>
             <span class="p">],</span>
@@ -244,8 +255,8 @@
     <span class="p">}</span>
 
     <span class="p">{</span>
-        <span class="c">// The above should not have committed anything.</span>
-        <span class="k">let</span> <span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="mi">_</span><span class="n">stderr</span><span class="p">)</span> <span class="o">=</span> <span class="n">git</span><span class="nf">.run</span><span class="p">(</span><span class="o">&amp;</span><span class="p">[</span><span class="s">"show"</span><span class="p">])</span><span class="o">?</span><span class="p">;</span>
+        <span class="c1">// The above should not have committed anything.</span>
+        <span class="k">let</span> <span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="n">_stderr</span><span class="p">)</span> <span class="o">=</span> <span class="n">git</span><span class="nf">.run</span><span class="p">(</span><span class="o">&amp;</span><span class="p">[</span><span class="s">"show"</span><span class="p">])</span><span class="o">?</span><span class="p">;</span>
         <span class="nn">insta</span><span class="p">::</span><span class="nd">assert_snapshot!</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="o">@</span><span class="s">r###"
         commit 62fc20d2a290daea0d52bdc2ed2ad4be6491010e
         Author: Testy McTestface &lt;test@example.com&gt;
@@ -275,7 +286,7 @@
 <p>Here is an example of driving the internal state of a TUI program by passing a list of <code class="language-plaintext highlighter-rouge">Event</code>s in directly:</p>
 
 <div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">#[test]</span>
-<span class="k">fn</span> <span class="nf">test_toggle_all</span><span class="p">()</span> <span class="k">-&gt;</span> <span class="nn">eyre</span><span class="p">::</span><span class="n">Result</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span> <span class="p">{</span>
+<span class="k">fn</span> <span class="nf">test_toggle_all</span><span class="p">()</span> <span class="k">-&gt;</span> <span class="nn">eyre</span><span class="p">::</span><span class="nb">Result</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span> <span class="p">{</span>
     <span class="k">let</span> <span class="n">before</span> <span class="o">=</span> <span class="nn">TestingScreenshot</span><span class="p">::</span><span class="nf">default</span><span class="p">();</span>
     <span class="k">let</span> <span class="n">after</span> <span class="o">=</span> <span class="nn">TestingScreenshot</span><span class="p">::</span><span class="nf">default</span><span class="p">();</span>
     <span class="k">let</span> <span class="n">event_source</span> <span class="o">=</span> <span class="nn">EventSource</span><span class="p">::</span><span class="nf">testing</span><span class="p">(</span>
@@ -363,6 +374,7 @@
 </thead>
 
 <tbody>
+
 
   <tr>
     <td>24&nbsp;Aug&nbsp;2023</td>

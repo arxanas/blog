@@ -10,16 +10,21 @@
   
     <title>I used to run my own mail server</title>
   
-  <meta name="description" content="I used to run my own mail server on this domain. That’s because I receive email at this domain, and being a student at the time, I didn’t want to pay an addi...">
+  <meta name="author" content="Waleed Khan">
+  <meta name="description" content="  Table of contents:">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://blog.waleedkhan.name/mail-server/">
   <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+  
 
   <link rel="me" href="https://github.com/arxanas">
   <link rel="me" href="https://twitter.com/arxanas">
   <link rel="me" href="mailto:me@waleedkhan.name">
+
+  
+  
 
   <!-- See https://indieweb.org/webmention.io -->
   <link rel="webmention" href="https://webmention.io/blog.waleedkhan.name/webmention" />
@@ -62,14 +67,26 @@
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">I used to run my own mail server</h1>
-    <p class="post-meta"><time datetime="2020-04-29T00:00:00-05:00" itemprop="datePublished">Apr 29, 2020</time>
+    <p class="post-meta"><time datetime="2020-04-29T00:00:00+00:00" itemprop="datePublished">Apr 29, 2020</time>
     
     </p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
     
-    <p>I used to run my own mail server on this domain. That’s because I receive email at this domain, and being a student at the time, I didn’t want to pay an additional cost for an email service on top of the domain and hosting costs.</p>
+    
+<div class="series-and-toc">
+
+  <p class="toc-header">Table of contents:</p>
+
+<ul id="markdown-toc">
+  <li><a href="#related-posts" id="markdown-toc-related-posts">Related posts</a></li>
+  <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
+</ul>
+
+</div>
+
+<p>I used to run my own mail server on this domain. That’s because I receive email at this domain, and being a student at the time, I didn’t want to pay an additional cost for an email service on top of the domain and hosting costs.</p>
 
 <p>It was surprisingly complex. After a lot of frustrating debugging, I installed and configured Postfix and Dovecot. Looking back at it now, maybe I can understand a little of the awful mail situation that the authors of <a href="https://web.mit.edu/~simsong/www/ugh.pdf">The UNIX-HATERS Handbook</a> lamented.</p>
 
@@ -108,6 +125,7 @@ dovecot: imap(me@waleedkhan.name): expunge: box=INBOX, uid=110, msgid=&lt;196877
 </thead>
 
 <tbody>
+
 
   <tr>
     <td>19&nbsp;Sep&nbsp;2016</td>

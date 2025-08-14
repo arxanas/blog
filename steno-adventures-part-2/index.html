@@ -10,16 +10,23 @@
   
     <title>Stenography adventures with Plover and the Ergodox EZ, part 2</title>
   
-  <meta name="description" content="">
+  <meta name="author" content="Waleed Khan">
+  <meta name="description" content="  Posts in series:  Stenography adventures with Plover and the Ergodox EZ, part 1Stenography adventures with Plover and the Ergodox EZ, part 2  Table of cont...">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://blog.waleedkhan.name/steno-adventures-part-2/">
   <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+  
 
   <link rel="me" href="https://github.com/arxanas">
   <link rel="me" href="https://twitter.com/arxanas">
   <link rel="me" href="mailto:me@waleedkhan.name">
+
+  
+  
+    <link rel="prev" href="https://blog.waleedkhan.name/steno-adventures-part-1/">
+  
 
   <!-- See https://indieweb.org/webmention.io -->
   <link rel="webmention" href="https://webmention.io/blog.waleedkhan.name/webmention" />
@@ -62,14 +69,29 @@
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">Stenography adventures with Plover and the Ergodox EZ, part 2</h1>
-    <p class="post-meta"><time datetime="2016-09-06T00:00:00-05:00" itemprop="datePublished">Sep 6, 2016</time>
+    <p class="post-meta"><time datetime="2016-09-06T00:00:00+00:00" itemprop="datePublished">Sep 6, 2016</time>
     
     </p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
     
-    <ul id="markdown-toc">
+    
+<div class="series-and-toc">
+
+  <p class="series-header">Posts in series:</p>
+
+  <ol>
+
+<li><a href="/steno-adventures-part-1/">Stenography adventures with Plover and the Ergodox EZ, part 1</a></li>
+
+<li><a href="/steno-adventures-part-2/">Stenography adventures with Plover and the Ergodox EZ, part 2</a></li>
+
+</ol>
+
+  <p class="toc-header">Table of contents:</p>
+
+<ul id="markdown-toc">
   <li><a href="#firmware-features" id="markdown-toc-firmware-features">Firmware features</a></li>
   <li><a href="#installing-the-firmware" id="markdown-toc-installing-the-firmware">Installing the firmware</a></li>
   <li><a href="#building-the-firmware" id="markdown-toc-building-the-firmware">Building the firmware</a></li>
@@ -85,8 +107,7 @@
   <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
 </ul>
 
-<p>This is part 2 of my exploits with Plover and the Ergodox EZ. <a href="/steno-adventures-part-1/">Click here
-for part 1</a>.</p>
+</div>
 
 <h2 id="firmware-features">Firmware features</h2>
 
@@ -107,9 +128,9 @@ layout. Thus it will work on every computer, without needing to delve into
 obscure settings. I could even make up my own keyboard layout altogether if I so
 desired, which I understand many do.</p>
 
-<aside class="aside" id="is-it-better-to-use-dvora">
-          <header class="aside-header"><a href="#is-it-better-to-use-dvora">Is it better to use Dvorak in software or hardware?</a></header>
-          <div class="aside-contents"><p>For this case, it is better to implement Dvorak in hardware. The problem with
+<details id="is-it-better-to-use-dvora">
+          <summary>Is it better to use Dvorak in software or hardware?</summary>
+          <div><p>For this case, it is better to implement Dvorak in hardware. The problem with
 setting up one’s Ergodox EZ to use Dvorak at the software level is in the
 symbol keys.  For example, <code class="language-plaintext highlighter-rouge">[</code> on a Qwerty keyboard maps to <code class="language-plaintext highlighter-rouge">/</code> if interpreted
 as Dvorak.</p>
@@ -126,7 +147,7 @@ Qwerty-Dvorak symbol correspondence for their keyboard, they will likely
 encounter difficulties typing many special characters. There are no such
 problems at the hardware level.</p>
 </div>
-        </aside>
+        </details>
 
 <p>The firmware also has support for “layers”. Each layer defines key mappings, and
 the layers can be enabled or disabled individually. If a layer doesn’t handle a
@@ -176,9 +197,9 @@ it using the button in the upper-left corner.</p>
 by putting a very thin rod down the hole on the front of the keyboard to tap
 the reset button. (I used several mechanical pencil leads and much patience.)</p>
 
-<aside class="aside" id="how-to-rapidly-hack-on-th">
-          <header class="aside-header"><a href="#how-to-rapidly-hack-on-th">How to rapidly hack on the firmware, without fiddling with the reset button</a></header>
-          <div class="aside-contents"><p>Pressing the physical reset button every time is a pain. One can <a href="https://github.com/jackhumbert/qmk_firmware/issues/112">bind a key on
+<details id="how-to-rapidly-hack-on-th">
+          <summary>How to rapidly hack on the firmware, without fiddling with the reset button</summary>
+          <div><p>Pressing the physical reset button every time is a pain. One can <a href="https://github.com/jackhumbert/qmk_firmware/issues/112">bind a key on
 the Ergodox EZ itself to enter reset mode (a so-called “Teensy
 key”)</a>, rather than manually fiddle with the reset button. Use the
 <code class="language-plaintext highlighter-rouge">RESET</code> keycode. I have mine bound on a non-topmost-layer so that I don’t
@@ -195,7 +216,7 @@ keyboard as soon as it is connected and in reset mode. Then one no longer needs
 to click “load” every time they want to re-deploy the firmware; they can
 recompile and press the Teensy key.</p>
 </div>
-        </aside>
+        </details>
 
 <p>Once the keyboard is in reset mode, press the “Program” button to flash it. This
 loads the firmware onto the keyboard and restarts it. By default, my Ergodox EZ flashes its three LEDs in sequence on startup, so that one can
@@ -252,9 +273,9 @@ four keys in the thumb clusters.</p>
 <p>This takes quite a while, as it is setting up a cross-compiler toolchain and has
 to build GCC from source.</p>
 
-<aside class="aside" id="warning-the-following-ver">
-          <header class="aside-header"><a href="#warning-the-following-ver">Warning: the following version of the build doesn&apos;t actually work</a></header>
-          <div class="aside-contents"><p>Before you try to install the firmware after building it as below, be warned
+<details id="warning-the-following-ver">
+          <summary>Warning: the following version of the build doesn&apos;t actually work</summary>
+          <div><p>Before you try to install the firmware after building it as below, be warned
 that the Plover layout has a few problems. You can read on to see how I fixed
 it, or just build off of <a href="https://github.com/arxanas/qmk_firmware/tree/fixed-plover/keyboards/ergodox_ez/keymaps/plover-arxanas">my firmware</a>. (It is likely not a good
 idea to use it exactly as it is, since the default layer is set to Dvorak.)</p>
@@ -267,7 +288,7 @@ the state of the keyboard and Plover can never get out of sync.</p>
 <p>For either of these, you will probably want to modify the keymaps to your liking
 for the non-Plover parts.</p>
 </div>
-        </aside>
+        </details>
 
 <p>When I’m done, I build it by running the <code class="language-plaintext highlighter-rouge">make</code> command shown below. It is shown
 with an example of the successful output. The build process is surprisingly
@@ -365,11 +386,11 @@ anything.  The keyboard is still thoroughly in Plover mode. I mash several other
 keys, but to no avail. Something is wrong with the layout which is preventing it
 from behaving well.</p>
 
-<aside class="aside" id="the-harsh-realization-set">
-          <header class="aside-header"><a href="#the-harsh-realization-set">The harsh realization sets in</a></header>
-          <div class="aside-contents"><p>Once you go Plover, you never come back over.</p>
+<details id="the-harsh-realization-set">
+          <summary>The harsh realization sets in</summary>
+          <div><p>Once you go Plover, you never come back over.</p>
 </div>
-        </aside>
+        </details>
 
 <h2 id="fixing-the-firmware">Fixing the firmware</h2>
 
@@ -387,16 +408,16 @@ sum, they are:</p>
 wasn’t that bad! I opened up the Plover layout in
 <code class="language-plaintext highlighter-rouge">keyboards/ergodox_ez/keymaps/plover/keymap.c</code> and start looking…</p>
 
-<aside class="aside" id="you-too-can-make-a-keyboa">
-          <header class="aside-header"><a href="#you-too-can-make-a-keyboa">You too can make a keyboard layout</a></header>
-          <div class="aside-contents"><p>The values <code class="language-plaintext highlighter-rouge">ergodox_ez</code> and <code class="language-plaintext highlighter-rouge">plover</code> in the command <code class="language-plaintext highlighter-rouge">make keyboard=ergodox_ez
+<details id="you-too-can-make-a-keyboa">
+          <summary>You too can make a keyboard layout</summary>
+          <div><p>The values <code class="language-plaintext highlighter-rouge">ergodox_ez</code> and <code class="language-plaintext highlighter-rouge">plover</code> in the command <code class="language-plaintext highlighter-rouge">make keyboard=ergodox_ez
 keymap=plover</code> directly corresponds to the directory structure above.</p>
 
 <p>When you make your own layout, you can start by copying some other <code class="language-plaintext highlighter-rouge">keymap.c</code>
 and putting it in <code class="language-plaintext highlighter-rouge">keyboards/ergodox_ez/keymaps/my-layout</code> and build it with
 <code class="language-plaintext highlighter-rouge">make keyboard=ergodox_ez keymap=my-layout</code>.</p>
 </div>
-        </aside>
+        </details>
 
 <h3 id="toggling-the-led">Toggling the LED</h3>
 
@@ -481,15 +502,15 @@ layers, I find the keymap for Plover mode:</p>
 <p>The <code class="language-plaintext highlighter-rouge">KC_NO</code> key in the first column seems to line up with where the Plover
 toggle key is ordinarily, so I change it to <code class="language-plaintext highlighter-rouge">TG(3)</code> and it worked!</p>
 
-<aside class="aside" id="the-original-author-was-c">
-          <header class="aside-header"><a href="#the-original-author-was-c">The original author was closer to the mark than I initially realized</a></header>
-          <div class="aside-contents"><p><code class="language-plaintext highlighter-rouge">KC_NO</code> means “do nothing when this key is pressed.” On the other hand,
+<details id="the-original-author-was-c">
+          <summary>The original author was closer to the mark than I initially realized</summary>
+          <div><p><code class="language-plaintext highlighter-rouge">KC_NO</code> means “do nothing when this key is pressed.” On the other hand,
 <code class="language-plaintext highlighter-rouge">KC_TRNS</code> means “do nothing, but allow another layer to handle this key”. The
 original author just put <code class="language-plaintext highlighter-rouge">KC_TRNS</code> on the wrong row. If it were one row lower,
 pressing the key would delegate to the existing toggle-Plover key in the base
 layer, and it would work correctly.</p>
 </div>
-        </aside>
+        </details>
 
 <h3 id="adding-n-key-rollover">Adding N-key rollover</h3>
 
@@ -649,6 +670,7 @@ keyboard firmware, I can recommend the Ergodox EZ + Plover combination.</p>
 
 <tbody>
 
+
   <tr>
     <td>24&nbsp;Aug&nbsp;2016</td>
     <td class="this-post">
@@ -684,6 +706,15 @@ keyboard firmware, I can recommend the Ergodox EZ + Plover combination.</p>
       
       </td>
     <td><a href="/my-steno-system/">My steno system</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>05&nbsp;Apr&nbsp;2025</td>
+    <td class="this-post">
+      
+      </td>
+    <td><a href="/language-learning-anecdotes/">Language-learning anecdotes</a>
     </td>
   </tr>
 

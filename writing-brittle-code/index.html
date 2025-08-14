@@ -10,16 +10,21 @@
   
     <title>Writing brittle code</title>
   
+  <meta name="author" content="Waleed Khan">
   <meta name="description" content="            Intended audience      Software engineers, particularly those at large companies or organizations.              Origin      General software engi...">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://blog.waleedkhan.name/writing-brittle-code/">
   <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+  
 
   <link rel="me" href="https://github.com/arxanas">
   <link rel="me" href="https://twitter.com/arxanas">
   <link rel="me" href="mailto:me@waleedkhan.name">
+
+  
+  
 
   <!-- See https://indieweb.org/webmention.io -->
   <link rel="webmention" href="https://webmention.io/blog.waleedkhan.name/webmention" />
@@ -62,7 +67,7 @@
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">Writing brittle code</h1>
-    <p class="post-meta"><time datetime="2023-08-24T00:00:00-05:00" itemprop="datePublished">Aug 24, 2023</time>
+    <p class="post-meta"><time datetime="2023-08-24T00:00:00+00:00" itemprop="datePublished">Aug 24, 2023</time>
     
     </p>
   </header>
@@ -86,6 +91,17 @@
   </table>
 </div>
 
+<div class="series-and-toc">
+
+  <p class="toc-header">Table of contents:</p>
+
+<ul id="markdown-toc">
+  <li><a href="#related-posts" id="markdown-toc-related-posts">Related posts</a></li>
+  <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
+</ul>
+
+</div>
+
 <p>I particularly like this characterization from <a href="https://journal.infinitenegativeutility.com/leaving-haskell-behind"><em>Leaving Haskell behind</em> (2023)</a>:</p>
 
 <blockquote>
@@ -100,11 +116,11 @@
 
 <p>Even though React’s alternative approach of explicitly declaring dependencies is rather heavy-handed, it ends up being more tractable for <em>future me</em>, and probably for my coworkers as well. My technology choices were <em>insufficiently brittle</em> to accomodate future maintenance.</p>
 
-<aside class="aside" id="dont-tell-me-about-reacti">
-          <header class="aside-header"><a href="#dont-tell-me-about-reacti">Don&apos;t tell me about reactivity</a></header>
-          <div class="aside-contents"><p>I don’t care if the preceding example is entirely wrong from a factual or subjective perspective, so don’t tell me. It’s an ultimately individually-unimportant example of the larger point that I’m trying to make.</p>
+<details id="dont-tell-me-about-reacti">
+          <summary>Don&apos;t tell me about reactivity</summary>
+          <div><p>I don’t care if the preceding example is entirely wrong from a factual or subjective perspective, so don’t tell me. It’s an ultimately individually-unimportant example of the larger point that I’m trying to make.</p>
 </div>
-        </aside>
+        </details>
 
 <p>The situation is quite different for specialists, who can make the investment of <em>becoming familiar with a system</em> to gain productivity with it. Someone accustomed to implicit dependency tracking will benefit from not having to write the dependencies explicitly. Due to my work domain, I am usually not one of those people!</p>
 
@@ -122,6 +138,7 @@
 </thead>
 
 <tbody>
+
 
   <tr>
     <td>23&nbsp;Dec&nbsp;2017</td>
@@ -179,6 +196,10 @@
 
 <ul>
 
+<li><a class="icon-hacker-news" href="https://news.ycombinator.com/item?id=42886081 ">Discussion on Hacker News</a></li>
+
+
+<li><a class="icon-lobsters" href="https://lobste.rs/s/8sttca/writing_brittle_code ">Discussion on Lobsters</a></li>
 
 
 </ul>

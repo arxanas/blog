@@ -10,16 +10,21 @@
   
     <title>Functions are constants too</title>
   
-  <meta name="description" content="Once in a while, I get feedback on a code review remarking that I ought to extract a certain string literal into a constant. For example, that this:">
+  <meta name="author" content="Waleed Khan">
+  <meta name="description" content="  Table of contents:">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://blog.waleedkhan.name/functions-are-constants/">
   <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+  
 
   <link rel="me" href="https://github.com/arxanas">
   <link rel="me" href="https://twitter.com/arxanas">
   <link rel="me" href="mailto:me@waleedkhan.name">
+
+  
+  
 
   <!-- See https://indieweb.org/webmention.io -->
   <link rel="webmention" href="https://webmention.io/blog.waleedkhan.name/webmention" />
@@ -62,14 +67,26 @@
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">Functions are constants too</h1>
-    <p class="post-meta"><time datetime="2022-06-14T00:00:00-05:00" itemprop="datePublished">Jun 14, 2022</time>
+    <p class="post-meta"><time datetime="2022-06-14T00:00:00+00:00" itemprop="datePublished">Jun 14, 2022</time>
     
     </p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
     
-    <p>Once in a while, I get feedback on a code review remarking that I ought to extract a certain string literal into a constant. For example, that this:</p>
+    
+<div class="series-and-toc">
+
+  <p class="toc-header">Table of contents:</p>
+
+<ul id="markdown-toc">
+  <li><a href="#related-posts" id="markdown-toc-related-posts">Related posts</a></li>
+  <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
+</ul>
+
+</div>
+
+<p>Once in a while, I get feedback on a code review remarking that I ought to extract a certain string literal into a constant. For example, that this:</p>
 
 <div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">fn</span> <span class="nf">get_foo</span><span class="p">()</span> <span class="k">-&gt;</span> <span class="p">{</span>
     <span class="nn">std</span><span class="p">::</span><span class="nn">env</span><span class="p">::</span><span class="nf">var</span><span class="p">(</span><span class="s">"FOO"</span><span class="p">)</span><span class="nf">.unwrap</span><span class="p">()</span>
@@ -96,6 +113,38 @@
 <div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">foo</span> <span class="o">=</span> <span class="mi">3</span>      <span class="c">(* constant binding *)</span>
 <span class="k">let</span> <span class="n">bar</span> <span class="n">baz</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c">(* function which takes one argument *)</span>
 </code></pre></div></div>
+
+<h2 id="related-posts">Related posts</h2>
+
+<p>The following are hand-curated posts which you might find interesting.</p>
+
+<table class="related-posts">
+<thead>
+  <tr>
+    <th>Date</th>
+    <th></th>
+    <th>Title</th>
+  </tr>
+</thead>
+
+<tbody>
+
+
+  <tr>
+    <td>14&nbsp;Jun&nbsp;2022</td>
+    <td class="this-post">
+      
+      (this&nbsp;post)
+      
+      </td>
+    <td><a href="/functions-are-constants/">Functions are constants too</a>
+    </td>
+  </tr>
+
+</tbody>
+</table>
+
+<p>Want to see more of my posts? Follow me <a href="https://twitter.com/arxanas">on Twitter</a> or subscribe <a href="/feed.xml">via RSS</a>.</p>
 
 <h2 id="comments">Comments</h2>
 

@@ -10,16 +10,21 @@
   
     <title>Integrating Qt Designer with PyQt</title>
   
-  <meta name="description" content="">
+  <meta name="author" content="Waleed Khan">
+  <meta name="description" content="Introduction">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://blog.waleedkhan.name/pyqt-designer/">
   <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+  
 
   <link rel="me" href="https://github.com/arxanas">
   <link rel="me" href="https://twitter.com/arxanas">
   <link rel="me" href="mailto:me@waleedkhan.name">
+
+  
+  
 
   <!-- See https://indieweb.org/webmention.io -->
   <link rel="webmention" href="https://webmention.io/blog.waleedkhan.name/webmention" />
@@ -62,23 +67,14 @@
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">Integrating Qt Designer with PyQt</h1>
-    <p class="post-meta"><time datetime="2016-10-11T00:00:00-05:00" itemprop="datePublished">Oct 11, 2016</time>
+    <p class="post-meta"><time datetime="2016-10-11T00:00:00+00:00" itemprop="datePublished">Oct 11, 2016</time>
     
     </p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
     
-    <ul id="markdown-toc">
-  <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a></li>
-  <li><a href="#about-ui-files" id="markdown-toc-about-ui-files">About .ui files</a></li>
-  <li><a href="#setting-up-pyqt-distutils" id="markdown-toc-setting-up-pyqt-distutils">Setting up pyqt-distutils</a></li>
-  <li><a href="#launching-the-app" id="markdown-toc-launching-the-app">Launching the app</a></li>
-  <li><a href="#using-qt-designer" id="markdown-toc-using-qt-designer">Using Qt Designer</a></li>
-  <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
-</ul>
-
-<h2 id="introduction">Introduction</h2>
+    <h2 id="introduction">Introduction</h2>
 
 <p>There are several options to develop GUI apps in Python. One of these is with
 the <a href="https://www.qt.io/">Qt cross-platform framework</a>, and the <a href="https://pypi.python.org/pypi/PyQt5">PyQt bindings</a>. One can find a
@@ -91,9 +87,9 @@ which is part of the <a href="https://www.qt.io/ide/">Qt Creator</a> IDE for Qt.
 not Python. This post explains how to integrate Qt Designer with PyQt 5. It
 assumes that you already have both these installed on your system.</p>
 
-<aside class="aside" id="a-brief-guide-to-installi">
-          <header class="aside-header"><a href="#a-brief-guide-to-installi">A brief guide to installing these on OS X</a></header>
-          <div class="aside-contents"><p>I installed PyQt 5 and Qt Designer using <a href="http://brew.sh/">Homebrew</a> and <a href="https://github.com/Homebrew/homebrew-cask">Homebrew Cask</a>. In
+<details id="a-brief-guide-to-installi">
+          <summary>A brief guide to installing these on OS X</summary>
+          <div><p>I installed PyQt 5 and Qt Designer using <a href="http://brew.sh/">Homebrew</a> and <a href="https://github.com/Homebrew/homebrew-cask">Homebrew Cask</a>. In
 short, I issued these commands:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>brew <span class="nb">install </span>pyqt5 <span class="nt">--with-python</span> <span class="nt">--without-python3</span>
@@ -122,7 +118,23 @@ Type <span class="s2">"help"</span>, <span class="s2">"copyright"</span>, <span 
 <span class="o">&gt;&gt;&gt;</span>
 </code></pre></div></div>
 </div>
-        </aside>
+        </details>
+
+<div class="series-and-toc">
+
+  <p class="toc-header">Table of contents:</p>
+
+<ul id="markdown-toc">
+  <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a></li>
+  <li><a href="#about-ui-files" id="markdown-toc-about-ui-files">About .ui files</a></li>
+  <li><a href="#setting-up-pyqt-distutils" id="markdown-toc-setting-up-pyqt-distutils">Setting up pyqt-distutils</a></li>
+  <li><a href="#launching-the-app" id="markdown-toc-launching-the-app">Launching the app</a></li>
+  <li><a href="#using-qt-designer" id="markdown-toc-using-qt-designer">Using Qt Designer</a></li>
+  <li><a href="#related-posts" id="markdown-toc-related-posts">Related posts</a></li>
+  <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
+</ul>
+
+</div>
 
 <h2 id="about-ui-files">About .ui files</h2>
 
@@ -233,18 +245,18 @@ right alongside the <code class="language-plaintext highlighter-rouge">.ui</code
 suggestion <a href="https://pypi.python.org/pypi/pyqt-distutils">from the documentation</a>, to be added to
 <code class="language-plaintext highlighter-rouge">setup.py</code>:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">setuptools</span> <span class="kn">import</span> <span class="n">setup</span>
 
 <span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">pyqt_distutils.build_ui</span> <span class="kn">import</span> <span class="n">build_ui</span>
-    <span class="n">cmdclass</span> <span class="o">=</span> <span class="p">{</span><span class="s">"build_ui"</span><span class="p">:</span> <span class="n">build_ui</span><span class="p">}</span>
+    <span class="kn">from</span> <span class="n">pyqt_distutils.build_ui</span> <span class="kn">import</span> <span class="n">build_ui</span>
+    <span class="n">cmdclass</span> <span class="o">=</span> <span class="p">{</span><span class="sh">"</span><span class="s">build_ui</span><span class="sh">"</span><span class="p">:</span> <span class="n">build_ui</span><span class="p">}</span>
 <span class="k">except</span> <span class="nb">ImportError</span><span class="p">:</span>
     <span class="n">cmdclass</span> <span class="o">=</span> <span class="p">{}</span>
 
-<span class="n">setup</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s">"myapp"</span><span class="p">,</span>
-    <span class="n">version</span><span class="o">=</span><span class="s">"0.1"</span><span class="p">,</span>
-    <span class="n">packages</span><span class="o">=</span><span class="p">[</span><span class="s">"myapp"</span><span class="p">],</span>
+<span class="nf">setup</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="sh">"</span><span class="s">myapp</span><span class="sh">"</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="sh">"</span><span class="s">0.1</span><span class="sh">"</span><span class="p">,</span>
+    <span class="n">packages</span><span class="o">=</span><span class="p">[</span><span class="sh">"</span><span class="s">myapp</span><span class="sh">"</span><span class="p">],</span>
     <span class="n">cmdclass</span><span class="o">=</span><span class="n">cmdclass</span><span class="p">,</span>
 <span class="p">)</span>
 </code></pre></div></div>
@@ -277,26 +289,26 @@ generated code, you may want to add it to your <code class="language-plaintext h
 <p>Once the <code class="language-plaintext highlighter-rouge">.ui </code>files are built, you need to import the created classes into your
 own code to use them. Put this content into <code class="language-plaintext highlighter-rouge">myapp/__main__.py</code>:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">sys</span>
 
-<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="kn">import</span> <span class="n">QApplication</span><span class="p">,</span> <span class="n">QMainWindow</span>
+<span class="kn">from</span> <span class="n">PyQt5.QtWidgets</span> <span class="kn">import</span> <span class="n">QApplication</span><span class="p">,</span> <span class="n">QMainWindow</span>
 
-<span class="kn">from</span> <span class="nn">.gui.mainwindow_ui</span> <span class="kn">import</span> <span class="n">Ui_MainWindow</span>
+<span class="kn">from</span> <span class="n">.gui.mainwindow_ui</span> <span class="kn">import</span> <span class="n">Ui_MainWindow</span>
 
 <span class="k">class</span> <span class="nc">MainWindow</span><span class="p">(</span><span class="n">QMainWindow</span><span class="p">,</span> <span class="n">Ui_MainWindow</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">MainWindow</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="nf">super</span><span class="p">(</span><span class="n">MainWindow</span><span class="p">,</span> <span class="n">self</span><span class="p">).</span><span class="nf">__init__</span><span class="p">()</span>
+        <span class="n">self</span><span class="p">.</span><span class="nf">setupUi</span><span class="p">(</span><span class="n">self</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="n">app</span> <span class="o">=</span> <span class="n">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)</span>
-    <span class="n">main_window</span> <span class="o">=</span> <span class="n">MainWindow</span><span class="p">()</span>
-    <span class="n">main_window</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
-    <span class="n">sys</span><span class="p">.</span><span class="nb">exit</span><span class="p">(</span><span class="n">app</span><span class="p">.</span><span class="n">exec_</span><span class="p">())</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="nc">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)</span>
+    <span class="n">main_window</span> <span class="o">=</span> <span class="nc">MainWindow</span><span class="p">()</span>
+    <span class="n">main_window</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+    <span class="n">sys</span><span class="p">.</span><span class="nf">exit</span><span class="p">(</span><span class="n">app</span><span class="p">.</span><span class="nf">exec_</span><span class="p">())</span>
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">main</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sh">"</span><span class="s">__main__</span><span class="sh">"</span><span class="p">:</span>
+    <span class="nf">main</span><span class="p">()</span>
 </code></pre></div></div>
 
 <p>Install your app and launch it:</p>
@@ -324,9 +336,9 @@ Successfully installed myapp-0.1
 <p>Once all this is set up, we just need to use Qt Designer to modify the <code class="language-plaintext highlighter-rouge">.ui</code>
 file for us, so that we can rebuild it and have it appear in our app.</p>
 
-<aside class="aside" id="trouble-with-setting-up-q">
-          <header class="aside-header"><a href="#trouble-with-setting-up-q">Trouble with setting up Qt Creator with Homebrew&apos;s Qt</a></header>
-          <div class="aside-contents"><p>When I launched Qt Creator for the first time, it told me that it wasn’t able to
+<details id="trouble-with-setting-up-q">
+          <summary>Trouble with setting up Qt Creator with Homebrew&apos;s Qt</summary>
+          <div><p>When I launched Qt Creator for the first time, it told me that it wasn’t able to
 find a “kit” to use. To fix this, I added a Qt version by navigating to the
 directory of the <code class="language-plaintext highlighter-rouge">qmake</code> executable that Homebrew installed, then I updated the
 default Qt kit to use that Qt version.</p>
@@ -343,7 +355,7 @@ default Qt kit to use that Qt version.</p>
 </figcaption>
       </figure>
 </div>
-        </aside>
+        </details>
 
 <p>Launch Qt Creator, click <code class="language-plaintext highlighter-rouge">File &gt; Open File or Project...</code>, and select your <code class="language-plaintext highlighter-rouge">.ui</code>
 file. (Do not try to create a project of any sort.) It should appear in Qt
@@ -360,6 +372,38 @@ Creator for you to edit and save. That’s it!</p>
         <figcaption class="caption"><p>Qt Designer&#8217;s UI editor.</p>
 </figcaption>
       </figure>
+
+<h2 id="related-posts">Related posts</h2>
+
+<p>The following are hand-curated posts which you might find interesting.</p>
+
+<table class="related-posts">
+<thead>
+  <tr>
+    <th>Date</th>
+    <th></th>
+    <th>Title</th>
+  </tr>
+</thead>
+
+<tbody>
+
+
+  <tr>
+    <td>11&nbsp;Oct&nbsp;2016</td>
+    <td class="this-post">
+      
+      (this&nbsp;post)
+      
+      </td>
+    <td><a href="/pyqt-designer/">Integrating Qt Designer with PyQt</a>
+    </td>
+  </tr>
+
+</tbody>
+</table>
+
+<p>Want to see more of my posts? Follow me <a href="https://twitter.com/arxanas">on Twitter</a> or subscribe <a href="/feed.xml">via RSS</a>.</p>
 
 <h2 id="comments">Comments</h2>
 

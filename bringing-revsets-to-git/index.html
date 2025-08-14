@@ -10,16 +10,21 @@
   
     <title>Bringing revsets to Git</title>
   
+  <meta name="author" content="Waleed Khan">
   <meta name="description" content="            Intended audience              Intermediate to advanced Git users.        Developers of version control systems.                    Origin       ...">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://blog.waleedkhan.name/bringing-revsets-to-git/">
   <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+  
 
   <link rel="me" href="https://github.com/arxanas">
   <link rel="me" href="https://twitter.com/arxanas">
   <link rel="me" href="mailto:me@waleedkhan.name">
+
+  
+  
 
   <!-- See https://indieweb.org/webmention.io -->
   <link rel="webmention" href="https://webmention.io/blog.waleedkhan.name/webmention" />
@@ -62,7 +67,7 @@
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">Bringing revsets to Git</h1>
-    <p class="post-meta"><time datetime="2022-11-16T00:00:00-06:00" itemprop="datePublished">Nov 16, 2022</time>
+    <p class="post-meta"><time datetime="2022-11-16T00:00:00+00:00" itemprop="datePublished">Nov 16, 2022</time>
     
     </p>
   </header>
@@ -90,6 +95,10 @@
 
 <p><a href="https://www.mercurial-scm.org/repo/hg/help/revsets">Revsets are a declarative language from the Mercurial version control system</a>. Most commands in Mercurial that accept a commit can instead accept a revset expression to specify one or more commits meeting certain criteria. The <a href="https://github.com/arxanas/git-branchless">git-branchless</a> suite of tools introduces its own revset language which can be used with Git.</p>
 
+<div class="series-and-toc">
+
+  <p class="toc-header">Table of contents:</p>
+
 <ul id="markdown-toc">
   <li><a href="#try-it-out" id="markdown-toc-try-it-out">Try it out</a></li>
   <li><a href="#existing-git-syntax" id="markdown-toc-existing-git-syntax">Existing Git syntax</a></li>
@@ -102,15 +111,17 @@
   <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
 </ul>
 
+</div>
+
 <h2 id="try-it-out">Try it out</h2>
 
 <p>To try out revsets, <a href="https://github.com/arxanas/git-branchless#installation">install git-branchless</a>, or see <a href="#prior-work">Prior work</a> for alternatives.</p>
 
-<aside class="aside" id="sapling-scm">
-          <header class="aside-header"><a href="#sapling-scm">Sapling SCM</a></header>
-          <div class="aside-contents"><p>While this post was still in draft, <a href="https://sapling-scm.com/">Sapling SCM</a> was announced, which git-branchless is descended from in spirit. It’s discussed in Prior work as well.</p>
+<details id="sapling-scm">
+          <summary>Sapling SCM</summary>
+          <div><p>While this post was still in draft, <a href="https://sapling-scm.com/">Sapling SCM</a> was announced, which git-branchless is descended from in spirit. It’s discussed in Prior work as well.</p>
 </div>
-        </aside>
+        </details>
 
 <h2 id="existing-git-syntax">Existing Git syntax</h2>
 
@@ -240,19 +251,19 @@
 
 <p>This can be an easy way to skip commits which you know aren’t relevant to the change.</p>
 
-<aside class="aside" id="versus-git-bisect">
-          <header class="aside-header"><a href="#versus-git-bisect">Versus git bisect</a></header>
-          <div class="aside-contents"><p>You can use <code class="language-plaintext highlighter-rouge">git bisect</code> and filter by paths, of course, but it may be more tedious. Note that, unlike <code class="language-plaintext highlighter-rouge">git bisect</code>, <code class="language-plaintext highlighter-rouge">git test</code> currently conducts a linear search, so it’s not the best choice for all cases. This will hopefully change in the future.</p>
+<details id="versus-git-bisect">
+          <summary>Versus git bisect</summary>
+          <div><p>You can use <code class="language-plaintext highlighter-rouge">git bisect</code> and filter by paths, of course, but it may be more tedious. Note that, unlike <code class="language-plaintext highlighter-rouge">git bisect</code>, <code class="language-plaintext highlighter-rouge">git test</code> currently conducts a linear search, so it’s not the best choice for all cases. This will hopefully change in the future.</p>
 
 <p><code class="language-plaintext highlighter-rouge">git test</code> has several features which <code class="language-plaintext highlighter-rouge">git bisect</code> doesn’t offer, such as parallel testing, out-of-tree testing, and caching of test results.</p>
 </div>
-        </aside>
+        </details>
 
-<aside class="aside" id="caching-test-results">
-          <header class="aside-header"><a href="#caching-test-results">Caching test results</a></header>
-          <div class="aside-contents"><p><code class="language-plaintext highlighter-rouge">git test</code> will cache the results of the test command, so if you decide to expand the search set later, you don’t have to re-run the test command on commits you’ve already tested.</p>
+<details id="caching-test-results">
+          <summary>Caching test results</summary>
+          <div><p><code class="language-plaintext highlighter-rouge">git test</code> will cache the results of the test command, so if you decide to expand the search set later, you don’t have to re-run the test command on commits you’ve already tested.</p>
 </div>
-        </aside>
+        </details>
 <h2 id="prior-work">Prior work</h2>
 
 <p>This isn’t the first introduction of revsets to version control. Prior work:</p>
@@ -278,6 +289,7 @@
 </thead>
 
 <tbody>
+
 
   <tr>
     <td>19&nbsp;Jun&nbsp;2021</td>
@@ -323,6 +335,15 @@
       
       </td>
     <td><a href="/git-ui-features/">Where are my Git UI features from the future?</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>11&nbsp;Jan&nbsp;2024</td>
+    <td class="this-post">
+      
+      </td>
+    <td><a href="/patch-terminology/">Patch terminology</a>
     </td>
   </tr>
 

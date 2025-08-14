@@ -10,16 +10,21 @@
   
     <title>Ulepszenie przyrostowe czasy testowania Rust</title>
   
+  <meta name="author" content="Waleed Khan">
   <meta name="description" content="            Docelowi odbiorcy              Potencjalni i średnio-zaawansowani deweloperzy Rust, którzy martwią się wolnymi czasami kompilacji, ich skalą i pr...">
 
   <link rel="stylesheet" href="/pl/css/main.css">
   <link rel="canonical" href="https://blog.waleedkhan.name/pl/rust-przyrostowe-czasy-testowania/">
   <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/pl/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+  
 
   <link rel="me" href="https://github.com/arxanas">
   <link rel="me" href="https://twitter.com/arxanas">
   <link rel="me" href="mailto:me@waleedkhan.name">
+
+  
+  
 
   <!-- See https://indieweb.org/webmention.io -->
   <link rel="webmention" href="https://webmention.io/blog.waleedkhan.name/webmention" />
@@ -62,13 +67,13 @@
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">Ulepszenie przyrostowe czasy testowania Rust</h1>
-    <p class="post-meta"><time datetime="2023-02-07T00:00:00-06:00" itemprop="datePublished">Feb 7, 2023</time>
+    <p class="post-meta"><time datetime="2023-02-07T00:00:00+00:00" itemprop="datePublished">Feb 7, 2023</time>
     
       <span class="post-meta">
         <br />
         
         <a href="/rust-incremental-test-times/">Read in English 🇺🇸</a>
-      
+        
       </span>
     
     </p>
@@ -105,6 +110,10 @@
 
 <p>Rust jest znany z wolnego czasu kompilacji. Spędziłem dużo czasu próbując poprawić przyrostowe czasy kompilacji testowania dla mojego projektu <a href="https://github.com/arxanas/git-branchless">git-branchless</a> w <a href="https://github.com/arxanas/git-branchless/pull/650">https://github.com/arxanas/git-branchless/pull/650</a>. Oto dyskusja wyników.</p>
 
+<div class="series-and-toc">
+
+  <p class="toc-header">Spis treści:</p>
+
 <ul id="markdown-toc">
   <li><a href="#streszczenie-wykonawcze" id="markdown-toc-streszczenie-wykonawcze">Streszczenie wykonawcze</a></li>
   <li><a href="#szczegóły-projektu" id="markdown-toc-szczegóły-projektu">Szczegóły projektu</a></li>
@@ -112,8 +121,11 @@
   <li><a href="#czas-bez-operacji" id="markdown-toc-czas-bez-operacji">Czas bez operacji</a></li>
   <li><a href="#koniec-profilowania" id="markdown-toc-koniec-profilowania">Koniec profilowania?</a></li>
   <li><a href="#koniec-kolejnych-pomysłów" id="markdown-toc-koniec-kolejnych-pomysłów">Koniec kolejnych pomysłów?</a></li>
+  <li><a href="#powiązane-posty" id="markdown-toc-powiązane-posty">Powiązane posty</a></li>
   <li><a href="#komentarze" id="markdown-toc-komentarze">Komentarze</a></li>
 </ul>
+
+</div>
 
 <h2 id="streszczenie-wykonawcze">Streszczenie wykonawcze</h2>
 
@@ -258,6 +270,38 @@ Benchmark 1: cargo <span class="nb">test</span> <span class="nt">-p</span> git-b
 </ul>
 
 <p>Więc teraz utknąłem. To najwięcej, jak mogę skrócić przyrostowe czasy testowania Rust. Daj znać, jeśli masz jakieś inne pomysły.</p>
+
+<h2 id="powiązane-posty">Powiązane posty</h2>
+
+<p>Poniżej znajduje się kilka ręcznie wybranych postów, które mogą Cię zainteresować.</p>
+
+<table class="related-posts">
+<thead>
+  <tr>
+    <th>Date</th>
+    <th></th>
+    <th>Title</th>
+  </tr>
+</thead>
+
+<tbody>
+
+
+  <tr>
+    <td>07&nbsp;Feb&nbsp;2023</td>
+    <td class="this-post">
+      
+      (this&nbsp;post)
+      
+      </td>
+    <td><a href="/rust-przyrostowe-czasy-testowania/">Ulepszenie przyrostowe czasy testowania Rust</a>
+    </td>
+  </tr>
+
+</tbody>
+</table>
+
+<p>Chcesz zobaczyć więcej moich postów? Obserwuj mnie <a href="https://twitter.com/arxanas">na Twitterze</a> albo subskrybuj <a href="/pl/feed.xml">za pomocą RSS</a>.</p>
 
 <h2 id="komentarze">Komentarze</h2>
 

@@ -10,16 +10,21 @@
   
     <title>Analyzing all of my Messenger conversations to create conversational macros</title>
   
-  <meta name="description" content="">
+  <meta name="author" content="Waleed Khan">
+  <meta name="description" content="Why make conversational macros?">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://blog.waleedkhan.name/messenger-conversation-macros/">
   <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+  
 
   <link rel="me" href="https://github.com/arxanas">
   <link rel="me" href="https://twitter.com/arxanas">
   <link rel="me" href="mailto:me@waleedkhan.name">
+
+  
+  
 
   <!-- See https://indieweb.org/webmention.io -->
   <link rel="webmention" href="https://webmention.io/blog.waleedkhan.name/webmention" />
@@ -62,32 +67,14 @@
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">Analyzing all of my Messenger conversations to create conversational macros</h1>
-    <p class="post-meta"><time datetime="2016-10-13T00:00:00-05:00" itemprop="datePublished">Oct 13, 2016</time>
+    <p class="post-meta"><time datetime="2016-10-13T00:00:00+00:00" itemprop="datePublished">Oct 13, 2016</time>
     
     </p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
     
-    <ul id="markdown-toc">
-  <li><a href="#why-make-conversational-macros" id="markdown-toc-why-make-conversational-macros">Why make conversational macros?</a></li>
-  <li><a href="#how-do-i-get-all-of-my-messenger-conversations" id="markdown-toc-how-do-i-get-all-of-my-messenger-conversations">How do I get all of my Messenger conversations?</a></li>
-  <li><a href="#identifying-the-candidate-macros" id="markdown-toc-identifying-the-candidate-macros">Identifying the candidate macros</a>    <ul>
-      <li><a href="#parsing-json" id="markdown-toc-parsing-json">Parsing JSON</a></li>
-      <li><a href="#extracting-useful-n-grams" id="markdown-toc-extracting-useful-n-grams">Extracting useful n-grams</a></li>
-    </ul>
-  </li>
-  <li><a href="#results" id="markdown-toc-results">Results</a>    <ul>
-      <li><a href="#3-grams" id="markdown-toc-3-grams">3-grams</a></li>
-      <li><a href="#4-grams" id="markdown-toc-4-grams">4-grams</a></li>
-      <li><a href="#6-grams" id="markdown-toc-6-grams">6-grams</a></li>
-    </ul>
-  </li>
-  <li><a href="#related-posts" id="markdown-toc-related-posts">Related posts</a></li>
-  <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
-</ul>
-
-<h2 id="why-make-conversational-macros">Why make conversational macros?</h2>
+    <h2 id="why-make-conversational-macros">Why make conversational macros?</h2>
 
 <p>For ergonomic reasons, I use <a href="http://www.openstenoproject.org/plover/">free, open-source stenography software</a> to
 type. This means that I press anywhere from 1 to about 12 keys at once, and get
@@ -111,6 +98,30 @@ like “non-small cell lung cancer” which can be produced in one chord.</p>
 <p>I’d like to improve the breadth of conversational entries in my dictionary for
 use in instant messaging. So how do I know which entries to add? The best way is
 to actually analyze all of my instant messages.</p>
+
+<div class="series-and-toc">
+
+  <p class="toc-header">Table of contents:</p>
+
+<ul id="markdown-toc">
+  <li><a href="#why-make-conversational-macros" id="markdown-toc-why-make-conversational-macros">Why make conversational macros?</a></li>
+  <li><a href="#how-do-i-get-all-of-my-messenger-conversations" id="markdown-toc-how-do-i-get-all-of-my-messenger-conversations">How do I get all of my Messenger conversations?</a></li>
+  <li><a href="#identifying-the-candidate-macros" id="markdown-toc-identifying-the-candidate-macros">Identifying the candidate macros</a>    <ul>
+      <li><a href="#parsing-json" id="markdown-toc-parsing-json">Parsing JSON</a></li>
+      <li><a href="#extracting-useful-n-grams" id="markdown-toc-extracting-useful-n-grams">Extracting useful n-grams</a></li>
+    </ul>
+  </li>
+  <li><a href="#results" id="markdown-toc-results">Results</a>    <ul>
+      <li><a href="#3-grams" id="markdown-toc-3-grams">3-grams</a></li>
+      <li><a href="#4-grams" id="markdown-toc-4-grams">4-grams</a></li>
+      <li><a href="#6-grams" id="markdown-toc-6-grams">6-grams</a></li>
+    </ul>
+  </li>
+  <li><a href="#related-posts" id="markdown-toc-related-posts">Related posts</a></li>
+  <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
+</ul>
+
+</div>
 
 <h2 id="how-do-i-get-all-of-my-messenger-conversations">How do I get all of my Messenger conversations?</h2>
 
@@ -197,24 +208,24 @@ that an n-gram has to appear at least 5 times for it to be worth looking at.</p>
 
 <p>I wrote a short script to find the n-grams:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">collections</span>
-<span class="kn">import</span> <span class="nn">sys</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">collections</span>
+<span class="kn">import</span> <span class="n">sys</span>
 
-<span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">ngrams</span> <span class="o">=</span> <span class="n">collections</span><span class="p">.</span><span class="n">Counter</span><span class="p">()</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ngrams</span> <span class="o">=</span> <span class="n">collections</span><span class="p">.</span><span class="nc">Counter</span><span class="p">()</span>
 
 <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">:</span>
-    <span class="n">words</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="n">split</span><span class="p">()</span>
-    <span class="n">line_ngrams</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="n">i</span><span class="p">:])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)])</span>
+    <span class="n">words</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="nf">split</span><span class="p">()</span>
+    <span class="n">line_ngrams</span> <span class="o">=</span> <span class="nf">zip</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="nf">tuple</span><span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="n">i</span><span class="p">:])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">n</span><span class="p">)])</span>
     <span class="k">for</span> <span class="n">ngram</span> <span class="ow">in</span> <span class="n">line_ngrams</span><span class="p">:</span>
         <span class="n">ngrams</span><span class="p">[</span><span class="n">ngram</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
 
-<span class="n">average</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">ngrams</span><span class="p">.</span><span class="n">values</span><span class="p">())</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">ngrams</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"Average: {}</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">average</span><span class="p">))</span>
-<span class="n">most_frequent_ngrams</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">ngrams</span><span class="p">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">average</span> <span class="o">=</span> <span class="nf">sum</span><span class="p">(</span><span class="n">ngrams</span><span class="p">.</span><span class="nf">values</span><span class="p">())</span> <span class="o">/</span> <span class="nf">len</span><span class="p">(</span><span class="n">ngrams</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Average: {}</span><span class="se">\n</span><span class="sh">"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">average</span><span class="p">))</span>
+<span class="n">most_frequent_ngrams</span> <span class="o">=</span> <span class="nf">sorted</span><span class="p">(</span><span class="n">ngrams</span><span class="p">.</span><span class="nf">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">ngram</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">most_frequent_ngrams</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">"{}: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="s">" "</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">ngram</span><span class="p">)))</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">{}: {}</span><span class="sh">"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="sh">"</span><span class="s"> </span><span class="sh">"</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">ngram</span><span class="p">)))</span>
 </code></pre></div></div>
 
 <h2 id="results">Results</h2>
@@ -383,6 +394,7 @@ might not be worth adding those phrases directly.</p>
 </thead>
 
 <tbody>
+
 
   <tr>
     <td>19&nbsp;Sep&nbsp;2016</td>

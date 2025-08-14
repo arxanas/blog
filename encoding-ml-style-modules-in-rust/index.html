@@ -10,16 +10,21 @@
   
     <title>Encoding ML-style modules in Rust</title>
   
+  <meta name="author" content="Waleed Khan">
   <meta name="description" content="            Intended audience              OCaml/SML programmers learning Rust.        New-wave functional programmers who haven’t used older languages like ...">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://blog.waleedkhan.name/encoding-ml-style-modules-in-rust/">
   <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+  
 
   <link rel="me" href="https://github.com/arxanas">
   <link rel="me" href="https://twitter.com/arxanas">
   <link rel="me" href="mailto:me@waleedkhan.name">
+
+  
+  
 
   <!-- See https://indieweb.org/webmention.io -->
   <link rel="webmention" href="https://webmention.io/blog.waleedkhan.name/webmention" />
@@ -62,7 +67,7 @@
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">Encoding ML-style modules in Rust</h1>
-    <p class="post-meta"><time datetime="2023-06-17T00:00:00-05:00" itemprop="datePublished">Jun 17, 2023</time>
+    <p class="post-meta"><time datetime="2023-06-17T00:00:00+00:00" itemprop="datePublished">Jun 17, 2023</time>
     
       <span class="post-meta">
         <br />
@@ -103,6 +108,10 @@
   </table>
 </div>
 
+<div class="series-and-toc">
+
+  <p class="toc-header">Table of contents:</p>
+
 <ul id="markdown-toc">
   <li><a href="#problem-statement" id="markdown-toc-problem-statement">Problem statement</a></li>
   <li><a href="#caching-a-function" id="markdown-toc-caching-a-function">Caching a function</a>    <ul>
@@ -122,6 +131,8 @@
   <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
 </ul>
 
+</div>
+
 <h2 id="problem-statement">Problem statement</h2>
 
 <p>Problem: you want to take an existing type satisfying some trait and augment it with new functionality — including new internal state.</p>
@@ -131,7 +142,7 @@
 <ul>
   <li>You could use <a href="https://doc.rust-lang.org/book/ch10-02-traits.html#default-implementations">default implementations for trait methods</a>.</li>
   <li>You could use <a href="https://rust-lang.github.io/rfcs/0445-extension-trait-conventions.html">extension traits</a>.</li>
-  <li>You could use <a href="https://radicle.community/t/rust-s-impl-dyn-trait-syntax/102"><code class="language-plaintext highlighter-rouge">impl dyn</code></a> <em>(technical note: uses dynamic dispatch at runtime)</em>.</li>
+  <li>You could use <a href="https://radicle.community/t/rust-s-impl-dyn-trait-syntax/102"><code class="language-plaintext highlighter-rouge">impl dyn</code></a> (<span class="note-inline"><span class="note-tag note-info">technical note:</span> uses dynamic dispatch at runtime</span>).</li>
   <li>You could use free (global) functions which are generic and accept any type implementing the trait.</li>
 </ul>
 
@@ -149,7 +160,10 @@
 
 <p>Although Rust descends from OCaml, it doesn’t inherit an ML-style module system. Instead, Rust’s trait system resembles <a href="https://en.wikipedia.org/wiki/Type_class">Haskell’s typeclasses</a>. However, with some additional features (associated types), we can simulate ML-style modules in Rust.</p>
 
-<p><em>(Pedagogical note: the canonical example for ML-style modules over typeclasses is perhaps creating a new kind of tree-set which accepts different orderings, rather than being restricted to a single ordering per type. I think that example is rather boring to consider because it doesn’t solve Real Engineering Problems, and because the typeclass solution — creating a wrapper type with the new ordering — is roughly the same amount of work for the programmer.)</em></p>
+<div class="note-block note-info">
+          <p><span class="note-tag note-info">Pedagogically:</span> The canonical example for ML-style modules over typeclasses is perhaps creating a new kind of tree-set which accepts different orderings, ratther than being restricted to a single ordering per type. I think that example is rather boring to consider because it doesn’t solve Real Engineering Problems, and because the typeclass solution — creating a wrapper type with the new ordering — is roughly the same amount of work for the programmer.</p>
+
+        </div>
 
 <h2 id="caching-a-function">Caching a function</h2>
 
@@ -165,24 +179,24 @@
 
 <p>How do we write a function that acts like <code class="language-plaintext highlighter-rouge">str_len</code>, but caches the results such that we never compute the same key-value pair twice? One way is to generate a wrapper function with a mutable internal cache and calls the underlying <code class="language-plaintext highlighter-rouge">str_len</code> function when the value isn’t in the cache:</p>
 
-<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">// Declare that we return an `FnMut` rather than an `Fn`</span>
-<span class="c">// because the returned closure may modify mutable state</span>
-<span class="c">// (and thus isn't safe to call in parallel -- not relevant</span>
-<span class="c">// in this example).</span>
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Declare that we return an `FnMut` rather than an `Fn`</span>
+<span class="c1">// because the returned closure may modify mutable state</span>
+<span class="c1">// (and thus isn't safe to call in parallel -- not relevant</span>
+<span class="c1">// in this example).</span>
 <span class="k">fn</span> <span class="nf">make_cached_str_len</span><span class="p">()</span> <span class="k">-&gt;</span> <span class="k">impl</span> <span class="p">(</span><span class="nf">FnMut</span><span class="p">(</span><span class="o">&amp;</span><span class="nb">str</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">usize</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">let</span> <span class="k">mut</span> <span class="n">cache</span> <span class="o">=</span> <span class="nn">HashMap</span><span class="p">::</span><span class="nf">new</span><span class="p">();</span>
-    <span class="c">// Use the `move` keyword to move the mutable `cache`</span>
-    <span class="c">// into the returned closure object. Unlike a variable defined</span>
-    <span class="c">// in the closure body itself, this cache will be shared across</span>
-    <span class="c">// *all* invocations of the new function.</span>
+    <span class="c1">// Use the `move` keyword to move the mutable `cache`</span>
+    <span class="c1">// into the returned closure object. Unlike a variable defined</span>
+    <span class="c1">// in the closure body itself, this cache will be shared across</span>
+    <span class="c1">// *all* invocations of the new function.</span>
     <span class="k">move</span> <span class="p">|</span><span class="n">s</span><span class="p">:</span> <span class="o">&amp;</span><span class="nb">str</span><span class="p">|</span> <span class="k">-&gt;</span> <span class="nb">usize</span> <span class="p">{</span>
-        <span class="c">// For simplicity, we clone the `&amp;str` as the cache key</span>
-        <span class="c">// rather than worry about the lifetime annotations here.</span>
-        <span class="c">// If we didn't do this, it's possible that our internal `cache`</span>
-        <span class="c">// would hold a reference to a `str` even after that `str` was freed.</span>
+        <span class="c1">// For simplicity, we clone the `&amp;str` as the cache key</span>
+        <span class="c1">// rather than worry about the lifetime annotations here.</span>
+        <span class="c1">// If we didn't do this, it's possible that our internal `cache`</span>
+        <span class="c1">// would hold a reference to a `str` even after that `str` was freed.</span>
         <span class="k">let</span> <span class="n">key</span><span class="p">:</span> <span class="nb">String</span> <span class="o">=</span> <span class="n">s</span><span class="nf">.to_owned</span><span class="p">();</span>
-        <span class="c">// Look up the entry in our cache,</span>
-        <span class="c">// or create a new one if none exists.</span>
+        <span class="c1">// Look up the entry in our cache,</span>
+        <span class="c1">// or create a new one if none exists.</span>
         <span class="k">let</span> <span class="n">result</span><span class="p">:</span> <span class="nb">usize</span> <span class="o">=</span> <span class="o">*</span><span class="n">cache</span><span class="nf">.entry</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="nf">.or_insert_with_key</span><span class="p">(|</span><span class="n">key</span><span class="p">|</span> <span class="nf">str_len</span><span class="p">(</span><span class="n">key</span><span class="p">));</span>
         <span class="n">result</span>
     <span class="p">}</span>
@@ -192,30 +206,42 @@
     <span class="k">let</span> <span class="k">mut</span> <span class="n">cached_str_len</span> <span class="o">=</span> <span class="nf">make_cached_str_len</span><span class="p">();</span>
     <span class="k">let</span> <span class="n">key</span> <span class="o">=</span> <span class="s">"foo"</span><span class="p">;</span>
 
-    <span class="c">// Prints:</span>
-    <span class="c">// Called expensive function str_len</span>
-    <span class="c">// Cached str len 1/2: 3</span>
+    <span class="c1">// Prints:</span>
+    <span class="c1">// Called expensive function str_len</span>
+    <span class="c1">// Cached str len 1/2: 3</span>
     <span class="nd">println!</span><span class="p">(</span><span class="s">"Cached str len 1/2: {}"</span><span class="p">,</span> <span class="nf">cached_str_len</span><span class="p">(</span><span class="n">key</span><span class="p">));</span>
 
-    <span class="c">// Cached str len 2/2: 3</span>
+    <span class="c1">// Cached str len 2/2: 3</span>
     <span class="nd">println!</span><span class="p">(</span><span class="s">"Cached str len 2/2: {}"</span><span class="p">,</span> <span class="nf">cached_str_len</span><span class="p">(</span><span class="n">key</span><span class="p">));</span>
 <span class="p">}</span>
 </code></pre></div></div>
 
-<p>Of course, it’s also possible to create a <code class="language-plaintext highlighter-rouge">struct</code> which holds the internal <code class="language-plaintext highlighter-rouge">cache</code>, and to simply demand that the caller invoke the wrapped function via a <code class="language-plaintext highlighter-rouge">.call</code> method <em>(technical note: Rust does not currently support overloading the function call operator)</em>.</p>
+<p>Of course, it’s also possible to create a <code class="language-plaintext highlighter-rouge">struct</code> which holds the internal <code class="language-plaintext highlighter-rouge">cache</code>, and to simply demand that the caller invoke the wrapped function via a <code class="language-plaintext highlighter-rouge">.call</code> method.</p>
+
+<div class="note-block note-info">
+          <p><span class="note-tag note-info">Technical note:</span> Rust does not currently support overloading the function call operator.</p>
+
+        </div>
 
 <h3 id="caching-functions-generically">Caching functions generically</h3>
 
-<p>Now to abstract this by one level: what if we want to write a generic caching function that can cache the results of <em>any</em> function, not just <code class="language-plaintext highlighter-rouge">str_len</code> specifically? _(Technical note: to simplify the situation, we’ll restrict ourselves to caching the results of only functions which accept exactly one parameter, as <a href="https://github.com/rust-lang/rfcs/issues/376">Rust currently does not support variadic generics</a>.) _We can accomplish this with a generic function:</p>
+<p>Now to abstract this by one level: what if we want to write a generic caching function that can cache the results of <em>any</em> function, not just <code class="language-plaintext highlighter-rouge">str_len</code> specifically?</p>
 
-<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">// Create a function which is generic over the key and value types,</span>
-<span class="c">// and accepts a "base" function which takes a key and returns a value.</span>
-<span class="c">//</span>
-<span class="c">// In order to store the key in the cache, we had to add the additional</span>
-<span class="c">// bounds `Eq + Hash` to `K`. To simplify the lifetimes, we added</span>
-<span class="c">// the lifetime bound `'static` to `K` and the bound `Clone` to `V`</span>
-<span class="c">// (and cloned the value before returning it).</span>
-<span class="k">fn</span> <span class="n">cache_f</span><span class="o">&lt;</span><span class="n">K</span><span class="p">:</span> <span class="nb">Eq</span> <span class="o">+</span> <span class="n">Hash</span> <span class="o">+</span> <span class="nv">'static</span><span class="p">,</span> <span class="n">V</span><span class="p">:</span> <span class="n">Clone</span><span class="o">&gt;</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="k">impl</span> <span class="nf">Fn</span><span class="p">(</span><span class="o">&amp;</span><span class="n">K</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="n">V</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="k">impl</span> <span class="p">(</span><span class="nf">FnMut</span><span class="p">(</span><span class="n">K</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="n">V</span><span class="p">)</span> <span class="p">{</span>
+<div class="note-block note-info">
+          <p><span class="note-tag note-info">Technical note:</span> To simplify the situation, we’ll restrict ourselves to caching the results of only functions which accept exactly one parameter, as <a href="https://github.com/rust-lang/rfcs/issues/376">Rust currently does not support variadic generics</a>.</p>
+
+        </div>
+
+<p>We can accomplish this with a generic function:</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Create a function which is generic over the key and value types,</span>
+<span class="c1">// and accepts a "base" function which takes a key and returns a value.</span>
+<span class="c1">//</span>
+<span class="c1">// In order to store the key in the cache, we had to add the additional</span>
+<span class="c1">// bounds `Eq + Hash` to `K`. To simplify the lifetimes, we added</span>
+<span class="c1">// the lifetime bound `'static` to `K` and the bound `Clone` to `V`</span>
+<span class="c1">// (and cloned the value before returning it).</span>
+<span class="k">fn</span> <span class="n">cache_f</span><span class="o">&lt;</span><span class="n">K</span><span class="p">:</span> <span class="nb">Eq</span> <span class="o">+</span> <span class="n">Hash</span> <span class="o">+</span> <span class="k">'static</span><span class="p">,</span> <span class="n">V</span><span class="p">:</span> <span class="nb">Clone</span><span class="o">&gt;</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="k">impl</span> <span class="nf">Fn</span><span class="p">(</span><span class="o">&amp;</span><span class="n">K</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="n">V</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="k">impl</span> <span class="p">(</span><span class="nf">FnMut</span><span class="p">(</span><span class="n">K</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="n">V</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">let</span> <span class="k">mut</span> <span class="n">cache</span> <span class="o">=</span> <span class="nn">HashMap</span><span class="p">::</span><span class="nf">new</span><span class="p">();</span>
     <span class="k">move</span> <span class="p">|</span><span class="n">key</span><span class="p">:</span> <span class="n">K</span><span class="p">|</span> <span class="k">-&gt;</span> <span class="n">V</span> <span class="p">{</span>
         <span class="k">let</span> <span class="n">result</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">V</span> <span class="o">=</span> <span class="n">cache</span><span class="nf">.entry</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="nf">.or_insert_with_key</span><span class="p">(|</span><span class="n">key</span><span class="p">|</span> <span class="nf">f</span><span class="p">(</span><span class="n">key</span><span class="p">));</span>
@@ -227,17 +253,17 @@
 <p>Then we adjust the parameter we pass slightly for the types to work in this example:</p>
 
 <div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="c">// To make some types work, add an additional `&amp;`</span>
-    <span class="c">// to the parameter type.</span>
+    <span class="c1">// To make some types work, add an additional `&amp;`</span>
+    <span class="c1">// to the parameter type.</span>
     <span class="k">let</span> <span class="k">mut</span> <span class="n">cached_str_len</span> <span class="o">=</span> <span class="nf">cache_f</span><span class="p">(|</span><span class="n">s</span><span class="p">:</span> <span class="o">&amp;&amp;</span><span class="nb">str</span><span class="p">|</span> <span class="nf">str_len</span><span class="p">(</span><span class="n">s</span><span class="p">));</span>
     <span class="k">let</span> <span class="n">key</span> <span class="o">=</span> <span class="s">"foo"</span><span class="p">;</span>
 
-    <span class="c">// Prints:</span>
-    <span class="c">// Called expensive function str_len</span>
-    <span class="c">// Cached str len 1/2: 3</span>
+    <span class="c1">// Prints:</span>
+    <span class="c1">// Called expensive function str_len</span>
+    <span class="c1">// Cached str len 1/2: 3</span>
     <span class="nd">println!</span><span class="p">(</span><span class="s">"Cached str len 1/2: {}"</span><span class="p">,</span> <span class="nf">cached_str_len</span><span class="p">(</span><span class="n">key</span><span class="p">));</span>
 
-    <span class="c">// Cached str len 2/2: 3</span>
+    <span class="c1">// Cached str len 2/2: 3</span>
     <span class="nd">println!</span><span class="p">(</span><span class="s">"Cached str len 2/2: {}"</span><span class="p">,</span> <span class="nf">cached_str_len</span><span class="p">(</span><span class="n">key</span><span class="p">));</span>
 <span class="p">}</span>
 </code></pre></div></div>
@@ -246,9 +272,9 @@
 
 <p>Of course, since we went to all the trouble of making this cache, we probably want to pass it around and use it. Ideally, we would be able to write it like this:</p>
 
-<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">// `impl T` does not compile (yet).</span>
-<span class="k">type</span> <span class="n">CachedF</span><span class="o">&lt;</span><span class="n">K</span><span class="p">:</span> <span class="nb">Eq</span> <span class="o">+</span> <span class="n">Hash</span> <span class="o">+</span> <span class="nv">'static</span><span class="p">,</span> <span class="n">V</span><span class="p">:</span> <span class="n">Clone</span><span class="o">&gt;</span> <span class="o">=</span> <span class="k">impl</span> <span class="nf">FnMut</span><span class="p">(</span><span class="n">K</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="n">V</span><span class="p">;</span>
-<span class="k">type</span> <span class="n">CachedStrLenF</span> <span class="o">=</span> <span class="n">CachedF</span><span class="o">&lt;&amp;</span><span class="nv">'static</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">usize</span><span class="o">&gt;</span><span class="p">;</span>
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// `impl T` does not compile (yet).</span>
+<span class="k">type</span> <span class="n">CachedF</span><span class="o">&lt;</span><span class="n">K</span><span class="p">:</span> <span class="nb">Eq</span> <span class="o">+</span> <span class="n">Hash</span> <span class="o">+</span> <span class="k">'static</span><span class="p">,</span> <span class="n">V</span><span class="p">:</span> <span class="nb">Clone</span><span class="o">&gt;</span> <span class="o">=</span> <span class="k">impl</span> <span class="nf">FnMut</span><span class="p">(</span><span class="n">K</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="n">V</span><span class="p">;</span>
+<span class="k">type</span> <span class="n">CachedStrLenF</span> <span class="o">=</span> <span class="n">CachedF</span><span class="o">&lt;&amp;</span><span class="k">'static</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">usize</span><span class="o">&gt;</span><span class="p">;</span>
 
 <span class="k">fn</span> <span class="nf">accepts_cached_str_len</span><span class="p">(</span><span class="n">cached_str_len</span><span class="p">:</span> <span class="n">CachedStrLenF</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">let</span> <span class="n">key</span> <span class="o">=</span> <span class="s">"foo"</span><span class="p">;</span>
@@ -287,7 +313,7 @@ note: used non-generic type `&amp;'static str` for generic parameter
 
 <p>We can’t use <code class="language-plaintext highlighter-rouge">impl Fn</code> in a type alias, so we have to actually write it out:</p>
 
-<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">fn</span> <span class="nf">accepts_cached_str_len</span><span class="p">(</span><span class="k">mut</span> <span class="n">cached_str_len</span><span class="p">:</span> <span class="k">impl</span> <span class="nf">FnMut</span><span class="p">(</span><span class="o">&amp;</span><span class="nv">'static</span> <span class="nb">str</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">usize</span><span class="p">)</span> <span class="p">{</span>
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">fn</span> <span class="nf">accepts_cached_str_len</span><span class="p">(</span><span class="k">mut</span> <span class="n">cached_str_len</span><span class="p">:</span> <span class="k">impl</span> <span class="nf">FnMut</span><span class="p">(</span><span class="o">&amp;</span><span class="k">'static</span> <span class="nb">str</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">usize</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">let</span> <span class="n">key</span> <span class="o">=</span> <span class="s">"foo"</span><span class="p">;</span>
     <span class="nd">println!</span><span class="p">(</span><span class="s">"Cached str len 1/2: {}"</span><span class="p">,</span> <span class="nf">cached_str_len</span><span class="p">(</span><span class="n">key</span><span class="p">));</span>
     <span class="nd">println!</span><span class="p">(</span><span class="s">"Cached str len 2/2: {}"</span><span class="p">,</span> <span class="nf">cached_str_len</span><span class="p">(</span><span class="n">key</span><span class="p">));</span>
@@ -305,7 +331,7 @@ note: used non-generic type `&amp;'static str` for generic parameter
 
 <h3 id="modules-in-ocaml">Modules in OCaml</h3>
 
-<p>ML-style modules can “hide” the generic types in a way that generic functions alone can’t accomplish <em>(technical note: using a form of <a href="https://en.wikipedia.org/wiki/Type_system#Existential_types">existential types</a>)</em>. To express a similar example using ML-style modules, you can skim over — and probably not understand — the following OCaml code:</p>
+<p>ML-style modules can “hide” the generic types in a way that generic functions alone can’t accomplish (<span class="note-inline"><span class="note-tag note-info">technical note:</span> using a form of <a href="https://en.wikipedia.org/wiki/Type_system#Existential_types">existential types</a></span>). To express a similar example using ML-style modules, you can skim over — and probably not understand — the following OCaml code:</p>
 
 <div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span> <span class="k">type</span> <span class="nc">Backend</span> <span class="o">=</span> <span class="k">sig</span>
     <span class="k">type</span> <span class="n">t</span>
@@ -367,45 +393,45 @@ note: used non-generic type `&amp;'static str` for generic parameter
 
 <h3 id="associated-types">Associated types</h3>
 
-<p>To accomplish something similar to ML-style modules, we can use <a href="https://doc.rust-lang.org/rust-by-example/generics/assoc_items/types.html">Rust’s associated types</a>. The first thing we’ll do is convert our function types into traits (<em>technical note: ultimately, a form of <a href="https://en.wikipedia.org/wiki/Defunctionalization">defunctionalization</a>)</em>.</p>
+<p>To accomplish something similar to ML-style modules, we can use <a href="https://doc.rust-lang.org/rust-by-example/generics/assoc_items/types.html">Rust’s associated types</a>. The first thing we’ll do is convert our function types into traits (<span class="note-inline"><span class="note-tag note-info">technical note:</span> ultimately, a form of <a href="https://en.wikipedia.org/wiki/Defunctionalization">defunctionalization</a></span>).</p>
 
 <div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">trait</span> <span class="n">Backend</span> <span class="p">{</span>
-    <span class="c">// We declare "associated types" for this trait. For any type </span>
-    <span class="c">// which implements `Backend`, it must declare corresponding `Key`</span>
-    <span class="c">// and `Value` types, and include an implementation of `compute`</span>
-    <span class="c">// adhering to those types.</span>
+    <span class="c1">// We declare "associated types" for this trait. For any type </span>
+    <span class="c1">// which implements `Backend`, it must declare corresponding `Key`</span>
+    <span class="c1">// and `Value` types, and include an implementation of `compute`</span>
+    <span class="c1">// adhering to those types.</span>
     <span class="k">type</span> <span class="n">Key</span><span class="p">;</span>
     <span class="k">type</span> <span class="n">Value</span><span class="p">;</span>
-    <span class="k">fn</span> <span class="nf">compute</span><span class="p">(</span><span class="o">&amp;</span><span class="k">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="o">&amp;</span><span class="nn">Self</span><span class="p">::</span><span class="n">Key</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nn">Self</span><span class="p">::</span><span class="n">Value</span><span class="p">;</span>
+    <span class="k">fn</span> <span class="nf">compute</span><span class="p">(</span><span class="o">&amp;</span><span class="k">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="o">&amp;</span><span class="k">Self</span><span class="p">::</span><span class="n">Key</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="k">Self</span><span class="p">::</span><span class="n">Value</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div></div>
 
 <p>And now we’ll create our <code class="language-plaintext highlighter-rouge">str_len</code> function as a new type and an implementation of the <code class="language-plaintext highlighter-rouge">Backend</code> trait:</p>
 
-<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">// This type doesn't need state, but you could imagine</span>
-<span class="c">// embedding e.g. a database connection in this struct.</span>
-<span class="c">//</span>
-<span class="c">// Normally, types without any data aren't very useful, but</span>
-<span class="c">// this is one of the key ideas of the "encoding of ML-style</span>
-<span class="c">// modules". Instead of state (or in addition to state), the</span>
-<span class="c">// type instead has associated types and functions,</span>
-<span class="c">// declared below.</span>
-<span class="c">//</span>
-<span class="c">// This type corresponds to the "closed-over" variables</span>
-<span class="c">// of a closure object.</span>
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// This type doesn't need state, but you could imagine</span>
+<span class="c1">// embedding e.g. a database connection in this struct.</span>
+<span class="c1">//</span>
+<span class="c1">// Normally, types without any data aren't very useful, but</span>
+<span class="c1">// this is one of the key ideas of the "encoding of ML-style</span>
+<span class="c1">// modules". Instead of state (or in addition to state), the</span>
+<span class="c1">// type instead has associated types and functions,</span>
+<span class="c1">// declared below.</span>
+<span class="c1">//</span>
+<span class="c1">// This type corresponds to the "closed-over" variables</span>
+<span class="c1">// of a closure object.</span>
 <span class="k">struct</span> <span class="n">StrLenBackend</span><span class="p">;</span>
 
 <span class="k">impl</span> <span class="n">Backend</span> <span class="k">for</span> <span class="n">StrLenBackend</span> <span class="p">{</span>
-    <span class="k">type</span> <span class="n">Key</span> <span class="o">=</span> <span class="o">&amp;</span><span class="nv">'static</span> <span class="nb">str</span><span class="p">;</span>
+    <span class="k">type</span> <span class="n">Key</span> <span class="o">=</span> <span class="o">&amp;</span><span class="k">'static</span> <span class="nb">str</span><span class="p">;</span>
     <span class="k">type</span> <span class="n">Value</span> <span class="o">=</span> <span class="nb">usize</span><span class="p">;</span>
-    <span class="k">fn</span> <span class="nf">compute</span><span class="p">(</span><span class="o">&amp;</span><span class="k">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="o">&amp;</span><span class="nn">Self</span><span class="p">::</span><span class="n">Key</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nn">Self</span><span class="p">::</span><span class="n">Value</span> <span class="p">{</span>
+    <span class="k">fn</span> <span class="nf">compute</span><span class="p">(</span><span class="o">&amp;</span><span class="k">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="o">&amp;</span><span class="k">Self</span><span class="p">::</span><span class="n">Key</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="k">Self</span><span class="p">::</span><span class="n">Value</span> <span class="p">{</span>
         <span class="nd">println!</span><span class="p">(</span><span class="s">"Computing length of key {key:?}"</span><span class="p">);</span>
         <span class="n">key</span><span class="nf">.len</span><span class="p">()</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></div>
 
-<p>Now, how do we define a generic version of a “cached” backend which works for <em>any</em> kind of <code class="language-plaintext highlighter-rouge">Backend</code>? A simple generic function like <code class="language-plaintext highlighter-rouge">compute_cached&amp;lt;B: Backend&gt;</code> doesn’t work, since we want it to store state. Instead, we declare <em>another</em> type which is parametrized on a <code class="language-plaintext highlighter-rouge">Backend</code> type:</p>
+<p>Now, how do we define a generic version of a “cached” backend which works for <em>any</em> kind of <code class="language-plaintext highlighter-rouge">Backend</code>? A simple generic function like <code class="language-plaintext highlighter-rouge">compute_cached&lt;B: Backend&gt;</code> doesn’t work, since we want it to store state. Instead, we declare <em>another</em> type which is parametrized on a <code class="language-plaintext highlighter-rouge">Backend</code> type:</p>
 
 <div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="n">CachedBackend</span><span class="o">&lt;</span><span class="n">B</span><span class="p">:</span> <span class="n">Backend</span><span class="o">&gt;</span> <span class="p">{</span>
     <span class="n">backend</span><span class="p">:</span> <span class="n">B</span><span class="p">,</span>
@@ -414,19 +440,19 @@ note: used non-generic type `&amp;'static str` for generic parameter
 
 <span class="k">impl</span><span class="o">&lt;</span><span class="n">B</span><span class="p">:</span> <span class="n">Backend</span><span class="o">&gt;</span> <span class="n">CachedBackend</span><span class="o">&lt;</span><span class="n">B</span><span class="o">&gt;</span>
 <span class="k">where</span>
-    <span class="c">// We require that the wrapped backend adheres to these bounds</span>
-    <span class="c">// in order to call any of the functions in this `impl`</span>
-    <span class="c">// (including `new`, which is how you would get a new value</span>
-    <span class="c">// of this type).</span>
-    <span class="c">//</span>
-    <span class="c">// Previously, we had to add the appropriate bounds to </span>
-    <span class="c">// each generic type in each place that it appeared.</span>
-    <span class="c">// Using a `trait`, we can instead declare the bounds</span>
-    <span class="c">// just once on the `impl`.</span>
+    <span class="c1">// We require that the wrapped backend adheres to these bounds</span>
+    <span class="c1">// in order to call any of the functions in this `impl`</span>
+    <span class="c1">// (including `new`, which is how you would get a new value</span>
+    <span class="c1">// of this type).</span>
+    <span class="c1">//</span>
+    <span class="c1">// Previously, we had to add the appropriate bounds to </span>
+    <span class="c1">// each generic type in each place that it appeared.</span>
+    <span class="c1">// Using a `trait`, we can instead declare the bounds</span>
+    <span class="c1">// just once on the `impl`.</span>
     <span class="nn">B</span><span class="p">::</span><span class="n">Key</span><span class="p">:</span> <span class="nb">Eq</span> <span class="o">+</span> <span class="n">Hash</span><span class="p">,</span>
 <span class="p">{</span>
-    <span class="k">fn</span> <span class="nf">new</span><span class="p">(</span><span class="n">backend</span><span class="p">:</span> <span class="n">B</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="n">Self</span> <span class="p">{</span>
-        <span class="n">Self</span> <span class="p">{</span>
+    <span class="k">fn</span> <span class="nf">new</span><span class="p">(</span><span class="n">backend</span><span class="p">:</span> <span class="n">B</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="k">Self</span> <span class="p">{</span>
+        <span class="k">Self</span> <span class="p">{</span>
             <span class="n">backend</span><span class="p">,</span>
             <span class="n">cache</span><span class="p">:</span> <span class="nn">Default</span><span class="p">::</span><span class="nf">default</span><span class="p">(),</span>
         <span class="p">}</span>
@@ -447,12 +473,12 @@ note: used non-generic type `&amp;'static str` for generic parameter
 <span class="k">fn</span> <span class="nf">accepts_cached_str_len</span><span class="p">(</span><span class="k">mut</span> <span class="n">cached_str_len</span><span class="p">:</span> <span class="n">CachedStrLenBackend</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">let</span> <span class="n">key</span> <span class="o">=</span> <span class="s">"foo"</span><span class="p">;</span>
 
-    <span class="c">// Prints:</span>
-    <span class="c">// Computing length of key "foo"</span>
-    <span class="c">// Cached len 1/2: 3</span>
+    <span class="c1">// Prints:</span>
+    <span class="c1">// Computing length of key "foo"</span>
+    <span class="c1">// Cached len 1/2: 3</span>
     <span class="nd">println!</span><span class="p">(</span><span class="s">"Cached len 1/2: {}"</span><span class="p">,</span> <span class="n">cached_str_len</span><span class="nf">.compute_cached</span><span class="p">(</span><span class="n">key</span><span class="p">));</span>
 
-    <span class="c">// Cached len 2/2: 3</span>
+    <span class="c1">// Cached len 2/2: 3</span>
     <span class="nd">println!</span><span class="p">(</span><span class="s">"Cached len 2/2: {}"</span><span class="p">,</span> <span class="n">cached_str_len</span><span class="nf">.compute_cached</span><span class="p">(</span><span class="n">key</span><span class="p">));</span>
 <span class="p">}</span>
 
@@ -473,18 +499,18 @@ note: used non-generic type `&amp;'static str` for generic parameter
     <span class="k">type</span> <span class="n">Key</span><span class="p">;</span>
     <span class="k">type</span> <span class="n">Value</span><span class="p">;</span>
 
-    <span class="c">// We no longer take a value of type `&amp;self`.</span>
-    <span class="k">fn</span> <span class="nf">compute</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="o">&amp;</span><span class="nn">Self</span><span class="p">::</span><span class="n">Key</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nn">Self</span><span class="p">::</span><span class="n">Value</span><span class="p">;</span>
+    <span class="c1">// We no longer take a value of type `&amp;self`.</span>
+    <span class="k">fn</span> <span class="nf">compute</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="o">&amp;</span><span class="k">Self</span><span class="p">::</span><span class="n">Key</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="k">Self</span><span class="p">::</span><span class="n">Value</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="c">// In Rust, it's not possible to make a value of the type</span>
-<span class="c">// of an empty enum.</span>
+<span class="c1">// In Rust, it's not possible to make a value of the type</span>
+<span class="c1">// of an empty enum.</span>
 <span class="k">enum</span> <span class="n">StrLenBackend</span> <span class="p">{}</span>
 
 <span class="k">impl</span> <span class="n">Backend</span> <span class="k">for</span> <span class="n">StrLenBackend</span> <span class="p">{</span>
-    <span class="k">type</span> <span class="n">Key</span> <span class="o">=</span> <span class="o">&amp;</span><span class="nv">'static</span> <span class="nb">str</span><span class="p">;</span>
+    <span class="k">type</span> <span class="n">Key</span> <span class="o">=</span> <span class="o">&amp;</span><span class="k">'static</span> <span class="nb">str</span><span class="p">;</span>
     <span class="k">type</span> <span class="n">Value</span> <span class="o">=</span> <span class="nb">usize</span><span class="p">;</span>
-    <span class="k">fn</span> <span class="nf">compute</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="o">&amp;</span><span class="nn">Self</span><span class="p">::</span><span class="n">Key</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nn">Self</span><span class="p">::</span><span class="n">Value</span> <span class="p">{</span>
+    <span class="k">fn</span> <span class="nf">compute</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="o">&amp;</span><span class="k">Self</span><span class="p">::</span><span class="n">Key</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="k">Self</span><span class="p">::</span><span class="n">Value</span> <span class="p">{</span>
         <span class="nd">println!</span><span class="p">(</span><span class="s">"Computing length of key {key:?}"</span><span class="p">);</span>
         <span class="n">key</span><span class="nf">.len</span><span class="p">()</span>
     <span class="p">}</span>
@@ -493,7 +519,7 @@ note: used non-generic type `&amp;'static str` for generic parameter
 
 <p>Then adjust our <code class="language-plaintext highlighter-rouge">CachedBackend</code> to use <code class="language-plaintext highlighter-rouge">B</code> directly, instead of calling methods on a value of type <code class="language-plaintext highlighter-rouge">B</code>, such as calling <code class="language-plaintext highlighter-rouge">B::compute</code>:</p>
 
-<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">// Note that we no longer have a member of type `B`.</span>
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Note that we no longer have a member of type `B`.</span>
 <span class="k">struct</span> <span class="n">CachedBackend</span><span class="o">&lt;</span><span class="n">B</span><span class="p">:</span> <span class="n">Backend</span><span class="o">&gt;</span> <span class="p">{</span>
     <span class="n">cache</span><span class="p">:</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="nn">B</span><span class="p">::</span><span class="n">Key</span><span class="p">,</span> <span class="nn">B</span><span class="p">::</span><span class="n">Value</span><span class="o">&gt;</span><span class="p">,</span>
 <span class="p">}</span>
@@ -502,8 +528,8 @@ note: used non-generic type `&amp;'static str` for generic parameter
 <span class="k">where</span>
     <span class="nn">B</span><span class="p">::</span><span class="n">Key</span><span class="p">:</span> <span class="nb">Eq</span> <span class="o">+</span> <span class="n">Hash</span><span class="p">,</span>
 <span class="p">{</span>
-    <span class="k">fn</span> <span class="nf">new</span><span class="p">()</span> <span class="k">-&gt;</span> <span class="n">Self</span> <span class="p">{</span>
-        <span class="n">Self</span> <span class="p">{</span>
+    <span class="k">fn</span> <span class="nf">new</span><span class="p">()</span> <span class="k">-&gt;</span> <span class="k">Self</span> <span class="p">{</span>
+        <span class="k">Self</span> <span class="p">{</span>
             <span class="n">cache</span><span class="p">:</span> <span class="nn">Default</span><span class="p">::</span><span class="nf">default</span><span class="p">(),</span>
         <span class="p">}</span>
     <span class="p">}</span>
@@ -520,30 +546,30 @@ note: used non-generic type `&amp;'static str` for generic parameter
 <span class="k">fn</span> <span class="nf">accepts_cached_str_len</span><span class="p">(</span><span class="k">mut</span> <span class="n">cached_str_len</span><span class="p">:</span> <span class="n">CachedStrLenBackend</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">let</span> <span class="n">key</span> <span class="o">=</span> <span class="s">"foo"</span><span class="p">;</span>
 
-    <span class="c">// Prints:</span>
-    <span class="c">// Computing length of key "foo"</span>
-    <span class="c">// Cached len 1/2: 3</span>
+    <span class="c1">// Prints:</span>
+    <span class="c1">// Computing length of key "foo"</span>
+    <span class="c1">// Cached len 1/2: 3</span>
     <span class="nd">println!</span><span class="p">(</span><span class="s">"Cached len 1/2: {}"</span><span class="p">,</span> <span class="n">cached_str_len</span><span class="nf">.compute_cached</span><span class="p">(</span><span class="n">key</span><span class="p">));</span>
 
-    <span class="c">// Cached len 2/2: 3</span>
+    <span class="c1">// Cached len 2/2: 3</span>
     <span class="nd">println!</span><span class="p">(</span><span class="s">"Cached len 2/2: {}"</span><span class="p">,</span> <span class="n">cached_str_len</span><span class="nf">.compute_cached</span><span class="p">(</span><span class="n">key</span><span class="p">));</span>
 <span class="p">}</span>
 
 <span class="k">fn</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="c">// This weird syntax is equivalent to `CachedBackend&lt;StrLenBackend&gt;::new()`</span>
-    <span class="c">// in some other languages. It's written with an extra `::` due to</span>
-    <span class="c">// technical restrictions on the syntax.</span>
-    <span class="c">//</span>
-    <span class="c">// Note that, unlike before, we never pass a *value* into</span>
-    <span class="c">// the `CachedBackend`, only a type.</span>
+    <span class="c1">// This weird syntax is equivalent to `CachedBackend&lt;StrLenBackend&gt;::new()`</span>
+    <span class="c1">// in some other languages. It's written with an extra `::` due to</span>
+    <span class="c1">// technical restrictions on the syntax.</span>
+    <span class="c1">//</span>
+    <span class="c1">// Note that, unlike before, we never pass a *value* into</span>
+    <span class="c1">// the `CachedBackend`, only a type.</span>
     <span class="k">let</span> <span class="n">cached_str_len</span> <span class="o">=</span> <span class="nn">CachedBackend</span><span class="p">::</span><span class="o">&lt;</span><span class="n">StrLenBackend</span><span class="o">&gt;</span><span class="p">::</span><span class="nf">new</span><span class="p">();</span>
 
-    <span class="c">// We could also write the type annotation on the left side and let</span>
-    <span class="c">// type inference figure it out:</span>
-    <span class="k">let</span> <span class="mi">_</span><span class="n">also_works</span><span class="p">:</span> <span class="n">CachedBackend</span><span class="o">&lt;</span><span class="n">StrLenBackend</span><span class="o">&gt;</span> <span class="o">=</span> <span class="nn">CachedBackend</span><span class="p">::</span><span class="nf">new</span><span class="p">();</span>
+    <span class="c1">// We could also write the type annotation on the left side and let</span>
+    <span class="c1">// type inference figure it out:</span>
+    <span class="k">let</span> <span class="n">_also_works</span><span class="p">:</span> <span class="n">CachedBackend</span><span class="o">&lt;</span><span class="n">StrLenBackend</span><span class="o">&gt;</span> <span class="o">=</span> <span class="nn">CachedBackend</span><span class="p">::</span><span class="nf">new</span><span class="p">();</span>
 
-    <span class="c">// Or we could use our previously-defined type alias:</span>
-    <span class="k">let</span> <span class="mi">_</span><span class="n">also_works</span> <span class="o">=</span> <span class="nn">CachedStrLenBackend</span><span class="p">::</span><span class="nf">new</span><span class="p">();</span>
+    <span class="c1">// Or we could use our previously-defined type alias:</span>
+    <span class="k">let</span> <span class="n">_also_works</span> <span class="o">=</span> <span class="nn">CachedStrLenBackend</span><span class="p">::</span><span class="nf">new</span><span class="p">();</span>
 
     <span class="nf">accepts_cached_str_len</span><span class="p">(</span><span class="n">cached_str_len</span><span class="p">);</span>
 <span class="p">}</span>
@@ -595,6 +621,7 @@ note: used non-generic type `&amp;'static str` for generic parameter
 </thead>
 
 <tbody>
+
 
   <tr>
     <td>03&nbsp;Jan&nbsp;2021</td>
@@ -652,6 +679,8 @@ note: used non-generic type `&amp;'static str` for generic parameter
 
 <ul>
 
+
+<li><a class="icon-lobsters" href="https://lobste.rs/s/hcwjcs/encoding_ml_style_modules_rust ">Discussion on Lobsters</a></li>
 
 
 </ul>

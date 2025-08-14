@@ -10,16 +10,21 @@
   
     <title>On trivial changes</title>
   
+  <meta name="author" content="Waleed Khan">
   <meta name="description" content="            Intended audience              Software engineers.        Anyone with checklists as part of their workflows or routines.                    Origi...">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://blog.waleedkhan.name/on-trivial-changes/">
   <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+  
 
   <link rel="me" href="https://github.com/arxanas">
   <link rel="me" href="https://twitter.com/arxanas">
   <link rel="me" href="mailto:me@waleedkhan.name">
+
+  
+  
 
   <!-- See https://indieweb.org/webmention.io -->
   <link rel="webmention" href="https://webmention.io/blog.waleedkhan.name/webmention" />
@@ -62,7 +67,7 @@
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">On trivial changes</h1>
-    <p class="post-meta"><time datetime="2023-09-01T00:00:00-05:00" itemprop="datePublished">Sep 1, 2023</time>
+    <p class="post-meta"><time datetime="2023-09-01T00:00:00+00:00" itemprop="datePublished">Sep 1, 2023</time>
     
     </p>
   </header>
@@ -89,6 +94,17 @@
   </table>
 </div>
 
+<div class="series-and-toc">
+
+  <p class="toc-header">Table of contents:</p>
+
+<ul id="markdown-toc">
+  <li><a href="#related-posts" id="markdown-toc-related-posts">Related posts</a></li>
+  <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
+</ul>
+
+</div>
+
 <p>One day, perhaps three years into my career, I had a very small, one-line code change to make. I don’t remember exactly what it was, but I think it involved computing a value and interpolating it into a string. I considered committing it directly, but submitted it for code review despite how small of a change it was.</p>
 
 <p>My reviewers pointed out three different bugs, which makes it perhaps the buggiest commit I’ve ever written (by density of bugs per lines of code). Since that day, I always submit code for review and I always wait for builds and tests to finish, even for changes which “obviously” don’t affect anything.</p>
@@ -107,6 +123,7 @@
 </thead>
 
 <tbody>
+
 
   <tr>
     <td>24&nbsp;Aug&nbsp;2023</td>

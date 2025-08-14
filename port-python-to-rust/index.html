@@ -10,16 +10,21 @@
   
     <title>Incrementally porting a small Python project to Rust</title>
   
+  <meta name="author" content="Waleed Khan">
   <meta name="description" content="I’ve been working on git-branchless, a Git workflow similar to the Mercurial “stacked-diff” workflows used at Google and Facebook. I originally wrote it in P...">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://blog.waleedkhan.name/port-python-to-rust/">
   <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+  
 
   <link rel="me" href="https://github.com/arxanas">
   <link rel="me" href="https://twitter.com/arxanas">
   <link rel="me" href="mailto:me@waleedkhan.name">
+
+  
+  
 
   <!-- See https://indieweb.org/webmention.io -->
   <link rel="webmention" href="https://webmention.io/blog.waleedkhan.name/webmention" />
@@ -62,7 +67,7 @@
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">Incrementally porting a small Python project to Rust</h1>
-    <p class="post-meta"><time datetime="2021-04-29T00:00:00-05:00" itemprop="datePublished">Apr 29, 2021</time>
+    <p class="post-meta"><time datetime="2021-04-29T00:00:00+00:00" itemprop="datePublished">Apr 29, 2021</time>
     
     </p>
   </header>
@@ -70,6 +75,10 @@
   <div class="post-content" itemprop="articleBody">
     
     <p>I’ve been working on <a href="https://github.com/arxanas/git-branchless">git-branchless</a>, a Git workflow similar to the Mercurial “stacked-diff” workflows used at Google and Facebook. I originally wrote it in Python, but later ported it to Rust. This post details various aspects of the porting process.</p>
+
+<div class="series-and-toc">
+
+  <p class="toc-header">Table of contents:</p>
 
 <ul id="markdown-toc">
   <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a>    <ul>
@@ -102,6 +111,8 @@
   <li><a href="#related-posts" id="markdown-toc-related-posts">Related posts</a></li>
   <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
 </ul>
+
+</div>
 
 <h2 id="introduction">Introduction</h2>
 
@@ -511,6 +522,7 @@ test failures.</li>
 </thead>
 
 <tbody>
+
 
   <tr>
     <td>03&nbsp;Jan&nbsp;2021</td>

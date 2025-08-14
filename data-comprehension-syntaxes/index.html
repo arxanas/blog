@@ -10,16 +10,21 @@
   
     <title>Why LINQ syntax differs from SQL, list comprehensions, etc.</title>
   
-  <meta name="description" content="">
+  <meta name="author" content="Waleed Khan">
+  <meta name="description" content="Data comprehension syntaxes">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://blog.waleedkhan.name/data-comprehension-syntaxes/">
   <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+  
 
   <link rel="me" href="https://github.com/arxanas">
   <link rel="me" href="https://twitter.com/arxanas">
   <link rel="me" href="mailto:me@waleedkhan.name">
+
+  
+  
 
   <!-- See https://indieweb.org/webmention.io -->
   <link rel="webmention" href="https://webmention.io/blog.waleedkhan.name/webmention" />
@@ -62,22 +67,14 @@
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">Why LINQ syntax differs from SQL, list comprehensions, etc.</h1>
-    <p class="post-meta"><time datetime="2017-12-23T00:00:00-06:00" itemprop="datePublished">Dec 23, 2017</time>
+    <p class="post-meta"><time datetime="2017-12-23T00:00:00+00:00" itemprop="datePublished">Dec 23, 2017</time>
     
     </p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
     
-    <ul id="markdown-toc">
-  <li><a href="#data-comprehension-syntaxes" id="markdown-toc-data-comprehension-syntaxes">Data comprehension syntaxes</a></li>
-  <li><a href="#its-a-better-mental-model" id="markdown-toc-its-a-better-mental-model">It’s a better mental model</a></li>
-  <li><a href="#its-better-for-tooling" id="markdown-toc-its-better-for-tooling">It’s better for tooling</a></li>
-  <li><a href="#related-posts" id="markdown-toc-related-posts">Related posts</a></li>
-  <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
-</ul>
-
-<h2 id="data-comprehension-syntaxes">Data comprehension syntaxes</h2>
+    <h2 id="data-comprehension-syntaxes">Data comprehension syntaxes</h2>
 
 <p>The order of clauses in SQL is as follows:</p>
 
@@ -108,6 +105,20 @@ expression, the data source, and then the filtering condition.</p>
 <p>Why is it different from the established standard? It turns out it’s a
 deliberate design decision by the C# team.</p>
 
+<div class="series-and-toc">
+
+  <p class="toc-header">Table of contents:</p>
+
+<ul id="markdown-toc">
+  <li><a href="#data-comprehension-syntaxes" id="markdown-toc-data-comprehension-syntaxes">Data comprehension syntaxes</a></li>
+  <li><a href="#its-a-better-mental-model" id="markdown-toc-its-a-better-mental-model">It’s a better mental model</a></li>
+  <li><a href="#its-better-for-tooling" id="markdown-toc-its-better-for-tooling">It’s better for tooling</a></li>
+  <li><a href="#related-posts" id="markdown-toc-related-posts">Related posts</a></li>
+  <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
+</ul>
+
+</div>
+
 <h2 id="its-a-better-mental-model">It’s a better mental model</h2>
 
 <p>One reason I’ve heard given by C# team members is that the SQL syntax doesn’t
@@ -119,9 +130,9 @@ getting data from. Then we have to scan each row and determine if it meets the
 condition, and then we add some expression in terms of the row to the set of
 results that we are going to return.</p>
 
-<aside class="aside" id="not-exactly">
-          <header class="aside-header"><a href="#not-exactly">Not exactly</a></header>
-          <div class="aside-contents"><p>In practice this isn’t quite accurate for SQL. We can use the result of our
+<details id="not-exactly">
+          <summary>Not exactly</summary>
+          <div><p>In practice this isn’t quite accurate for SQL. We can use the result of our
 expression in our filtering condition:</p>
 
 <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">foo</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">AS</span> <span class="n">bar</span>
@@ -136,7 +147,7 @@ expression in our filtering condition:</p>
 <span class="k">if</span> <span class="n">foo</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;</span> <span class="mi">10</span>  <span class="c1"># ...so we have to recompute it.
 </span></code></pre></div></div>
 </div>
-        </aside>
+        </details>
 
 <p>It’s arguably intuitive to go from more general (the entire aggregate data
 source) to more specific (the exact transformations on the specific data we want
@@ -187,6 +198,7 @@ these clauses.</p>
 </thead>
 
 <tbody>
+
 
   <tr>
     <td>09&nbsp;Apr&nbsp;2017</td>

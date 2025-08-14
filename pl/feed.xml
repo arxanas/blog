@@ -7,9 +7,9 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/pl/</link>
     <atom:link href="https://blog.waleedkhan.name/pl/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 07 Jan 2024 14:59:06 -0600</pubDate>
-    <lastBuildDate>Sun, 07 Jan 2024 14:59:06 -0600</lastBuildDate>
-    <generator>Jekyll v4.2.0</generator>
+    <pubDate>Thu, 14 Aug 2025 19:46:41 +0000</pubDate>
+    <lastBuildDate>Thu, 14 Aug 2025 19:46:41 +0000</lastBuildDate>
+    <generator>Jekyll v4.3.4</generator>
     
       <item>
         <title>Kodowanie w Rust modułów w stylu ML</title>
@@ -47,6 +47,10 @@ employers.</description>
   &lt;/table&gt;
 &lt;/div&gt;
 
+&lt;div class=&quot;series-and-toc&quot;&gt;
+
+  &lt;p class=&quot;toc-header&quot;&gt;Spis treści:&lt;/p&gt;
+
 &lt;ul id=&quot;markdown-toc&quot;&gt;
   &lt;li&gt;&lt;a href=&quot;#stwierdzenie-problemu&quot; id=&quot;markdown-toc-stwierdzenie-problemu&quot;&gt;Stwierdzenie problemu&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#cachowanie-funkcji&quot; id=&quot;markdown-toc-cachowanie-funkcji&quot;&gt;Cachowanie funkcji&lt;/a&gt;    &lt;ul&gt;
@@ -62,8 +66,11 @@ employers.</description>
       &lt;li&gt;&lt;a href=&quot;#inne-kodowania&quot; id=&quot;markdown-toc-inne-kodowania&quot;&gt;Inne kodowania&lt;/a&gt;&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#powiązane-posty&quot; id=&quot;markdown-toc-powiązane-posty&quot;&gt;Powiązane posty&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#komentarze&quot; id=&quot;markdown-toc-komentarze&quot;&gt;Komentarze&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;/div&gt;
 
 &lt;h2 id=&quot;stwierdzenie-problemu&quot;&gt;Stwierdzenie problemu&lt;/h2&gt;
 
@@ -110,24 +117,24 @@ employers.</description>
 
 &lt;p&gt;Jak napisać funkcję która działa jak &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;str_len&lt;/code&gt;, ale cachuje wyniki w pamięci podręcznej w taki sposób, że nigdy nie obliczy dwukrotnie tej samej pary klucz-wartość? Jednym ze sposobów jest wygenerowanie funkcji opakowania z zmiennym wewnętrznym pamięcią podręczną i wywołanie podstawowe funkcji &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;str_len&lt;/code&gt; kiedy klucza nie ma w pamięci podręcznej:&lt;/p&gt;
 
-&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;// Declare that we return an `FnMut` rather than an `Fn`&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;// because the returned closure may modify mutable state&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;// (and thus isn&apos;t safe to call in parallel -- not relevant&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;// in this example).&lt;/span&gt;
+&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// Declare that we return an `FnMut` rather than an `Fn`&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// because the returned closure may modify mutable state&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// (and thus isn&apos;t safe to call in parallel -- not relevant&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// in this example).&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;make_cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;impl&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;FnMut&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;usize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;mut&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cache&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;HashMap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// Use the `move` keyword to move the mutable `cache`&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// into the returned closure object. Unlike a variable defined&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// in the closure body itself, this cache will be shared across&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// *all* invocations of the new function.&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Use the `move` keyword to move the mutable `cache`&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// into the returned closure object. Unlike a variable defined&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// in the closure body itself, this cache will be shared across&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// *all* invocations of the new function.&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;move&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;usize&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;c&quot;&gt;// For simplicity, we clone the `&amp;amp;str` as the cache key&lt;/span&gt;
-        &lt;span class=&quot;c&quot;&gt;// rather than worry about the lifetime annotations here.&lt;/span&gt;
-        &lt;span class=&quot;c&quot;&gt;// If we didn&apos;t do this, it&apos;s possible that our internal `cache`&lt;/span&gt;
-        &lt;span class=&quot;c&quot;&gt;// would hold a reference to a `str` even after that `str` was freed.&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// For simplicity, we clone the `&amp;amp;str` as the cache key&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// rather than worry about the lifetime annotations here.&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// If we didn&apos;t do this, it&apos;s possible that our internal `cache`&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// would hold a reference to a `str` even after that `str` was freed.&lt;/span&gt;
         &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.to_owned&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-        &lt;span class=&quot;c&quot;&gt;// Look up the entry in our cache,&lt;/span&gt;
-        &lt;span class=&quot;c&quot;&gt;// or create a new one if none exists.&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// Look up the entry in our cache,&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// or create a new one if none exists.&lt;/span&gt;
         &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;usize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cache&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.entry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.or_insert_with_key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
         &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;
     &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
@@ -137,12 +144,12 @@ employers.</description>
     &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;mut&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;make_cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;foo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 
-    &lt;span class=&quot;c&quot;&gt;// Prints:&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// Called expensive function str_len&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// Cached str len 1/2: 3&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Prints:&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Called expensive function str_len&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Cached str len 1/2: 3&lt;/span&gt;
     &lt;span class=&quot;nd&quot;&gt;println!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Cached str len 1/2: {}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
 
-    &lt;span class=&quot;c&quot;&gt;// Cached str len 2/2: 3&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Cached str len 2/2: 3&lt;/span&gt;
     &lt;span class=&quot;nd&quot;&gt;println!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Cached str len 2/2: {}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
@@ -153,14 +160,14 @@ employers.</description>
 
 &lt;p&gt;A teraz abstrahujemy o jeden poziom: a jak chcemy napisać funkcję generyczną do cachowania, która może cachować wyniki &lt;em&gt;dowolnej&lt;/em&gt; funkcji, a nie tylko konkretnie &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;str_len&lt;/code&gt;? &lt;em&gt;(Uwaga techniczna: aby uprościć sytuację, ograniczymy się do cachowania wyników tylko tych funkcji, które akceptują dokładnie jeden parametr, ponieważ Rust obecnie nie obsługuje “variadic generics”.)&lt;/em&gt; Możemy to osiągnąć za pomocą funkcji generycznej:&lt;/p&gt;
 
-&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;// Create a function which is generic over the key and value types,&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;// and accepts a &quot;base&quot; function which takes a key and returns a value.&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;//&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;// In order to store the key in the cache, we had to add the additional&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;// bounds `Eq + Hash` to `K`. To simplify the lifetimes, we added&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;// the lifetime bound `&apos;static` to `K` and the bound `Clone` to `V`&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;// (and cloned the value before returning it).&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cache_f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;K&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Eq&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;&apos;static&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Clone&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;impl&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;Fn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;K&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;impl&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;FnMut&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;K&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// Create a function which is generic over the key and value types,&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// and accepts a &quot;base&quot; function which takes a key and returns a value.&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// In order to store the key in the cache, we had to add the additional&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// bounds `Eq + Hash` to `K`. To simplify the lifetimes, we added&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// the lifetime bound `&apos;static` to `K` and the bound `Clone` to `V`&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// (and cloned the value before returning it).&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cache_f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;K&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Eq&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;&apos;static&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Clone&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;impl&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;Fn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;K&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;impl&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;FnMut&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;K&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;mut&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cache&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;HashMap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;move&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;K&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;V&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
         &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;V&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cache&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.entry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.or_insert_with_key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
@@ -172,17 +179,17 @@ employers.</description>
 &lt;p&gt;A potem nieznacznie dostosowujemy podany parametr, żeby działały typy w tym przykładzie:&lt;/p&gt;
 
 &lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// To make some types work, add an additional `&amp;amp;`&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// to the parameter type.&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// To make some types work, add an additional `&amp;amp;`&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// to the parameter type.&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;mut&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;cache_f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;foo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 
-    &lt;span class=&quot;c&quot;&gt;// Prints:&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// Called expensive function str_len&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// Cached str len 1/2: 3&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Prints:&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Called expensive function str_len&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Cached str len 1/2: 3&lt;/span&gt;
     &lt;span class=&quot;nd&quot;&gt;println!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Cached str len 1/2: {}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
 
-    &lt;span class=&quot;c&quot;&gt;// Cached str len 2/2: 3&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Cached str len 2/2: 3&lt;/span&gt;
     &lt;span class=&quot;nd&quot;&gt;println!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Cached str len 2/2: {}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
@@ -191,9 +198,9 @@ employers.</description>
 
 &lt;p&gt;Oczywiście z powodu, że zadaliśmy sobie tyle trudu, aby stworzyć tą pamięcię podrzęczną, pewnie chcemy podać ją przekazywać i używać. Idealnie moglibyśmy pisać to tak:&lt;/p&gt;
 
-&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;// `impl T` does not compile (yet).&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CachedF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;K&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Eq&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;&apos;static&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Clone&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;impl&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;FnMut&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;K&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CachedStrLenF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CachedF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&apos;static&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;usize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// `impl T` does not compile (yet).&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CachedF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;K&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Eq&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;&apos;static&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Clone&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;impl&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;FnMut&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;K&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CachedStrLenF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CachedF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;&apos;static&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;usize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 
 &lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;accepts_cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CachedStrLenF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;foo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
@@ -232,7 +239,7 @@ note: used non-generic type `&amp;amp;&apos;static str` for generic parameter
 
 &lt;p&gt;Nie możemy używać &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;impl Fn&lt;/code&gt; w “type alias”, więc musimy to wypisać:&lt;/p&gt;
 
-&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;accepts_cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;mut&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;impl&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;FnMut&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&apos;static&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;usize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;accepts_cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;mut&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;impl&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;FnMut&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;&apos;static&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;usize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;foo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
     &lt;span class=&quot;nd&quot;&gt;println!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Cached str len 1/2: {}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
     &lt;span class=&quot;nd&quot;&gt;println!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Cached str len 2/2: {}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
@@ -315,35 +322,35 @@ note: used non-generic type `&amp;amp;&apos;static str` for generic parameter
 &lt;p&gt;Aby osiągnąć coś podobnego do modułów w stylu ML, możemy używać &lt;a href=&quot;https://doc.rust-lang.org/rust-by-example/generics/assoc_items/types.html&quot;&gt;Rust typy “associated”&lt;/a&gt; [ang. “associated types”]. Najpierw, zmieniamy nasze typy funkcji w traits &lt;em&gt;(uwaga techniczna: ostatecznie, to jest pewną formą “&lt;a href=&quot;https://en.wikipedia.org/wiki/Defunctionalization&quot;&gt;defunctionalization&lt;/a&gt;”).&lt;/em&gt;&lt;/p&gt;
 
 &lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;trait&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Backend&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// We declare &quot;associated types&quot; for this trait. For any type &lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// which implements `Backend`, it must declare corresponding `Key`&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// and `Value` types, and include an implementation of `compute`&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// adhering to those types.&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// We declare &quot;associated types&quot; for this trait. For any type &lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// which implements `Backend`, it must declare corresponding `Key`&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// and `Value` types, and include an implementation of `compute`&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// adhering to those types.&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;compute&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;nn&quot;&gt;Self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;compute&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;A teraz stworzymy naszą funkcję &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;str_len&lt;/code&gt; jako nowy typ i implementację trait &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Backend&lt;/code&gt;:&lt;/p&gt;
 
-&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;// This type doesn&apos;t need state, but you could imagine&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;// embedding e.g. a database connection in this struct.&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;//&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;// Normally, types without any data aren&apos;t very useful, but&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;// this is one of the key ideas of the &quot;encoding of ML-style&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;// modules&quot;. Instead of state (or in addition to state), the&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;// type instead has associated types and functions,&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;// declared below.&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;//&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;// This type corresponds to the &quot;closed-over&quot; variables&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;// of a closure object.&lt;/span&gt;
+&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// This type doesn&apos;t need state, but you could imagine&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// embedding e.g. a database connection in this struct.&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// Normally, types without any data aren&apos;t very useful, but&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// this is one of the key ideas of the &quot;encoding of ML-style&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// modules&quot;. Instead of state (or in addition to state), the&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// type instead has associated types and functions,&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// declared below.&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// This type corresponds to the &quot;closed-over&quot; variables&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// of a closure object.&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;StrLenBackend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 
 &lt;span class=&quot;k&quot;&gt;impl&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Backend&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;StrLenBackend&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&apos;static&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;&apos;static&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;usize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;compute&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;nn&quot;&gt;Self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;compute&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
         &lt;span class=&quot;nd&quot;&gt;println!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Computing length of key {key:?}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
         &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
     &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
@@ -359,19 +366,19 @@ note: used non-generic type `&amp;amp;&apos;static str` for generic parameter
 
 &lt;span class=&quot;k&quot;&gt;impl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Backend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CachedBackend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;where&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// We require that the wrapped backend adheres to these bounds&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// in order to call any of the functions in this `impl`&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// (including `new`, which is how you would get a new value&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// of this type).&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;//&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// Previously, we had to add the appropriate bounds to &lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// each generic type in each place that it appeared.&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// Using a `trait`, we can instead declare the bounds&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// just once on the `impl`.&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// We require that the wrapped backend adheres to these bounds&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// in order to call any of the functions in this `impl`&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// (including `new`, which is how you would get a new value&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// of this type).&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;//&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Previously, we had to add the appropriate bounds to &lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// each generic type in each place that it appeared.&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Using a `trait`, we can instead declare the bounds&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// just once on the `impl`.&lt;/span&gt;
     &lt;span class=&quot;nn&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Eq&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Hash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;backend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Self&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;Self&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;backend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
             &lt;span class=&quot;n&quot;&gt;backend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
             &lt;span class=&quot;n&quot;&gt;cache&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;
         &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
@@ -392,12 +399,12 @@ note: used non-generic type `&amp;amp;&apos;static str` for generic parameter
 &lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;accepts_cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;mut&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CachedStrLenBackend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;foo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 
-    &lt;span class=&quot;c&quot;&gt;// Prints:&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// Computing length of key &quot;foo&quot;&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// Cached len 1/2: 3&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Prints:&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Computing length of key &quot;foo&quot;&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Cached len 1/2: 3&lt;/span&gt;
     &lt;span class=&quot;nd&quot;&gt;println!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Cached len 1/2: {}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.compute_cached&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
 
-    &lt;span class=&quot;c&quot;&gt;// Cached len 2/2: 3&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Cached len 2/2: 3&lt;/span&gt;
     &lt;span class=&quot;nd&quot;&gt;println!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Cached len 2/2: {}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.compute_cached&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
@@ -418,18 +425,18 @@ note: used non-generic type `&amp;amp;&apos;static str` for generic parameter
     &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 
-    &lt;span class=&quot;c&quot;&gt;// We no longer take a value of type `&amp;amp;self`.&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;compute&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;nn&quot;&gt;Self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// We no longer take a value of type `&amp;amp;self`.&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;compute&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
-&lt;span class=&quot;c&quot;&gt;// In Rust, it&apos;s not possible to make a value of the type&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;// of an empty enum.&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// In Rust, it&apos;s not possible to make a value of the type&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// of an empty enum.&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;StrLenBackend&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;
 
 &lt;span class=&quot;k&quot;&gt;impl&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Backend&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;StrLenBackend&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&apos;static&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;&apos;static&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;usize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;compute&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;nn&quot;&gt;Self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;compute&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
         &lt;span class=&quot;nd&quot;&gt;println!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Computing length of key {key:?}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
         &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
     &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
@@ -438,7 +445,7 @@ note: used non-generic type `&amp;amp;&apos;static str` for generic parameter
 
 &lt;p&gt;Następnie dostosujemy  nasz &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CachedBackend&lt;/code&gt;, żeby bezpośrednio użył &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;B&lt;/code&gt;, zamiast wywołać metody na wartości typu &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;B&lt;/code&gt;, tak jak wywołanie &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;B::compute&lt;/code&gt;:&lt;/p&gt;
 
-&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;// Note that we no longer have a member of type `B`.&lt;/span&gt;
+&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// Note that we no longer have a member of type `B`.&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CachedBackend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Backend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;cache&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HashMap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nn&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
@@ -447,8 +454,8 @@ note: used non-generic type `&amp;amp;&apos;static str` for generic parameter
 &lt;span class=&quot;k&quot;&gt;where&lt;/span&gt;
     &lt;span class=&quot;nn&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Eq&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Hash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Self&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;Self&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
             &lt;span class=&quot;n&quot;&gt;cache&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;
         &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
     &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
@@ -465,30 +472,30 @@ note: used non-generic type `&amp;amp;&apos;static str` for generic parameter
 &lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;accepts_cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;mut&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CachedStrLenBackend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;foo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 
-    &lt;span class=&quot;c&quot;&gt;// Prints:&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// Computing length of key &quot;foo&quot;&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// Cached len 1/2: 3&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Prints:&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Computing length of key &quot;foo&quot;&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Cached len 1/2: 3&lt;/span&gt;
     &lt;span class=&quot;nd&quot;&gt;println!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Cached len 1/2: {}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.compute_cached&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
 
-    &lt;span class=&quot;c&quot;&gt;// Cached len 2/2: 3&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Cached len 2/2: 3&lt;/span&gt;
     &lt;span class=&quot;nd&quot;&gt;println!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Cached len 2/2: {}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.compute_cached&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
 &lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// This weird syntax is equivalent to `CachedBackend&amp;lt;StrLenBackend&amp;gt;::new()`&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// in some other languages. It&apos;s written with an extra `::` due to&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// technical restrictions on the syntax.&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;//&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// Note that, unlike before, we never pass a *value* into&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// the `CachedBackend`, only a type.&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// This weird syntax is equivalent to `CachedBackend&amp;lt;StrLenBackend&amp;gt;::new()`&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// in some other languages. It&apos;s written with an extra `::` due to&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// technical restrictions on the syntax.&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;//&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Note that, unlike before, we never pass a *value* into&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// the `CachedBackend`, only a type.&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;CachedBackend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;StrLenBackend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
 
-    &lt;span class=&quot;c&quot;&gt;// We could also write the type annotation on the left side and let&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;// type inference figure it out:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;also_works&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CachedBackend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;StrLenBackend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;CachedBackend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// We could also write the type annotation on the left side and let&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// type inference figure it out:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_also_works&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CachedBackend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;StrLenBackend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;CachedBackend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
 
-    &lt;span class=&quot;c&quot;&gt;// Or we could use our previously-defined type alias:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;also_works&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;CachedStrLenBackend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Or we could use our previously-defined type alias:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_also_works&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;CachedStrLenBackend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
 
     &lt;span class=&quot;nf&quot;&gt;accepts_cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
@@ -526,6 +533,38 @@ note: used non-generic type `&amp;amp;&apos;static str` for generic parameter
 
 &lt;p&gt;Zobacz też &lt;a href=&quot;http://blog.ezyang.com/2013/05/the-ast-typing-problem/&quot;&gt;The AST typing problem&lt;/a&gt;, abe znaleźć powiązane pytania dotyczące praktycznego kodowania modułów.&lt;/p&gt;
 
+&lt;h2 id=&quot;powiązane-posty&quot;&gt;Powiązane posty&lt;/h2&gt;
+
+&lt;p&gt;Poniżej znajduje się kilka ręcznie wybranych postów, które mogą Cię zainteresować.&lt;/p&gt;
+
+&lt;table class=&quot;related-posts&quot;&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Date&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+
+  &lt;tr&gt;
+    &lt;td&gt;17&amp;nbsp;Jun&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      (this&amp;nbsp;post)
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/kodowanie-w-rust-modułów-w-stylu-ml/&quot;&gt;Kodowanie w Rust modułów w stylu ML&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
+
 &lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
 &lt;ul&gt;
@@ -558,7 +597,7 @@ var disqus_config = function () {
 &lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
 
 </description>
-        <pubDate>Sat, 17 Jun 2023 00:00:00 -0500</pubDate>
+        <pubDate>Sat, 17 Jun 2023 00:00:00 +0000</pubDate>
         <link>https://blog.waleedkhan.name/pl/kodowanie-w-rust-modułów-w-stylu-ml/</link>
         <guid isPermaLink="true">https://blog.waleedkhan.name/pl/kodowanie-w-rust-modułów-w-stylu-ml/</guid>
         
@@ -596,6 +635,17 @@ var disqus_config = function () {
   &lt;/table&gt;
 &lt;/div&gt;
 
+&lt;div class=&quot;series-and-toc&quot;&gt;
+
+  &lt;p class=&quot;toc-header&quot;&gt;Spis treści:&lt;/p&gt;
+
+&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#powiązane-posty&quot; id=&quot;markdown-toc-powiązane-posty&quot;&gt;Powiązane posty&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#komentarze&quot; id=&quot;markdown-toc-komentarze&quot;&gt;Komentarze&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;/div&gt;
+
 &lt;p&gt;Pewna kategoria programistów używa Git z przypływem pracy “patch stack”, na którym zbierają ciąg małych, indywidualnie przeglądanych zatwierdzeń, które razem realizują znaczną zmianę. W takich przykładach, często przydatne jest uruchamianie linters lub formatters na każdym zatwierdzeniu w stosie i zastosowanie wyników. Może to być jednak żmudne, a naiwne podejście może powodować niepotrzebne konflikty scalania. (Jednym z obejść jest zastosowanie formatter na każdym zatwierdzeniu w stosie &lt;em&gt;wstecz&lt;/em&gt;.)&lt;/p&gt;
 
 &lt;p&gt;Komenda &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git test&lt;/code&gt; z git-branchless przedstawia rozwiązanie do szybkiego uruchamiania formatters, itd., na całym stosie zatwierdzeń bez produkowania konfliktów scalania. Dodatkowo, może to zostać wykonywany równoległe, i zapisuje wyniki, żeby ponowne formatowania tego samego zatwierdzenia zostawił pominięte. Możesz zobaczyć &lt;a href=&quot;https://github.com/arxanas/git-branchless/discussions/803&quot;&gt;post z ogłoszeniem&lt;/a&gt; lub &lt;a href=&quot;https://github.com/arxanas/git-branchless/wiki/Command:-git-test&quot;&gt;dokumentację &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git test&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
@@ -608,6 +658,38 @@ var disqus_config = function () {
 
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git test run --exec &apos;cargo fmt --all&apos; --strategy worktree --jobs 8
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;powiązane-posty&quot;&gt;Powiązane posty&lt;/h2&gt;
+
+&lt;p&gt;Poniżej znajduje się kilka ręcznie wybranych postów, które mogą Cię zainteresować.&lt;/p&gt;
+
+&lt;table class=&quot;related-posts&quot;&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Date&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+
+  &lt;tr&gt;
+    &lt;td&gt;11&amp;nbsp;Apr&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      (this&amp;nbsp;post)
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/formatowanie-stosu-zatwierdzeń/&quot;&gt;Szybkie formatowanie stosu zatwierdzeń&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
@@ -641,7 +723,7 @@ var disqus_config = function () {
 &lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
 
 </description>
-        <pubDate>Tue, 11 Apr 2023 00:00:00 -0500</pubDate>
+        <pubDate>Tue, 11 Apr 2023 00:00:00 +0000</pubDate>
         <link>https://blog.waleedkhan.name/pl/formatowanie-stosu-zatwierdzeń/</link>
         <guid isPermaLink="true">https://blog.waleedkhan.name/pl/formatowanie-stosu-zatwierdzeń/</guid>
         
@@ -678,6 +760,17 @@ var disqus_config = function () {
   &lt;/table&gt;
 &lt;/div&gt;
 
+&lt;div class=&quot;series-and-toc&quot;&gt;
+
+  &lt;p class=&quot;toc-header&quot;&gt;Spis treści:&lt;/p&gt;
+
+&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#powiązane-posty&quot; id=&quot;markdown-toc-powiązane-posty&quot;&gt;Powiązane posty&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#komentarze&quot; id=&quot;markdown-toc-komentarze&quot;&gt;Komentarze&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;/div&gt;
+
 &lt;p&gt;Git stosuje hash &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;e69de29bb2d1d6434b8b29ae775ad8c2e48c5391&lt;/code&gt; dla oznaczenia pustego blob (pusty plik).&lt;/p&gt;
 
 &lt;p&gt;W ramach potwierdzenia, możemy ręcznie zbudować zawartość takiego obiektu Git i obliczyć jego hash. Format zawartości obiektu to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;typ&amp;gt; &amp;lt;rozmiar&amp;gt;\0&amp;lt;zawartość&amp;gt;&lt;/code&gt; (przy czym &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;\0&lt;/code&gt; oznacza &lt;a href=&quot;https://pl.wikipedia.org/wiki/Null_(znak)&quot;&gt;znak null&lt;/a&gt;). W tym przypadku, typ to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;blob&lt;/code&gt; rozmiar wynosi &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;0&lt;/code&gt; i nie ma zawartości. Można obliczyć hash za pomocą jednej z poniższych komend:&lt;/p&gt;
@@ -690,6 +783,38 @@ e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Zobacz też &lt;em&gt;&lt;a href=&quot;https://stackoverflow.com/q/47465226/344643&quot;&gt;Why does Git hash only the Contents of A File?&lt;/a&gt;&lt;/em&gt; na powiązaną dyskusję.&lt;/p&gt;
+
+&lt;h2 id=&quot;powiązane-posty&quot;&gt;Powiązane posty&lt;/h2&gt;
+
+&lt;p&gt;Poniżej znajduje się kilka ręcznie wybranych postów, które mogą Cię zainteresować.&lt;/p&gt;
+
+&lt;table class=&quot;related-posts&quot;&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Date&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+
+  &lt;tr&gt;
+    &lt;td&gt;14&amp;nbsp;Mar&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      (this&amp;nbsp;post)
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/&quot;&gt;e69de29bb2d1d6434b8b29ae775ad8c2e48c5391&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
@@ -723,7 +848,7 @@ var disqus_config = function () {
 &lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
 
 </description>
-        <pubDate>Tue, 14 Mar 2023 00:00:00 -0500</pubDate>
+        <pubDate>Tue, 14 Mar 2023 00:00:00 +0000</pubDate>
         <link>https://blog.waleedkhan.name/pl/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/</link>
         <guid isPermaLink="true">https://blog.waleedkhan.name/pl/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391/</guid>
         
@@ -765,10 +890,17 @@ var disqus_config = function () {
   &lt;/table&gt;
 &lt;/div&gt;
 
+&lt;div class=&quot;series-and-toc&quot;&gt;
+
+  &lt;p class=&quot;toc-header&quot;&gt;Spis treści:&lt;/p&gt;
+
 &lt;ul id=&quot;markdown-toc&quot;&gt;
   &lt;li&gt;&lt;a href=&quot;#historia-płacy&quot; id=&quot;markdown-toc-historia-płacy&quot;&gt;Historia płacy&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#powiązane-posty&quot; id=&quot;markdown-toc-powiązane-posty&quot;&gt;Powiązane posty&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#komentarze&quot; id=&quot;markdown-toc-komentarze&quot;&gt;Komentarze&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;/div&gt;
 
 &lt;h2 id=&quot;historia-płacy&quot;&gt;Historia płacy&lt;/h2&gt;
 
@@ -782,6 +914,38 @@ var disqus_config = function () {
 &lt;/ul&gt;
 
 &lt;p&gt;Jeśli masz pytania dotyczące kompensacji lub negocjacji jako inżynier oprogramowania w US, &lt;a href=&quot;/pl/o-mnie/&quot;&gt;moje dane kontaktowe znajdziesz tutaj&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;powiązane-posty&quot;&gt;Powiązane posty&lt;/h2&gt;
+
+&lt;p&gt;Poniżej znajduje się kilka ręcznie wybranych postów, które mogą Cię zainteresować.&lt;/p&gt;
+
+&lt;table class=&quot;related-posts&quot;&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Date&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+
+  &lt;tr&gt;
+    &lt;td&gt;08&amp;nbsp;Mar&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      (this&amp;nbsp;post)
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/historia-płacy/&quot;&gt;Moja historia płacy&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
@@ -815,7 +979,7 @@ var disqus_config = function () {
 &lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
 
 </description>
-        <pubDate>Wed, 08 Mar 2023 00:00:00 -0600</pubDate>
+        <pubDate>Wed, 08 Mar 2023 00:00:00 +0000</pubDate>
         <link>https://blog.waleedkhan.name/pl/historia-płacy/</link>
         <guid isPermaLink="true">https://blog.waleedkhan.name/pl/historia-płacy/</guid>
         
@@ -857,6 +1021,10 @@ var disqus_config = function () {
 
 &lt;p&gt;Rust jest znany z wolnego czasu kompilacji. Spędziłem dużo czasu próbując poprawić przyrostowe czasy kompilacji testowania dla mojego projektu &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt; w &lt;a href=&quot;https://github.com/arxanas/git-branchless/pull/650&quot;&gt;https://github.com/arxanas/git-branchless/pull/650&lt;/a&gt;. Oto dyskusja wyników.&lt;/p&gt;
 
+&lt;div class=&quot;series-and-toc&quot;&gt;
+
+  &lt;p class=&quot;toc-header&quot;&gt;Spis treści:&lt;/p&gt;
+
 &lt;ul id=&quot;markdown-toc&quot;&gt;
   &lt;li&gt;&lt;a href=&quot;#streszczenie-wykonawcze&quot; id=&quot;markdown-toc-streszczenie-wykonawcze&quot;&gt;Streszczenie wykonawcze&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#szczegóły-projektu&quot; id=&quot;markdown-toc-szczegóły-projektu&quot;&gt;Szczegóły projektu&lt;/a&gt;&lt;/li&gt;
@@ -864,8 +1032,11 @@ var disqus_config = function () {
   &lt;li&gt;&lt;a href=&quot;#czas-bez-operacji&quot; id=&quot;markdown-toc-czas-bez-operacji&quot;&gt;Czas bez operacji&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#koniec-profilowania&quot; id=&quot;markdown-toc-koniec-profilowania&quot;&gt;Koniec profilowania?&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#koniec-kolejnych-pomysłów&quot; id=&quot;markdown-toc-koniec-kolejnych-pomysłów&quot;&gt;Koniec kolejnych pomysłów?&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#powiązane-posty&quot; id=&quot;markdown-toc-powiązane-posty&quot;&gt;Powiązane posty&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#komentarze&quot; id=&quot;markdown-toc-komentarze&quot;&gt;Komentarze&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;/div&gt;
 
 &lt;h2 id=&quot;streszczenie-wykonawcze&quot;&gt;Streszczenie wykonawcze&lt;/h2&gt;
 
@@ -1011,6 +1182,38 @@ Benchmark 1: cargo &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt; &lt;span c
 
 &lt;p&gt;Więc teraz utknąłem. To najwięcej, jak mogę skrócić przyrostowe czasy testowania Rust. Daj znać, jeśli masz jakieś inne pomysły.&lt;/p&gt;
 
+&lt;h2 id=&quot;powiązane-posty&quot;&gt;Powiązane posty&lt;/h2&gt;
+
+&lt;p&gt;Poniżej znajduje się kilka ręcznie wybranych postów, które mogą Cię zainteresować.&lt;/p&gt;
+
+&lt;table class=&quot;related-posts&quot;&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Date&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+
+  &lt;tr&gt;
+    &lt;td&gt;07&amp;nbsp;Feb&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      (this&amp;nbsp;post)
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/rust-przyrostowe-czasy-testowania/&quot;&gt;Ulepszenie przyrostowe czasy testowania Rust&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
+
 &lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
 &lt;ul&gt;
@@ -1043,7 +1246,7 @@ var disqus_config = function () {
 &lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
 
 </description>
-        <pubDate>Tue, 07 Feb 2023 00:00:00 -0600</pubDate>
+        <pubDate>Tue, 07 Feb 2023 00:00:00 +0000</pubDate>
         <link>https://blog.waleedkhan.name/pl/rust-przyrostowe-czasy-testowania/</link>
         <guid isPermaLink="true">https://blog.waleedkhan.name/pl/rust-przyrostowe-czasy-testowania/</guid>
         
@@ -1084,6 +1287,17 @@ var disqus_config = function () {
   &lt;/table&gt;
 &lt;/div&gt;
 
+&lt;div class=&quot;series-and-toc&quot;&gt;
+
+  &lt;p class=&quot;toc-header&quot;&gt;Spis treści:&lt;/p&gt;
+
+&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#powiązane-posty&quot; id=&quot;markdown-toc-powiązane-posty&quot;&gt;Powiązane posty&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#komentarze&quot; id=&quot;markdown-toc-komentarze&quot;&gt;Komentarze&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;/div&gt;
+
 &lt;p&gt;Ostatnio był przeciek koda z &lt;a href=&quot;https://pl.wikipedia.org/wiki/Yandex&quot;&gt;Yandex&lt;/a&gt;. Ja nie spradzałem plików, ale temat właśnie przypomina nam, że Yandex utrzymuje swoje duże &lt;a href=&quot;https://monorepo.tools/&quot;&gt;monorepo&lt;/a&gt;, a nawet zbudował własny &lt;a href=&quot;https://pl.wikipedia.org/wiki/System_kontroli_wersji&quot;&gt;system kontroli źródła&lt;/a&gt; [ang. “source control system”], żeby sobie z tym radzić, o nazwie “Arc”.&lt;/p&gt;
 
 &lt;p&gt;Oryginalny artykuł z Yandex (2020): &lt;a href=&quot;https://habr.com/ru/company/yandex/blog/482926/&quot;&gt;https://habr.com/ru/company/yandex/blog/482926/&lt;/a&gt;&lt;/p&gt;
@@ -1118,6 +1332,38 @@ var disqus_config = function () {
 
 &lt;p&gt;W sumie, nie wydaje mi się, że ma wiele do awansowania systemów kontroli wersji w porównaniu z dużymi firmami tech, takimi jak Google i Meta.&lt;/p&gt;
 
+&lt;h2 id=&quot;powiązane-posty&quot;&gt;Powiązane posty&lt;/h2&gt;
+
+&lt;p&gt;Poniżej znajduje się kilka ręcznie wybranych postów, które mogą Cię zainteresować.&lt;/p&gt;
+
+&lt;table class=&quot;related-posts&quot;&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Date&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+
+  &lt;tr&gt;
+    &lt;td&gt;27&amp;nbsp;Jan&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      (this&amp;nbsp;post)
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/yandex-arc/&quot;&gt;System kontroli wersja Yandex Arc&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
+
 &lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
 &lt;ul&gt;
@@ -1150,7 +1396,7 @@ var disqus_config = function () {
 &lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
 
 </description>
-        <pubDate>Fri, 27 Jan 2023 00:00:00 -0600</pubDate>
+        <pubDate>Fri, 27 Jan 2023 00:00:00 +0000</pubDate>
         <link>https://blog.waleedkhan.name/pl/yandex-arc/</link>
         <guid isPermaLink="true">https://blog.waleedkhan.name/pl/yandex-arc/</guid>
         
@@ -1190,17 +1436,26 @@ var disqus_config = function () {
   &lt;/table&gt;
 &lt;/div&gt;
 
+&lt;p&gt;&lt;a href=&quot;https://github.com/epage&quot;&gt;@epage&lt;/a&gt; w &lt;a href=&quot;https://github.com/arxanas/git-branchless/discussions/732&quot;&gt;https://github.com/arxanas/git-branchless/discussions/732&lt;/a&gt; zapytał:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Widzę, że mówią o &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tracing&lt;/code&gt;, ale głównie z perspektywy “web” i jestem ciekawy, jak to doświadczenie przekłada się na CLI. Zamierzam zastosować go w niektórych mniejszych CLI, żeby zdobyć trochę doświadczenia, aby zrozumieć, w jaki sposób może pomóc &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cargo&lt;/code&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Ponownie publikuję moją odpowiedź tutaj, &lt;a href=&quot;https://blog.waleedkhan.name/on-bullet-points/&quot;&gt;w formie wypunktowanej&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;series-and-toc&quot;&gt;
+
+  &lt;p class=&quot;toc-header&quot;&gt;Spis treści:&lt;/p&gt;
+
 &lt;ul id=&quot;markdown-toc&quot;&gt;
   &lt;li&gt;&lt;a href=&quot;#dla-cargo&quot; id=&quot;markdown-toc-dla-cargo&quot;&gt;Dla Cargo&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#pełne-notatki&quot; id=&quot;markdown-toc-pełne-notatki&quot;&gt;Pełne notatki&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#powiązane-posty&quot; id=&quot;markdown-toc-powiązane-posty&quot;&gt;Powiązane posty&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#komentarze&quot; id=&quot;markdown-toc-komentarze&quot;&gt;Komentarze&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;a href=&quot;https://github.com/epage&quot;&gt;@epage&lt;/a&gt; w &lt;a href=&quot;https://github.com/arxanas/git-branchless/discussions/732&quot;&gt;https://github.com/arxanas/git-branchless/discussions/732&lt;/a&gt; zapytał:&lt;/p&gt;
-
- 	Widzę, że mówią o &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tracing&lt;/code&gt;, ale głównie z perspektywy “web” i jestem ciekawy, jak to doświadczenie przekłada się na CLI. Zamierzam zastosować go w niektórych mniejszych CLI, żeby zdobyć trochę doświadczenia, aby zrozumieć, w jaki sposób może pomóc &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cargo&lt;/code&gt;.
-
-&lt;p&gt;Ponownie publikuję moją odpowiedź tutaj, &lt;a href=&quot;https://blog.waleedkhan.name/on-bullet-points/&quot;&gt;w formie wypunktowanej&lt;/a&gt;:&lt;/p&gt;
+&lt;/div&gt;
 
 &lt;h2 id=&quot;dla-cargo&quot;&gt;Dla Cargo&lt;/h2&gt;
 
@@ -1267,6 +1522,38 @@ var disqus_config = function () {
   &lt;/li&gt;
 &lt;/ul&gt;
 
+&lt;h2 id=&quot;powiązane-posty&quot;&gt;Powiązane posty&lt;/h2&gt;
+
+&lt;p&gt;Poniżej znajduje się kilka ręcznie wybranych postów, które mogą Cię zainteresować.&lt;/p&gt;
+
+&lt;table class=&quot;related-posts&quot;&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Date&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+
+  &lt;tr&gt;
+    &lt;td&gt;25&amp;nbsp;Jan&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      (this&amp;nbsp;post)
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/śledzenie-aplikacji-rust-cli/&quot;&gt;Używanie `tracing` w aplikacji Rust CLI&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
+
 &lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
 &lt;ul&gt;
@@ -1299,7 +1586,7 @@ var disqus_config = function () {
 &lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
 
 </description>
-        <pubDate>Wed, 25 Jan 2023 00:00:00 -0600</pubDate>
+        <pubDate>Wed, 25 Jan 2023 00:00:00 +0000</pubDate>
         <link>https://blog.waleedkhan.name/pl/śledzenie-aplikacji-rust-cli/</link>
         <guid isPermaLink="true">https://blog.waleedkhan.name/pl/śledzenie-aplikacji-rust-cli/</guid>
         
@@ -1312,10 +1599,18 @@ var disqus_config = function () {
     
       <item>
         <title>Interaktywne blogi</title>
-        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
+        <description>
+&lt;div class=&quot;series-and-toc&quot;&gt;
+
+  &lt;p class=&quot;toc-header&quot;&gt;Spis treści:&lt;/p&gt;
+
+&lt;ul id=&quot;markdown-toc&quot;&gt;
   &lt;li&gt;&lt;a href=&quot;#niech-żyje-ten-blog&quot; id=&quot;markdown-toc-niech-żyje-ten-blog&quot;&gt;Niech żyje ten blog&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#powiązane-posty&quot; id=&quot;markdown-toc-powiązane-posty&quot;&gt;Powiązane posty&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#komentarze&quot; id=&quot;markdown-toc-komentarze&quot;&gt;Komentarze&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;/div&gt;
 
 &lt;p&gt;Dla mnie, najlepszym platformą na blogging jest &lt;a href=&quot;https://www.google.com/docs&quot;&gt;Google Docs&lt;/a&gt;, bo obsługuje poniższe:&lt;/p&gt;
 
@@ -1438,6 +1733,38 @@ var disqus_config = function () {
   &lt;/li&gt;
 &lt;/ul&gt;
 
+&lt;h2 id=&quot;powiązane-posty&quot;&gt;Powiązane posty&lt;/h2&gt;
+
+&lt;p&gt;Poniżej znajduje się kilka ręcznie wybranych postów, które mogą Cię zainteresować.&lt;/p&gt;
+
+&lt;table class=&quot;related-posts&quot;&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Date&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+
+  &lt;tr&gt;
+    &lt;td&gt;11&amp;nbsp;Jan&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      (this&amp;nbsp;post)
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/interaktywne-blogi/&quot;&gt;Interaktywne blogi&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
+
 &lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
 &lt;ul&gt;
@@ -1470,7 +1797,7 @@ var disqus_config = function () {
 &lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
 
 </description>
-        <pubDate>Wed, 11 Jan 2023 00:00:00 -0600</pubDate>
+        <pubDate>Wed, 11 Jan 2023 00:00:00 +0000</pubDate>
         <link>https://blog.waleedkhan.name/pl/interaktywne-blogi/</link>
         <guid isPermaLink="true">https://blog.waleedkhan.name/pl/interaktywne-blogi/</guid>
         
@@ -1483,21 +1810,28 @@ var disqus_config = function () {
     
       <item>
         <title>Gdzie są moje funkcji Git’a z przyszłości?</title>
-        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#git-jest-do-bani&quot; id=&quot;markdown-toc-git-jest-do-bani&quot;&gt;Git jest do bani&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#rubryka&quot; id=&quot;markdown-toc-rubryka&quot;&gt;Rubryka&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#klienty&quot; id=&quot;markdown-toc-klienty&quot;&gt;Klienty&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#wyróżnienia&quot; id=&quot;markdown-toc-wyróżnienia&quot;&gt;Wyróżnienia&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#komentarze&quot; id=&quot;markdown-toc-komentarze&quot;&gt;Komentarze&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;git-jest-do-bani&quot;&gt;Git jest do bani&lt;/h2&gt;
+        <description>&lt;h2 id=&quot;git-jest-do-bani&quot;&gt;Git jest do bani&lt;/h2&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://git-scm.com/&quot;&gt;System kontroli wersji “Git”&lt;/a&gt; od 15+ lat przynosi nam nieszczęście. Od momentu powstania, tysiące osób próbowało stworzyć nowe klienty Git’a aby poprawić jego użyteczność.&lt;/p&gt;
 
 &lt;p&gt;Jednak, prawie każda z nich skupiła się budować ładną fasadę nad Git’em, żeby robić te same operacji, które właśnie robi Git, jakby interfejs linii komend Git’a był szczytem użyteczności.&lt;/p&gt;
 
 &lt;p&gt;Nikt nie raczy się zastanowić: jakie są &lt;em&gt;przepływy pracy&lt;/em&gt;, które osoby właśnie chcą wykonywać? Jakie są &lt;em&gt;funkcji&lt;/em&gt;, ułatwiające takie przepływy pracy? Zamiast, dostajemy klienty, które uważają, że &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git rebase -i&lt;/code&gt; to najlepszy sposób, aby zmienić komunikat zatwierdzenia, aby edytować zatwierdzenie, aby rozdzielić zatwierdzenie — albo, że warto nawet pokazać w UI tę funkcję.&lt;/p&gt;
+
+&lt;div class=&quot;series-and-toc&quot;&gt;
+
+  &lt;p class=&quot;toc-header&quot;&gt;Spis treści:&lt;/p&gt;
+
+&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#git-jest-do-bani&quot; id=&quot;markdown-toc-git-jest-do-bani&quot;&gt;Git jest do bani&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#rubryka&quot; id=&quot;markdown-toc-rubryka&quot;&gt;Rubryka&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#klienty&quot; id=&quot;markdown-toc-klienty&quot;&gt;Klienty&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#wyróżnienia&quot; id=&quot;markdown-toc-wyróżnienia&quot;&gt;Wyróżnienia&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#powiązane-posty&quot; id=&quot;markdown-toc-powiązane-posty&quot;&gt;Powiązane posty&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#komentarze&quot; id=&quot;markdown-toc-komentarze&quot;&gt;Komentarze&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;/div&gt;
 
 &lt;h2 id=&quot;rubryka&quot;&gt;Rubryka&lt;/h2&gt;
 
@@ -1776,6 +2110,38 @@ th.rotate &gt; div &gt; span {
   &lt;li&gt;SmartGit: z braki we wszystkich testowanych kategoriach.&lt;/li&gt;
 &lt;/ul&gt;
 
+&lt;h2 id=&quot;powiązane-posty&quot;&gt;Powiązane posty&lt;/h2&gt;
+
+&lt;p&gt;Poniżej znajduje się kilka ręcznie wybranych postów, które mogą Cię zainteresować.&lt;/p&gt;
+
+&lt;table class=&quot;related-posts&quot;&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Date&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+
+  &lt;tr&gt;
+    &lt;td&gt;05&amp;nbsp;Jan&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      (this&amp;nbsp;post)
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/git-ui-funkcji/&quot;&gt;Gdzie są moje funkcji Git’a z przyszłości?&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
+
 &lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
 &lt;ul&gt;
@@ -1812,7 +2178,7 @@ var disqus_config = function () {
 &lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
 
 </description>
-        <pubDate>Thu, 05 Jan 2023 00:00:00 -0600</pubDate>
+        <pubDate>Thu, 05 Jan 2023 00:00:00 +0000</pubDate>
         <link>https://blog.waleedkhan.name/pl/git-ui-funkcji/</link>
         <guid isPermaLink="true">https://blog.waleedkhan.name/pl/git-ui-funkcji/</guid>
         

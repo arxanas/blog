@@ -10,16 +10,21 @@
   
     <title>Szybkie formatowanie stosu zatwierdzeń</title>
   
+  <meta name="author" content="Waleed Khan">
   <meta name="description" content="            Docelowi odbiorcy              Inżynierowie oprogramowanie pracujący z Git, którzy używają "patch stacks"/"stacked diffs", na przykład w jaki spo...">
 
   <link rel="stylesheet" href="/pl/css/main.css">
   <link rel="canonical" href="https://blog.waleedkhan.name/pl/formatowanie-stosu-zatwierdzeń/">
   <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/pl/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+  
 
   <link rel="me" href="https://github.com/arxanas">
   <link rel="me" href="https://twitter.com/arxanas">
   <link rel="me" href="mailto:me@waleedkhan.name">
+
+  
+  
 
   <!-- See https://indieweb.org/webmention.io -->
   <link rel="webmention" href="https://webmention.io/blog.waleedkhan.name/webmention" />
@@ -62,13 +67,13 @@
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">Szybkie formatowanie stosu zatwierdzeń</h1>
-    <p class="post-meta"><time datetime="2023-04-11T00:00:00-05:00" itemprop="datePublished">Apr 11, 2023</time>
+    <p class="post-meta"><time datetime="2023-04-11T00:00:00+00:00" itemprop="datePublished">Apr 11, 2023</time>
     
       <span class="post-meta">
         <br />
         
         <a href="/formatting-a-commit-stack/">Read in English 🇺🇸</a>
-      
+        
       </span>
     
     </p>
@@ -103,6 +108,17 @@
   </table>
 </div>
 
+<div class="series-and-toc">
+
+  <p class="toc-header">Spis treści:</p>
+
+<ul id="markdown-toc">
+  <li><a href="#powiązane-posty" id="markdown-toc-powiązane-posty">Powiązane posty</a></li>
+  <li><a href="#komentarze" id="markdown-toc-komentarze">Komentarze</a></li>
+</ul>
+
+</div>
+
 <p>Pewna kategoria programistów używa Git z przypływem pracy “patch stack”, na którym zbierają ciąg małych, indywidualnie przeglądanych zatwierdzeń, które razem realizują znaczną zmianę. W takich przykładach, często przydatne jest uruchamianie linters lub formatters na każdym zatwierdzeniu w stosie i zastosowanie wyników. Może to być jednak żmudne, a naiwne podejście może powodować niepotrzebne konflikty scalania. (Jednym z obejść jest zastosowanie formatter na każdym zatwierdzeniu w stosie <em>wstecz</em>.)</p>
 
 <p>Komenda <code class="language-plaintext highlighter-rouge">git test</code> z git-branchless przedstawia rozwiązanie do szybkiego uruchamiania formatters, itd., na całym stosie zatwierdzeń bez produkowania konfliktów scalania. Dodatkowo, może to zostać wykonywany równoległe, i zapisuje wyniki, żeby ponowne formatowania tego samego zatwierdzenia zostawił pominięte. Możesz zobaczyć <a href="https://github.com/arxanas/git-branchless/discussions/803">post z ogłoszeniem</a> lub <a href="https://github.com/arxanas/git-branchless/wiki/Command:-git-test">dokumentację <code class="language-plaintext highlighter-rouge">git test</code></a>.</p>
@@ -115,6 +131,38 @@
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git test run --exec 'cargo fmt --all' --strategy worktree --jobs 8
 </code></pre></div></div>
+
+<h2 id="powiązane-posty">Powiązane posty</h2>
+
+<p>Poniżej znajduje się kilka ręcznie wybranych postów, które mogą Cię zainteresować.</p>
+
+<table class="related-posts">
+<thead>
+  <tr>
+    <th>Date</th>
+    <th></th>
+    <th>Title</th>
+  </tr>
+</thead>
+
+<tbody>
+
+
+  <tr>
+    <td>11&nbsp;Apr&nbsp;2023</td>
+    <td class="this-post">
+      
+      (this&nbsp;post)
+      
+      </td>
+    <td><a href="/formatowanie-stosu-zatwierdzeń/">Szybkie formatowanie stosu zatwierdzeń</a>
+    </td>
+  </tr>
+
+</tbody>
+</table>
+
+<p>Chcesz zobaczyć więcej moich postów? Obserwuj mnie <a href="https://twitter.com/arxanas">na Twitterze</a> albo subskrybuj <a href="/pl/feed.xml">za pomocą RSS</a>.</p>
 
 <h2 id="komentarze">Komentarze</h2>
 

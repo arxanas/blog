@@ -10,16 +10,21 @@
   
     <title>Monotonicity is a halfway point between mutability and immutability</title>
   
-  <meta name="description" content="">
+  <meta name="author" content="Waleed Khan">
+  <meta name="description" content="Introduction">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://blog.waleedkhan.name/monotonicity/">
   <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+  
 
   <link rel="me" href="https://github.com/arxanas">
   <link rel="me" href="https://twitter.com/arxanas">
   <link rel="me" href="mailto:me@waleedkhan.name">
+
+  
+  
 
   <!-- See https://indieweb.org/webmention.io -->
   <link rel="webmention" href="https://webmention.io/blog.waleedkhan.name/webmention" />
@@ -62,14 +67,28 @@
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">Monotonicity is a halfway point between mutability and immutability</h1>
-    <p class="post-meta"><time datetime="2020-04-20T00:00:00-05:00" itemprop="datePublished">Apr 20, 2020</time>
+    <p class="post-meta"><time datetime="2020-04-20T00:00:00+00:00" itemprop="datePublished">Apr 20, 2020</time>
     
     </p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
     
-    <ul id="markdown-toc">
+    <h2 id="introduction">Introduction</h2>
+
+<p>Immutable values are easy to reason about in complex systems, because they never change. Many functional languages strongly encourage the developer to use immutable values. For example, Clojure has a strong emphasis on using immutable values, so that multithreading can be made easy and safe.</p>
+
+<p>However, making everything immutable can be impractical, especially in established codebases with poor language-level support for immutability-by-default. Some modern languages with good support for immutable values still let you opt into mutable data when needed (such as Rust with the <code class="language-plaintext highlighter-rouge">mut</code> keyword).</p>
+
+<p>In this article, I describe a property called <em>monotonicity</em>, which is a halfway point between mutable and immutable values. Structuring your code around monotonicity can make it easier to reason about values without having to make them immutable, even in languages with good support for immutable values.</p>
+
+<p>The concepts in this article are probably obvious to anyone who took a databases course in college, but I didn’t!</p>
+
+<div class="series-and-toc">
+
+  <p class="toc-header">Table of contents:</p>
+
+<ul id="markdown-toc">
   <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a></li>
   <li><a href="#what-is-monotonicity" id="markdown-toc-what-is-monotonicity">What is monotonicity?</a></li>
   <li><a href="#simple-values" id="markdown-toc-simple-values">Simple values</a></li>
@@ -81,18 +100,11 @@
   </li>
   <li><a href="#invalidating-data" id="markdown-toc-invalidating-data">Invalidating data</a></li>
   <li><a href="#compaction" id="markdown-toc-compaction">Compaction</a></li>
+  <li><a href="#related-posts" id="markdown-toc-related-posts">Related posts</a></li>
   <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
 </ul>
 
-<h2 id="introduction">Introduction</h2>
-
-<p>Immutable values are easy to reason about in complex systems, because they never change. Many functional languages strongly encourage the developer to use immutable values. For example, Clojure has a strong emphasis on using immutable values, so that multithreading can be made easy and safe.</p>
-
-<p>However, making everything immutable can be impractical, especially in established codebases with poor language-level support for immutability-by-default. Some modern languages with good support for immutable values still let you opt into mutable data when needed (such as Rust with the <code class="language-plaintext highlighter-rouge">mut</code> keyword).</p>
-
-<p>In this article, I describe a property called <em>monotonicity</em>, which is a halfway point between mutable and immutable values. Structuring your code around monotonicity can make it easier to reason about values without having to make them immutable, even in languages with good support for immutable values.</p>
-
-<p>The concepts in this article are probably obvious to anyone who took a databases course in college, but I didn’t!</p>
+</div>
 
 <h2 id="what-is-monotonicity">What is monotonicity?</h2>
 
@@ -102,33 +114,33 @@
 
 <p>Suppose that we’re modeling a user. We could store the user’s name as a single field in a structure:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">dataclass</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">User</span><span class="p">:</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
 </code></pre></div></div>
 
 <p>When we want to update the name, we can modify it in-place:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">dataclass</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">User</span><span class="p">:</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
 
-    <span class="k">def</span> <span class="nf">update_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">new_name</span>
+    <span class="k">def</span> <span class="nf">update_name</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">new_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">new_name</span>
 </code></pre></div></div>
 
 <p>This <strong>loses data</strong>, specifically the old version of the name. In enterprise systems, you can imagine wanting an “audit log” that would let you examine changes that occurred to the system. We can use a monotonic value to accomplish this. Instead of storing a single name, we’ll store <em>all</em> the names that the user has ever had, and return the last one as the user’s canonical name:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">dataclass</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">User</span><span class="p">:</span>
     <span class="n">names</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
 
-    <span class="o">@</span><span class="nb">property</span>
-    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">names</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">update_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">names</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_name</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">update_name</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">new_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">names</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">new_name</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p>Now an administrator can view all of the historical names for a user. (In a real system, we would also store the person who did the action, the time, etc.).</p>
@@ -139,15 +151,15 @@
 
 <p>Memoized (“lazy”) values are another common use-case for monotonicity. Sometimes, computation might be deferred until you need it, and once it’s completed, it can be re-used for future requests:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">dataclass</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">User</span><span class="p">:</span>
     <span class="n">profile</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Profile</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">read_profile</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Profile</span><span class="p">:</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">profile</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">profile</span>
-        <span class="n">profile</span> <span class="o">=</span> <span class="n">load_profile_from_disk</span><span class="p">()</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">profile</span> <span class="o">=</span> <span class="n">profile</span>
+    <span class="k">def</span> <span class="nf">read_profile</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Profile</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">profile</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="n">profile</span>
+        <span class="n">profile</span> <span class="o">=</span> <span class="nf">load_profile_from_disk</span><span class="p">()</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">profile</span> <span class="o">=</span> <span class="n">profile</span>
         <span class="k">return</span> <span class="n">profile</span>
 </code></pre></div></div>
 
@@ -168,35 +180,35 @@
     <span class="n">REVOKED</span> <span class="o">=</span> <span class="mi">3</span>
 
 
-<span class="o">@</span><span class="n">dataclass</span>
+<span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">User</span><span class="p">:</span>
     <span class="n">email_state</span><span class="p">:</span> <span class="n">ContactDataState</span>
     <span class="n">email</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">phone_number_state</span><span class="p">:</span> <span class="n">ContactDataState</span>
     <span class="n">phone_number</span><span class="p">:</span> <span class="nb">str</span>
 
-    <span class="k">def</span> <span class="nf">add_email</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">email_state</span> <span class="o">==</span> <span class="n">ContactDataState</span><span class="p">.</span><span class="n">NONE</span><span class="p">:</span>
-            <span class="bp">self</span><span class="p">.</span><span class="n">email_state</span> <span class="o">=</span> <span class="n">ContactDataState</span><span class="p">.</span><span class="n">UNVERIFIED</span>
-            <span class="bp">self</span><span class="p">.</span><span class="n">email</span> <span class="o">=</span> <span class="n">email</span>
+    <span class="k">def</span> <span class="nf">add_email</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">email_state</span> <span class="o">==</span> <span class="n">ContactDataState</span><span class="p">.</span><span class="n">NONE</span><span class="p">:</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">email_state</span> <span class="o">=</span> <span class="n">ContactDataState</span><span class="p">.</span><span class="n">UNVERIFIED</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">email</span> <span class="o">=</span> <span class="n">email</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="nb">RuntimeError</span><span class="p">(</span><span class="s">"Cannot set email for a user who already has an email"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="nc">RuntimeError</span><span class="p">(</span><span class="sh">"</span><span class="s">Cannot set email for a user who already has an email</span><span class="sh">"</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">verify_email</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">email_state</span> <span class="o">==</span> <span class="n">ContactDataState</span><span class="p">.</span><span class="n">NONE</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="nb">RuntimeError</span><span class="p">(</span><span class="s">"No current email set"</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="p">.</span><span class="n">email_state</span> <span class="o">==</span> <span class="n">ContactDataState</span><span class="p">.</span><span class="n">UNVERIFIED</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">email</span> <span class="o">==</span> <span class="bp">self</span><span class="p">.</span><span class="n">email</span><span class="p">:</span>
-                <span class="bp">self</span><span class="p">.</span><span class="n">email_state</span> <span class="o">=</span> <span class="n">ContactDataState</span><span class="p">.</span><span class="n">VERIFIED</span>
+    <span class="k">def</span> <span class="nf">verify_email</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">email_state</span> <span class="o">==</span> <span class="n">ContactDataState</span><span class="p">.</span><span class="n">NONE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="nc">RuntimeError</span><span class="p">(</span><span class="sh">"</span><span class="s">No current email set</span><span class="sh">"</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">self</span><span class="p">.</span><span class="n">email_state</span> <span class="o">==</span> <span class="n">ContactDataState</span><span class="p">.</span><span class="n">UNVERIFIED</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">email</span> <span class="o">==</span> <span class="n">self</span><span class="p">.</span><span class="n">email</span><span class="p">:</span>
+                <span class="n">self</span><span class="p">.</span><span class="n">email_state</span> <span class="o">=</span> <span class="n">ContactDataState</span><span class="p">.</span><span class="n">VERIFIED</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="nb">RuntimeError</span><span class="p">(</span><span class="s">"Could not validate email"</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="nc">RuntimeError</span><span class="p">(</span><span class="sh">"</span><span class="s">Could not validate email</span><span class="sh">"</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">email_state</span> <span class="o">==</span> <span class="n">ContactDataState</span><span class="p">.</span><span class="n">VERIFIED</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="nb">RuntimeError</span><span class="p">(</span><span class="s">"Email already verified"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="nc">RuntimeError</span><span class="p">(</span><span class="sh">"</span><span class="s">Email already verified</span><span class="sh">"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="nb">AssertionError</span><span class="p">(</span><span class="s">"Invalid state"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="nc">AssertionError</span><span class="p">(</span><span class="sh">"</span><span class="s">Invalid state</span><span class="sh">"</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">revoke_email</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">email_state</span> <span class="o">=</span> <span class="n">ContactDataState</span><span class="p">.</span><span class="n">REVOKED</span>
+    <span class="k">def</span> <span class="nf">revoke_email</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">email_state</span> <span class="o">=</span> <span class="n">ContactDataState</span><span class="p">.</span><span class="n">REVOKED</span>
 
     <span class="c1"># Similar for `phone_number`...
 </span></code></pre></div></div>
@@ -217,23 +229,23 @@
 
 <p>One option is to queue up workouts on the fitness tracker bracelet for syncing with the app. Its state might look like this:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">dataclass</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">Workout</span><span class="p">:</span>
     <span class="n">kind</span><span class="p">:</span> <span class="n">WorkoutKind</span>
     <span class="n">duration</span><span class="p">:</span> <span class="nb">int</span>
 
-<span class="o">@</span><span class="n">dataclass</span>
+<span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">WorkoutDatabase</span><span class="p">:</span>
     <span class="n">queued_workouts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Workout</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">add_workout_to_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workout</span><span class="p">:</span> <span class="n">Workout</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">queued_workouts</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">add_workout_to_queue</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">add_workout_to_queue</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">workout</span><span class="p">:</span> <span class="n">Workout</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">queued_workouts</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">add_workout_to_queue</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_queued_workouts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Workout</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">get_queued_workouts</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Workout</span><span class="p">]:</span>
         <span class="k">return</span> <span class="n">queued_workouts</span>
 
-    <span class="k">def</span> <span class="nf">clear_queued_workouts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">queued_workouts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">def</span> <span class="nf">clear_queued_workouts</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">queued_workouts</span> <span class="o">=</span> <span class="p">[]</span>
 </code></pre></div></div>
 
 <p>The app wants to call <code class="language-plaintext highlighter-rouge">get_queued_workouts</code> to get the queued up workouts, and then <code class="language-plaintext highlighter-rouge">clear_queued_workouts</code> so that they’re not returned and double-counted the next time it asks for them. If the connection between the fitness tracker and the app dies in between <code class="language-plaintext highlighter-rouge">get_queued_workouts</code> and <code class="language-plaintext highlighter-rouge">clear_queued_workouts</code>, then we may return the workouts again in the next <code class="language-plaintext highlighter-rouge">get_queued_workouts</code> call.</p>
@@ -242,64 +254,64 @@
 
 <p>The core problem is that this data structure is not monotonic: data can be lost. A simple fix is to retain all the data and use a monotonically-increasing integer to synchronize the two systems:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">dataclass</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">Workout</span><span class="p">:</span>
     <span class="n">kind</span><span class="p">:</span> <span class="n">WorkoutKind</span>
     <span class="n">duration</span><span class="p">:</span> <span class="nb">int</span>
 
-<span class="o">@</span><span class="n">dataclass</span>
+<span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">WorkoutDatabase</span><span class="p">:</span>
     <span class="n">next_id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">queued_workouts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Workout</span><span class="p">]]</span>
 
-    <span class="k">def</span> <span class="nf">add_workout_to_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workout</span><span class="p">:</span> <span class="n">Workout</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">queued_workouts</span><span class="p">.</span><span class="n">append</span><span class="p">((</span><span class="bp">self</span><span class="p">.</span><span class="n">next_id</span><span class="p">,</span> <span class="n">workout</span><span class="p">))</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">next_id</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">def</span> <span class="nf">add_workout_to_queue</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">workout</span><span class="p">:</span> <span class="n">Workout</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">queued_workouts</span><span class="p">.</span><span class="nf">append</span><span class="p">((</span><span class="n">self</span><span class="p">.</span><span class="n">next_id</span><span class="p">,</span> <span class="n">workout</span><span class="p">))</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">next_id</span> <span class="o">+=</span> <span class="mi">1</span>
 
-    <span class="k">def</span> <span class="nf">get_queued_workouts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">since_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Workout</span><span class="p">]]:</span>
+    <span class="k">def</span> <span class="nf">get_queued_workouts</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">since_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Workout</span><span class="p">]]:</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">workout</span>
-                  <span class="k">for</span> <span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">workout</span><span class="p">)</span> <span class="ow">in</span> <span class="n">queued_workouts</span>
+                  <span class="nf">for </span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">workout</span><span class="p">)</span> <span class="ow">in</span> <span class="n">queued_workouts</span>
                   <span class="k">if</span> <span class="nb">id</span> <span class="o">&gt;=</span> <span class="n">since_id</span><span class="p">]</span>
         <span class="c1"># The caller can use the `next_id` we return for their next call to
 </span>        <span class="c1"># `get_queued_workouts`. If they crashed and didn't process the
 </span>        <span class="c1"># previous workouts we sent them, then they can try again with their
 </span>        <span class="c1"># previous value for the ID.
-</span>        <span class="k">return</span> <span class="p">(</span><span class="n">next_id</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+</span>        <span class="nf">return </span><span class="p">(</span><span class="n">next_id</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p>The app can essentially filter out workouts it’s already seen. This ensures that the bracelet and the app can always sync and get correct data, even if one party breaks the connection in the middle of the protocol. The technical term for the kind of ID that enables this is a <a href="https://en.wikipedia.org/wiki/Cursor_(databases)">“cursor”</a>.</p>
 
 <p>If we really want to delete entries and reclaim space (likely for an embedded system), the monotonic rewriting makes it clearer what changes need to be made to safely delete data:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">dataclass</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">Workout</span><span class="p">:</span>
     <span class="n">kind</span><span class="p">:</span> <span class="n">WorkoutKind</span>
     <span class="n">duration</span><span class="p">:</span> <span class="nb">int</span>
 
-<span class="o">@</span><span class="n">dataclass</span>
+<span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">WorkoutDatabase</span><span class="p">:</span>
     <span class="n">next_id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">queued_workouts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Workout</span><span class="p">]]</span>
 
-    <span class="k">def</span> <span class="nf">add_workout_to_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workout</span><span class="p">:</span> <span class="n">Workout</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">queued_workouts</span><span class="p">.</span><span class="n">append</span><span class="p">((</span><span class="bp">self</span><span class="p">.</span><span class="n">next_id</span><span class="p">,</span> <span class="n">workout</span><span class="p">))</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">next_id</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">def</span> <span class="nf">add_workout_to_queue</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">workout</span><span class="p">:</span> <span class="n">Workout</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">queued_workouts</span><span class="p">.</span><span class="nf">append</span><span class="p">((</span><span class="n">self</span><span class="p">.</span><span class="n">next_id</span><span class="p">,</span> <span class="n">workout</span><span class="p">))</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">next_id</span> <span class="o">+=</span> <span class="mi">1</span>
 
-    <span class="k">def</span> <span class="nf">get_queued_workouts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">since_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Workout</span><span class="p">]]:</span>
+    <span class="k">def</span> <span class="nf">get_queued_workouts</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">since_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Workout</span><span class="p">]]:</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">workout</span>
-                  <span class="k">for</span> <span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">workout</span><span class="p">)</span> <span class="ow">in</span> <span class="n">queued_workouts</span>
+                  <span class="nf">for </span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">workout</span><span class="p">)</span> <span class="ow">in</span> <span class="n">queued_workouts</span>
                   <span class="k">if</span> <span class="nb">id</span> <span class="o">&gt;=</span> <span class="n">since_id</span><span class="p">]</span>
         <span class="c1"># The caller can use the `next_id` we return for their next call to
 </span>        <span class="c1"># `get_queued_workouts`. If they crashed and didn't process the
 </span>        <span class="c1"># previous workouts we sent them, then they can try again with their
 </span>        <span class="c1"># previous value for the ID.
-</span>        <span class="k">return</span> <span class="p">(</span><span class="n">next_id</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+</span>        <span class="nf">return </span><span class="p">(</span><span class="n">next_id</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">clear_queued_workouts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">since_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">clear_queued_workouts</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">since_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
         <span class="c1"># Delete any workouts that occurred before `since_id`, since they've
 </span>        <span class="c1"># been acknowledged by the caller.
-</span>        <span class="bp">self</span><span class="p">.</span><span class="n">queued_workouts</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">id</span><span class="p">,</span> <span class="n">workout</span><span class="p">)</span>
-                                <span class="k">for</span> <span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">workout</span><span class="p">)</span> <span class="ow">in</span> <span class="n">queued_workouts</span>
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">queued_workouts</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">id</span><span class="p">,</span> <span class="n">workout</span><span class="p">)</span>
+                                <span class="nf">for </span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">workout</span><span class="p">)</span> <span class="ow">in</span> <span class="n">queued_workouts</span>
                                 <span class="k">if</span> <span class="nb">id</span> <span class="o">&gt;=</span> <span class="n">since_id</span><span class="p">]</span>
 </code></pre></div></div>
 
@@ -340,10 +352,44 @@
 
 <p>To carry out this compaction procedure may require an exclusive lock or some other kind of synchronization, but it can reduce the performance overhead of a monotonic approach.</p>
 
+<h2 id="related-posts">Related posts</h2>
+
+<p>The following are hand-curated posts which you might find interesting.</p>
+
+<table class="related-posts">
+<thead>
+  <tr>
+    <th>Date</th>
+    <th></th>
+    <th>Title</th>
+  </tr>
+</thead>
+
+<tbody>
+
+
+  <tr>
+    <td>20&nbsp;Apr&nbsp;2020</td>
+    <td class="this-post">
+      
+      (this&nbsp;post)
+      
+      </td>
+    <td><a href="/monotonicity/">Monotonicity is a halfway point between mutability and immutability</a>
+    </td>
+  </tr>
+
+</tbody>
+</table>
+
+<p>Want to see more of my posts? Follow me <a href="https://twitter.com/arxanas">on Twitter</a> or subscribe <a href="/feed.xml">via RSS</a>.</p>
+
 <h2 id="comments">Comments</h2>
 
 <ul>
 
+
+<li><a class="icon-lobsters" href="https://lobste.rs/s/clvj0z/monotonicity_is_halfway_point_between ">Discussion on Lobsters</a></li>
 
 
 </ul>

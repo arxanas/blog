@@ -10,16 +10,23 @@
   
     <title>Null-tracking, or the difference between union and sum types</title>
   
-  <meta name="description" content="">
+  <meta name="author" content="Waleed Khan">
+  <meta name="description" content="Functional programming features have been making their way into mainstreamlanguages lately, such as with new programming languages like Scala and Rust, ornew...">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://blog.waleedkhan.name/union-vs-sum-types/">
   <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+  
 
   <link rel="me" href="https://github.com/arxanas">
   <link rel="me" href="https://twitter.com/arxanas">
   <link rel="me" href="mailto:me@waleedkhan.name">
+
+  
+  
 
   <!-- See https://indieweb.org/webmention.io -->
   <link rel="webmention" href="https://webmention.io/blog.waleedkhan.name/webmention" />
@@ -62,7 +69,7 @@
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">Null-tracking, or the difference between union and sum types</h1>
-    <p class="post-meta"><time datetime="2017-07-24T00:00:00-05:00" itemprop="datePublished">Jul 24, 2017</time>
+    <p class="post-meta"><time datetime="2017-07-24T00:00:00+00:00" itemprop="datePublished">Jul 24, 2017</time>
     
     </p>
   </header>
@@ -73,31 +80,7 @@
         <p><i>This article is best viewed with Javascript enabled, for math typesetting.</i></p>
       </noscript>
     
-    <ul id="markdown-toc">
-  <li><a href="#union-types" id="markdown-toc-union-types">Union types</a>    <ul>
-      <li><a href="#in-typescript" id="markdown-toc-in-typescript">In TypeScript</a></li>
-      <li><a href="#theory" id="markdown-toc-theory">Theory</a></li>
-    </ul>
-  </li>
-  <li><a href="#sum-types" id="markdown-toc-sum-types">Sum types</a>    <ul>
-      <li><a href="#in-ocaml" id="markdown-toc-in-ocaml">In OCaml</a></li>
-      <li><a href="#theory-1" id="markdown-toc-theory-1">Theory</a></li>
-    </ul>
-  </li>
-  <li><a href="#variant-types" id="markdown-toc-variant-types">Variant types</a></li>
-  <li><a href="#differences" id="markdown-toc-differences">Differences</a>    <ul>
-      <li><a href="#singleton-null-versus-a-null-for-every-type" id="markdown-toc-singleton-null-versus-a-null-for-every-type">Singleton null versus a null for every type</a></li>
-      <li><a href="#distinguishing-identical-types-via-labels" id="markdown-toc-distinguishing-identical-types-via-labels">Distinguishing identical types via labels</a></li>
-      <li><a href="#ad-hoc-polymorphism" id="markdown-toc-ad-hoc-polymorphism">Ad-hoc polymorphism</a></li>
-      <li><a href="#mixing-labels-of-different-types" id="markdown-toc-mixing-labels-of-different-types">Mixing labels of different types</a></li>
-      <li><a href="#adding-fields-to-an-existing-record-type" id="markdown-toc-adding-fields-to-an-existing-record-type">Adding fields to an existing record type</a></li>
-    </ul>
-  </li>
-  <li><a href="#implementing-sum-types-in-terms-of-union-types" id="markdown-toc-implementing-sum-types-in-terms-of-union-types">Implementing sum types in terms of union types</a></li>
-  <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
-</ul>
-
-<p>Functional programming features have been making their way into mainstream
+    <p>Functional programming features have been making their way into mainstream
 languages lately, such as with new programming languages like Scala and Rust, or
 new type systems for existing languages like TypeScript or Flow.</p>
 
@@ -123,6 +106,37 @@ search.</p>
 they differ in practice. I discuss both of these approaches for null-tracking,
 but also cover how they differ for other purposes.</p>
 
+<div class="series-and-toc">
+
+  <p class="toc-header">Table of contents:</p>
+
+<ul id="markdown-toc">
+  <li><a href="#union-types" id="markdown-toc-union-types">Union types</a>    <ul>
+      <li><a href="#in-typescript" id="markdown-toc-in-typescript">In TypeScript</a></li>
+      <li><a href="#theory" id="markdown-toc-theory">Theory</a></li>
+    </ul>
+  </li>
+  <li><a href="#sum-types" id="markdown-toc-sum-types">Sum types</a>    <ul>
+      <li><a href="#in-ocaml" id="markdown-toc-in-ocaml">In OCaml</a></li>
+      <li><a href="#theory-1" id="markdown-toc-theory-1">Theory</a></li>
+    </ul>
+  </li>
+  <li><a href="#variant-types" id="markdown-toc-variant-types">Variant types</a></li>
+  <li><a href="#differences" id="markdown-toc-differences">Differences</a>    <ul>
+      <li><a href="#singleton-null-versus-a-null-for-every-type" id="markdown-toc-singleton-null-versus-a-null-for-every-type">Singleton null versus a null for every type</a></li>
+      <li><a href="#distinguishing-identical-types-via-labels" id="markdown-toc-distinguishing-identical-types-via-labels">Distinguishing identical types via labels</a></li>
+      <li><a href="#ad-hoc-polymorphism" id="markdown-toc-ad-hoc-polymorphism">Ad-hoc polymorphism</a></li>
+      <li><a href="#mixing-labels-of-different-types" id="markdown-toc-mixing-labels-of-different-types">Mixing labels of different types</a></li>
+      <li><a href="#adding-fields-to-an-existing-record-type" id="markdown-toc-adding-fields-to-an-existing-record-type">Adding fields to an existing record type</a></li>
+    </ul>
+  </li>
+  <li><a href="#implementing-sum-types-in-terms-of-union-types" id="markdown-toc-implementing-sum-types-in-terms-of-union-types">Implementing sum types in terms of union types</a></li>
+  <li><a href="#related-posts" id="markdown-toc-related-posts">Related posts</a></li>
+  <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
+</ul>
+
+</div>
+
 <h2 id="union-types">Union types</h2>
 
 <h3 id="in-typescript">In TypeScript</h3>
@@ -133,7 +147,7 @@ Javascript. It uses union types for null-tracking.</p>
 <p>The syntax is mostly a superset of Javascript’s, but you can also annotate your
 variables with types:</p>
 
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">greet</span><span class="p">(</span><span class="nx">name</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="kr">string</span> <span class="p">{</span>
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nf">greet</span><span class="p">(</span><span class="nx">name</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="kr">string</span> <span class="p">{</span>
   <span class="k">return</span> <span class="dl">"</span><span class="s2">Hello, </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">name</span> <span class="o">+</span> <span class="dl">"</span><span class="s2">!</span><span class="dl">"</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div></div>
@@ -142,8 +156,8 @@ variables with types:</p>
 is either an A or a B (or both)”. We can express a nullable type by writing
 <code class="language-plaintext highlighter-rouge">null | A</code> for any type <code class="language-plaintext highlighter-rouge">A</code>:</p>
 
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">filterString</span><span class="p">(</span><span class="nx">str</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="kc">null</span> <span class="o">|</span> <span class="kr">string</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nx">str</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">filtered</span><span class="dl">"</span><span class="p">)</span> <span class="p">{</span>
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nf">filterString</span><span class="p">(</span><span class="nx">str</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="kc">null</span> <span class="o">|</span> <span class="kr">string</span> <span class="p">{</span>
+  <span class="k">if </span><span class="p">(</span><span class="nx">str</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">filtered</span><span class="dl">"</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="kc">null</span><span class="p">;</span>
   <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nx">str</span><span class="p">;</span>
@@ -154,8 +168,8 @@ is either an A or a B (or both)”. We can express a nullable type by writing
 <p>Then the following code is rejected by the typechecker because of the
 possibility that <code class="language-plaintext highlighter-rouge">name</code> is null:</p>
 
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">name</span><span class="p">:</span> <span class="kr">string</span> <span class="o">=</span> <span class="nx">readNameFromUser</span><span class="p">();</span>
-<span class="nx">greet</span><span class="p">(</span><span class="nx">filterString</span><span class="p">(</span><span class="nx">name</span><span class="p">));</span>
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">name</span><span class="p">:</span> <span class="kr">string</span> <span class="o">=</span> <span class="nf">readNameFromUser</span><span class="p">();</span>
+<span class="nf">greet</span><span class="p">(</span><span class="nf">filterString</span><span class="p">(</span><span class="nx">name</span><span class="p">));</span>
 <span class="c1">// error: `filterString` returns a `null | string`,</span>
 <span class="c1">//        but `greet` takes a `string`.</span>
 </code></pre></div></div>
@@ -163,8 +177,8 @@ possibility that <code class="language-plaintext highlighter-rouge">name</code> 
 <p>We could fix this by rewriting <code class="language-plaintext highlighter-rouge">greet</code> to take a nullable string and handle it
 explicitly:</p>
 
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">greet</span><span class="p">(</span><span class="nx">name</span><span class="p">:</span> <span class="kc">null</span> <span class="o">|</span> <span class="kr">string</span><span class="p">):</span> <span class="kr">string</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nx">name</span> <span class="o">===</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nf">greet</span><span class="p">(</span><span class="nx">name</span><span class="p">:</span> <span class="kc">null</span> <span class="o">|</span> <span class="kr">string</span><span class="p">):</span> <span class="kr">string</span> <span class="p">{</span>
+  <span class="k">if </span><span class="p">(</span><span class="nx">name</span> <span class="o">===</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
     <span class="c1">// The type of `name` has been refined to `null` in this branch.</span>
     <span class="k">return</span> <span class="dl">"</span><span class="s2">Hello, no-name!</span><span class="dl">"</span><span class="p">;</span>
   <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
@@ -350,13 +364,13 @@ type. This can have some practical disadvantages. For example, let’s say that
 you have a map that, when looking up a value, returns <code class="language-plaintext highlighter-rouge">null</code> if the key is not
 found. Then there may be some ambiguity in a case like this:</p>
 
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">key</span><span class="p">:</span> <span class="kr">string</span> <span class="o">=</span> <span class="nx">getKey</span><span class="p">();</span>
-<span class="kd">const</span> <span class="nx">map</span><span class="p">:</span> <span class="nb">Map</span><span class="o">&lt;</span><span class="kr">string</span><span class="p">,</span> <span class="kc">null</span> <span class="o">|</span> <span class="nx">int</span><span class="o">&gt;</span> <span class="o">=</span> <span class="nx">getMap</span><span class="p">();</span>
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">key</span><span class="p">:</span> <span class="kr">string</span> <span class="o">=</span> <span class="nf">getKey</span><span class="p">();</span>
+<span class="kd">const</span> <span class="nx">map</span><span class="p">:</span> <span class="nb">Map</span><span class="o">&lt;</span><span class="kr">string</span><span class="p">,</span> <span class="kc">null</span> <span class="o">|</span> <span class="nx">int</span><span class="o">&gt;</span> <span class="o">=</span> <span class="nf">getMap</span><span class="p">();</span>
 
 <span class="c1">// Returns `null | null | int`, which is the same as `null | int`.</span>
-<span class="kd">const</span> <span class="nx">value</span><span class="p">:</span> <span class="kc">null</span> <span class="o">|</span> <span class="nx">int</span> <span class="o">=</span> <span class="nx">map</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">value</span><span class="p">:</span> <span class="kc">null</span> <span class="o">|</span> <span class="nx">int</span> <span class="o">=</span> <span class="nx">map</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span>
 
-<span class="k">if</span> <span class="p">(</span><span class="nx">value</span> <span class="o">===</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">if </span><span class="p">(</span><span class="nx">value</span> <span class="o">===</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// Was this value not found, or was the value actually "null"?</span>
 <span class="p">}</span>
 </code></pre></div></div>
@@ -413,13 +427,13 @@ later.</p>
 
 <p>Union types can be used to implement a form of function overloading:</p>
 
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">printAnything</span><span class="p">(</span><span class="nx">value</span><span class="p">:</span> <span class="nx">int</span> <span class="o">|</span> <span class="kr">string</span> <span class="o">|</span> <span class="nx">bool</span><span class="p">):</span> <span class="k">void</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">value</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">int</span><span class="dl">"</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">The int was </span><span class="dl">"</span><span class="p">,</span> <span class="nx">value</span><span class="p">);</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">value</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">string</span><span class="dl">"</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">The string was </span><span class="dl">"</span><span class="p">,</span> <span class="nx">value</span><span class="p">);</span>
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nf">printAnything</span><span class="p">(</span><span class="nx">value</span><span class="p">:</span> <span class="nx">int</span> <span class="o">|</span> <span class="kr">string</span> <span class="o">|</span> <span class="nx">bool</span><span class="p">):</span> <span class="k">void</span> <span class="p">{</span>
+  <span class="k">if </span><span class="p">(</span><span class="k">typeof</span> <span class="nx">value</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">int</span><span class="dl">"</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">The int was </span><span class="dl">"</span><span class="p">,</span> <span class="nx">value</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if </span><span class="p">(</span><span class="k">typeof</span> <span class="nx">value</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">string</span><span class="dl">"</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">The string was </span><span class="dl">"</span><span class="p">,</span> <span class="nx">value</span><span class="p">);</span>
   <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">The bool was </span><span class="dl">"</span><span class="p">,</span> <span class="nx">value</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">The bool was </span><span class="dl">"</span><span class="p">,</span> <span class="nx">value</span><span class="p">);</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></div>
@@ -487,13 +501,13 @@ union types, we can emulate a sum type. The general technique is as follows:</p>
 
 <span class="kd">type</span> <span class="nx">File</span> <span class="o">=</span> <span class="nx">Filename</span> <span class="o">|</span> <span class="nx">FileContents</span>
 
-<span class="kd">function</span> <span class="nx">printFileContents</span><span class="p">(</span><span class="nx">file</span><span class="p">:</span> <span class="nx">File</span><span class="p">):</span> <span class="k">void</span> <span class="p">{</span>
-  <span class="k">switch</span> <span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">label</span><span class="p">)</span> <span class="p">{</span>
+<span class="kd">function</span> <span class="nf">printFileContents</span><span class="p">(</span><span class="nx">file</span><span class="p">:</span> <span class="nx">File</span><span class="p">):</span> <span class="k">void</span> <span class="p">{</span>
+  <span class="k">switch </span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">label</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">case</span> <span class="dl">"</span><span class="s2">filename</span><span class="dl">"</span><span class="p">:</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">File contents: </span><span class="dl">"</span><span class="p">,</span> <span class="nx">readFileFromDisk</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">filename</span><span class="p">));</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">File contents: </span><span class="dl">"</span><span class="p">,</span> <span class="nf">readFileFromDisk</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">filename</span><span class="p">));</span>
       <span class="k">break</span><span class="p">;</span>
     <span class="k">case</span> <span class="dl">"</span><span class="s2">file_contents</span><span class="dl">"</span><span class="p">:</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">File contents: </span><span class="dl">"</span><span class="p">,</span> <span class="nx">file</span><span class="p">.</span><span class="nx">contents</span><span class="p">);</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">File contents: </span><span class="dl">"</span><span class="p">,</span> <span class="nx">file</span><span class="p">.</span><span class="nx">contents</span><span class="p">);</span>
       <span class="k">break</span><span class="p">;</span>
     <span class="nl">default</span><span class="p">:</span>
       <span class="c1">// We need this to enforce an exhaustiveness check by the compiler, so</span>
@@ -507,17 +521,49 @@ union types, we can emulate a sum type. The general technique is as follows:</p>
 Therefore union types are strictly more flexible than sum types, but the
 ergonomics of each approach depends on the use-case.</p>
 
+<h2 id="related-posts">Related posts</h2>
+
+<p>The following are hand-curated posts which you might find interesting.</p>
+
+<table class="related-posts">
+<thead>
+  <tr>
+    <th>Date</th>
+    <th></th>
+    <th>Title</th>
+  </tr>
+</thead>
+
+<tbody>
+
+
+  <tr>
+    <td>24&nbsp;Jul&nbsp;2017</td>
+    <td class="this-post">
+      
+      (this&nbsp;post)
+      
+      </td>
+    <td><a href="/union-vs-sum-types/">Null-tracking, or the difference between union and sum types</a>
+    </td>
+  </tr>
+
+</tbody>
+</table>
+
+<p>Want to see more of my posts? Follow me <a href="https://twitter.com/arxanas">on Twitter</a> or subscribe <a href="/feed.xml">via RSS</a>.</p>
+
 <h2 id="comments">Comments</h2>
 
 <ul>
 
 
+<li><a class="icon-lobsters" href="https://lobste.rs/s/nxsyw2/null_tracking_difference_between_union ">Discussion on Lobsters</a></li>
+
 
 <li><a class="icon-reddit" href="https://www.reddit.com/r/ProgrammingLanguages/comments/lbgegk/nulltracking_or_the_difference_between_union_and/ ">Discussion on Reddit</a></li>
 
 </ul>
-
-<link rel="stylesheet" href="/css/katex.min.css" />
 
 <script type="text/javascript" src="/scripts/github-comment-links.js"></script>
 

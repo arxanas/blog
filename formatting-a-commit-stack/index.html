@@ -10,16 +10,21 @@
   
     <title>Quickly formatting a stack of commits</title>
   
+  <meta name="author" content="Waleed Khan">
   <meta name="description" content="            Intended audience              Software engineers working with Git who use "patch stacks"/"stacked diffs", such as how Git is used for the Git an...">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://blog.waleedkhan.name/formatting-a-commit-stack/">
   <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+  
 
   <link rel="me" href="https://github.com/arxanas">
   <link rel="me" href="https://twitter.com/arxanas">
   <link rel="me" href="mailto:me@waleedkhan.name">
+
+  
+  
 
   <!-- See https://indieweb.org/webmention.io -->
   <link rel="webmention" href="https://webmention.io/blog.waleedkhan.name/webmention" />
@@ -62,7 +67,7 @@
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">Quickly formatting a stack of commits</h1>
-    <p class="post-meta"><time datetime="2023-04-11T00:00:00-05:00" itemprop="datePublished">Apr 11, 2023</time>
+    <p class="post-meta"><time datetime="2023-04-11T00:00:00+00:00" itemprop="datePublished">Apr 11, 2023</time>
     
       <span class="post-meta">
         <br />
@@ -96,6 +101,17 @@
   </table>
 </div>
 
+<div class="series-and-toc">
+
+  <p class="toc-header">Table of contents:</p>
+
+<ul id="markdown-toc">
+  <li><a href="#related-posts" id="markdown-toc-related-posts">Related posts</a></li>
+  <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
+</ul>
+
+</div>
+
 <p>A certain category of developer uses Git with a “patch stack” workflow, in which they accumulate a sequence of small, individually-reviewable commits that together implement a large change. In these cases, it’s oftentimes useful to run linters or formatters on each commit in the stack and apply the results. However, this can be tedious, and a naive approach can cause needless merge conflicts. (One workaround is to run formatters on each commit in the stack <em>backwards</em>.)</p>
 
 <p><a href="https://github.com/arxanas/git-branchless">git-branchless</a>’s <code class="language-plaintext highlighter-rouge">git test</code> command offers a solution to quickly run formatters, etc., on an entire stack of commits without causing merge conflicts. Additionally, it can be performed in parallel, and it caches results so that reformats of the same commits are skipped. You can see the <a href="https://github.com/arxanas/git-branchless/discussions/803">announcement post</a> or <a href="https://github.com/arxanas/git-branchless/wiki/Command:-git-test">the documentation for <code class="language-plaintext highlighter-rouge">git test</code></a>.</p>
@@ -109,10 +125,44 @@
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git test run --exec 'cargo fmt --all' --strategy worktree --jobs 8
 </code></pre></div></div>
 
+<h2 id="related-posts">Related posts</h2>
+
+<p>The following are hand-curated posts which you might find interesting.</p>
+
+<table class="related-posts">
+<thead>
+  <tr>
+    <th>Date</th>
+    <th></th>
+    <th>Title</th>
+  </tr>
+</thead>
+
+<tbody>
+
+
+  <tr>
+    <td>11&nbsp;Apr&nbsp;2023</td>
+    <td class="this-post">
+      
+      (this&nbsp;post)
+      
+      </td>
+    <td><a href="/formatting-a-commit-stack/">Quickly formatting a stack of commits</a>
+    </td>
+  </tr>
+
+</tbody>
+</table>
+
+<p>Want to see more of my posts? Follow me <a href="https://twitter.com/arxanas">on Twitter</a> or subscribe <a href="/feed.xml">via RSS</a>.</p>
+
 <h2 id="comments">Comments</h2>
 
 <ul>
 
+
+<li><a class="icon-lobsters" href="https://lobste.rs/s/rpdt88/quickly_formatting_stack_commits ">Discussion on Lobsters</a></li>
 
 
 </ul>

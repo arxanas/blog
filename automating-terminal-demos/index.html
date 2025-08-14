@@ -10,16 +10,21 @@
   
     <title>Automating terminal demos</title>
   
-  <meta name="description" content="">
+  <meta name="author" content="Waleed Khan">
+  <meta name="description" content="  Table of contents:">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://blog.waleedkhan.name/automating-terminal-demos/">
   <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+  
 
   <link rel="me" href="https://github.com/arxanas">
   <link rel="me" href="https://twitter.com/arxanas">
   <link rel="me" href="mailto:me@waleedkhan.name">
+
+  
+  
 
   <!-- See https://indieweb.org/webmention.io -->
   <link rel="webmention" href="https://webmention.io/blog.waleedkhan.name/webmention" />
@@ -62,18 +67,26 @@
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">Automating terminal demos</h1>
-    <p class="post-meta"><time datetime="2021-06-20T00:00:00-05:00" itemprop="datePublished">Jun 20, 2021</time>
+    <p class="post-meta"><time datetime="2021-06-20T00:00:00+00:00" itemprop="datePublished">Jun 20, 2021</time>
     
     </p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
     
-    <ul id="markdown-toc">
+    
+<div class="series-and-toc">
+
+  <p class="toc-header">Table of contents:</p>
+
+<ul id="markdown-toc">
   <li><a href="#problem" id="markdown-toc-problem">Problem</a></li>
   <li><a href="#solution" id="markdown-toc-solution">Solution</a></li>
+  <li><a href="#related-posts" id="markdown-toc-related-posts">Related posts</a></li>
   <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
 </ul>
+
+</div>
 
 <h2 id="problem">Problem</h2>
 
@@ -100,8 +113,8 @@ asciinema: press &lt;ctrl-d&gt; or type "exit" when you're done
 
 <p>Script:</p>
 
-<div class="language-tcl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env expect -f</span>
-set timeout 1
+<div class="language-tcl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/usr/bin/env expect -f
+</span>set timeout 1
 set send_human <span class="p">{</span>0.1 0.3 1 0.05 1<span class="p">}</span>
 set CTRLC <span class="se">\003</span>
 
@@ -136,6 +149,38 @@ expect_prompt
 
 send <span class="s2">"exit"</span>
 </code></pre></div></div>
+
+<h2 id="related-posts">Related posts</h2>
+
+<p>The following are hand-curated posts which you might find interesting.</p>
+
+<table class="related-posts">
+<thead>
+  <tr>
+    <th>Date</th>
+    <th></th>
+    <th>Title</th>
+  </tr>
+</thead>
+
+<tbody>
+
+
+  <tr>
+    <td>20&nbsp;Jun&nbsp;2021</td>
+    <td class="this-post">
+      
+      (this&nbsp;post)
+      
+      </td>
+    <td><a href="/automating-terminal-demos/">Automating terminal demos</a>
+    </td>
+  </tr>
+
+</tbody>
+</table>
+
+<p>Want to see more of my posts? Follow me <a href="https://twitter.com/arxanas">on Twitter</a> or subscribe <a href="/feed.xml">via RSS</a>.</p>
 
 <h2 id="comments">Comments</h2>
 

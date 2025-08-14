@@ -10,16 +10,21 @@
   
     <title>Where are my Git UI features from the future?</title>
   
-  <meta name="description" content="">
+  <meta name="author" content="Waleed Khan">
+  <meta name="description" content="Git sucks">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://blog.waleedkhan.name/git-ui-features/">
   <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+  
 
   <link rel="me" href="https://github.com/arxanas">
   <link rel="me" href="https://twitter.com/arxanas">
   <link rel="me" href="mailto:me@waleedkhan.name">
+
+  
+  
 
   <!-- See https://indieweb.org/webmention.io -->
   <link rel="webmention" href="https://webmention.io/blog.waleedkhan.name/webmention" />
@@ -62,7 +67,7 @@
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">Where are my Git UI features from the future?</h1>
-    <p class="post-meta"><time datetime="2023-01-05T00:00:00-06:00" itemprop="datePublished">Jan 5, 2023</time>
+    <p class="post-meta"><time datetime="2023-01-05T00:00:00+00:00" itemprop="datePublished">Jan 5, 2023</time>
     
       <span class="post-meta">
         <br />
@@ -76,7 +81,19 @@
 
   <div class="post-content" itemprop="articleBody">
     
-    <ul id="markdown-toc">
+    <h2 id="git-sucks">Git sucks</h2>
+
+<p>The <a href="https://git-scm.com/">Git version control system</a> has been causing us misery for 15+ years. Since its inception, a thousand people have tried to make new clients for Git to improve usability.</p>
+
+<p>But practically everyone has focused on providing a pretty facade to do more or less the same operations as Git on the command-line — as if Git’s command-line interface were already the pinnacle of usability.</p>
+
+<p>No one bothers to consider: what are the <em>workflows</em> that people actually want to do? What are the <em>features</em> that would make those workflows easier? So instead we get clients which think that <code class="language-plaintext highlighter-rouge">git rebase -i</code> as the best possible way to reword a commit message, or edit an old commit, or split a commit, or even worth exposing in the UI.</p>
+
+<div class="series-and-toc">
+
+  <p class="toc-header">Table of contents:</p>
+
+<ul id="markdown-toc">
   <li><a href="#git-sucks" id="markdown-toc-git-sucks">Git sucks</a></li>
   <li><a href="#rubric" id="markdown-toc-rubric">Rubric</a></li>
   <li><a href="#clients" id="markdown-toc-clients">Clients</a></li>
@@ -85,13 +102,7 @@
   <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
 </ul>
 
-<h2 id="git-sucks">Git sucks</h2>
-
-<p>The <a href="https://git-scm.com/">Git version control system</a> has been causing us misery for 15+ years. Since its inception, a thousand people have tried to make new clients for Git to improve usability.</p>
-
-<p>But practically everyone has focused on providing a pretty facade to do more or less the same operations as Git on the command-line — as if Git’s command-line interface were already the pinnacle of usability.</p>
-
-<p>No one bothers to consider: what are the <em>workflows</em> that people actually want to do? What are the <em>features</em> that would make those workflows easier? So instead we get clients which think that <code class="language-plaintext highlighter-rouge">git rebase -i</code> as the best possible way to reword a commit message, or edit an old commit, or split a commit, or even worth exposing in the UI.</p>
+</div>
 
 <h2 id="rubric">Rubric</h2>
 
@@ -385,6 +396,7 @@ th.rotate > div > span {
 
 <tbody>
 
+
   <tr>
     <td>19&nbsp;Jun&nbsp;2021</td>
     <td class="this-post">
@@ -429,6 +441,15 @@ th.rotate > div > span {
       
       </td>
     <td><a href="/git-ui-features/">Where are my Git UI features from the future?</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>11&nbsp;Jan&nbsp;2024</td>
+    <td class="this-post">
+      
+      </td>
+    <td><a href="/patch-terminology/">Patch terminology</a>
     </td>
   </tr>
 

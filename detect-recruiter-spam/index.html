@@ -10,16 +10,23 @@
   
     <title>Automatically detecting and replying to recruiter spam</title>
   
-  <meta name="description" content="">
+  <meta name="author" content="Waleed Khan">
+  <meta name="description" content="The code for this post is at my Github repository: github.com/arxanas/detect-recruiter-spam. However, I have not included my pre-trained model, since it cont...">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://blog.waleedkhan.name/detect-recruiter-spam/">
   <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+  
 
   <link rel="me" href="https://github.com/arxanas">
   <link rel="me" href="https://twitter.com/arxanas">
   <link rel="me" href="mailto:me@waleedkhan.name">
+
+  
+    <link rel="next" href="https://blog.waleedkhan.name/detect-recruiter-spam-update-1/">
+  
+  
 
   <!-- See https://indieweb.org/webmention.io -->
   <link rel="webmention" href="https://webmention.io/blog.waleedkhan.name/webmention" />
@@ -62,14 +69,32 @@
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">Automatically detecting and replying to recruiter spam</h1>
-    <p class="post-meta"><time datetime="2021-10-04T00:00:00-05:00" itemprop="datePublished">Oct 4, 2021</time>
+    <p class="post-meta"><time datetime="2021-10-04T00:00:00+00:00" itemprop="datePublished">Oct 4, 2021</time>
     
     </p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
     
-    <ul id="markdown-toc">
+    <p>The code for this post is at my Github repository: <a href="https://github.com/arxanas/detect-recruiter-spam">github.com/arxanas/detect-recruiter-spam</a>. However, I have not included my pre-trained model, since it contains sensitive information derived from  my email inbox. If you would like to use my API endpoint, send me an email.</p>
+
+<p>If you just want to see the results, skip to <a href="#results">Results</a>.</p>
+
+<div class="series-and-toc">
+
+  <p class="series-header">Posts in series:</p>
+
+  <ol>
+
+<li><a href="/detect-recruiter-spam/">Automatically detecting and replying to recruiter spam</a></li>
+
+<li><a href="/detect-recruiter-spam-update-1/">Update #1: Automatically detecting and replying to recruiter spam</a></li>
+
+</ol>
+
+  <p class="toc-header">Table of contents:</p>
+
+<ul id="markdown-toc">
   <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a></li>
   <li><a href="#bayesian-filtering" id="markdown-toc-bayesian-filtering">Bayesian filtering</a>    <ul>
       <li><a href="#approach" id="markdown-toc-approach">Approach</a></li>
@@ -95,9 +120,7 @@
   <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
 </ul>
 
-<p>The code for this post is at my Github repository: <a href="https://github.com/arxanas/detect-recruiter-spam">github.com/arxanas/detect-recruiter-spam</a>. However, I have not included my pre-trained model, since it contains sensitive information derived from  my email inbox. If you would like to use my API endpoint, send me an email.</p>
-
-<p>If you just want to see the results, skip to <a href="#results">Results</a>.</p>
+</div>
 
 <h2 id="introduction">Introduction</h2>
 
@@ -374,6 +397,7 @@ Technical Recruiter at Amazon</p>
 </thead>
 
 <tbody>
+
 
   <tr>
     <td>19&nbsp;Sep&nbsp;2016</td>

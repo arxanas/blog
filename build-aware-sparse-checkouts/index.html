@@ -10,16 +10,21 @@
   
     <title>Build-aware sparse checkouts</title>
   
+  <meta name="author" content="Waleed Khan">
   <meta name="description" content="My team and I recently gave a talk at Git Merge 2022 on our tool Focus, which integrates Git sparse checkouts with the Bazel build system.">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://blog.waleedkhan.name/build-aware-sparse-checkouts/">
   <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+  
 
   <link rel="me" href="https://github.com/arxanas">
   <link rel="me" href="https://twitter.com/arxanas">
   <link rel="me" href="mailto:me@waleedkhan.name">
+
+  
+  
 
   <!-- See https://indieweb.org/webmention.io -->
   <link rel="webmention" href="https://webmention.io/blog.waleedkhan.name/webmention" />
@@ -62,7 +67,7 @@
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">Build-aware sparse checkouts</h1>
-    <p class="post-meta"><time datetime="2022-10-19T00:00:00-05:00" itemprop="datePublished">Oct 19, 2022</time>
+    <p class="post-meta"><time datetime="2022-10-19T00:00:00+00:00" itemprop="datePublished">Oct 19, 2022</time>
     
     </p>
   </header>
@@ -71,11 +76,28 @@
     
     <p>My team and I recently gave a talk at <a href="https://github.blog/2022-06-15-git-merge-2022/">Git Merge 2022</a> on our tool <a href="https://github.com/twitter/focus">Focus</a>, which integrates Git sparse checkouts with the Bazel build system.</p>
 
+<div class="series-and-toc">
+
+  <p class="toc-header">Table of contents:</p>
+
+<ul id="markdown-toc">
+  <li><a href="#talk" id="markdown-toc-talk">Talk</a></li>
+  <li><a href="#slides" id="markdown-toc-slides">Slides</a></li>
+  <li><a href="#related-posts" id="markdown-toc-related-posts">Related posts</a></li>
+  <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
+</ul>
+
+</div>
+
+<h2 id="talk">Talk</h2>
+
 <p>Talk recording (~15 minutes):</p>
 
 <div class="iframe-container">
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/OsIJ99lkSdM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
 </div>
+
+<h2 id="slides">Slides</h2>
 
 <p>And here are some slides I published internally. These go into the technical details of content-hashing, and also have doodles:</p>
 
@@ -97,6 +119,7 @@
 </thead>
 
 <tbody>
+
 
   <tr>
     <td>19&nbsp;Jun&nbsp;2021</td>
@@ -142,6 +165,24 @@
       
       </td>
     <td><a href="/git-ui-features/">Where are my Git UI features from the future?</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>11&nbsp;Jan&nbsp;2024</td>
+    <td class="this-post">
+      
+      </td>
+    <td><a href="/patch-terminology/">Patch terminology</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>02&nbsp;Oct&nbsp;2024</td>
+    <td class="this-post">
+      
+      </td>
+    <td><a href="/incremental-watchman/">Incremental processing with Watchman — don't daemonize that build!</a>
     </td>
   </tr>
 
