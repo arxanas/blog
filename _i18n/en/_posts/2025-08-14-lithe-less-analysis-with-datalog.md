@@ -132,4 +132,6 @@ pointsTo(X,Y) :- alias(X,Z), pointsTo(Z,Y).
 
 But when I first read that page, I was blown away — only because I already knew how much code it would take in a traditional programming language.
 
+**Update 2025-08-23**: I see that Hillel Wayne has discussed this in their blog post *[Instructive and Persuasive Examples](https://www.hillelwayne.com/post/persuasive-examples/)* (2017). It's too easy to "brush off" trivial-looking examples of logic programming!
+
 {% include end_matter.md %}
