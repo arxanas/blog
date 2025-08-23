@@ -35,41 +35,46 @@ languages: ["en", "pl"]
 exclude_from_localizations: ["assets", "css", "scripts"]
 
 related_posts:
+  # Steno:
   - - steno-adventures-part-1/
     - steno-adventures-part-2/
     - steno-journal/
     - my-steno-system/
     - language-learning-anecdotes/
 
+  # Social:
   - - dot-name-email-address/
     - messenger-conversation-macros/
     - mail-server/
     - detect-recruiter-spam/
     - detect-recruiter-spam-update-1/
 
+  # Career:
   - - detect-recruiter-spam/
+    - detect-recruiter-spam-update-1/
     - getting-a-job-in-pl/
 
+  # Deliberate practice:
   - - lan-adapter/
     - smash-bros-parabola-rule/
     - pro-controller-stick-drift/
     - hours-invested-vs-percentile-rank/
     - smash-mistakes/
 
+  # Gaming:
   - - lan-adapter/
     - pro-controller-stick-drift/
     - playing-elden-ring-in-the-cloud/
     - playing-elden-ring-in-the-cloud-update-1/
 
+  # Rust:
   - - port-python-to-rust/
     - rust-modules-for-python-users/
     - tracing-rust-cli-apps/
     - rust-incremental-test-times/
     - encoding-ml-style-modules-in-rust/
 
-  - - parsing-contextual-keywords/
-    - data-comprehension-syntaxes/
-
+  # Source control:
   - - git-undo/
     - in-memory-rebases/
     - build-aware-sparse-checkouts/
@@ -77,19 +82,27 @@ related_posts:
     - git-ui-features/
     - patch-terminology/
 
-  - - build-aware-sparse-checkouts/
+  # Incremental computation:
+  - - monotonicity/
+    - build-aware-sparse-checkouts/
     - incremental-watchman/
+    - half-my-work-is-adding-a-cache/
+    - lithe-less-analysis-with-datalog/
 
   # FIXME: What do these posts have to do with each other??
   - - writing-brittle-code/
     - smash-training-retrospective/
     - data-comprehension-syntaxes/
 
+  # Software validation:
   - - writing-brittle-code/
     - on-trivial-changes/
     - testing-tui-apps/
 
-  - - union-vs-sum-types/
+  # Programming languages:
+  - - parsing-contextual-keywords/
+    - data-comprehension-syntaxes/
+    - union-vs-sum-types/
     - functions-are-constants/
     - monotonicity/
     - data-comprehension-syntaxes/
