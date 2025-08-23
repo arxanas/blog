@@ -7,8 +7,8 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 14 Aug 2025 21:12:53 +0000</pubDate>
-    <lastBuildDate>Thu, 14 Aug 2025 21:12:53 +0000</lastBuildDate>
+    <pubDate>Sat, 23 Aug 2025 20:04:34 +0000</pubDate>
+    <lastBuildDate>Sat, 23 Aug 2025 20:04:34 +0000</lastBuildDate>
     <generator>Jekyll v4.3.4</generator>
     
       <item>
@@ -143,6 +143,8 @@ pointsTo(X,Y) :- alias(X,Z), pointsTo(Z,Y).
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;But when I first read that page, I was blown away — only because I already knew how much code it would take in a traditional programming language.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Update 2025-08-23&lt;/strong&gt;: I see that Hillel Wayne has discussed this in their blog post &lt;em&gt;&lt;a href=&quot;https://www.hillelwayne.com/post/persuasive-examples/&quot;&gt;Instructive and Persuasive Examples&lt;/a&gt;&lt;/em&gt; (2017). It’s too easy to “brush off” trivial-looking examples of logic programming!&lt;/p&gt;
 
 &lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
 
