@@ -38,7 +38,7 @@ tags:
 
 When I was a kid, I wrote a [little social networking site for my school](https://github.com/arxanas/schmacebook). Back then, *in 2010*, I was surprised to learn that MySQL didn't seem to support "materialized views". Of course, I didn't even know the name for the concept back then; but I understood that the concept should *exist*.
 
-In their blog post *[Materialized views are obviously useful](https://sophiebits.com/2025/08/22/materialized-views-are-obviously-useful)*, Sophie Alpert points out that incremental view maintenance is still unreasonably difficult for trivial applications. And *it's 2025*. In those 15 intervening years, we've barely accomplished anything as an industry to make incremental computation more tractable for the masses.
+In her blog post *[Materialized views are obviously useful](https://sophiebits.com/2025/08/22/materialized-views-are-obviously-useful)*, Sophie Alpert points out that incremental view maintenance is still unreasonably difficult for trivial applications. And *it's 2025*. In those 15 intervening years, we've barely accomplished anything as an industry to make incremental computation more tractable for the masses.
 
 At best, we have *[DBSP: Automatic Incremental View Maintenance for Rich Query Languages](https://arxiv.org/abs/2203.16684)* (2022), which is a great paper and formalization, but was also probably realizable in 2010. We have a few startups ([Materialize](https://materialize.com/), [Feldera](https://www.feldera.com/)) who offer incremental view maintenance as a service. More expansive efforts like [Skiplang](https://skiplang.com/) petered out. This is sad.
 
