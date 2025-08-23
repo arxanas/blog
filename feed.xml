@@ -7,8 +7,8 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 23 Aug 2025 20:05:40 +0000</pubDate>
-    <lastBuildDate>Sat, 23 Aug 2025 20:05:40 +0000</lastBuildDate>
+    <pubDate>Sat, 23 Aug 2025 20:38:28 +0000</pubDate>
+    <lastBuildDate>Sat, 23 Aug 2025 20:38:28 +0000</lastBuildDate>
     <generator>Jekyll v4.3.4</generator>
     
       <item>
@@ -51,7 +51,7 @@ employers.</description>
 
 &lt;p&gt;When I was a kid, I wrote a &lt;a href=&quot;https://github.com/arxanas/schmacebook&quot;&gt;little social networking site for my school&lt;/a&gt;. Back then, &lt;em&gt;in 2010&lt;/em&gt;, I was surprised to learn that MySQL didn’t seem to support “materialized views”. Of course, I didn’t even know the name for the concept back then; but I understood that the concept should &lt;em&gt;exist&lt;/em&gt;.&lt;/p&gt;
 
-&lt;p&gt;In their blog post &lt;em&gt;&lt;a href=&quot;https://sophiebits.com/2025/08/22/materialized-views-are-obviously-useful&quot;&gt;Materialized views are obviously useful&lt;/a&gt;&lt;/em&gt;, Sophie Alpert points out that incremental view maintenance is still unreasonably difficult for trivial applications. And &lt;em&gt;it’s 2025&lt;/em&gt;. In those 15 intervening years, we’ve barely accomplished anything as an industry to make incremental computation more tractable for the masses.&lt;/p&gt;
+&lt;p&gt;In her blog post &lt;em&gt;&lt;a href=&quot;https://sophiebits.com/2025/08/22/materialized-views-are-obviously-useful&quot;&gt;Materialized views are obviously useful&lt;/a&gt;&lt;/em&gt;, Sophie Alpert points out that incremental view maintenance is still unreasonably difficult for trivial applications. And &lt;em&gt;it’s 2025&lt;/em&gt;. In those 15 intervening years, we’ve barely accomplished anything as an industry to make incremental computation more tractable for the masses.&lt;/p&gt;
 
 &lt;p&gt;At best, we have &lt;em&gt;&lt;a href=&quot;https://arxiv.org/abs/2203.16684&quot;&gt;DBSP: Automatic Incremental View Maintenance for Rich Query Languages&lt;/a&gt;&lt;/em&gt; (2022), which is a great paper and formalization, but was also probably realizable in 2010. We have a few startups (&lt;a href=&quot;https://materialize.com/&quot;&gt;Materialize&lt;/a&gt;, &lt;a href=&quot;https://www.feldera.com/&quot;&gt;Feldera&lt;/a&gt;) who offer incremental view maintenance as a service. More expansive efforts like &lt;a href=&quot;https://skiplang.com/&quot;&gt;Skiplang&lt;/a&gt; petered out. This is sad.&lt;/p&gt;
 
