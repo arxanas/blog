@@ -2,6 +2,15 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
     <url>
+      <loc>https://blog.waleedkhan.name/half-my-work-is-adding-a-cache/</loc>
+      
+        <lastmod>2025-08-23T00:00:00+00:00</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
       <loc>https://blog.waleedkhan.name/lithe-less-analysis-with-datalog/</loc>
       
         <lastmod>2025-08-14T00:00:00+00:00</lastmod>

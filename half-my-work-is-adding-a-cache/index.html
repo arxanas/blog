@@ -8,13 +8,13 @@
 
   
   
-    <title>Update #1: Automatically detecting and replying to recruiter spam</title>
+    <title>Half my work is adding a cache</title>
   
   <meta name="author" content="Waleed Khan">
-  <meta name="description" content="  Posts in series:  Automatically detecting and replying to recruiter spamUpdate #1: Automatically detecting and replying to recruiter spam  Table of contents:">
+  <meta name="description" content="            Intended audience              Back-end software engineers, particularly in big tech.                    Origin              Experience in big te...">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="https://blog.waleedkhan.name/detect-recruiter-spam-update-1/">
+  <link rel="canonical" href="https://blog.waleedkhan.name/half-my-work-is-adding-a-cache/">
   <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/feed.xml">
   <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
   
@@ -24,8 +24,6 @@
   <link rel="me" href="mailto:me@waleedkhan.name">
 
   
-  
-    <link rel="prev" href="https://blog.waleedkhan.name/detect-recruiter-spam/">
   
 
   <!-- See https://indieweb.org/webmention.io -->
@@ -68,26 +66,40 @@
         <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">Update #1: Automatically detecting and replying to recruiter spam</h1>
-    <p class="post-meta"><time datetime="2022-11-09T00:00:00+00:00" itemprop="datePublished">Nov 9, 2022</time>
+    <h1 class="post-title" itemprop="name headline">Half my work is adding a cache</h1>
+    <p class="post-meta"><time datetime="2025-08-23T00:00:00+00:00" itemprop="datePublished">Aug 23, 2025</time>
     
     </p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
     
-    
+    <div class="publication-notes">
+  <table>
+    <tr>
+      <td>Intended audience</td>
+      <td><ul>
+        <li>Back-end software engineers, particularly in big tech.</li>
+      </ul></td>
+    </tr>
+    <tr>
+      <td>Origin</td>
+      <td><ul>
+        <li>Experience in big tech working on highly-scalable developer tooling.</li>
+        <li>Sophie Alpert's blog post <i><a href="https://sophiebits.com/2025/08/22/materialized-views-are-obviously-useful">Materialized views are obviously useful</a></i>.</li>
+      </ul></td>
+    </tr>
+    <tr>
+      <td>Mood</td>
+      <td><ul>
+        <li>Frustrated.</li>
+        <li>Determined that we should do better as an industry.</li>
+      </ul></td>
+    </tr>
+  </table>
+</div>
+
 <div class="series-and-toc">
-
-  <p class="series-header">Posts in series:</p>
-
-  <ol>
-
-<li><a href="/detect-recruiter-spam/">Automatically detecting and replying to recruiter spam</a></li>
-
-<li><a href="/detect-recruiter-spam-update-1/">Update #1: Automatically detecting and replying to recruiter spam</a></li>
-
-</ol>
 
   <p class="toc-header">Table of contents:</p>
 
@@ -98,13 +110,36 @@
 
 </div>
 
-<p>In <a href="/detect-recruiter-spam/"><em>Automatically detecting and replying to recruiter spam</em></a>, I discussed an approach to automatically classifying and detecting unsolicited recruiter messages. Since then:</p>
+<p>When I was a kid, I wrote a <a href="https://github.com/arxanas/schmacebook">little social networking site for my school</a>. Back then, <em>in 2010</em>, I was surprised to learn that MySQL didn’t seem to support “materialized views”. Of course, I didn’t even know the name for the concept back then; but I understood that the concept should <em>exist</em>.</p>
 
+<p>In their blog post <em><a href="https://sophiebits.com/2025/08/22/materialized-views-are-obviously-useful">Materialized views are obviously useful</a></em>, Sophie Alpert points out that incremental view maintenance is still unreasonably difficult for trivial applications. And <em>it’s 2025</em>. In those 15 intervening years, we’ve barely accomplished anything as an industry to make incremental computation more tractable for the masses.</p>
+
+<p>At best, we have <em><a href="https://arxiv.org/abs/2203.16684">DBSP: Automatic Incremental View Maintenance for Rich Query Languages</a></em> (2022), which is a great paper and formalization, but was also probably realizable in 2010. We have a few startups (<a href="https://materialize.com/">Materialize</a>, <a href="https://www.feldera.com/">Feldera</a>) who offer incremental view maintenance as a service. More expansive efforts like <a href="https://skiplang.com/">Skiplang</a> petered out. This is sad.</p>
+
+<p>I’ve reproduced my <a href="https://lobste.rs/c/oalnwv">Lobste.rs comment on the aforementioned blog post</a> below.</p>
+
+<hr />
+
+<p>This has been my thesis for a while:</p>
 <ul>
-  <li>I received a message from a recruiter, which was automatically replied to by my recruiter bot. This led me to leave my old job and accept a new offer at around twice the total compensation.</li>
-  <li>In <a href="https://github.com/arxanas/detect-recruiter-spam/commit/47f4106cac9067958c3e2679c486a052f9794f25"><code class="language-plaintext highlighter-rouge">Support responding via Gmail</code></a>, I got the bot to successfully reply to LinkedIn emails, and therefore send replies on my behalf on LinkedIn.
+  <li>Half of my work in big tech has just been “adding cache” or “removing a cache” in response to scaling latency/throughput requirements.</li>
+  <li>We absolutely need higher-level primitives for developing incremental systems, particularly in distributed contexts.</li>
+  <li>Somehow, our best alternative at each point has been to just build another ad-hoc, informally specified, bug-ridden, slow implementation of a build system.</li>
+</ul>
+
+<p>I’m excited for efforts like Feldera (DBSP) to help provide</p>
+<ol>
+  <li>concretely, a specific implementation of a “build system as a library”, but also</li>
+  <li>abstractly, a reliable pattern that can be reimplemented across multiple environments where it’s unavailable (kind of like ReactiveX).</li>
+</ol>
+
+<p>I think the main missing piece is that it’s hard to reconcile “persistent state” across many different environments/runtimes in a well-patterned way:</p>
+<ul>
+  <li>DBSP gives you a formula for effective incremental computation, but I don’t yet know how hard it is to wire it up to arbitrary data sources for input and output.</li>
+  <li>More specifically, the pattern seems to require that the underlying data source has a linear notion of “time”, which is not how most people have been designing their databases in practice.
     <ul>
-      <li>However, I believe this to be counterproductive. In my understanding, LinkedIn keeps an activity/response timeliness score for users to determine if a given user is likely to be open to new opportunities on LinkedIn. Automatically responding to LinkedIn messages would raise this score. As a consequence, this positive feedback loop has caused me to receive <em>more</em> LinkedIn messages than ever before! So I disabled auto-replies to LinkedIn emails.</li>
+      <li>I can’t go take an arbitrary database at work that somebody implemented five years ago and easily ask Postgres for the delta stream.</li>
+      <li>I mean, I’m sure it’s possible, but if it’s not dead simple, then I as a random developer am not going to be equipped to do it.</li>
     </ul>
   </li>
 </ul>
@@ -126,58 +161,49 @@
 
 
   <tr>
-    <td>19&nbsp;Sep&nbsp;2016</td>
+    <td>20&nbsp;Apr&nbsp;2020</td>
     <td class="this-post">
       
       </td>
-    <td><a href="/dot-name-email-address/">Is having a '.name' email address a good idea?</a>
+    <td><a href="/monotonicity/">Monotonicity is a halfway point between mutability and immutability</a>
     </td>
   </tr>
 
   <tr>
-    <td>13&nbsp;Oct&nbsp;2016</td>
+    <td>19&nbsp;Oct&nbsp;2022</td>
     <td class="this-post">
       
       </td>
-    <td><a href="/messenger-conversation-macros/">Analyzing all of my Messenger conversations to create conversational macros</a>
+    <td><a href="/build-aware-sparse-checkouts/">Build-aware sparse checkouts</a>
     </td>
   </tr>
 
   <tr>
-    <td>12&nbsp;Sep&nbsp;2018</td>
+    <td>02&nbsp;Oct&nbsp;2024</td>
     <td class="this-post">
       
       </td>
-    <td><a href="/getting-a-job-in-pl/">How to get a job in programming languages</a>
+    <td><a href="/incremental-watchman/">Incremental processing with Watchman — don't daemonize that build!</a>
     </td>
   </tr>
 
   <tr>
-    <td>29&nbsp;Apr&nbsp;2020</td>
+    <td>14&nbsp;Aug&nbsp;2025</td>
     <td class="this-post">
       
       </td>
-    <td><a href="/mail-server/">I used to run my own mail server</a>
+    <td><a href="/lithe-less-analysis-with-datalog/">Lithe, less analysis with Datalog</a>
     </td>
   </tr>
 
   <tr>
-    <td>04&nbsp;Oct&nbsp;2021</td>
-    <td class="this-post">
-      
-      </td>
-    <td><a href="/detect-recruiter-spam/">Automatically detecting and replying to recruiter spam</a>
-    </td>
-  </tr>
-
-  <tr>
-    <td>09&nbsp;Nov&nbsp;2022</td>
+    <td>23&nbsp;Aug&nbsp;2025</td>
     <td class="this-post">
       
       (this&nbsp;post)
       
       </td>
-    <td><a href="/detect-recruiter-spam-update-1/">Update #1: Automatically detecting and replying to recruiter spam</a>
+    <td><a href="/half-my-work-is-adding-a-cache/">Half my work is adding a cache</a>
     </td>
   </tr>
 
@@ -203,8 +229,8 @@
  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
 var disqus_config = function () {
-    this.page.url = "https://blog.waleedkhan.name/detect-recruiter-spam-update-1/";
-    this.page.identifier = "detect-recruiter-spam-update-1/";
+    this.page.url = "https://blog.waleedkhan.name/half-my-work-is-adding-a-cache/";
+    this.page.identifier = "half-my-work-is-adding-a-cache/";
 };
 
 (function() { // DON'T EDIT BELOW THIS LINE

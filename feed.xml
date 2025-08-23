@@ -7,9 +7,196 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 23 Aug 2025 20:04:34 +0000</pubDate>
-    <lastBuildDate>Sat, 23 Aug 2025 20:04:34 +0000</lastBuildDate>
+    <pubDate>Sat, 23 Aug 2025 20:05:40 +0000</pubDate>
+    <lastBuildDate>Sat, 23 Aug 2025 20:05:40 +0000</lastBuildDate>
     <generator>Jekyll v4.3.4</generator>
+    
+      <item>
+        <title>Half my work is adding a cache</title>
+        <description>&lt;div class=&quot;publication-notes&quot;&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Intended audience&lt;/td&gt;
+      &lt;td&gt;&lt;ul&gt;
+        &lt;li&gt;Back-end software engineers, particularly in big tech.&lt;/li&gt;
+      &lt;/ul&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Origin&lt;/td&gt;
+      &lt;td&gt;&lt;ul&gt;
+        &lt;li&gt;Experience in big tech working on highly-scalable developer tooling.&lt;/li&gt;
+        &lt;li&gt;Sophie Alpert&apos;s blog post &lt;i&gt;&lt;a href=&quot;https://sophiebits.com/2025/08/22/materialized-views-are-obviously-useful&quot;&gt;Materialized views are obviously useful&lt;/a&gt;&lt;/i&gt;.&lt;/li&gt;
+      &lt;/ul&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Mood&lt;/td&gt;
+      &lt;td&gt;&lt;ul&gt;
+        &lt;li&gt;Frustrated.&lt;/li&gt;
+        &lt;li&gt;Determined that we should do better as an industry.&lt;/li&gt;
+      &lt;/ul&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;series-and-toc&quot;&gt;
+
+  &lt;p class=&quot;toc-header&quot;&gt;Table of contents:&lt;/p&gt;
+
+&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#related-posts&quot; id=&quot;markdown-toc-related-posts&quot;&gt;Related posts&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;When I was a kid, I wrote a &lt;a href=&quot;https://github.com/arxanas/schmacebook&quot;&gt;little social networking site for my school&lt;/a&gt;. Back then, &lt;em&gt;in 2010&lt;/em&gt;, I was surprised to learn that MySQL didn’t seem to support “materialized views”. Of course, I didn’t even know the name for the concept back then; but I understood that the concept should &lt;em&gt;exist&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;In their blog post &lt;em&gt;&lt;a href=&quot;https://sophiebits.com/2025/08/22/materialized-views-are-obviously-useful&quot;&gt;Materialized views are obviously useful&lt;/a&gt;&lt;/em&gt;, Sophie Alpert points out that incremental view maintenance is still unreasonably difficult for trivial applications. And &lt;em&gt;it’s 2025&lt;/em&gt;. In those 15 intervening years, we’ve barely accomplished anything as an industry to make incremental computation more tractable for the masses.&lt;/p&gt;
+
+&lt;p&gt;At best, we have &lt;em&gt;&lt;a href=&quot;https://arxiv.org/abs/2203.16684&quot;&gt;DBSP: Automatic Incremental View Maintenance for Rich Query Languages&lt;/a&gt;&lt;/em&gt; (2022), which is a great paper and formalization, but was also probably realizable in 2010. We have a few startups (&lt;a href=&quot;https://materialize.com/&quot;&gt;Materialize&lt;/a&gt;, &lt;a href=&quot;https://www.feldera.com/&quot;&gt;Feldera&lt;/a&gt;) who offer incremental view maintenance as a service. More expansive efforts like &lt;a href=&quot;https://skiplang.com/&quot;&gt;Skiplang&lt;/a&gt; petered out. This is sad.&lt;/p&gt;
+
+&lt;p&gt;I’ve reproduced my &lt;a href=&quot;https://lobste.rs/c/oalnwv&quot;&gt;Lobste.rs comment on the aforementioned blog post&lt;/a&gt; below.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;This has been my thesis for a while:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Half of my work in big tech has just been “adding cache” or “removing a cache” in response to scaling latency/throughput requirements.&lt;/li&gt;
+  &lt;li&gt;We absolutely need higher-level primitives for developing incremental systems, particularly in distributed contexts.&lt;/li&gt;
+  &lt;li&gt;Somehow, our best alternative at each point has been to just build another ad-hoc, informally specified, bug-ridden, slow implementation of a build system.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I’m excited for efforts like Feldera (DBSP) to help provide&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;concretely, a specific implementation of a “build system as a library”, but also&lt;/li&gt;
+  &lt;li&gt;abstractly, a reliable pattern that can be reimplemented across multiple environments where it’s unavailable (kind of like ReactiveX).&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;I think the main missing piece is that it’s hard to reconcile “persistent state” across many different environments/runtimes in a well-patterned way:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;DBSP gives you a formula for effective incremental computation, but I don’t yet know how hard it is to wire it up to arbitrary data sources for input and output.&lt;/li&gt;
+  &lt;li&gt;More specifically, the pattern seems to require that the underlying data source has a linear notion of “time”, which is not how most people have been designing their databases in practice.
+    &lt;ul&gt;
+      &lt;li&gt;I can’t go take an arbitrary database at work that somebody implemented five years ago and easily ask Postgres for the delta stream.&lt;/li&gt;
+      &lt;li&gt;I mean, I’m sure it’s possible, but if it’s not dead simple, then I as a random developer am not going to be equipped to do it.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
+
+&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
+
+&lt;table class=&quot;related-posts&quot;&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Date&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+
+  &lt;tr&gt;
+    &lt;td&gt;20&amp;nbsp;Apr&amp;nbsp;2020&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/monotonicity/&quot;&gt;Monotonicity is a halfway point between mutability and immutability&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;19&amp;nbsp;Oct&amp;nbsp;2022&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/build-aware-sparse-checkouts/&quot;&gt;Build-aware sparse checkouts&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;02&amp;nbsp;Oct&amp;nbsp;2024&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/incremental-watchman/&quot;&gt;Incremental processing with Watchman — don&apos;t daemonize that build!&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;14&amp;nbsp;Aug&amp;nbsp;2025&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/lithe-less-analysis-with-datalog/&quot;&gt;Lithe, less analysis with Datalog&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;23&amp;nbsp;Aug&amp;nbsp;2025&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      (this&amp;nbsp;post)
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/half-my-work-is-adding-a-cache/&quot;&gt;Half my work is adding a cache&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+
+&lt;/ul&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/half-my-work-is-adding-a-cache/&quot;;
+    this.page.identifier = &quot;half-my-work-is-adding-a-cache/&quot;;
+};
+
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
+</description>
+        <pubDate>Sat, 23 Aug 2025 00:00:00 +0000</pubDate>
+        <link>https://blog.waleedkhan.name/half-my-work-is-adding-a-cache/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/half-my-work-is-adding-a-cache/</guid>
+        
+        <category>build-systems</category>
+        
+        <category>rant</category>
+        
+        <category>reprint</category>
+        
+        <category>software-engineering</category>
+        
+        
+      </item>
     
       <item>
         <title>Lithe, less analysis with Datalog</title>
@@ -163,6 +350,15 @@ pointsTo(X,Y) :- alias(X,Z), pointsTo(Z,Y).
 
 
   &lt;tr&gt;
+    &lt;td&gt;09&amp;nbsp;Apr&amp;nbsp;2017&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/parsing-contextual-keywords/&quot;&gt;How to parse contextual keywords in a programming language&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
     &lt;td&gt;24&amp;nbsp;Jul&amp;nbsp;2017&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
@@ -199,11 +395,29 @@ pointsTo(X,Y) :- alias(X,Z), pointsTo(Z,Y).
   &lt;/tr&gt;
 
   &lt;tr&gt;
+    &lt;td&gt;19&amp;nbsp;Oct&amp;nbsp;2022&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/build-aware-sparse-checkouts/&quot;&gt;Build-aware sparse checkouts&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
     &lt;td&gt;17&amp;nbsp;Jun&amp;nbsp;2023&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
       &lt;/td&gt;
     &lt;td&gt;&lt;a href=&quot;/encoding-ml-style-modules-in-rust/&quot;&gt;Encoding ML-style modules in Rust&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;02&amp;nbsp;Oct&amp;nbsp;2024&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/incremental-watchman/&quot;&gt;Incremental processing with Watchman — don&apos;t daemonize that build!&lt;/a&gt;
     &lt;/td&gt;
   &lt;/tr&gt;
 
@@ -215,6 +429,15 @@ pointsTo(X,Y) :- alias(X,Z), pointsTo(Z,Y).
       
       &lt;/td&gt;
     &lt;td&gt;&lt;a href=&quot;/lithe-less-analysis-with-datalog/&quot;&gt;Lithe, less analysis with Datalog&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;23&amp;nbsp;Aug&amp;nbsp;2025&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/half-my-work-is-adding-a-cache/&quot;&gt;Half my work is adding a cache&lt;/a&gt;
     &lt;/td&gt;
   &lt;/tr&gt;
 
@@ -1532,6 +1755,15 @@ var disqus_config = function () {
 
 
   &lt;tr&gt;
+    &lt;td&gt;20&amp;nbsp;Apr&amp;nbsp;2020&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/monotonicity/&quot;&gt;Monotonicity is a halfway point between mutability and immutability&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
     &lt;td&gt;19&amp;nbsp;Oct&amp;nbsp;2022&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
@@ -1548,6 +1780,24 @@ var disqus_config = function () {
       
       &lt;/td&gt;
     &lt;td&gt;&lt;a href=&quot;/incremental-watchman/&quot;&gt;Incremental processing with Watchman — don&apos;t daemonize that build!&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;14&amp;nbsp;Aug&amp;nbsp;2025&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/lithe-less-analysis-with-datalog/&quot;&gt;Lithe, less analysis with Datalog&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;23&amp;nbsp;Aug&amp;nbsp;2025&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/half-my-work-is-adding-a-cache/&quot;&gt;Half my work is adding a cache&lt;/a&gt;
     &lt;/td&gt;
   &lt;/tr&gt;
 
@@ -3106,6 +3356,15 @@ note: used non-generic type `&amp;amp;&apos;static str` for generic parameter
 
 
   &lt;tr&gt;
+    &lt;td&gt;09&amp;nbsp;Apr&amp;nbsp;2017&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/parsing-contextual-keywords/&quot;&gt;How to parse contextual keywords in a programming language&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
     &lt;td&gt;24&amp;nbsp;Jul&amp;nbsp;2017&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
@@ -3243,129 +3502,6 @@ var disqus_config = function () {
         <category>programming-languages</category>
         
         <category>rust</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Quickly formatting a stack of commits</title>
-        <description>&lt;div class=&quot;publication-notes&quot;&gt;
-  &lt;table&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Intended audience&lt;/td&gt;
-      &lt;td&gt;&lt;ul&gt;
-        &lt;li&gt;Software engineers working with Git who use &quot;patch stacks&quot;/&quot;stacked diffs&quot;, such as how Git is used for the Git and Linux projects, as well as for many companies practicing &lt;a href=&quot;https://trunkbaseddevelopment.com/&quot;&gt;trunk-based development&lt;/a&gt;.&lt;/li&gt;
-        &lt;li&gt;&lt;em&gt;Not&lt;/em&gt; Git users who think the Git commit graph should reflect the actual development process.&lt;/li&gt;
-      &lt;/ul&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Origin&lt;/td&gt;
-      &lt;td&gt;My work on &lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt;.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Mood&lt;/td&gt;
-      &lt;td&gt;Unheeded by most.&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/table&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;series-and-toc&quot;&gt;
-
-  &lt;p class=&quot;toc-header&quot;&gt;Table of contents:&lt;/p&gt;
-
-&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#related-posts&quot; id=&quot;markdown-toc-related-posts&quot;&gt;Related posts&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;A certain category of developer uses Git with a “patch stack” workflow, in which they accumulate a sequence of small, individually-reviewable commits that together implement a large change. In these cases, it’s oftentimes useful to run linters or formatters on each commit in the stack and apply the results. However, this can be tedious, and a naive approach can cause needless merge conflicts. (One workaround is to run formatters on each commit in the stack &lt;em&gt;backwards&lt;/em&gt;.)&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/arxanas/git-branchless&quot;&gt;git-branchless&lt;/a&gt;’s &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git test&lt;/code&gt; command offers a solution to quickly run formatters, etc., on an entire stack of commits without causing merge conflicts. Additionally, it can be performed in parallel, and it caches results so that reformats of the same commits are skipped. You can see the &lt;a href=&quot;https://github.com/arxanas/git-branchless/discussions/803&quot;&gt;announcement post&lt;/a&gt; or &lt;a href=&quot;https://github.com/arxanas/git-branchless/wiki/Command:-git-test&quot;&gt;the documentation for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git test&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Here’s a demo of formatting the commits in a stack (skip to 0:35 to see just the demonstration of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git test fix&lt;/code&gt;):&lt;/p&gt;
-
-&lt;video src=&quot;https://user-images.githubusercontent.com/454057/219904589-79657aed-9356-4f87-a0e4-bdcfbe691621.mov&quot; controls=&quot;controls&quot; muted=&quot;muted&quot;&gt;&lt;/video&gt;
-
-&lt;p&gt;I usually set &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git fmt&lt;/code&gt; to an alias for something like&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git test run --exec &apos;cargo fmt --all&apos; --strategy worktree --jobs 8
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
-
-&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
-
-&lt;table class=&quot;related-posts&quot;&gt;
-&lt;thead&gt;
-  &lt;tr&gt;
-    &lt;th&gt;Date&lt;/th&gt;
-    &lt;th&gt;&lt;/th&gt;
-    &lt;th&gt;Title&lt;/th&gt;
-  &lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-
-
-  &lt;tr&gt;
-    &lt;td&gt;11&amp;nbsp;Apr&amp;nbsp;2023&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      (this&amp;nbsp;post)
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/formatting-a-commit-stack/&quot;&gt;Quickly formatting a stack of commits&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
-
-&lt;ul&gt;
-
-
-&lt;li&gt;&lt;a class=&quot;icon-lobsters&quot; href=&quot;https://lobste.rs/s/rpdt88/quickly_formatting_stack_commits &quot;&gt;Discussion on Lobsters&lt;/a&gt;&lt;/li&gt;
-
-
-&lt;/ul&gt;
-
-&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
-
-&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
-&lt;script&gt;
-
-/**
- *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
- *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
-var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/formatting-a-commit-stack/&quot;;
-    this.page.identifier = &quot;formatting-a-commit-stack/&quot;;
-};
-
-(function() { // DON&apos;T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement(&apos;script&apos;);
-    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
-    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
-    (d.head || d.body).appendChild(s);
-})();
-&lt;/script&gt;
-
-&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
-
-</description>
-        <pubDate>Tue, 11 Apr 2023 00:00:00 +0000</pubDate>
-        <link>https://blog.waleedkhan.name/formatting-a-commit-stack/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/formatting-a-commit-stack/</guid>
-        
-        <category>git</category>
-        
-        <category>software-engineering</category>
         
         
       </item>
