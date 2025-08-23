@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  
+    <title>How to parse contextual keywords in a programming language</title>
+  
+  <meta name="author" content="Waleed Khan">
+  <meta name="description" content="Thanks to Lucian Wischik for reviewing this article.">
+
+  <link rel="stylesheet" href="/preview/pr-48/css/main.css">
+  <link rel="canonical" href="https://blog.waleedkhan.name/preview/pr-48/parsing-contextual-keywords/">
+  <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/preview/pr-48/feed.xml">
+  <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+  
+
+  <link rel="me" href="https://github.com/arxanas">
+  <link rel="me" href="https://twitter.com/arxanas">
+  <link rel="me" href="mailto:me@waleedkhan.name">
+
+  
+  
+
+  <!-- See https://indieweb.org/webmention.io -->
+  <link rel="webmention" href="https://webmention.io/blog.waleedkhan.name/webmention" />
+  <link rel="pingback" href="https://webmention.io/webmention?forward=https://blog.waleedkhan.name/webmention" />
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/preview/pr-48/">Steno & PL</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          <a class="page-link" href="/preview/pr-48/about/">About</a>
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">How to parse contextual keywords in a programming language</h1>
+    <p class="post-meta"><time datetime="2017-04-09T00:00:00+00:00" itemprop="datePublished">Apr 9, 2017</time>
+    
+    </p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    
+    <p><em>Thanks to Lucian Wischik for reviewing this article.</em></p>
+
+<div class="series-and-toc">
+
+  <p class="toc-header">Table of contents:</p>
+
+<ul id="markdown-toc">
+  <li><a href="#whats-the-problem-with-contextual-keywords" id="markdown-toc-whats-the-problem-with-contextual-keywords">What’s the problem with contextual keywords?</a>    <ul>
+      <li><a href="#parsing-can-be-difficult-when-there-is-ambiguity" id="markdown-toc-parsing-can-be-difficult-when-there-is-ambiguity">Parsing can be difficult when there is ambiguity</a></li>
+    </ul>
+  </li>
+  <li><a href="#approachs" id="markdown-toc-approachs">Approachs</a>    <ul>
+      <li><a href="#parsing-partial-directly-in-the-grammar" id="markdown-toc-parsing-partial-directly-in-the-grammar">Parsing <code class="language-plaintext highlighter-rouge">partial</code> directly in the grammar</a></li>
+      <li><a href="#having-special-syntax-for-a-verbatim-identifier" id="markdown-toc-having-special-syntax-for-a-verbatim-identifier">Having special syntax for a verbatim identifier</a></li>
+      <li><a href="#parsing-async-syntactically-using-arbitrary-lookahead" id="markdown-toc-parsing-async-syntactically-using-arbitrary-lookahead">Parsing <code class="language-plaintext highlighter-rouge">async</code> syntactically using arbitrary lookahead</a></li>
+      <li><a href="#parsing-var-using-semantic-information" id="markdown-toc-parsing-var-using-semantic-information">Parsing <code class="language-plaintext highlighter-rouge">var</code> using semantic information</a></li>
+      <li><a href="#parsing-async-syntactically-using-constant-lookahead" id="markdown-toc-parsing-async-syntactically-using-constant-lookahead">Parsing <code class="language-plaintext highlighter-rouge">async</code> syntactically using constant lookahead</a></li>
+    </ul>
+  </li>
+  <li><a href="#related-posts" id="markdown-toc-related-posts">Related posts</a></li>
+  <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
+</ul>
+
+</div>
+
+<h2 id="whats-the-problem-with-contextual-keywords">What’s the problem with contextual keywords?</h2>
+
+<p>Ordinarily in a programming language, a keyword isn’t usable as an identifier.
+For example, you often can’t name a variable <code class="language-plaintext highlighter-rouge">int</code>, because <code class="language-plaintext highlighter-rouge">int</code> is the keyword
+used to denote the integral numeric type.</p>
+
+<p>Sometimes, you want to add a new keyword to a language, but can’t break backward
+compatibility. For example, when C# added async/await, they needed to retain
+<code class="language-plaintext highlighter-rouge">async</code> as an identifier, so that old programs that used variables or classes
+named <code class="language-plaintext highlighter-rouge">async</code> would still compile.</p>
+
+<p>For example, you may have written code that used <code class="language-plaintext highlighter-rouge">async</code> as an identifier in a
+program written for a previous version of C#:</p>
+
+<div class="language-cs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="k">async</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>But you should now also be able to write code using <code class="language-plaintext highlighter-rouge">async</code> with its special
+meaning as a keyword:</p>
+
+<div class="language-cs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="k">void</span><span class="p">&gt;</span> <span class="nf">foo</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>That is to say, the token <code class="language-plaintext highlighter-rouge">async</code> should be treated as an identifier under some
+circumstances, and as a keyword under others. A keyword with this property is
+called a “contextual keyword” in C#. Other languages have identical concepts,
+such as <code class="language-plaintext highlighter-rouge">override</code> and <code class="language-plaintext highlighter-rouge">final</code> in C++.</p>
+
+<p>Lexing is typically strictly separated from parsing. Then the question is: when
+should we lex the string “async” appearing in the source code as an identifier,
+and when should we lex it as the <code class="language-plaintext highlighter-rouge">async</code> token? We need information about the
+surrounding tokens to decide that, but we don’t have that until the parsing
+phase, which runs later.</p>
+
+<h3 id="parsing-can-be-difficult-when-there-is-ambiguity">Parsing can be difficult when there is ambiguity</h3>
+
+<p>Sometimes, a keyword has no ambiguity during parsing. If the <code class="language-plaintext highlighter-rouge">async</code> keyword
+can never be used in a place where a valid identifier could appear, and vice
+versa, then the problem can be solved in a straightforward manner, discussed
+shortly.</p>
+
+<p>Unfortunately, this isn’t the case in many languages with async/await. For
+example, consider the following code snippet of C#:</p>
+
+<div class="language-cs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">async</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span> <span class="n">bar</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Depending on the following token, this could be either a function call or a
+lambda declaration. If an operator follows in such away that this appears to be
+expression, then we have a function call:</p>
+
+<div class="language-cs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">async</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span> <span class="n">bar</span><span class="p">)</span> <span class="p">+</span> <span class="m">3</span> <span class="c1">// calling the function named `async`</span>
+</code></pre></div></div>
+
+<p>But if a double-arrow follows, then it must be a lambda:</p>
+
+<div class="language-cs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">async</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span> <span class="n">bar</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="n">foo</span> <span class="p">+</span> <span class="n">bar</span> <span class="c1">// declaring an async lambda</span>
+</code></pre></div></div>
+
+<p>You would have to look ahead an arbitrary number of tokens (from the <code class="language-plaintext highlighter-rouge">async</code>
+keyword to the next operator) in order to disambiguate these two cases, so
+oftentimes implementing a contextual keyword can’t be solved with a small
+change to the grammar.</p>
+
+<h2 id="approachs">Approachs</h2>
+
+<p>I asked some coworkers who have worked on languages how this is implemented,
+and detailed how various languages (mainly C#) implement contextual keywords,
+with examples.</p>
+
+<h3 id="parsing-partial-directly-in-the-grammar">Parsing <code class="language-plaintext highlighter-rouge">partial</code> directly in the grammar</h3>
+
+<p>C# has the <code class="language-plaintext highlighter-rouge">partial</code> keyword which is used to mark a class as being implemented
+in multiple source files. The grammar is such that the <code class="language-plaintext highlighter-rouge">partial</code> keyword only
+appears before the <code class="language-plaintext highlighter-rouge">class</code> keyword in a class definition. For example:</p>
+
+<div class="language-cs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">partial</span> <span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
+  <span class="k">void</span> <span class="nf">DoSomething</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="k">partial</span> <span class="p">=</span> <span class="m">3</span><span class="p">;</span>
+    <span class="c1">// ...</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">partial</code> keyword can be parsed unambiguously, because an identifier can’t
+appear as a modifier when declaring a class, and the <code class="language-plaintext highlighter-rouge">partial</code> token can’t
+appear anywhere the grammar expects an identifier.</p>
+
+<p>The idea is allow the <code class="language-plaintext highlighter-rouge">partial</code> token to be a valid value for an identifier.
+This is especially useful for generated parsers, since it requires only a
+grammar change, and doesn’t fundamentally change lexing or parsing.</p>
+
+<p>It can be done by amending your grammar as follows:</p>
+
+<pre><code class="language-ebnf">partial ::= "partial"
+ident_ ::= [a-zA-Z]+
+ident ::=
+  | ident_
+  | partial
+  | /* any other contextual keywords... */
+</code></pre>
+
+<p>This allows you to write <code class="language-plaintext highlighter-rouge">partial</code> anywhere you need an identifier, but also
+have access to the partial keyword. When extracting the actual identifier name
+from the identifier node in the parse tree, you just need to handle the case of
+the identifier being the <code class="language-plaintext highlighter-rouge">partial</code> token, and return the literal string
+“partial” in that case.</p>
+
+<h3 id="having-special-syntax-for-a-verbatim-identifier">Having special syntax for a verbatim identifier</h3>
+
+<p>C# supports prefixing any identifier with the <code class="language-plaintext highlighter-rouge">@</code> symbol to use any name as an
+identifier, regardless of conflicts with keywords. For example, you could write
+<code class="language-plaintext highlighter-rouge">@for</code> to refer to an identifier named “for”.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">@</code> symbol used in this way is unambiguous in the C# grammar, so it’s
+easily implemented. However, it doesn’t actually solve the
+backward-compatibility problem, since any new keywords you minted will still be
+parsed incorrectly in older programs.</p>
+
+<p>Verbatim identifiers are useful mostly in a case such as interoperating with
+another language where the identifier in question is not a keyword. Depending
+on your needs, this may be sufficient, and will obviate reworking the grammar
+of your language.</p>
+
+<h3 id="parsing-async-syntactically-using-arbitrary-lookahead">Parsing <code class="language-plaintext highlighter-rouge">async</code> syntactically using arbitrary lookahead</h3>
+
+<p>C# and <a href="https://flow.org/">Flow</a>, probably among others, use a purely-syntactic approach to
+disambiguate the <code class="language-plaintext highlighter-rouge">async</code> token from an identifier named “async”. The idea is to
+scan ahead in the token stream until you see a token that disambiguates whether
+it’s a keyword or an identifier. The exact implementation will depend on the
+details of the grammar in question, but you can find the <a href="https://github.com/dotnet/roslyn/blob/614299ff83da9959fa07131c6d0ffbc58873b6ae/src/Compilers/CSharp/Portable/Parser/LanguageParser.cs#L1371-L1440">current
+implementation of parsing <code class="language-plaintext highlighter-rouge">async</code> in C# here</a>.</p>
+
+<h3 id="parsing-var-using-semantic-information">Parsing <code class="language-plaintext highlighter-rouge">var</code> using semantic information</h3>
+
+<p>C# uses the <code class="language-plaintext highlighter-rouge">var</code> keyword in the place of an actual type name to tell the
+compiler to infer the type of the given variable. That is, you can type</p>
+
+<div class="language-cs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">foo</span> <span class="p">=</span> <span class="nf">MakeAnInt</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>and the compiler will determine from the return type of <code class="language-plaintext highlighter-rouge">MakeAnInt</code> that the
+variable <code class="language-plaintext highlighter-rouge">foo</code> should be of type <code class="language-plaintext highlighter-rouge">int</code>.</p>
+
+<p>Fundamentally, this can’t be resolved in a purely syntactic way. By definition,
+<code class="language-plaintext highlighter-rouge">var</code> is allowed to appear in a strict subset of places where an identifier
+(referring to a type name) could appear.</p>
+
+<p>C# solves this problem by <a href="https://ericlippert.com/2009/05/11/reserved-and-contextual-keywords/">looking up the <code class="language-plaintext highlighter-rouge">var</code> symbol in the semantic
+analyzer</a>, and only treating it as the <code class="language-plaintext highlighter-rouge">var</code> keyword if there is
+no type named <code class="language-plaintext highlighter-rouge">var</code> in the current scope.</p>
+
+<h3 id="parsing-async-syntactically-using-constant-lookahead">Parsing <code class="language-plaintext highlighter-rouge">async</code> syntactically using constant lookahead</h3>
+
+<p><a href="http://hacklang.org/">The Hack language</a> added <code class="language-plaintext highlighter-rouge">async</code> with the same
+backward-compatibility issues present in other languages that also added it. In
+particular, the lambda syntax is hard to parse in the same way that it’s hard
+to parse in C# and Javascript.  For example, the following is hard to parse:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">async</span> <span class="p">(</span><span class="nv">$foo</span><span class="p">,</span> <span class="nv">$bar</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>It could be a function call:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">async</span> <span class="p">(</span><span class="nv">$foo</span><span class="p">,</span> <span class="nv">$bar</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span>
+</code></pre></div></div>
+
+<p>Or it could be lambda syntax:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">async</span> <span class="p">(</span><span class="nv">$foo</span><span class="p">,</span> <span class="nv">$bar</span><span class="p">)</span> <span class="o">==&gt;</span> <span class="nv">$foo</span> <span class="o">+</span> <span class="nv">$bar</span>
+</code></pre></div></div>
+
+<p>Hack “solves” this problem while only needing constant lookahead. If there is a
+space after <code class="language-plaintext highlighter-rouge">async</code>, it is parsed as the <code class="language-plaintext highlighter-rouge">async</code> keyword. Otherwise it is
+parsed as an identifier. Thus, the above example is unambiguous: it is parsed
+as a lambda.</p>
+
+<p>This has serious consequences, because a developer has to be aware of this
+implementation detail, or otherwise incorrectly add spaces to their code and
+get inscrutable parse errors.</p>
+
+<p>But hey — “if it compiles, it works”, right?</p>
+
+<h2 id="related-posts">Related posts</h2>
+
+<p>The following are hand-curated posts which you might find interesting.</p>
+
+<table class="related-posts">
+<thead>
+  <tr>
+    <th>Date</th>
+    <th></th>
+    <th>Title</th>
+  </tr>
+</thead>
+
+<tbody>
+
+
+  <tr>
+    <td>09&nbsp;Apr&nbsp;2017</td>
+    <td class="this-post">
+      
+      (this&nbsp;post)
+      
+      </td>
+    <td><a href="/parsing-contextual-keywords/">How to parse contextual keywords in a programming language</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>23&nbsp;Dec&nbsp;2017</td>
+    <td class="this-post">
+      
+      </td>
+    <td><a href="/data-comprehension-syntaxes/">Why LINQ syntax differs from SQL, list comprehensions, etc.</a>
+    </td>
+  </tr>
+
+</tbody>
+</table>
+
+<p>Want to see more of my posts? Follow me <a href="https://twitter.com/arxanas">on Twitter</a> or subscribe <a href="/preview/pr-48/feed.xml">via RSS</a>.</p>
+
+<h2 id="comments">Comments</h2>
+
+<ul>
+
+
+
+</ul>
+
+<script type="text/javascript" src="/preview/pr-48/scripts/github-comment-links.js"></script>
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = "https://blog.waleedkhan.name/preview/pr-48/parsing-contextual-keywords/";
+    this.page.identifier = "parsing-contextual-keywords/";
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//waleedkhan-name.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Steno & PL</h2>
+    
+    <p class="rss-subscribe">subscribe <a href="/preview/pr-48/feed.xml">via RSS</a></p>
+    
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>Waleed Khan</li>
+          <li><a href="mailto:me@waleedkhan.name">me@waleedkhan.name</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/arxanas"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">arxanas</span></a>
+
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/arxanas"><span class="icon icon--twitter"><svg viewBox="0 0 16 16"><path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/></svg>
+</span><span class="username">arxanas</span></a>
+
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>This is a personal blog. Unless otherwise stated, the opinions expressed here are my own, and not those of my past or present employers.</p>
+      </div>
+    </div>
+
+  </div>
+
+  
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-53066274-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+</footer>
+
+
+  </body>
+
+</html>

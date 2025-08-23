@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  
+    <title>My steno system</title>
+  
+  <meta name="author" content="Waleed Khan">
+  <meta name="description" content="Introduction">
+
+  <link rel="stylesheet" href="/preview/pr-48/css/main.css">
+  <link rel="canonical" href="https://blog.waleedkhan.name/preview/pr-48/my-steno-system/">
+  <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/preview/pr-48/feed.xml">
+  <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+  
+
+  <link rel="me" href="https://github.com/arxanas">
+  <link rel="me" href="https://twitter.com/arxanas">
+  <link rel="me" href="mailto:me@waleedkhan.name">
+
+  
+  
+
+  <!-- See https://indieweb.org/webmention.io -->
+  <link rel="webmention" href="https://webmention.io/blog.waleedkhan.name/webmention" />
+  <link rel="pingback" href="https://webmention.io/webmention?forward=https://blog.waleedkhan.name/webmention" />
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/preview/pr-48/">Steno & PL</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          <a class="page-link" href="/preview/pr-48/about/">About</a>
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">My steno system</h1>
+    <p class="post-meta"><time datetime="2018-05-21T00:00:00+00:00" itemprop="datePublished">May 21, 2018</time>
+    
+    </p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    
+    <h2 id="introduction">Introduction</h2>
+
+<p>The machine stenography system generally in use in the US is based off of <a href="https://en.wikipedia.org/wiki/Stenotype#Chords">Ward
+Ireland’s original stenographic
+theory</a>. Each stenographer
+customizes their own system. In my case, I learned the <a href="https://www.gitbook.com/book/morinted/plover-theory/details">Plover
+theory</a> and
+customized it from there to produce my own personal theory. This post details
+the changes I’ve made to the Plover theory to suit my own use; it may be useful
+to other stenographers looking for additions to their theory.</p>
+
+<p>Generally I use a theory heavy on tucking and briefs. I try to make sure that my
+rules are consistent. Common words that are not consistent with my rules are
+usually relegated to less convenient strokes, such as <code class="language-plaintext highlighter-rouge">WAO*EF</code> = “we’ve” and
+“WA*EF” = “weave”, or <code class="language-plaintext highlighter-rouge">KOU</code> = “could you” and <code class="language-plaintext highlighter-rouge">KO*U</code> = “cow”.</p>
+
+<div class="series-and-toc">
+
+  <p class="toc-header">Table of contents:</p>
+
+<ul id="markdown-toc">
+  <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a></li>
+  <li><a href="#basic-phonology" id="markdown-toc-basic-phonology">Basic phonology</a>    <ul>
+      <li><a href="#-z-for-plurals-and-the-present-tense" id="markdown-toc--z-for-plurals-and-the-present-tense"><code class="language-plaintext highlighter-rouge">-Z</code> for plurals and the present tense</a></li>
+      <li><a href="#s-for-the-final-z-sound" id="markdown-toc-s-for-the-final-z-sound"><code class="language-plaintext highlighter-rouge">*S</code> for the final ‘z’ sound</a></li>
+      <li><a href="#f-for-the-v-sound" id="markdown-toc-f-for-the-v-sound"><code class="language-plaintext highlighter-rouge">*F</code> for the ‘v’ sound</a></li>
+      <li><a href="#n-for-kn-" id="markdown-toc-n-for-kn-"><code class="language-plaintext highlighter-rouge">N*</code> for kn-</a></li>
+      <li><a href="#prefer-explicit-long-vowels-ai-over-a-aoe-over-e" id="markdown-toc-prefer-explicit-long-vowels-ai-over-a-aoe-over-e">Prefer explicit long vowels: <code class="language-plaintext highlighter-rouge">AI</code> over <code class="language-plaintext highlighter-rouge">A</code>, <code class="language-plaintext highlighter-rouge">AOE</code> over <code class="language-plaintext highlighter-rouge">E</code></a></li>
+      <li><a href="#prefer--bgs-for-x-and-bgs-for-kshun-in-the-event-of-conflicts" id="markdown-toc-prefer--bgs-for-x-and-bgs-for-kshun-in-the-event-of-conflicts">Prefer <code class="language-plaintext highlighter-rouge">-BGS</code> for ‘x’ and <code class="language-plaintext highlighter-rouge">*BGS</code> for ‘kshun’ in the event of conflicts</a></li>
+    </ul>
+  </li>
+  <li><a href="#tucking" id="markdown-toc-tucking">Tucking</a></li>
+  <li><a href="#additional-phonology" id="markdown-toc-additional-phonology">Additional phonology</a>    <ul>
+      <li><a href="#sn--for-ins--inst-" id="markdown-toc-sn--for-ins--inst-"><code class="language-plaintext highlighter-rouge">SN-</code> for ins-, inst-</a></li>
+      <li><a href="#wr--for-rev-" id="markdown-toc-wr--for-rev-"><code class="language-plaintext highlighter-rouge">WR-</code> for rev-</a></li>
+      <li><a href="#sk-for-ex--exc-" id="markdown-toc-sk-for-ex--exc-"><code class="language-plaintext highlighter-rouge">SK*</code> for ex-, exc-</a></li>
+      <li><a href="#kp--for-acc-" id="markdown-toc-kp--for-acc-"><code class="language-plaintext highlighter-rouge">KP-</code> for acc-</a></li>
+      <li><a href="#spw--for-int--ent--inc--enc-" id="markdown-toc-spw--for-int--ent--inc--enc-"><code class="language-plaintext highlighter-rouge">SPW-</code> for int-, ent-, inc-, enc-</a></li>
+      <li><a href="#kpw--for-imp--emp--imb--emb-" id="markdown-toc-kpw--for-imp--emp--imb--emb-"><code class="language-plaintext highlighter-rouge">KPW-</code> for imp-, emp- imb-, emb-</a></li>
+      <li><a href="#stw--for-inv--env--inf--enf-" id="markdown-toc-stw--for-inv--env--inf--enf-"><code class="language-plaintext highlighter-rouge">STW-</code> for inv-, env-, inf-, enf-</a></li>
+      <li><a href="#-fr-for-the-m-sound" id="markdown-toc--fr-for-the-m-sound"><code class="language-plaintext highlighter-rouge">-FR</code> for the ‘m’ sound</a></li>
+      <li><a href="#-f-for-various--ive-endings" id="markdown-toc--f-for-various--ive-endings"><code class="language-plaintext highlighter-rouge">-F</code> for various -ive endings</a></li>
+      <li><a href="#ik-for--ic" id="markdown-toc-ik-for--ic"><code class="language-plaintext highlighter-rouge">*IK</code> for -ic</a></li>
+      <li><a href="#aub-for-ob-" id="markdown-toc-aub-for-ob-"><code class="language-plaintext highlighter-rouge">AUB</code> for ob-</a></li>
+      <li><a href="#-efk-for--estic-and--ifk-for--istic" id="markdown-toc--efk-for--estic-and--ifk-for--istic"><code class="language-plaintext highlighter-rouge">-EFK</code> for -estic and <code class="language-plaintext highlighter-rouge">-IFK</code> for -istic</a></li>
+    </ul>
+  </li>
+  <li><a href="#orthography" id="markdown-toc-orthography">Orthography</a>    <ul>
+      <li><a href="#use-asterisks-for-apostrophes-in-contractions" id="markdown-toc-use-asterisks-for-apostrophes-in-contractions">Use asterisks for apostrophes in contractions</a></li>
+      <li><a href="#duplicate-strokes-to-expand-abbreviations" id="markdown-toc-duplicate-strokes-to-expand-abbreviations">Duplicate strokes to expand abbreviations</a></li>
+      <li><a href="#single-stroke-proper-nouns-use-asterisks" id="markdown-toc-single-stroke-proper-nouns-use-asterisks">Single-stroke proper nouns use asterisks</a></li>
+      <li><a href="#short-vowels-for-foreign-names-and-loan-words" id="markdown-toc-short-vowels-for-foreign-names-and-loan-words">Short vowels for foreign names and loan-words</a></li>
+      <li><a href="#asterisks-for-suffixes-and-compound-words" id="markdown-toc-asterisks-for-suffixes-and-compound-words">Asterisks for suffixes and compound words</a></li>
+    </ul>
+  </li>
+  <li><a href="#briefing" id="markdown-toc-briefing">Briefing</a></li>
+  <li><a href="#my-brief-system" id="markdown-toc-my-brief-system">My brief system</a>    <ul>
+      <li><a href="#installation" id="markdown-toc-installation">Installation</a></li>
+      <li><a href="#the-subjects" id="markdown-toc-the-subjects">The subjects</a></li>
+      <li><a href="#the-right-hand-phrase-enders" id="markdown-toc-the-right-hand-phrase-enders">The right-hand phrase enders</a></li>
+      <li><a href="#the-left-hand-phrase-beginners" id="markdown-toc-the-left-hand-phrase-beginners">The left-hand phrase beginners</a></li>
+      <li><a href="#putting-it-together" id="markdown-toc-putting-it-together">Putting it together</a></li>
+    </ul>
+  </li>
+  <li><a href="#related-posts" id="markdown-toc-related-posts">Related posts</a></li>
+  <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
+</ul>
+
+</div>
+
+<h2 id="basic-phonology">Basic phonology</h2>
+
+<h3 id="-z-for-plurals-and-the-present-tense"><code class="language-plaintext highlighter-rouge">-Z</code> for plurals and the present tense</h3>
+
+<p>Always use <code class="language-plaintext highlighter-rouge">-Z</code> and never <code class="language-plaintext highlighter-rouge">-S</code> to pluralize words, or to turn them into the
+present tense. With the default dictionary, I’ve found that I can’t reliably
+tuck <code class="language-plaintext highlighter-rouge">-S</code> into words to add the -s ending; for example, “days” versus
+“daze” or “gross” versus “grows” cause issues frequently.</p>
+
+<p>The exception is for words that end with <code class="language-plaintext highlighter-rouge">-T</code>. In those cases, I still use <code class="language-plaintext highlighter-rouge">-S</code>
+to pluralize them, since <code class="language-plaintext highlighter-rouge">-TZ</code> is impossible to stroke in some cases, and <code class="language-plaintext highlighter-rouge">-TS</code>
+is unlikely to conflict with other words.</p>
+
+<p>For words ending in <code class="language-plaintext highlighter-rouge">-aze</code> I sometimes use the <code class="language-plaintext highlighter-rouge">AEZ</code> ending, which allows me to
+use <code class="language-plaintext highlighter-rouge">A*EZ</code> for the <code class="language-plaintext highlighter-rouge">-azy</code> variant. For example, <code class="language-plaintext highlighter-rouge">LAEZ</code> = “laze” and <code class="language-plaintext highlighter-rouge">LA*EZ</code> =
+“lazy” or <code class="language-plaintext highlighter-rouge">HAEZ</code> = “haze” and <code class="language-plaintext highlighter-rouge">HA*EZ</code> = “hazy”.</p>
+
+<p>Implementing this change in the default dictionary takes a decent amount of
+effort, but I’ve found the addition in consistency has made it well worth it.</p>
+
+<p>I typically use <code class="language-plaintext highlighter-rouge">-SZ</code> for the plural of words ending in the -s sound, such as
+“races”, and don’t use <code class="language-plaintext highlighter-rouge">-FZ</code> for that purpose.</p>
+
+<h3 id="s-for-the-final-z-sound"><code class="language-plaintext highlighter-rouge">*S</code> for the final ‘z’ sound</h3>
+
+<p>Some word pairs require disambiguation between the -s and -z variants, which I
+didn’t find adequately addressed in default dictionary. This also helps with
+pluralizing words that end with the ‘z’ sound. Some examples:</p>
+
+<ul>
+  <li>race, races, raise, raises, raze, razes, rays</li>
+  <li>cease, sees, seas, seize</li>
+  <li>rice, rices, rise, rises, ryes</li>
+  <li>rose, roses, rows</li>
+  <li>sighs, size</li>
+</ul>
+
+<p>I use <code class="language-plaintext highlighter-rouge">*S</code> for the -s variants and <code class="language-plaintext highlighter-rouge">-Z</code> for the plural variants, keeping in mind
+steno order for the plural versions:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">RAIS</code> = “race”, <code class="language-plaintext highlighter-rouge">RAISZ</code> = “races”, <code class="language-plaintext highlighter-rouge">RA*IS</code> = “raise”, <code class="language-plaintext highlighter-rouge">RA*ISZ</code> = “raises”,
+<code class="language-plaintext highlighter-rouge">RAEZ</code> = “raze” (as per the previous section), <code class="language-plaintext highlighter-rouge">RAEZ/-Z</code> = “razes”, <code class="language-plaintext highlighter-rouge">RAIZ</code> =
+“rays”</li>
+  <li><code class="language-plaintext highlighter-rouge">SAOES</code> = “cease”, <code class="language-plaintext highlighter-rouge">SAOEZ</code> = “sees”, <code class="language-plaintext highlighter-rouge">SAEZ</code> = “seas”, <code class="language-plaintext highlighter-rouge">SAO*ES</code> = “seize”</li>
+  <li><code class="language-plaintext highlighter-rouge">RAOIS</code> = “rice”, <code class="language-plaintext highlighter-rouge">RAOISZ</code> = “rices”, <code class="language-plaintext highlighter-rouge">RAO*IS</code> = “rise”, <code class="language-plaintext highlighter-rouge">RAO*ISZ</code> = “rises”,
+<code class="language-plaintext highlighter-rouge">RAOIZ</code> = “ryes”</li>
+  <li><code class="language-plaintext highlighter-rouge">RO*ES</code> = “rose”, <code class="language-plaintext highlighter-rouge">RO*ESZ</code> = “roses”, <code class="language-plaintext highlighter-rouge">ROEZ</code> = “rows”</li>
+  <li><code class="language-plaintext highlighter-rouge">SAOIZ</code> = “sighs”, <code class="language-plaintext highlighter-rouge">SAO*IS</code> = “size”</li>
+</ul>
+
+<h3 id="f-for-the-v-sound"><code class="language-plaintext highlighter-rouge">*F</code> for the ‘v’ sound</h3>
+
+<p>I always use <code class="language-plaintext highlighter-rouge">*F</code> for the ‘v’ sound to avoid having to figure out when <code class="language-plaintext highlighter-rouge">-F</code>
+works, and when I need to use <code class="language-plaintext highlighter-rouge">*F</code> to disambiguate it.</p>
+
+<h3 id="n-for-kn-"><code class="language-plaintext highlighter-rouge">N*</code> for kn-</h3>
+
+<p>Disambiguating “knows” from “nose” from “nos” or “new” versus “knew” is a pain,
+and I don’t like how the default Plover dictionary uses <code class="language-plaintext highlighter-rouge">O</code> for one and <code class="language-plaintext highlighter-rouge">OE</code> for
+other, because I would prefer to use the long vowel sound explicitly, as per the
+next section. Instead, I use <code class="language-plaintext highlighter-rouge">N*</code> to indicate that there’s a silent letter:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">NOE</code> = “no”, <code class="language-plaintext highlighter-rouge">N*OE</code> = “know”</li>
+  <li><code class="language-plaintext highlighter-rouge">NIT</code> = “nit”, <code class="language-plaintext highlighter-rouge">N*IT</code> = “knit”</li>
+  <li><code class="language-plaintext highlighter-rouge">NAO*IF</code> = “knife”, <code class="language-plaintext highlighter-rouge">NAO*IFS</code> = “knifes”, <code class="language-plaintext highlighter-rouge">NAO*IFZ</code> = “knives”</li>
+</ul>
+
+<h3 id="prefer-explicit-long-vowels-ai-over-a-aoe-over-e">Prefer explicit long vowels: <code class="language-plaintext highlighter-rouge">AI</code> over <code class="language-plaintext highlighter-rouge">A</code>, <code class="language-plaintext highlighter-rouge">AOE</code> over <code class="language-plaintext highlighter-rouge">E</code></h3>
+
+<p>The Plover theory sometimes uses lone vowels over long vowels. I usually prefer
+to use the long vowels, even though they require more keys.</p>
+
+<p>Some examples:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">HAOE</code> = “he”, <code class="language-plaintext highlighter-rouge">SHAOE</code> = “she”, and <code class="language-plaintext highlighter-rouge">WAOE</code> = “we”
+    <ul>
+      <li>Note that <code class="language-plaintext highlighter-rouge">HAOE*L</code> = “he’ll” and <code class="language-plaintext highlighter-rouge">HAOEL</code> = “heel”, according to the
+apostrophe rule below.</li>
+      <li>Note that <code class="language-plaintext highlighter-rouge">WAOE*F</code> = “we’ve” according to the apostrophe rule, and
+consequently <code class="language-plaintext highlighter-rouge">WAOEF</code> = “weave”. This isn’t ideal, but I don’t write “weave”
+very often.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">SAIF</code> = “safe” and <code class="language-plaintext highlighter-rouge">SA*IF</code> = “save” (instead of <code class="language-plaintext highlighter-rouge">SAIF</code> = “safe” and <code class="language-plaintext highlighter-rouge">SAF</code> =
+“save”)</li>
+  <li><code class="language-plaintext highlighter-rouge">WA*IF</code> = “wave” (instead of <code class="language-plaintext highlighter-rouge">WAF</code> = “wave” or <code class="language-plaintext highlighter-rouge">WA*F</code> = “wave”)
+    <ul>
+      <li>Since “wave” is used much more frequently than “waive”, I’ve relegated
+<code class="language-plaintext highlighter-rouge">WAIF</code> = “waive”.</li>
+      <li>I’ve removed “waif” from my dictionary since I’ve never used it. <a href="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=222111&amp;type=card">Reckless? Maybe.</a>
+*</li>
+    </ul>
+  </li>
+</ul>
+
+<p>One exception is for prefix strokes: I still use <code class="language-plaintext highlighter-rouge">RE-</code> = “{re^}” and <code class="language-plaintext highlighter-rouge">PRO-</code> =
+“{pro^}”, for example. This helps to disambiguate between the prefix and the
+full form, such as <code class="language-plaintext highlighter-rouge">PRO-</code> = “{pro^}” versus <code class="language-plaintext highlighter-rouge">PROE</code> = “pro”, and I also don’t
+want to go change all the existing entries in the dictionary.</p>
+
+<h3 id="prefer--bgs-for-x-and-bgs-for-kshun-in-the-event-of-conflicts">Prefer <code class="language-plaintext highlighter-rouge">-BGS</code> for ‘x’ and <code class="language-plaintext highlighter-rouge">*BGS</code> for ‘kshun’ in the event of conflicts</h3>
+
+<p>For word pairs like “reflex” and “reflection”or “fax” and “faction”, I
+disambiguate them using <code class="language-plaintext highlighter-rouge">-BGS</code> and <code class="language-plaintext highlighter-rouge">*BGS</code> correspondingly; for example,
+<code class="language-plaintext highlighter-rouge">RE/FLEBGS</code> = “reflex” and <code class="language-plaintext highlighter-rouge">RE/FL*BGS</code> = “reflection”. When there is no
+conflict, I write <code class="language-plaintext highlighter-rouge">-BGS</code> for “kshun”.</p>
+
+<p>Since I pluralize all my words with <code class="language-plaintext highlighter-rouge">-Z</code>, I don’t have conflicts for word pairs
+like “traction” and “tracks” or “suction” and “sucks”, since I write
+<code class="language-plaintext highlighter-rouge">TRABGS</code> = “traction” and <code class="language-plaintext highlighter-rouge">TRABGZ</code> = “tracks”.</p>
+
+<h2 id="tucking">Tucking</h2>
+
+<p>I usually <em>tuck</em> letters into my words to add affixes when it’s possible to do
+so in one stroke. Plover will handle most of these affixes use the orthographic
+rules, which means that I don’t have to have a special entry for the affixed
+form. For example, you can add <code class="language-plaintext highlighter-rouge">-G</code> to <code class="language-plaintext highlighter-rouge">TPAO</code> = “foo” and get “fooing”, even
+though “fooing” isn’t an explicit word in the dictionary.</p>
+
+<p>I tuck these whenever possible:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">-G</code> = “{^ing}”.</li>
+  <li><code class="language-plaintext highlighter-rouge">-D</code> = “{^ed}”. This includes in words that end with <code class="language-plaintext highlighter-rouge">-T</code>, such as <code class="language-plaintext highlighter-rouge">PLANTD</code> =
+“planted”. It took a while to get used to writing <code class="language-plaintext highlighter-rouge">-TD</code> but it’s second nature
+now. I don’t usually use the so-called “Philly shift”, in which I shift over
+my right hand, to write out words ending in <code class="language-plaintext highlighter-rouge">-SD</code> (such as <code class="language-plaintext highlighter-rouge">SPO*ESD</code> =
+“supposed”) in one stroke.</li>
+  <li>I use <code class="language-plaintext highlighter-rouge">-Z</code> to add -s and -es, as discussed in depth previously.</li>
+  <li><code class="language-plaintext highlighter-rouge">-L</code> or <code class="language-plaintext highlighter-rouge">L-</code> for -al, -ly or -ally. This is not an orthographic rule in the
+Plover dictionary, which means that I have to add it for each individual word.
+It largely depends on which one feels more comfortable to determine which I
+add to a word. Examples:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">BAIFK</code> = “basic”, <code class="language-plaintext highlighter-rouge">BLAIFK</code> = “basically”</li>
+      <li><code class="language-plaintext highlighter-rouge">FUNGS</code> = “function”, <code class="language-plaintext highlighter-rouge">FUNLGS</code> = “functional”, <code class="language-plaintext highlighter-rouge">FLUNLGS</code> = “functionally”</li>
+      <li><code class="language-plaintext highlighter-rouge">F*UL</code> = “fundamental” (brief), <code class="language-plaintext highlighter-rouge">FL*UL</code> = “fundamentally”</li>
+      <li><code class="language-plaintext highlighter-rouge">SKES</code> = “success”, <code class="language-plaintext highlighter-rouge">SKEFL</code> = “successful”, <code class="language-plaintext highlighter-rouge">SKLEFL</code> = “successfully”</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="additional-phonology">Additional phonology</h2>
+
+<h3 id="sn--for-ins--inst-"><code class="language-plaintext highlighter-rouge">SN-</code> for ins-, inst-</h3>
+
+<p>There are a few examples in the default Plover dictionary already, but it’s not
+a consistent theme. Some examples:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">SNERT</code> = “insert”, <code class="language-plaintext highlighter-rouge">SNERGS</code> = “insertion”</li>
+  <li><code class="language-plaintext highlighter-rouge">SNANT</code> = “instant”, <code class="language-plaintext highlighter-rouge">SNANS</code> = “instance”, <code class="language-plaintext highlighter-rouge">SNANGS</code> = “instantiation”
+(programming term), <code class="language-plaintext highlighter-rouge">SNAINS</code> = “instantaneous”, <code class="language-plaintext highlighter-rouge">SNAINLS</code> = “instantaneously”</li>
+  <li><code class="language-plaintext highlighter-rouge">SNRUMT</code> = “instrument”, <code class="language-plaintext highlighter-rouge">SNRUL</code> = “instrumental”</li>
+  <li><code class="language-plaintext highlighter-rouge">SNRUKT</code> = “instruct”, <code class="language-plaintext highlighter-rouge">SNRUGS</code> = “instruction”</li>
+</ul>
+
+<h3 id="wr--for-rev-"><code class="language-plaintext highlighter-rouge">WR-</code> for rev-</h3>
+
+<p><code class="language-plaintext highlighter-rouge">WR-</code> isn’t used for many words ordinarily, so it’s a good candidate for use in
+briefing. Some examples:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">WRAO*IS</code> = “revise”, <code class="language-plaintext highlighter-rouge">WRIGS</code> = “revision”
+    <ul>
+      <li>Note that I use <code class="language-plaintext highlighter-rouge">*S</code> for the trailing ‘z’ sound.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">WRERT</code> = “revert”, <code class="language-plaintext highlighter-rouge">WRERS</code> = “reverse”, <code class="language-plaintext highlighter-rouge">WRERGS</code> = “reversion”</li>
+  <li><code class="language-plaintext highlighter-rouge">WRAOU</code> = “review”</li>
+</ul>
+
+<h3 id="sk-for-ex--exc-"><code class="language-plaintext highlighter-rouge">SK*</code> for ex-, exc-</h3>
+
+<p>The default dictionary uses <code class="language-plaintext highlighter-rouge">KP-</code> for some uses of ex-, but I didn’t like that
+it conflicted, such as “exact” versus “compact”.</p>
+
+<p>The other commonly-used prefix is <code class="language-plaintext highlighter-rouge">SKP-</code> for ex-. I was a bit worried about
+whether it would conflict with my brief system, since <code class="language-plaintext highlighter-rouge">SKP-</code> is the
+phrase-beginner for “and”. I don’t know if it does conflict, but <code class="language-plaintext highlighter-rouge">SK*</code> works for
+me, so I haven’t tried it the other way.</p>
+
+<p>For <code class="language-plaintext highlighter-rouge">ext-</code> endings, I use <code class="language-plaintext highlighter-rouge">STK*</code>.</p>
+
+<p>Some examples:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">SKA*FRPL</code> = “example”</li>
+  <li><code class="language-plaintext highlighter-rouge">SK*AKT</code> = “exact”
+    <ul>
+      <li>I actually still use <code class="language-plaintext highlighter-rouge">ELG</code> = “exactly”, but <code class="language-plaintext highlighter-rouge">SKL*AKT</code> = “exactly” would be
+reasonable too.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">SK*ES</code> = “excess”, <code class="language-plaintext highlighter-rouge">SK*EF</code> = “excessive”, <code class="language-plaintext highlighter-rouge">SK*EFL</code> = “excessively”</li>
+  <li><code class="language-plaintext highlighter-rouge">SK*EPT</code> = “except”, <code class="language-plaintext highlighter-rouge">SK*EPGS</code> = “exception”</li>
+  <li><code class="language-plaintext highlighter-rouge">SKP*EKT</code> = “expect”, <code class="language-plaintext highlighter-rouge">SKP*EBGS</code> = “expectation”</li>
+  <li><code class="language-plaintext highlighter-rouge">SKLAO*UD</code> = “exclude”, <code class="language-plaintext highlighter-rouge">SKLAO*UGS</code> = “exclusion”, <code class="language-plaintext highlighter-rouge">SKLAO*UF</code> = “exclusive”</li>
+  <li><code class="language-plaintext highlighter-rouge">SKPR*ES</code> = “express”, <code class="language-plaintext highlighter-rouge">SKPR*EGS</code> = “expression”, <code class="language-plaintext highlighter-rouge">SKPR*EBL</code> = “expressible”,
+<code class="language-plaintext highlighter-rouge">SKPR*EF</code> = “expressive”, <code class="language-plaintext highlighter-rouge">SKPR*EFT</code> = “expressivity”, <code class="language-plaintext highlighter-rouge">SKPR*EFNS</code> =
+“expressiveness”
+    <ul>
+      <li>All of these terms come up frequently when discussing programming languages.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">SKPO*ENT</code> = “exponent”, <code class="language-plaintext highlighter-rouge">SKPO*ENLT</code>/<code class="language-plaintext highlighter-rouge">SKP*ENL</code> = “exponential”,
+<code class="language-plaintext highlighter-rouge">SKPLO*ENLT</code>/<code class="language-plaintext highlighter-rouge">SKPL*ENL</code> = “exponentially”
+    <ul>
+      <li>You could say it’s exponentially easier than writing out “exponentially” in
+five strokes!</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">STK*ENT</code> = “extent”, <code class="language-plaintext highlighter-rouge">STK*END</code> = <code class="language-plaintext highlighter-rouge">extend</code>, <code class="language-plaintext highlighter-rouge">STK*EF</code> = “extensive”, <code class="language-plaintext highlighter-rouge">STK*EFL</code>
+= “extensively”, <code class="language-plaintext highlighter-rouge">STK*ENL</code> = “extensible”, <code class="language-plaintext highlighter-rouge">STK*ENLT</code> = “extensibility”</li>
+</ul>
+
+<h3 id="kp--for-acc-"><code class="language-plaintext highlighter-rouge">KP-</code> for acc-</h3>
+
+<p>To distinguish ex- from acc-, I use KP- for the latter instead.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">KPEPT</code> = “accept”</li>
+  <li><code class="language-plaintext highlighter-rouge">KPENT</code> = “accent”</li>
+  <li><code class="language-plaintext highlighter-rouge">KPEBL</code> = “accessible”, <code class="language-plaintext highlighter-rouge">KPEBLT</code> = “accessibility”</li>
+</ul>
+
+<h3 id="spw--for-int--ent--inc--enc-"><code class="language-plaintext highlighter-rouge">SPW-</code> for int-, ent-, inc-, enc-</h3>
+
+<p>Magnum uses <code class="language-plaintext highlighter-rouge">SPW</code> for int- and ent-. It also uses it for ind- and end-; however,
+I use it for inc- and enc- instead. I haven’t found any significant conflicts
+(the worst being “entrust” versus “encrust”). Some examples:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">SPW-</code> = “int” (programming term: abbreviation of “integer”), <code class="language-plaintext highlighter-rouge">SPWERJ</code> =
+“integer”</li>
+  <li><code class="language-plaintext highlighter-rouge">SPWUPGS</code> = “interruption”</li>
+  <li><code class="language-plaintext highlighter-rouge">SPWRAL</code> = “integral”, <code class="language-plaintext highlighter-rouge">SPWRAIT</code> = “integrate”, <code class="language-plaintext highlighter-rouge">SPWRAIGS</code> = “integration”
+    <ul>
+      <li>This one is a bit of a stretch but I haven’t found any conflicts.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">SPWERT</code> = “interpret”, <code class="language-plaintext highlighter-rouge">SPWRERT</code> = “interpreter”, <code class="language-plaintext highlighter-rouge">SPWERPGS</code> =
+“interpretation”
+    <ul>
+      <li>In “interpreter”, I tuck an <code class="language-plaintext highlighter-rouge">R-</code> in for the -er ending. This entry could
+also be <code class="language-plaintext highlighter-rouge">SPWRET</code>/<code class="language-plaintext highlighter-rouge">SPWRERT</code>/<code class="language-plaintext highlighter-rouge">SPWRAIGS</code> without issue, I think.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">SPWLEKT</code> = “intellect”</li>
+  <li><code class="language-plaintext highlighter-rouge">SPWRAIMT</code> = “entertainment”
+    <ul>
+      <li>There is also the word “entrainment”, but I’ve never used it.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">SPWREMT</code> = “increment”, <code class="language-plaintext highlighter-rouge">SPWREL</code> = “incremental”, <code class="language-plaintext highlighter-rouge">SPWLEL</code> = “incrementally”</li>
+  <li><code class="language-plaintext highlighter-rouge">SPWLEMT</code> = “inclement”</li>
+  <li><code class="language-plaintext highlighter-rouge">SPWRIPTD</code> = “encrypted”</li>
+  <li><code class="language-plaintext highlighter-rouge">SPWLO*ES</code> = “enclose”, <code class="language-plaintext highlighter-rouge">SPWLO*URS</code> = “enclosure”
+    <ul>
+      <li>Note that I use <code class="language-plaintext highlighter-rouge">*S</code> for the trailing ‘z’ sound.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="kpw--for-imp--emp--imb--emb-"><code class="language-plaintext highlighter-rouge">KPW-</code> for imp-, emp- imb-, emb-</h3>
+
+<p>Some examples:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">KPWLEMT</code> = “implement”, <code class="language-plaintext highlighter-rouge">KPWLEMGS</code> = “implementation”</li>
+  <li><code class="language-plaintext highlighter-rouge">KPWAIR</code> = “impair”, <code class="language-plaintext highlighter-rouge">KPWAIRMT</code> = “impairment”</li>
+  <li><code class="language-plaintext highlighter-rouge">KPWOI</code> = “employ”, <code class="language-plaintext highlighter-rouge">KPWO*I</code> = “employee”, <code class="language-plaintext highlighter-rouge">KPWOIMT</code> = “employment”</li>
+  <li><code class="language-plaintext highlighter-rouge">KPWAOU</code> = “imbue”</li>
+  <li><code class="language-plaintext highlighter-rouge">KPWARS</code> = “embarrass”, <code class="language-plaintext highlighter-rouge">KPWARMT</code> = “embarrassment”
+    <ul>
+      <li>Ordinarily I would use <code class="language-plaintext highlighter-rouge">AI</code> for the long ‘a’ sound, but then “embarrassment”
+would conflict with “impairment”. I had already learned <code class="language-plaintext highlighter-rouge">EM/BARS</code> =
+“embarrass” from the default dictionary, so <code class="language-plaintext highlighter-rouge">KPWARS</code> stuck.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">KPWED</code> = “embed”</li>
+  <li><code class="language-plaintext highlighter-rouge">KPWLEM</code> = “emblem”</li>
+</ul>
+
+<h3 id="stw--for-inv--env--inf--enf-"><code class="language-plaintext highlighter-rouge">STW-</code> for inv-, env-, inf-, enf-</h3>
+
+<p>Some examples:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">STWERT</code> = “invert”, <code class="language-plaintext highlighter-rouge">STWERGS</code> = “inversion”</li>
+  <li><code class="language-plaintext highlighter-rouge">STWAOIT</code> = “invite”, <code class="language-plaintext highlighter-rouge">STWI/TAIGS</code> = “invitation”
+    <ul>
+      <li>Note that “invitation” has to avoid conflicting with <code class="language-plaintext highlighter-rouge">STWIGS</code> = “envision”
+and <code class="language-plaintext highlighter-rouge">STWAIGS</code> = “invasion”.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">STW-</code> = “env” (programming term: abbreviation of “environment”), <code class="language-plaintext highlighter-rouge">STWAOIRMT</code>
+= “environment”, <code class="language-plaintext highlighter-rouge">STWAOIRL</code> = “environmental”</li>
+  <li><code class="language-plaintext highlighter-rouge">STWAIRNT</code> = “invariant”, <code class="language-plaintext highlighter-rouge">STWAIRNS</code> = “invariance” (programming term)</li>
+  <li><code class="language-plaintext highlighter-rouge">STWORS</code> = “enforce”, <code class="language-plaintext highlighter-rouge">STWORMT</code> = “enforcement”, <code class="language-plaintext highlighter-rouge">STWO*RMT</code> = “informant”</li>
+</ul>
+
+<h3 id="-fr-for-the-m-sound"><code class="language-plaintext highlighter-rouge">-FR</code> for the ‘m’ sound</h3>
+
+<p>There are a few sounds like -mp (“clamp”, “dump”, etc.) or -mb (“bomb”, “climb”)
+which don’t have direct equivalents in the Plover theory. Usually <code class="language-plaintext highlighter-rouge">*M</code> or <code class="language-plaintext highlighter-rouge">-M</code>
+are written instead. However, this prevents attaching additional letters,
+specifically <code class="language-plaintext highlighter-rouge">-L</code>, to the stroke. In these cases, I use <code class="language-plaintext highlighter-rouge">-FR</code>:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">KLAFRP</code> = “clamp”</li>
+  <li><code class="language-plaintext highlighter-rouge">SIFRPL</code> = “simple”</li>
+  <li><code class="language-plaintext highlighter-rouge">BOFRB</code> = “bomb”</li>
+  <li><code class="language-plaintext highlighter-rouge">RUFRBL</code> = “rumble”</li>
+</ul>
+
+<h3 id="-f-for-various--ive-endings"><code class="language-plaintext highlighter-rouge">-F</code> for various -ive endings</h3>
+
+<p>This convention exists to some degree in the default Plover dictionary, so I’ve
+extended it.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">SKES</code> = “success”, <code class="language-plaintext highlighter-rouge">SKEF</code> = “successive”</li>
+  <li><code class="language-plaintext highlighter-rouge">SPWRAKT</code> = “interact”, <code class="language-plaintext highlighter-rouge">SPWRAF</code> = “interactive”</li>
+  <li><code class="language-plaintext highlighter-rouge">STK*END</code> = “extend”, <code class="language-plaintext highlighter-rouge">STK*EF</code> = “extensive”</li>
+</ul>
+
+<h3 id="ik-for--ic"><code class="language-plaintext highlighter-rouge">*IK</code> for -ic</h3>
+
+<p>In line with my suffixes-use-asterisks rule below, and to avoid conflict with
+<code class="language-plaintext highlighter-rouge">IK</code> = “I can” in my brief system, I use <code class="language-plaintext highlighter-rouge">*IK</code> instead:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">MAJ/*IK</code> = “magic”</li>
+  <li><code class="language-plaintext highlighter-rouge">LOJ/*IK</code> = “logic”</li>
+</ul>
+
+<h3 id="aub-for-ob-"><code class="language-plaintext highlighter-rouge">AUB</code> for ob-</h3>
+
+<p>Similar to <code class="language-plaintext highlighter-rouge">AUP</code> for up-, I use <code class="language-plaintext highlighter-rouge">AUB</code> for words starting with <code class="language-plaintext highlighter-rouge">ob-</code>:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">AUB/STRUKT</code> = “obstruct”, <code class="language-plaintext highlighter-rouge">AUB/STRUBGS</code> = “obstruction”</li>
+  <li><code class="language-plaintext highlighter-rouge">AUB/LAOEK</code> = “oblique”</li>
+  <li><code class="language-plaintext highlighter-rouge">AUB/LONG</code> = “oblong”</li>
+  <li><code class="language-plaintext highlighter-rouge">AUB/TRAOUD</code> = “obtrude”, <code class="language-plaintext highlighter-rouge">AUB/TRAOUF</code> = “obtrusive”</li>
+</ul>
+
+<h3 id="-efk-for--estic-and--ifk-for--istic"><code class="language-plaintext highlighter-rouge">-EFK</code> for -estic and <code class="language-plaintext highlighter-rouge">-IFK</code> for -istic</h3>
+
+<p>For words that end in -stic, I usually manage to skip using <code class="language-plaintext highlighter-rouge">ST-K</code> = “{^istic}”
+or <code class="language-plaintext highlighter-rouge">*IK</code> = “{^ic}” by adding <code class="language-plaintext highlighter-rouge">-EFK</code> or <code class="language-plaintext highlighter-rouge">-IFK</code> to the last syllable. For example</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">MA/JEFK</code> = “majestic”</li>
+  <li><code class="language-plaintext highlighter-rouge">OPT/MIFK</code> = “optimistic”, <code class="language-plaintext highlighter-rouge">PES/MIFK</code> = “pessimistic”</li>
+</ul>
+
+<h2 id="orthography">Orthography</h2>
+
+<h3 id="use-asterisks-for-apostrophes-in-contractions">Use asterisks for apostrophes in contractions</h3>
+
+<p>I always add <code class="language-plaintext highlighter-rouge">*</code> to strokes for words that have apostrophes. For example:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">LETS</code> = “lets”, <code class="language-plaintext highlighter-rouge">L*ETS</code> = “let’s”</li>
+  <li><code class="language-plaintext highlighter-rouge">DO*ENT</code> = “don’t”</li>
+  <li><code class="language-plaintext highlighter-rouge">D*INT</code> = “didn’t”</li>
+  <li><code class="language-plaintext highlighter-rouge">THA*L</code> = “that’ll”
+    <ul>
+      <li>Note that <code class="language-plaintext highlighter-rouge">THAL</code> = “that will”.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">WAO*EF</code> = “we’ve”</li>
+  <li><code class="language-plaintext highlighter-rouge">HAOE*L</code> = “he’ll”
+    <ul>
+      <li>Note that <code class="language-plaintext highlighter-rouge">HAOEL</code> = “heel”.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>This interacts well with my brief system, described later.</p>
+
+<h3 id="duplicate-strokes-to-expand-abbreviations">Duplicate strokes to expand abbreviations</h3>
+
+<p>For abbreviations and acronyms, I write the stroke once to indicate the
+abbreviated form, and then again to indicate the full form. For example, <code class="language-plaintext highlighter-rouge">U*S</code> =
+“US” and <code class="language-plaintext highlighter-rouge">U*S/U*S</code> = “United States” or <code class="language-plaintext highlighter-rouge">GATD</code> = “GADT” and <code class="language-plaintext highlighter-rouge">GATD/GATD</code> =
+“generalized algebraic data type”.</p>
+
+<h3 id="single-stroke-proper-nouns-use-asterisks">Single-stroke proper nouns use asterisks</h3>
+
+<p>Usually, proper nouns use asterisks, such as <code class="language-plaintext highlighter-rouge">JO*N</code> = “John”. When this can’t be
+done, I duplicate the stroke, such as <code class="language-plaintext highlighter-rouge">MAT/MAT</code> = “Matt” (since <code class="language-plaintext highlighter-rouge">MA*T</code> =
+“math”). Usually neither of these are necessary for proper nouns that are more
+than one stroke, such as <code class="language-plaintext highlighter-rouge">KA*T/RIN</code> = “Catherine”.</p>
+
+<h3 id="short-vowels-for-foreign-names-and-loan-words">Short vowels for foreign names and loan-words</h3>
+
+<p>Foreign words don’t usually follow the phonological patterns of English, so it
+can be hard to remember what rules I apply for briefing them.</p>
+
+<p>In addition to any briefed forms, I introduce a canonical form that follows the
+orthography of the original word so that I always know one valid way to spell
+it. Usually each of these syllables is consonant-vowel when possible, or
+consonant-vowel-consonant otherwise. For example:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">HI/KA/RU NA/KA/MU/RA</code> = “Hikaru Nakamura”</li>
+  <li><code class="language-plaintext highlighter-rouge">GAR/RI KAS/PA/RO*F</code> = “Garry Kasparov” (rather than <code class="language-plaintext highlighter-rouge">KAS/PAR/O*F</code> = “Kasparov”)</li>
+  <li><code class="language-plaintext highlighter-rouge">KI/MO/NO</code> = “kimono”</li>
+  <li><code class="language-plaintext highlighter-rouge">SU/SHI</code> = “sushi”</li>
+  <li><code class="language-plaintext highlighter-rouge">PAT/S*ER</code> = “patzer” (rather than <code class="language-plaintext highlighter-rouge">PA*TS/*ER</code> = “patzer”)</li>
+</ul>
+
+<h3 id="asterisks-for-suffixes-and-compound-words">Asterisks for suffixes and compound words</h3>
+
+<p>I always like to use an asterisk whenever I’m attaching a segment to what is
+already a valid word, in order to avoid word boundary issues. For example:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">WA*I</code> = “{^way}”, such as in <code class="language-plaintext highlighter-rouge">HAOI/WA*I</code> = “highway”</li>
+  <li><code class="language-plaintext highlighter-rouge">TAO*IM</code> = “{^time}”, such as in <code class="language-plaintext highlighter-rouge">RAEL/TAO*IM</code> = “realtime”</li>
+  <li><code class="language-plaintext highlighter-rouge">TRAID/MA*RK</code> = “trademark”</li>
+</ul>
+
+<p>For suffixes, I prefer not to include a hyphen in the definition (that is,
+prefer “{^time}” over “{^-time}”), and either add a hyphen when I need it, or
+special-case certain words that expect the hyphen.</p>
+
+<h2 id="briefing">Briefing</h2>
+
+<p>In general, I never use a stroke as a brief when that stroke itself represents a
+word, no matter how uncommon. For example, the Plover default dictionary defines
+a few briefs:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">NUM</code> = “number”, <code class="language-plaintext highlighter-rouge">NU*M</code> = “numb”</li>
+  <li><code class="language-plaintext highlighter-rouge">FIG</code> = “figure”, <code class="language-plaintext highlighter-rouge">F*IG</code> = “fig”</li>
+  <li><code class="language-plaintext highlighter-rouge">MED</code> = “medicine”, <code class="language-plaintext highlighter-rouge">M*ED</code> = “med”</li>
+  <li><code class="language-plaintext highlighter-rouge">MIN</code> = “minute”, <code class="language-plaintext highlighter-rouge">M*IN</code> = “min”</li>
+</ul>
+
+<p>I don’t like to do this. My philosophy is: if it’s a brief, and has to be
+memorized anyways, then we might as well pick a non-conflicting stroke for it.
+This way you don’t have to worry about whether an asterisk has to be added for
+the word you want to type because it’s a brief for another word.</p>
+
+<p>My strokes for the above are:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">NURM</code> = “number”, <code class="language-plaintext highlighter-rouge">NUM</code> = “num”, <code class="language-plaintext highlighter-rouge">N*UM</code> or <code class="language-plaintext highlighter-rouge">NUMB</code> = “numb”</li>
+  <li><code class="language-plaintext highlighter-rouge">FIRG</code> = “figure”, <code class="language-plaintext highlighter-rouge">FIG</code> = “fig”</li>
+  <li><code class="language-plaintext highlighter-rouge">M*ED</code>, <code class="language-plaintext highlighter-rouge">MED/SIN</code>, or <code class="language-plaintext highlighter-rouge">MED/S*IN</code> = “medicine”, <code class="language-plaintext highlighter-rouge">MED</code> = “med”</li>
+  <li><code class="language-plaintext highlighter-rouge">M*INT</code> = “minute”, <code class="language-plaintext highlighter-rouge">MIN</code> = “min”</li>
+</ul>
+
+<p>This is my order of preference for these common briefing patterns, with the
+first entries being more desirable:</p>
+
+<ul>
+  <li>Pick a sound and add an asterisk to it, ensuring that it doesn’t conflict with
+anything.</li>
+  <li>Remove the vowel from the brief.</li>
+  <li>Pick a sound without an asterisk.</li>
+</ul>
+
+<p>If I were to do it over, I would probably add asterisks to the above strokes as
+well (e.g. <code class="language-plaintext highlighter-rouge">N*URM</code> = “number”).</p>
+
+<h2 id="my-brief-system">My brief system</h2>
+
+<p>I have one large brief system that I use to abbreviate phrases. This system only
+works for the subjects “I” and “you”, which means that it’s most appropriate for
+holding conversations with other people, or transcribing conversations between
+people. Fortunately, in English, “you” can also be a third-person pronoun in the
+same way as “one”, which makes the brief system more widely applicable.</p>
+
+<h3 id="installation">Installation</h3>
+
+<p>This brief system is implemented as a “Python dictionary”. This allows the
+dictionary definition to be implemented as code, which means that it can
+automatically generate every combination of prefixes and suffixes and so on. You
+need Plover 4.0 with its plugin manager and <a href="https://pypi.org/project/plover-python-dictionary/">the Python dictionary
+plugin</a> to use it.</p>
+
+<p>To install this system, first install the Python dictionary plugin above, then
+<a href="https://gist.github.com/arxanas/ab337490bf204ed81b5e9d7d3417fa8a">download the source code
+here</a> (you can
+do this by clicking “Download ZIP” and decompressing the ZIP file). Then go into
+Plover’s main view and click the add-dictionary button and select the
+<code class="language-plaintext highlighter-rouge">multiword_briefs.py</code> file that you downloaded/extracted previously.</p>
+
+<h3 id="the-subjects">The subjects</h3>
+
+<p>Easy:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">I</code> = “I”</li>
+  <li><code class="language-plaintext highlighter-rouge">U</code> = “you”</li>
+</ul>
+
+<p>You can also omit the subject altogether if you don’t need one, such as for a
+short phrase like “that haven’t”.</p>
+
+<h3 id="the-right-hand-phrase-enders">The right-hand phrase enders</h3>
+
+<p>These can be combined with a subject to produce a two-word phrase. For example,
+<code class="language-plaintext highlighter-rouge">UF</code> = “you have”, or “IKT” = “I can’t”.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">*D</code> = “{^’d’}”</li>
+  <li><code class="language-plaintext highlighter-rouge">*L</code> = “{^’ll’}”</li>
+  <li><code class="language-plaintext highlighter-rouge">*M</code> = “{^’m}” (only for “I”)</li>
+  <li><code class="language-plaintext highlighter-rouge">*R</code> = “{^’re}” (only for no subject or “you”)</li>
+  <li><code class="language-plaintext highlighter-rouge">-B</code> = “be”</li>
+  <li><code class="language-plaintext highlighter-rouge">-K</code> = “can”</li>
+  <li><code class="language-plaintext highlighter-rouge">-KD</code> = “could”</li>
+  <li><code class="language-plaintext highlighter-rouge">*KT</code> = “couldn’t”</li>
+  <li><code class="language-plaintext highlighter-rouge">*NT</code> = “didn’t”</li>
+  <li><code class="language-plaintext highlighter-rouge">-NT</code> = “don’t”</li>
+  <li><code class="language-plaintext highlighter-rouge">*FN</code> = “even”</li>
+  <li><code class="language-plaintext highlighter-rouge">*FR</code> = “ever”</li>
+  <li><code class="language-plaintext highlighter-rouge">-RBGT</code> = “get”</li>
+  <li><code class="language-plaintext highlighter-rouge">*RBGT</code> = “got” (“get” and “got” are a bit arbitrary. I originally used just
+<code class="language-plaintext highlighter-rouge">-GT</code> and <code class="language-plaintext highlighter-rouge">*G</code>, but this conflicted with words where you tucked <code class="language-plaintext highlighter-rouge">-G</code>, such as
+ <code class="language-plaintext highlighter-rouge">SHOUGT</code> = “should you get”/”shouting”. So I added some other letters to make
+ it not conflict.)</li>
+  <li><code class="language-plaintext highlighter-rouge">-D</code> = “had”</li>
+  <li><code class="language-plaintext highlighter-rouge">-F</code> = “have”</li>
+  <li><code class="language-plaintext highlighter-rouge">-FT</code> = “have the”</li>
+  <li><code class="language-plaintext highlighter-rouge">-FNT</code> = “haven’t”</li>
+  <li><code class="language-plaintext highlighter-rouge">-J</code> = “know” (mostly arbitrary, there was some brief in the Plover dictionary
+that use it, so I kept it)</li>
+  <li><code class="language-plaintext highlighter-rouge">*J</code> = “knew”</li>
+  <li><code class="language-plaintext highlighter-rouge">*PBL</code> = “mean”</li>
+  <li><code class="language-plaintext highlighter-rouge">-PLT</code> = “might”</li>
+  <li><code class="language-plaintext highlighter-rouge">*PBD</code> = “need”</li>
+  <li><code class="language-plaintext highlighter-rouge">-PBL</code> = “only”</li>
+  <li><code class="language-plaintext highlighter-rouge">*RL</code> = “really”</li>
+  <li><code class="language-plaintext highlighter-rouge">-RBD</code> = “should”</li>
+  <li><code class="language-plaintext highlighter-rouge">*RBT</code> = “shouldn’t”</li>
+  <li><code class="language-plaintext highlighter-rouge">-PBG</code> = “think”</li>
+  <li><code class="language-plaintext highlighter-rouge">-RPBD</code> = “understand”</li>
+  <li><code class="language-plaintext highlighter-rouge">*RPBD</code> = “understood”</li>
+  <li><code class="language-plaintext highlighter-rouge">-PT</code> = “want”</li>
+  <li><code class="language-plaintext highlighter-rouge">-FS</code> = “was” (only for no subject or “I”)</li>
+  <li><code class="language-plaintext highlighter-rouge">*FBT</code> = “wasn’t” (only for no subject or “I”)</li>
+  <li><code class="language-plaintext highlighter-rouge">-RP</code> = “were”</li>
+  <li><code class="language-plaintext highlighter-rouge">*RPT</code> = “weren’t”</li>
+  <li><code class="language-plaintext highlighter-rouge">-L</code> = “will”</li>
+  <li><code class="language-plaintext highlighter-rouge">-FBT</code> = “won’t”</li>
+  <li><code class="language-plaintext highlighter-rouge">-LD</code> = “would”</li>
+  <li><code class="language-plaintext highlighter-rouge">*LT</code> = “wouldn’t”</li>
+</ul>
+
+<h3 id="the-left-hand-phrase-beginners">The left-hand phrase beginners</h3>
+
+<p>These start phrases, and can be combined with a subject or right-hand phrase
+ender. There’s a lot of overlap in these entries, such as <code class="language-plaintext highlighter-rouge">STWHAO</code> = “so that
+you don’t” being a combination of <code class="language-plaintext highlighter-rouge">SW-</code> = “so”, <code class="language-plaintext highlighter-rouge">TH-</code> = “that”, and <code class="language-plaintext highlighter-rouge">AO</code> = “you
+don’t”, but it’s regular and predictable.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">SKP-</code> = “and” (standard Plover theory)</li>
+  <li><code class="language-plaintext highlighter-rouge">SKPO-</code> = “and I don’t”</li>
+  <li><code class="language-plaintext highlighter-rouge">SKPAO-</code> = “and you don’t”</li>
+  <li><code class="language-plaintext highlighter-rouge">STKP-</code> = “and if”</li>
+  <li><code class="language-plaintext highlighter-rouge">STKPO-</code> = “and if I don’t”</li>
+  <li><code class="language-plaintext highlighter-rouge">STKPAO-</code> = “and if you don’t”</li>
+  <li><code class="language-plaintext highlighter-rouge">K-</code> = “can”</li>
+  <li><code class="language-plaintext highlighter-rouge">KO-</code> = “could”</li>
+  <li><code class="language-plaintext highlighter-rouge">TK-</code> = “did”</li>
+  <li><code class="language-plaintext highlighter-rouge">TKO-</code> = “do”</li>
+  <li><code class="language-plaintext highlighter-rouge">SR-</code> = “have”</li>
+  <li><code class="language-plaintext highlighter-rouge">KWRO</code> = “I don’t”</li>
+  <li><code class="language-plaintext highlighter-rouge">KWRAO</code> = “you don’t”</li>
+  <li><code class="language-plaintext highlighter-rouge">STP</code> = “if” (just <code class="language-plaintext highlighter-rouge">TP-</code> conflicts with things, such as <code class="language-plaintext highlighter-rouge">FUR</code> = “fur” versus
+“if you are”)</li>
+  <li><code class="language-plaintext highlighter-rouge">STPO</code> = “if I don’t”</li>
+  <li><code class="language-plaintext highlighter-rouge">STPAO</code> = “if you don’t”</li>
+  <li><code class="language-plaintext highlighter-rouge">STHA</code> = “is that”</li>
+  <li><code class="language-plaintext highlighter-rouge">SWHA</code> = “is what”</li>
+  <li><code class="language-plaintext highlighter-rouge">STHO</code> = “is that I don’t”</li>
+  <li><code class="language-plaintext highlighter-rouge">STHAO</code> = “is that you don’t”</li>
+  <li><code class="language-plaintext highlighter-rouge">SHO</code> = “should”</li>
+  <li><code class="language-plaintext highlighter-rouge">SW</code> = “so”</li>
+  <li><code class="language-plaintext highlighter-rouge">SWO</code> = “so I don’t”</li>
+  <li><code class="language-plaintext highlighter-rouge">SWAO</code> = “so you don’t”</li>
+  <li><code class="language-plaintext highlighter-rouge">STPW</code> = “so if”</li>
+  <li><code class="language-plaintext highlighter-rouge">STPWO</code> = “so if I don’t”</li>
+  <li><code class="language-plaintext highlighter-rouge">STPWAO</code> = “so if you don’t”</li>
+  <li><code class="language-plaintext highlighter-rouge">STWHA</code> = “so that”</li>
+  <li><code class="language-plaintext highlighter-rouge">STWHO</code> = “so that I don’t”</li>
+  <li><code class="language-plaintext highlighter-rouge">STWHAO</code> = “so that you don’t”</li>
+  <li><code class="language-plaintext highlighter-rouge">SWHA</code> = “so what”</li>
+  <li><code class="language-plaintext highlighter-rouge">THA</code> = “that”</li>
+  <li><code class="language-plaintext highlighter-rouge">THAO</code> = “that you don’t”</li>
+  <li><code class="language-plaintext highlighter-rouge">THO</code> = “that I don’t”</li>
+  <li><code class="language-plaintext highlighter-rouge">WHA</code> = “what”</li>
+  <li><code class="language-plaintext highlighter-rouge">WHO</code> = “what I don’t”</li>
+  <li><code class="language-plaintext highlighter-rouge">WHAO</code> = “what you don’t”</li>
+  <li><code class="language-plaintext highlighter-rouge">WO</code> = “would”</li>
+</ul>
+
+<h3 id="putting-it-together">Putting it together</h3>
+
+<p>Combining these phrase-beginners and phrase-enders allows me to write common but
+reasonably-long phrases in one stroke:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">STHOPT</code> = “is that I don’t want” (such as in “the reason I didn’t do that is
+that I don’t want X to happen…”)</li>
+  <li><code class="language-plaintext highlighter-rouge">STWHAOF</code> = “so that you don’t have” (such as in “the reason I did that is so
+that you don’t have to do X…”).</li>
+</ul>
+
+<p>At the same time, it can be used for much smaller phrases:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">THALD</code> = “that would”</li>
+  <li><code class="language-plaintext highlighter-rouge">THAIRBD</code> = “that I should”</li>
+  <li><code class="language-plaintext highlighter-rouge">UKD</code> = “you could”</li>
+</ul>
+
+<p>My brief system was accumulated over time, so if you decide to use a similar
+system, it might be best to build up the phrase beginners and phrase enders as
+you find you need them, rather than try to learn them all at once.</p>
+
+<h2 id="related-posts">Related posts</h2>
+
+<p>The following are hand-curated posts which you might find interesting.</p>
+
+<table class="related-posts">
+<thead>
+  <tr>
+    <th>Date</th>
+    <th></th>
+    <th>Title</th>
+  </tr>
+</thead>
+
+<tbody>
+
+
+  <tr>
+    <td>24&nbsp;Aug&nbsp;2016</td>
+    <td class="this-post">
+      
+      </td>
+    <td><a href="/steno-journal/">Steno Journal: Weeks 1-12</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>06&nbsp;Sep&nbsp;2016</td>
+    <td class="this-post">
+      
+      </td>
+    <td><a href="/steno-adventures-part-1/">Stenography adventures with Plover and the Ergodox EZ, part 1</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>06&nbsp;Sep&nbsp;2016</td>
+    <td class="this-post">
+      
+      </td>
+    <td><a href="/steno-adventures-part-2/">Stenography adventures with Plover and the Ergodox EZ, part 2</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>21&nbsp;May&nbsp;2018</td>
+    <td class="this-post">
+      
+      (this&nbsp;post)
+      
+      </td>
+    <td><a href="/my-steno-system/">My steno system</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>05&nbsp;Apr&nbsp;2025</td>
+    <td class="this-post">
+      
+      </td>
+    <td><a href="/language-learning-anecdotes/">Language-learning anecdotes</a>
+    </td>
+  </tr>
+
+</tbody>
+</table>
+
+<p>Want to see more of my posts? Follow me <a href="https://twitter.com/arxanas">on Twitter</a> or subscribe <a href="/preview/pr-48/feed.xml">via RSS</a>.</p>
+
+<h2 id="comments">Comments</h2>
+
+<ul>
+
+
+
+</ul>
+
+<script type="text/javascript" src="/preview/pr-48/scripts/github-comment-links.js"></script>
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = "https://blog.waleedkhan.name/preview/pr-48/my-steno-system/";
+    this.page.identifier = "my-steno-system/";
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//waleedkhan-name.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Steno & PL</h2>
+    
+    <p class="rss-subscribe">subscribe <a href="/preview/pr-48/feed.xml">via RSS</a></p>
+    
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>Waleed Khan</li>
+          <li><a href="mailto:me@waleedkhan.name">me@waleedkhan.name</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/arxanas"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">arxanas</span></a>
+
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/arxanas"><span class="icon icon--twitter"><svg viewBox="0 0 16 16"><path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/></svg>
+</span><span class="username">arxanas</span></a>
+
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>This is a personal blog. Unless otherwise stated, the opinions expressed here are my own, and not those of my past or present employers.</p>
+      </div>
+    </div>
+
+  </div>
+
+  
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-53066274-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+</footer>
+
+
+  </body>
+
+</html>
