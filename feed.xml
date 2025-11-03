@@ -7,9 +7,472 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 23 Aug 2025 20:38:28 +0000</pubDate>
-    <lastBuildDate>Sat, 23 Aug 2025 20:38:28 +0000</lastBuildDate>
+    <pubDate>Mon, 03 Nov 2025 01:17:11 +0000</pubDate>
+    <lastBuildDate>Mon, 03 Nov 2025 01:17:11 +0000</lastBuildDate>
     <generator>Jekyll v4.3.4</generator>
+    
+      <item>
+        <title>Datalog DSL detects defective dependency declarations, defanging dodgy development discipline</title>
+        <description>&lt;div class=&quot;publication-notes&quot;&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Intended audience&lt;/td&gt;
+      &lt;td&gt;&lt;ul&gt;
+        &lt;li&gt;Software engineers interested in logic programming or static analysis, and actually using it in production.&lt;/li&gt;
+      &lt;/ul&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Origin&lt;/td&gt;
+      &lt;td&gt;&lt;ul&gt;
+        &lt;li&gt;Originally presented at &lt;a href=&quot;https://groups.io/g/Seattle-Build-Enthusiasts/topic/115859647&quot;&gt;Seattle Build Enthusiasts Meetup (Autumn 2025)&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;Frustration at work due to not having a hermetic build system.&lt;/li&gt;
+        &lt;li&gt;Prior experience with static analysis techniques.&lt;/li&gt;
+      &lt;/ul&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Mood&lt;/td&gt;
+      &lt;td&gt;&lt;ul&gt;
+        &lt;li&gt;Excited to share a useful tool with like-minded colleagues.&lt;/li&gt;
+      &lt;/ul&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;series-and-toc&quot;&gt;
+
+  &lt;p class=&quot;toc-header&quot;&gt;Table of contents:&lt;/p&gt;
+
+&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#slides&quot; id=&quot;markdown-toc-slides&quot;&gt;Slides&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#speaker-notes&quot; id=&quot;markdown-toc-speaker-notes&quot;&gt;Speaker notes&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#related-posts&quot; id=&quot;markdown-toc-related-posts&quot;&gt;Related posts&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&quot;slides&quot;&gt;Slides&lt;/h2&gt;
+
+&lt;p&gt;This talk was given at the &lt;a href=&quot;https://groups.io/g/Seattle-Build-Enthusiasts/topic/115859647&quot;&gt;Seattle Build Enthusiasts Autumn meetup&lt;/a&gt; (&lt;time datetime=&quot;2025-10-30&quot;&gt;2025-10-30&lt;/time&gt;).&lt;/p&gt;
+
+&lt;div class=&quot;note-block &quot;&gt;
+          &lt;p&gt;&lt;span class=&quot;note-tag&quot;&gt;Main goal:&lt;/span&gt; Show some use-cases where Datalog shines, and try to convince the audience to use it.&lt;/p&gt;
+
+        &lt;/div&gt;
+
+&lt;p&gt;Resources:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.google.com/presentation/d/17LmyLkBt_RtLBhKpOY7IFoun9V2rRIsJTD4fXleagBc/edit?usp=sharing&quot;&gt;Direct Google Slides link&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://s-arash.github.io/ascent/&quot;&gt;Ascent homepage&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;I’ve included rough speaker notes below, and also transcribed a few of the interesting Ascent code snippets directly inline.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;iframe-container&quot;&gt;
+&lt;iframe src=&quot;https://docs.google.com/presentation/d/e/2PACX-1vRNY7x7D2H0WO_3eKszgJtmj6_2I4Dx6ZvMtJabSb81DKLLCNrWvqi2DLtq0N6aB1PpqtFkqYtQYoX3/pubembed?start=false&amp;amp;loop=false&amp;amp;delayms=3000&quot; frameborder=&quot;0&quot; width=&quot;960&quot; height=&quot;569&quot; allowfullscreen=&quot;true&quot; mozallowfullscreen=&quot;true&quot; webkitallowfullscreen=&quot;true&quot;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;speaker-notes&quot;&gt;Speaker notes&lt;/h2&gt;
+
+&lt;p&gt;(1) Hi everyone, my name is Waleed Khan. I work at my company not on the Bazel team. Therefore, I’m going to show you how not to migrate Bazel.&lt;/p&gt;
+
+&lt;p&gt;Instead, I’m going to try to sell you on a cool tool, which is a library for Datalog, to rapidly build certain kinds of analyses, especially graph-oriented ones. And I’ll show you how I used it in our repository to statically detect entire classes of misconfigured CI jobs, and fix them before they broke the build.&lt;/p&gt;
+
+&lt;p&gt;The context for this is that, recently, we had a “Quality Week” at work. I took the initiative to enable a few rules for ESLint in our monorepo. (If you’re not familiar, ESLint is a linter for JavaScript and Typescript).&lt;/p&gt;
+
+&lt;p&gt;I just turned on the rules in the global config file, opened a pull request, and saw a bunch of new lint violations in CI, as expected. Then I either fixed or suppressed each of them, got CI green, and finally committed my change.&lt;/p&gt;
+
+&lt;p&gt;Naturally, this immediately broke a bunch of builds. That’s because our CI tries to run only relevant jobs, and, in this case, it was wrong about which ones were “relevant”.&lt;/p&gt;
+
+&lt;p&gt;(2) How could this possibly happen? Well, here’s what our CI job definitions look like. There’s a set of globs that match changed files, and they trigger the corresponding build and test commands.&lt;/p&gt;
+
+&lt;p&gt;As Build System Enthusiasts, you’ll probably spot two problems here.&lt;/p&gt;
+
+&lt;p&gt;The first one is that this is a hellish custom YAML-based configuration language, which is its own entirely separate issue.&lt;/p&gt;
+
+&lt;p&gt;The second is that there is no guarantee that this set of globs is necessary or sufficient to trigger the associated command. Notably, if my/package has a dependency on some other directory in the codebase, then changes to that code won’t automatically cause this job to trigger.&lt;/p&gt;
+
+&lt;p&gt;(3) So what can we do about it?&lt;/p&gt;
+
+&lt;p&gt;The best option is probably to use a hermetic build system like Bazel. Then this kind of stuff just can’t happen.&lt;/p&gt;
+
+&lt;p&gt;And I specifically asked Dan if he could please spend a week or two on it, and just quickly migrate the entire codebase to Bazel, but I guess he’s busy with something else, because it kind of looks like the codebase has not yet been migrated to Bazel? I’m sure he’ll get around to it.&lt;/p&gt;
+
+&lt;p&gt;So what can I do in the meantime to kind of stop the bleeding, as a kind of band-aid solution?&lt;/p&gt;
+
+&lt;p&gt;Well, If we look back at this job definition, we could probably make a guess about the necessary dependencies here. Like, if the script is called “lint”, then it probably depends on linting configuration files.&lt;/p&gt;
+
+&lt;p&gt;And you know what’s really good at making unsubstantiated guesses? That’s right. AI. But I didn’t want to wade through a bunch of noisy, non-deterministic AI output to flag the real issues.&lt;/p&gt;
+
+&lt;p&gt;So, instead, I turned to a different approach, which is: AI. By which I mean “abstract interpretation”. We’ll discuss exactly what that means, but it’s basically a form of static analysis.&lt;/p&gt;
+
+&lt;p&gt;(4) Diagram: &lt;a href=&quot;https://excalidraw.com/#json=DVyPsfKEa1RYdy62i5DW9,dVPy7Cm8QLVeEyaUcNuCwQ&quot;&gt;https://excalidraw.com/#json=DVyPsfKEa1RYdy62i5DW9,dVPy7Cm8QLVeEyaUcNuCwQ&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;So I wrote a static analysis tool using Datalog, and I’ll just show you an example of an actual trace that the tool managed to produce.&lt;/p&gt;
+
+&lt;p&gt;In this case, the CI job calls the npm script called “test” inside the my/package directory. And if we look at the package.json file in that directory, we can see that “test” is defined to call some tools.&lt;/p&gt;
+
+&lt;p&gt;But, misleadingly, it’s not just running tests. It’s also calling “npm run lint”. And if we go look at the “lint” script, then we see, “oh, it’s calling eslint in this directory”.&lt;/p&gt;
+
+&lt;p&gt;Now I know from the documentation that eslint always looks for configuration files named in certain patterns. And if we look for the associated configuration file, we can follow the imports and see that it extends from a different configuration file.&lt;/p&gt;
+
+&lt;p&gt;And that configuration file is not matched by the job’s globs. Notably, it’s not even the configuration file in the root of the monorepo, and I don’t even know why that was the case, but it is what it is.&lt;/p&gt;
+
+&lt;p&gt;The point is that, by a series of simple logical steps, we can automatically conclude that the globs must be missing a pattern to match this parent configuration file.&lt;/p&gt;
+
+&lt;p&gt;(5) So I looked at this and asked myself, “how can I quickly prototype a cross-language analysis that can detect these kinds of issues?” I decided to use Datalog for this.&lt;/p&gt;
+
+&lt;p&gt;Has anyone used Datalog or Prolog before?&lt;/p&gt;
+
+&lt;p&gt;Datalog is basically like: what if SQL didn’t suck? Datalog uses the relation model, like SQL. But it’s much better than SQL, and many standard programming languages, at expressing specific kinds of problems.&lt;/p&gt;
+
+&lt;p&gt;For example, this is how you express transitive closure in Datalog. There’s two “relations”, which are kinds of “facts” that the Datalog engine infers as it runs. In this case, we’re provided a “ground” set of “edges”. And we infer that a node is reachable from another node via some sequence of edges when either:
+as the base case, there’s a direct edge between them,
+or, as the recursive case, if there’s a transitive sequence of edges between them. That is, if x can reach y, and y is a neighbor of z, then x can reach z.&lt;/p&gt;
+
+&lt;p&gt;The syntax is a little backwards because the conclusion comes before the premises, but you get used to it.&lt;/p&gt;
+
+&lt;p&gt;You can see that the SQL version of this is pretty awful to write in comparison.&lt;/p&gt;
+
+&lt;p&gt;(6) So what kinds of things is Datalog good at? I have a few things listed here.&lt;/p&gt;
+
+&lt;p&gt;Recursive algorithms. That also includes situations where there might be “non-determinism”, in the sense that the algorithm might choose one of many possible futures. Datalog engines can also parallelize this stuff pretty easily.
+Graph analysis, including dependency graphs and transitive closures.
+Static analysis, including control flow and data flow analysis.
+“Rules” engines. When you want to express a bunch of “rules” succinctly and declaratively, and not focus so much on the implementation. Datalog is especially good if you find yourself needing to have multi-directional indexes or “joins”, or if you have rules from several domains that you want to combine, which is what my analysis did.&lt;/p&gt;
+
+&lt;p&gt;(7) I would typically not want to use a domain-specific language unless it granted me an order of magnitude more expressiveness. But Datalog delivers. Here’s an example from a blog post that one of my colleagues wrote, where he was working on some compiler analyses, and I challenged him to write it in Datalog instead.&lt;/p&gt;
+
+&lt;p&gt;So we did, and you can see the result here; the stuff on the left translates to two statements of Datalog. And, actually, that was the cleaned up version, because, originally, we only had one statement that we later broke into two statements for readability.&lt;/p&gt;
+
+&lt;p&gt;(8) So how do we actually use Datalog? I used a library called “Ascent”, which is a Datalog DSL for Rust. The fact that the tool is just a library is pretty important because it means that you don’t have to introduce some weird academic binary into your toolchain.&lt;/p&gt;
+
+&lt;p&gt;It’s also important because you can still just drop into Rust for various things. Like if you want to just use a Vec or a HashMap, you don’t have to fight with the language to get things done.&lt;/p&gt;
+
+&lt;p&gt;You can also use this library to compile to WASM, which is useful if you need to deploy it to other platforms.&lt;/p&gt;
+
+&lt;p&gt;(9) Here’s an excerpt from the original paper, where they implement the core of the Rust borrow checker in 46 lines of code. I, personally, couldn’t describe the Rust borrow checker in 46 lines of prose.&lt;/p&gt;
+
+&lt;p&gt;(10) So here’s a full example. You can see that we populate the initial “edges” relation with this expression using the “edges” parameter. The ascent_run macro will then run the program and return all of the relations, and we just access the “reachable” relation and convert it into a sorted set and return it.&lt;/p&gt;
+
+&lt;p&gt;(11) So, given these edges, the output would look like this. We can see that there’s an entry for (0, 3) because it’s reachable by visiting all the edges.&lt;/p&gt;
+
+&lt;p&gt;(12) Another great feature is that you can parallelize your analysis pretty easily by just adding “par” to your invocation. When you structure your analysis as a Datalog program, it also becomes pretty easy to parallelize it.&lt;/p&gt;
+
+&lt;p&gt;(13) Here’s a simple example which finds any local development services that run Bazel binaries, but which aren’t tested in CI. The “tdep” here stands for “transitive dependency.&lt;/p&gt;
+
+&lt;p&gt;Code listing:&lt;/p&gt;
+
+&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// Check: Bazel targets referenced by services that aren&apos;t tested in CI.&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;relation&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;service_untested_target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BazelLabel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;service_untested_target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;service&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;--&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;dep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;nn&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Service&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;service&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;target&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BazelTarget&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;label&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}),&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;is_ci_job_tdep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;(14) GitHub issue: https://github.com/bazelbuild/bazel/issues/27496&lt;/p&gt;
+
+&lt;p&gt;It turns out that, when using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bzlmod&lt;/code&gt;, there’s no way to determine that a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;go_library&lt;/code&gt; target depends on the repo’s &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;go.mod&lt;/code&gt;. In that case, we can argument the dependency graph to add this dependency. Note that we’re modifying the existing &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dep&lt;/code&gt; relation to add new inferred dependencies.&lt;/p&gt;
+
+&lt;p&gt;Code listing:&lt;/p&gt;
+
+&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// Rule: All `go_*` targets depend on `go.mod`. (Actually, there should be&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// more dependencies; I don&apos;t see how to query the bzlmod graph for them, so&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// just hardcode this rule for now.)&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;dep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BazelSourceFile&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;PathBuf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;from&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;go.mod&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;--&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;bazel_target_is_kind&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;target&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BazelTarget&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;label&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.starts_with&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;go_&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;(15) (remark on how we can express the semantics of Bazel ellipsis (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/...&lt;/code&gt;) in just two fairly-straightforward rules: one to pretend that &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;...&lt;/code&gt; is a target that depends on its siblings, and one to pretend that subpackages are a type of target)&lt;/p&gt;
+
+&lt;p&gt;Code listing:&lt;/p&gt;
+
+&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// Rule: Bazel label &apos;//pkg:...&apos; depends on all sibling &apos;//pkg: target&apos;s.&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// Note that sibling subpackages are represented as sibling targets, so this&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// recursively includes all subpackage targets.&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;dep&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;nn&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;BazelTarget&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;repo&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.clone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;package&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.clone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;...&quot;&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.to_string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()),&lt;/span&gt;
+    &lt;span class=&quot;nn&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;BazelTarget&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;repo&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.clone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;package&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.clone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.clone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()),&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;——&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;dep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;nn&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;BazelTarget&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;repo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;package&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;.target&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;...&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// Rule: For every package (represented as a target named &apos;//:pkg of&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// made-up type &apos;package), create a synthetic target named &apos;//pkg:...&apos;.&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;dep&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;nn&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;BazelTarget&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;repo&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.clone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;package&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.clone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;subpackage&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.clone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()),&lt;/span&gt;
+  &lt;span class=&quot;nn&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;BazelTarget&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;repo&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.clone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;nd&quot;&gt;format!&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{package}/{subpackage}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;...&quot;&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.to_string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()),&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;--&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;dep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;nn&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;BazelTarget&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;repo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;package&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;subpackage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+        &lt;span class=&quot;nn&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;BazelTargetKind&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;package&quot;&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;. to_string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()),&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;(16) So getting into the meat of it, here’s an actual rule. This detects the general case of “CI jobs that call Bazel somewhere, but whose globs don’t include all of the Bazel dependencies”.&lt;/p&gt;
+
+&lt;p&gt;It’s a lattice instead of a relation for technical reasons. In this case, it helps us produce the shortest trace, instead of all traces.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;So, if we inferred any transitive dependency path between a CI job, and a file that we know is a source file for a Bazel target, via this trace,&lt;/li&gt;
+  &lt;li&gt;and if we successfully processed that CI job, because I didn’t implement everything, so I just left some of them as “unimplemented”,&lt;/li&gt;
+  &lt;li&gt;and if we look up the globs for this CI job, and none of them match that source file’s path,&lt;/li&gt;
+  &lt;li&gt;then we fetch the glob matcher object, which basically just contains the list of globs so that I can present it to the user later,&lt;/li&gt;
+  &lt;li&gt;and we fetch the source file that defines the CI job, which is expressed as a dependency too, because that information was actually resolved in another rule,&lt;/li&gt;
+  &lt;li&gt;then we record the result for this job and source file pair (and you can ignore the fact that I store both the node and the path here, that was just for convenience).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Code listing:&lt;/p&gt;
+
+&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;lattice&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;bazel_glob_miss&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PathBuf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;ascent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Dual&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GlobMiss&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;bazel_glob_miss&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;job&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.clone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.clone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;ascent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;Dual&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;glob_miss&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;--&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;ci_tdep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ci_job&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CiJob&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;job&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BazelSourceFile&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;nn&quot;&gt;ascent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;Dual&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;trace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;ci_job_has_error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;job&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;ci_job_glob_matches_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ci_job&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.clone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.clone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()),&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;ci_job_glob_matcher&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ci_job&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.clone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;glob_matcher&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;dep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ci_job&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;nn&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SourcePath&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}),&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;glob_miss&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GlobMiss&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;job&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;job&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.clone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;source&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;source&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.clone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.clone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;trace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;trace&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.clone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;glob_matcher&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Arc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;clone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;glob_matcher&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;(17) (remark that “facts” are just a big enum which I serialize/deserialize with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;serde&lt;/code&gt;)&lt;/p&gt;
+
+&lt;p&gt;(18) (explain how I just dumped the Bazel dependency graph into a list of “facts”)&lt;/p&gt;
+
+&lt;p&gt;(19) (show how we can handle these 9 data sources in the same system and track cross-language control-/data-flow; remark that &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;strace&lt;/code&gt; is different from all the rest, since it’s dynamic instrumentation, but it works compositionally anyways)&lt;/p&gt;
+
+&lt;p&gt;(20) Diagram: &lt;a href=&quot;https://excalidraw.com/#json=DVyPsfKEa1RYdy62i5DW9,dVPy7Cm8QLVeEyaUcNuCwQ&quot;&gt;https://excalidraw.com/#json=DVyPsfKEa1RYdy62i5DW9,dVPy7Cm8QLVeEyaUcNuCwQ&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;(remark on how the original trace crossed between YAML, shell, package.json, and Javascript languages compositionally)&lt;/p&gt;
+
+&lt;p&gt;(21) (brief explanation of abstract interpretation)&lt;/p&gt;
+
+&lt;p&gt;(22) (explanation of simple shell abstract interpretation:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;simple abstract interpretation: split on statement separators and pretend all commands run in sequence; not correct, but works in practice&lt;/li&gt;
+  &lt;li&gt;track calls to cd and set internal state&lt;/li&gt;
+  &lt;li&gt;track calls to bazel, npm, etc.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;)&lt;/p&gt;
+
+&lt;p&gt;(23) (snippet of CESK machine from the Ascent paper, and remark that you can basically copy the rules, Greek letters and all)&lt;/p&gt;
+
+&lt;p&gt;(24) (links to resources)&lt;/p&gt;
+
+&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
+
+&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
+
+&lt;table class=&quot;related-posts&quot;&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Date&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+
+  &lt;tr&gt;
+    &lt;td&gt;09&amp;nbsp;Apr&amp;nbsp;2017&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/parsing-contextual-keywords/&quot;&gt;How to parse contextual keywords in a programming language&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;24&amp;nbsp;Jul&amp;nbsp;2017&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/union-vs-sum-types/&quot;&gt;Null-tracking, or the difference between union and sum types&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;23&amp;nbsp;Dec&amp;nbsp;2017&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/data-comprehension-syntaxes/&quot;&gt;Why LINQ syntax differs from SQL, list comprehensions, etc.&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;20&amp;nbsp;Apr&amp;nbsp;2020&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/monotonicity/&quot;&gt;Monotonicity is a halfway point between mutability and immutability&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;14&amp;nbsp;Jun&amp;nbsp;2022&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/functions-are-constants/&quot;&gt;Functions are constants too&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;19&amp;nbsp;Oct&amp;nbsp;2022&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/build-aware-sparse-checkouts/&quot;&gt;Build-aware sparse checkouts&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;17&amp;nbsp;Jun&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/encoding-ml-style-modules-in-rust/&quot;&gt;Encoding ML-style modules in Rust&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;24&amp;nbsp;Aug&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/writing-brittle-code/&quot;&gt;Writing brittle code&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;01&amp;nbsp;Sep&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/on-trivial-changes/&quot;&gt;On trivial changes&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;30&amp;nbsp;Dec&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/testing-tui-apps/&quot;&gt;Testing terminal user interface apps&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;02&amp;nbsp;Oct&amp;nbsp;2024&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/incremental-watchman/&quot;&gt;Incremental processing with Watchman — don&apos;t daemonize that build!&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;14&amp;nbsp;Aug&amp;nbsp;2025&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/lithe-less-analysis-with-datalog/&quot;&gt;Lithe, less analysis with Datalog&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;23&amp;nbsp;Aug&amp;nbsp;2025&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/half-my-work-is-adding-a-cache/&quot;&gt;Half my work is adding a cache&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;30&amp;nbsp;Oct&amp;nbsp;2025&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      (this&amp;nbsp;post)
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/what-if-sql-were-good/&quot;&gt;Datalog DSL detects defective dependency declarations, defanging dodgy development discipline&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+
+&lt;/ul&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/what-if-sql-were-good/&quot;;
+    this.page.identifier = &quot;what-if-sql-were-good/&quot;;
+};
+
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
+</description>
+        <pubDate>Thu, 30 Oct 2025 00:00:00 +0000</pubDate>
+        <link>https://blog.waleedkhan.name/what-if-sql-were-good/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/what-if-sql-were-good/</guid>
+        
+        <category>bazel</category>
+        
+        <category>build-systems</category>
+        
+        <category>programming-languages</category>
+        
+        <category>reprint</category>
+        
+        <category>rust</category>
+        
+        <category>software-engineering</category>
+        
+        <category>software-verification</category>
+        
+        
+      </item>
     
       <item>
         <title>Half my work is adding a cache</title>
@@ -143,6 +606,15 @@ employers.</description>
       
       &lt;/td&gt;
     &lt;td&gt;&lt;a href=&quot;/half-my-work-is-adding-a-cache/&quot;&gt;Half my work is adding a cache&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;30&amp;nbsp;Oct&amp;nbsp;2025&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/what-if-sql-were-good/&quot;&gt;Datalog DSL detects defective dependency declarations, defanging dodgy development discipline&lt;/a&gt;
     &lt;/td&gt;
   &lt;/tr&gt;
 
@@ -438,6 +910,15 @@ pointsTo(X,Y) :- alias(X,Z), pointsTo(Z,Y).
       
       &lt;/td&gt;
     &lt;td&gt;&lt;a href=&quot;/half-my-work-is-adding-a-cache/&quot;&gt;Half my work is adding a cache&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;30&amp;nbsp;Oct&amp;nbsp;2025&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/what-if-sql-were-good/&quot;&gt;Datalog DSL detects defective dependency declarations, defanging dodgy development discipline&lt;/a&gt;
     &lt;/td&gt;
   &lt;/tr&gt;
 
@@ -1801,6 +2282,15 @@ var disqus_config = function () {
     &lt;/td&gt;
   &lt;/tr&gt;
 
+  &lt;tr&gt;
+    &lt;td&gt;30&amp;nbsp;Oct&amp;nbsp;2025&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/what-if-sql-were-good/&quot;&gt;Datalog DSL detects defective dependency declarations, defanging dodgy development discipline&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
 &lt;/tbody&gt;
 &lt;/table&gt;
 
@@ -2464,6 +2954,15 @@ var disqus_config = function () {
     &lt;/td&gt;
   &lt;/tr&gt;
 
+  &lt;tr&gt;
+    &lt;td&gt;30&amp;nbsp;Oct&amp;nbsp;2025&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/what-if-sql-were-good/&quot;&gt;Datalog DSL detects defective dependency declarations, defanging dodgy development discipline&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
 &lt;/tbody&gt;
 &lt;/table&gt;
 
@@ -2593,6 +3092,15 @@ var disqus_config = function () {
       
       &lt;/td&gt;
     &lt;td&gt;&lt;a href=&quot;/testing-tui-apps/&quot;&gt;Testing terminal user interface apps&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;30&amp;nbsp;Oct&amp;nbsp;2025&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/what-if-sql-were-good/&quot;&gt;Datalog DSL detects defective dependency declarations, defanging dodgy development discipline&lt;/a&gt;
     &lt;/td&gt;
   &lt;/tr&gt;
 
@@ -2759,6 +3267,15 @@ var disqus_config = function () {
     &lt;/td&gt;
   &lt;/tr&gt;
 
+  &lt;tr&gt;
+    &lt;td&gt;30&amp;nbsp;Oct&amp;nbsp;2025&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/what-if-sql-were-good/&quot;&gt;Datalog DSL detects defective dependency declarations, defanging dodgy development discipline&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
 &lt;/tbody&gt;
 &lt;/table&gt;
 
@@ -2807,701 +3324,6 @@ var disqus_config = function () {
         <category>software-engineering</category>
         
         <category>software-verification</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Encoding ML-style modules in Rust</title>
-        <description>&lt;div class=&quot;publication-notes&quot;&gt;
-  &lt;table&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Intended audience&lt;/td&gt;
-      &lt;td&gt;&lt;ul&gt;
-        &lt;li&gt;OCaml/SML programmers learning Rust.&lt;/li&gt;
-        &lt;li&gt;New-wave functional programmers who haven’t used older languages like OCaml or Haskell, but who might be interested in a certain abstraction technique.&lt;/li&gt;
-        &lt;ul&gt;&lt;li&gt;
-        Note that “ML-style module” refers to &lt;a href=&quot;https://en.wikipedia.org/wiki/ML_(programming_language)&quot;&gt;the ML family of programming languages&lt;/a&gt;, not &lt;a href=&quot;https://en.wikipedia.org/wiki/Machine_learning&quot;&gt;machine learning&lt;/a&gt;.
-        &lt;/li&gt;&lt;/ul&gt;
-      &lt;/ul&gt;
-      &lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Origin&lt;/td&gt;
-      &lt;td&gt;&lt;ul&gt;
-        &lt;li&gt;OCaml and Rust experience.&lt;/li&gt;
-        &lt;li&gt;Type theory experience.&lt;/li&gt;
-      &lt;/ul&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Mood&lt;/td&gt;
-      &lt;td&gt;Helpful.&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/table&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;series-and-toc&quot;&gt;
-
-  &lt;p class=&quot;toc-header&quot;&gt;Table of contents:&lt;/p&gt;
-
-&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#problem-statement&quot; id=&quot;markdown-toc-problem-statement&quot;&gt;Problem statement&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#caching-a-function&quot; id=&quot;markdown-toc-caching-a-function&quot;&gt;Caching a function&lt;/a&gt;    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#caching-an-individual-function&quot; id=&quot;markdown-toc-caching-an-individual-function&quot;&gt;Caching an individual function&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#caching-functions-generically&quot; id=&quot;markdown-toc-caching-functions-generically&quot;&gt;Caching functions generically&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#treating-the-function-as-a-value&quot; id=&quot;markdown-toc-treating-the-function-as-a-value&quot;&gt;Treating the function as a value&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#encoding-modules&quot; id=&quot;markdown-toc-encoding-modules&quot;&gt;Encoding modules&lt;/a&gt;    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#modules-in-ocaml&quot; id=&quot;markdown-toc-modules-in-ocaml&quot;&gt;Modules in OCaml&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#associated-types&quot; id=&quot;markdown-toc-associated-types&quot;&gt;Associated types&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#parametrizing-over-types-only&quot; id=&quot;markdown-toc-parametrizing-over-types-only&quot;&gt;Parametrizing over types only&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#other-encodings&quot; id=&quot;markdown-toc-other-encodings&quot;&gt;Other encodings&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#related-posts&quot; id=&quot;markdown-toc-related-posts&quot;&gt;Related posts&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;/div&gt;
-
-&lt;h2 id=&quot;problem-statement&quot;&gt;Problem statement&lt;/h2&gt;
-
-&lt;p&gt;Problem: you want to take an existing type satisfying some trait and augment it with new functionality — including new internal state.&lt;/p&gt;
-
-&lt;p&gt;If you &lt;em&gt;didn’t&lt;/em&gt; want to add any internal state, there are many solutions:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;You could use &lt;a href=&quot;https://doc.rust-lang.org/book/ch10-02-traits.html#default-implementations&quot;&gt;default implementations for trait methods&lt;/a&gt;.&lt;/li&gt;
-  &lt;li&gt;You could use &lt;a href=&quot;https://rust-lang.github.io/rfcs/0445-extension-trait-conventions.html&quot;&gt;extension traits&lt;/a&gt;.&lt;/li&gt;
-  &lt;li&gt;You could use &lt;a href=&quot;https://radicle.community/t/rust-s-impl-dyn-trait-syntax/102&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;impl dyn&lt;/code&gt;&lt;/a&gt; (&lt;span class=&quot;note-inline&quot;&gt;&lt;span class=&quot;note-tag note-info&quot;&gt;technical note:&lt;/span&gt; uses dynamic dispatch at runtime&lt;/span&gt;).&lt;/li&gt;
-  &lt;li&gt;You could use free (global) functions which are generic and accept any type implementing the trait.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;One example of this problem would be implementing a caching layer &lt;em&gt;once&lt;/em&gt; that could then be applied to &lt;em&gt;any&lt;/em&gt; implementation of some &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Backend&lt;/code&gt; trait.&lt;/p&gt;
-
-&lt;p&gt;ML-style modules are a natural fit for this kind of problem. They’re more capable than traditional “modules”, as considered in mainstream programming languages. Both ML-style and traditional of modules support:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Separating code into logical namespaces.&lt;/li&gt;
-  &lt;li&gt;Defining interfaces.&lt;/li&gt;
-  &lt;li&gt;Abstracting data types and hiding implementation details.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;But ML-style modules can be parametrized on &lt;em&gt;types&lt;/em&gt; (similar to templates or generics in mainstream languages) or even &lt;em&gt;other modules&lt;/em&gt; (discussed in this article).&lt;/p&gt;
-
-&lt;p&gt;Although Rust descends from OCaml, it doesn’t inherit an ML-style module system. Instead, Rust’s trait system resembles &lt;a href=&quot;https://en.wikipedia.org/wiki/Type_class&quot;&gt;Haskell’s typeclasses&lt;/a&gt;. However, with some additional features (associated types), we can simulate ML-style modules in Rust.&lt;/p&gt;
-
-&lt;div class=&quot;note-block note-info&quot;&gt;
-          &lt;p&gt;&lt;span class=&quot;note-tag note-info&quot;&gt;Pedagogically:&lt;/span&gt; The canonical example for ML-style modules over typeclasses is perhaps creating a new kind of tree-set which accepts different orderings, ratther than being restricted to a single ordering per type. I think that example is rather boring to consider because it doesn’t solve Real Engineering Problems, and because the typeclass solution — creating a wrapper type with the new ordering — is roughly the same amount of work for the programmer.&lt;/p&gt;
-
-        &lt;/div&gt;
-
-&lt;h2 id=&quot;caching-a-function&quot;&gt;Caching a function&lt;/h2&gt;
-
-&lt;p&gt;Suppose we have an expensive computation we want to cache (perhaps it queries a database or does lots of CPU-bound work). For the sake of example, we’ll use a function that calculates the length of a string:&lt;/p&gt;
-
-&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;usize&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nd&quot;&gt;println!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Called expensive function str_len&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;caching-an-individual-function&quot;&gt;Caching an individual function&lt;/h3&gt;
-
-&lt;p&gt;How do we write a function that acts like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;str_len&lt;/code&gt;, but caches the results such that we never compute the same key-value pair twice? One way is to generate a wrapper function with a mutable internal cache and calls the underlying &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;str_len&lt;/code&gt; function when the value isn’t in the cache:&lt;/p&gt;
-
-&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// Declare that we return an `FnMut` rather than an `Fn`&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// because the returned closure may modify mutable state&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// (and thus isn&apos;t safe to call in parallel -- not relevant&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// in this example).&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;make_cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;impl&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;FnMut&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;usize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;mut&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cache&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;HashMap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// Use the `move` keyword to move the mutable `cache`&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// into the returned closure object. Unlike a variable defined&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// in the closure body itself, this cache will be shared across&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// *all* invocations of the new function.&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;move&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;usize&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;// For simplicity, we clone the `&amp;amp;str` as the cache key&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;// rather than worry about the lifetime annotations here.&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;// If we didn&apos;t do this, it&apos;s possible that our internal `cache`&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;// would hold a reference to a `str` even after that `str` was freed.&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.to_owned&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;// Look up the entry in our cache,&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;// or create a new one if none exists.&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;usize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cache&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.entry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.or_insert_with_key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;mut&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;make_cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;foo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// Prints:&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// Called expensive function str_len&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// Cached str len 1/2: 3&lt;/span&gt;
-    &lt;span class=&quot;nd&quot;&gt;println!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Cached str len 1/2: {}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// Cached str len 2/2: 3&lt;/span&gt;
-    &lt;span class=&quot;nd&quot;&gt;println!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Cached str len 2/2: {}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Of course, it’s also possible to create a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;struct&lt;/code&gt; which holds the internal &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cache&lt;/code&gt;, and to simply demand that the caller invoke the wrapped function via a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.call&lt;/code&gt; method.&lt;/p&gt;
-
-&lt;div class=&quot;note-block note-info&quot;&gt;
-          &lt;p&gt;&lt;span class=&quot;note-tag note-info&quot;&gt;Technical note:&lt;/span&gt; Rust does not currently support overloading the function call operator.&lt;/p&gt;
-
-        &lt;/div&gt;
-
-&lt;h3 id=&quot;caching-functions-generically&quot;&gt;Caching functions generically&lt;/h3&gt;
-
-&lt;p&gt;Now to abstract this by one level: what if we want to write a generic caching function that can cache the results of &lt;em&gt;any&lt;/em&gt; function, not just &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;str_len&lt;/code&gt; specifically?&lt;/p&gt;
-
-&lt;div class=&quot;note-block note-info&quot;&gt;
-          &lt;p&gt;&lt;span class=&quot;note-tag note-info&quot;&gt;Technical note:&lt;/span&gt; To simplify the situation, we’ll restrict ourselves to caching the results of only functions which accept exactly one parameter, as &lt;a href=&quot;https://github.com/rust-lang/rfcs/issues/376&quot;&gt;Rust currently does not support variadic generics&lt;/a&gt;.&lt;/p&gt;
-
-        &lt;/div&gt;
-
-&lt;p&gt;We can accomplish this with a generic function:&lt;/p&gt;
-
-&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// Create a function which is generic over the key and value types,&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// and accepts a &quot;base&quot; function which takes a key and returns a value.&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;//&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// In order to store the key in the cache, we had to add the additional&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// bounds `Eq + Hash` to `K`. To simplify the lifetimes, we added&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// the lifetime bound `&apos;static` to `K` and the bound `Clone` to `V`&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// (and cloned the value before returning it).&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cache_f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;K&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Eq&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;&apos;static&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Clone&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;impl&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;Fn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;K&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;impl&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;FnMut&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;K&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;mut&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cache&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;HashMap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;move&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;K&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;V&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;V&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cache&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.entry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.or_insert_with_key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.clone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Then we adjust the parameter we pass slightly for the types to work in this example:&lt;/p&gt;
-
-&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// To make some types work, add an additional `&amp;amp;`&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// to the parameter type.&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;mut&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;cache_f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;foo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// Prints:&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// Called expensive function str_len&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// Cached str len 1/2: 3&lt;/span&gt;
-    &lt;span class=&quot;nd&quot;&gt;println!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Cached str len 1/2: {}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// Cached str len 2/2: 3&lt;/span&gt;
-    &lt;span class=&quot;nd&quot;&gt;println!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Cached str len 2/2: {}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;treating-the-function-as-a-value&quot;&gt;Treating the function as a value&lt;/h3&gt;
-
-&lt;p&gt;Of course, since we went to all the trouble of making this cache, we probably want to pass it around and use it. Ideally, we would be able to write it like this:&lt;/p&gt;
-
-&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// `impl T` does not compile (yet).&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CachedF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;K&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Eq&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;&apos;static&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Clone&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;impl&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;FnMut&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;K&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CachedStrLenF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CachedF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;&apos;static&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;usize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;accepts_cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CachedStrLenF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;foo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;nd&quot;&gt;println!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Cached str len 1/2: {}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-    &lt;span class=&quot;nd&quot;&gt;println!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Cached str len 2/2: {}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;mut&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;cache_f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;accepts_cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;But it unfortunately produces this error:&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;error[E0658]: `impl Trait` in type aliases is unstable
-  --&amp;gt; src/bin/main3-pass-function.rs:24:50
-   |
-24 | type CachedF&amp;lt;K: Eq + Hash + &apos;static, V: Clone&amp;gt; = impl FnMut(K) -&amp;gt; V;
-   |                                                  ^^^^^^^^^^^^^^^^^^
-   |
-   = note: see issue #63063 &amp;lt;https://github.com/rust-lang/rust/issues/63063&amp;gt; for more information
-
-error: non-defining opaque type use in defining scope
-  --&amp;gt; src/bin/main3-pass-function.rs:35:5
-   |
-35 |     accepts_cached_str_len(cached_str_len);
-   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-note: used non-generic type `&amp;amp;&apos;static str` for generic parameter
-  --&amp;gt; src/bin/main3-pass-function.rs:24:14
-   |
-24 | type CachedF&amp;lt;K: Eq + Hash + &apos;static, V: Clone&amp;gt; = impl FnMut(K) -&amp;gt; V;
-   |              ^
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;We can’t use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;impl Fn&lt;/code&gt; in a type alias, so we have to actually write it out:&lt;/p&gt;
-
-&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;accepts_cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;mut&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;impl&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;FnMut&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;&apos;static&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;usize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;foo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;nd&quot;&gt;println!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Cached str len 1/2: {}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-    &lt;span class=&quot;nd&quot;&gt;println!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Cached str len 2/2: {}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;cache_f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;accepts_cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;That is, &lt;em&gt;every use of our function type has to also include the generic type parameters.&lt;/em&gt; This “infectious” behavior quickly becomes unwieldy in practice for programs of even moderate size.&lt;/p&gt;
-
-&lt;h2 id=&quot;encoding-modules&quot;&gt;Encoding modules&lt;/h2&gt;
-
-&lt;h3 id=&quot;modules-in-ocaml&quot;&gt;Modules in OCaml&lt;/h3&gt;
-
-&lt;p&gt;ML-style modules can “hide” the generic types in a way that generic functions alone can’t accomplish (&lt;span class=&quot;note-inline&quot;&gt;&lt;span class=&quot;note-tag note-info&quot;&gt;technical note:&lt;/span&gt; using a form of &lt;a href=&quot;https://en.wikipedia.org/wiki/Type_system#Existential_types&quot;&gt;existential types&lt;/a&gt;&lt;/span&gt;). To express a similar example using ML-style modules, you can skim over — and probably not understand — the following OCaml code:&lt;/p&gt;
-
-&lt;div class=&quot;language-ocaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;module&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Backend&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;sig&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;compute&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;module&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;StrLenBackend&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;unit&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;make&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;compute&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
-    &lt;span class=&quot;nn&quot;&gt;Printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Computing length of string %s&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;nn&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;length&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;module&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;CachedBackend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Backend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;sig&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;make&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;compute_cached&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;backend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;cache&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Hashtbl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;make&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;backend&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;backend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;cache&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Hashtbl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;create&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;compute_cached&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;match&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Hashtbl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find_opt&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cache&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;with&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Some&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;None&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;compute&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;backend&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Hashtbl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cache&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;The point is ultimately that you can write a function like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;accepts_cached_str_len&lt;/code&gt; using a non-generic type like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CachedStrLenBackend.t&lt;/code&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;language-ocaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;accepts_cached_str_len&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;CachedStrLenBackend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;foo&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
-  &lt;span class=&quot;nn&quot;&gt;Printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Cached len 1/2: %d&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nn&quot;&gt;CachedStrLenBackend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;compute_cached&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;nn&quot;&gt;Printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Cached len 2/2: %d&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nn&quot;&gt;CachedStrLenBackend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;compute_cached&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;bp&quot;&gt;()&lt;/span&gt;
-  
-&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;backend&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;StrLenBackend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;make&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;CachedStrLenBackend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;CachedStrLenBackend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;make&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;backend&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;accepts_cached_str_len&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
- &lt;span class=&quot;bp&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;associated-types&quot;&gt;Associated types&lt;/h3&gt;
-
-&lt;p&gt;To accomplish something similar to ML-style modules, we can use &lt;a href=&quot;https://doc.rust-lang.org/rust-by-example/generics/assoc_items/types.html&quot;&gt;Rust’s associated types&lt;/a&gt;. The first thing we’ll do is convert our function types into traits (&lt;span class=&quot;note-inline&quot;&gt;&lt;span class=&quot;note-tag note-info&quot;&gt;technical note:&lt;/span&gt; ultimately, a form of &lt;a href=&quot;https://en.wikipedia.org/wiki/Defunctionalization&quot;&gt;defunctionalization&lt;/a&gt;&lt;/span&gt;).&lt;/p&gt;
-
-&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;trait&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Backend&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// We declare &quot;associated types&quot; for this trait. For any type &lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// which implements `Backend`, it must declare corresponding `Key`&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// and `Value` types, and include an implementation of `compute`&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// adhering to those types.&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;compute&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;And now we’ll create our &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;str_len&lt;/code&gt; function as a new type and an implementation of the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Backend&lt;/code&gt; trait:&lt;/p&gt;
-
-&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// This type doesn&apos;t need state, but you could imagine&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// embedding e.g. a database connection in this struct.&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;//&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// Normally, types without any data aren&apos;t very useful, but&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// this is one of the key ideas of the &quot;encoding of ML-style&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// modules&quot;. Instead of state (or in addition to state), the&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// type instead has associated types and functions,&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// declared below.&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;//&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// This type corresponds to the &quot;closed-over&quot; variables&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// of a closure object.&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;StrLenBackend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;impl&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Backend&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;StrLenBackend&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;&apos;static&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;usize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;compute&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;nd&quot;&gt;println!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Computing length of key {key:?}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Now, how do we define a generic version of a “cached” backend which works for &lt;em&gt;any&lt;/em&gt; kind of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Backend&lt;/code&gt;? A simple generic function like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;compute_cached&amp;lt;B: Backend&amp;gt;&lt;/code&gt; doesn’t work, since we want it to store state. Instead, we declare &lt;em&gt;another&lt;/em&gt; type which is parametrized on a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Backend&lt;/code&gt; type:&lt;/p&gt;
-
-&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CachedBackend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Backend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;backend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;cache&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HashMap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nn&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;impl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Backend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CachedBackend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;where&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// We require that the wrapped backend adheres to these bounds&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// in order to call any of the functions in this `impl`&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// (including `new`, which is how you would get a new value&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// of this type).&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;//&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// Previously, we had to add the appropriate bounds to &lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// each generic type in each place that it appeared.&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// Using a `trait`, we can instead declare the bounds&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// just once on the `impl`.&lt;/span&gt;
-    &lt;span class=&quot;nn&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Eq&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Hash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;backend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;backend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;cache&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;compute_cached&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;mut&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;nn&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;.cache&lt;/span&gt;
-            &lt;span class=&quot;nf&quot;&gt;.entry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;nf&quot;&gt;.or_insert_with_key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;.backend&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.compute&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.clone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Then we construct values of the types and pass them around. Unlike before, we can even create a type alias for the cached function type — without having to re-specify generic type parameters everywhere.&lt;/p&gt;
-
-&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CachedStrLenBackend&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CachedBackend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;StrLenBackend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;accepts_cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;mut&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CachedStrLenBackend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;foo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// Prints:&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// Computing length of key &quot;foo&quot;&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// Cached len 1/2: 3&lt;/span&gt;
-    &lt;span class=&quot;nd&quot;&gt;println!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Cached len 1/2: {}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.compute_cached&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// Cached len 2/2: 3&lt;/span&gt;
-    &lt;span class=&quot;nd&quot;&gt;println!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Cached len 2/2: {}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.compute_cached&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;backend&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;StrLenBackend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;CachedBackend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;backend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;accepts_cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;parametrizing-over-types-only&quot;&gt;Parametrizing over types only&lt;/h3&gt;
-
-&lt;p&gt;Passing around values that embody modules is actually the most powerful form of this technique, corresponding to &lt;em&gt;first-class modules&lt;/em&gt;, but this is probably the most natural form to express in Rust, because most programmers deal with values rather than types. Ideally, we would hope that the optimizer would remove the overhead of passing around a value which has no associated data.&lt;/p&gt;
-
-&lt;p&gt;One rarely needs to do this, but it’s possible to dispatch on the type only, and forbid even constructing a value. This is also pedagogically interesting as an example of type-directed code generation in Rust. To rewrite the above example without instantiating the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Backend&lt;/code&gt;, we remove the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;amp;self&lt;/code&gt; parameter everywhere:&lt;/p&gt;
-
-&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;trait&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Backend&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// We no longer take a value of type `&amp;amp;self`.&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;compute&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;// In Rust, it&apos;s not possible to make a value of the type&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// of an empty enum.&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;StrLenBackend&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;impl&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Backend&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;StrLenBackend&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;&apos;static&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;usize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;compute&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;nd&quot;&gt;println!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Computing length of key {key:?}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Then adjust our &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CachedBackend&lt;/code&gt; to use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;B&lt;/code&gt; directly, instead of calling methods on a value of type &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;B&lt;/code&gt;, such as calling &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;B::compute&lt;/code&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// Note that we no longer have a member of type `B`.&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CachedBackend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Backend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;cache&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HashMap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nn&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;impl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Backend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CachedBackend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;where&lt;/span&gt;
-    &lt;span class=&quot;nn&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Eq&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Hash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;cache&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;compute_cached&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;mut&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;nn&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;.cache&lt;/span&gt;
-            &lt;span class=&quot;nf&quot;&gt;.entry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;nf&quot;&gt;.or_insert_with_key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;compute&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.clone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CachedStrLenBackend&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CachedBackend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;StrLenBackend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;accepts_cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;mut&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CachedStrLenBackend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;foo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// Prints:&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// Computing length of key &quot;foo&quot;&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// Cached len 1/2: 3&lt;/span&gt;
-    &lt;span class=&quot;nd&quot;&gt;println!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Cached len 1/2: {}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.compute_cached&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// Cached len 2/2: 3&lt;/span&gt;
-    &lt;span class=&quot;nd&quot;&gt;println!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Cached len 2/2: {}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.compute_cached&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// This weird syntax is equivalent to `CachedBackend&amp;lt;StrLenBackend&amp;gt;::new()`&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// in some other languages. It&apos;s written with an extra `::` due to&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// technical restrictions on the syntax.&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;//&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// Note that, unlike before, we never pass a *value* into&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// the `CachedBackend`, only a type.&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;CachedBackend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;StrLenBackend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// We could also write the type annotation on the left side and let&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// type inference figure it out:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_also_works&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CachedBackend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;StrLenBackend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;CachedBackend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// Or we could use our previously-defined type alias:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_also_works&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;CachedStrLenBackend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-
-    &lt;span class=&quot;nf&quot;&gt;accepts_cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cached_str_len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;other-encodings&quot;&gt;Other encodings&lt;/h3&gt;
-
-&lt;p&gt;ML-style modules include other features than the above. Here’s a brief discussion of encoding those features:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;include&lt;/code&gt;:
-    &lt;ul&gt;
-      &lt;li&gt;You can use the previously-mentioned approaches, such as extension traits.&lt;/li&gt;
-      &lt;li&gt;Or you can use macros — I have seen this done in production systems. (There are well-documented problems with macros that I will not discuss here.)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Updating modules, i.e. creating a new definition of an existing module with one associated type redefined.
-    &lt;ul&gt;
-      &lt;li&gt;Other than macros, I haven’t seen an encoding for this.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Structural_type_system&quot;&gt;Structural typing&lt;/a&gt;:
-    &lt;ul&gt;
-      &lt;li&gt;Rust simply does not like allowing module-like objects to be structurally typed. You can try to convert your implicit structural types into an explicit trait hierarchy.&lt;/li&gt;
-      &lt;li&gt;Or you can use macros.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Applicative vs generative functors
-    &lt;ul&gt;
-      &lt;li&gt;See &lt;a href=&quot;https://stackoverflow.com/q/52161048/344643&quot;&gt;https://stackoverflow.com/questions/52161048/applicative-vs-generative-functors&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;It depends on the concrete encoding of the module. Type abstractions are manually introduced with associated types and always unequal, while types passed via generic type parameter can be considered equal. So if you want a generative functor, you can directly introduce a new abstract type via another layer of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;trait&lt;/code&gt; with an associated type.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;See also &lt;a href=&quot;http://blog.ezyang.com/2013/05/the-ast-typing-problem/&quot;&gt;The AST typing problem&lt;/a&gt; for related questions on the practical encoding of modules.&lt;/p&gt;
-
-&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
-
-&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
-
-&lt;table class=&quot;related-posts&quot;&gt;
-&lt;thead&gt;
-  &lt;tr&gt;
-    &lt;th&gt;Date&lt;/th&gt;
-    &lt;th&gt;&lt;/th&gt;
-    &lt;th&gt;Title&lt;/th&gt;
-  &lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-
-
-  &lt;tr&gt;
-    &lt;td&gt;09&amp;nbsp;Apr&amp;nbsp;2017&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/parsing-contextual-keywords/&quot;&gt;How to parse contextual keywords in a programming language&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;24&amp;nbsp;Jul&amp;nbsp;2017&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/union-vs-sum-types/&quot;&gt;Null-tracking, or the difference between union and sum types&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;23&amp;nbsp;Dec&amp;nbsp;2017&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/data-comprehension-syntaxes/&quot;&gt;Why LINQ syntax differs from SQL, list comprehensions, etc.&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;20&amp;nbsp;Apr&amp;nbsp;2020&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/monotonicity/&quot;&gt;Monotonicity is a halfway point between mutability and immutability&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;03&amp;nbsp;Jan&amp;nbsp;2021&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/rust-modules-for-python-users/&quot;&gt;The Rust module system for Python users&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;29&amp;nbsp;Apr&amp;nbsp;2021&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/port-python-to-rust/&quot;&gt;Incrementally porting a small Python project to Rust&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;14&amp;nbsp;Jun&amp;nbsp;2022&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/functions-are-constants/&quot;&gt;Functions are constants too&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;24&amp;nbsp;Jan&amp;nbsp;2023&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/tracing-rust-cli-apps/&quot;&gt;Using `tracing` with Rust CLI applications&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;07&amp;nbsp;Feb&amp;nbsp;2023&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/rust-incremental-test-times/&quot;&gt;Improving incremental test times in Rust&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;17&amp;nbsp;Jun&amp;nbsp;2023&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      (this&amp;nbsp;post)
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/encoding-ml-style-modules-in-rust/&quot;&gt;Encoding ML-style modules in Rust&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;14&amp;nbsp;Aug&amp;nbsp;2025&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/lithe-less-analysis-with-datalog/&quot;&gt;Lithe, less analysis with Datalog&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
-
-&lt;ul&gt;
-
-
-&lt;li&gt;&lt;a class=&quot;icon-lobsters&quot; href=&quot;https://lobste.rs/s/hcwjcs/encoding_ml_style_modules_rust &quot;&gt;Discussion on Lobsters&lt;/a&gt;&lt;/li&gt;
-
-
-&lt;/ul&gt;
-
-&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
-
-&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
-&lt;script&gt;
-
-/**
- *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
- *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
-var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/encoding-ml-style-modules-in-rust/&quot;;
-    this.page.identifier = &quot;encoding-ml-style-modules-in-rust/&quot;;
-};
-
-(function() { // DON&apos;T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement(&apos;script&apos;);
-    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
-    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
-    (d.head || d.body).appendChild(s);
-})();
-&lt;/script&gt;
-
-&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
-
-</description>
-        <pubDate>Sat, 17 Jun 2023 00:00:00 +0000</pubDate>
-        <link>https://blog.waleedkhan.name/encoding-ml-style-modules-in-rust/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/encoding-ml-style-modules-in-rust/</guid>
-        
-        <category>programming-languages</category>
-        
-        <category>rust</category>
         
         
       </item>
