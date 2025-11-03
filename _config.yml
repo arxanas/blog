@@ -88,16 +88,18 @@ related_posts:
     - incremental-watchman/
     - half-my-work-is-adding-a-cache/
     - lithe-less-analysis-with-datalog/
+    - what-if-sql-were-good/
 
   # FIXME: What do these posts have to do with each other??
   - - writing-brittle-code/
     - smash-training-retrospective/
     - data-comprehension-syntaxes/
 
-  # Software validation:
+  # Software verification:
   - - writing-brittle-code/
     - on-trivial-changes/
     - testing-tui-apps/
+    - what-if-sql-were-good/
 
   # Programming languages:
   - - parsing-contextual-keywords/
@@ -108,3 +110,4 @@ related_posts:
     - data-comprehension-syntaxes/
     - encoding-ml-style-modules-in-rust/
     - lithe-less-analysis-with-datalog/
+    - what-if-sql-were-good/
