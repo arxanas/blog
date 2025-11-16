@@ -1,6 +1,8 @@
-# NOTE: The `.ruby-version` file is automatically read, as per:
-# - https://mise.jdx.dev/lang/ruby.html
-# - https://mise.jdx.dev/configuration.html#idiomatic-version-files
+[settings]
+# Read from `.ruby-version`
+# See: https://mise.jdx.dev/configuration.html#idiomatic-version-files
+idiomatic_version_file_enable_tools = ["ruby"]
+
 [tools]
 actionlint = "1.7.7"
 
@@ -14,7 +16,7 @@ run = "actionlint"
 [tasks.setup]
 outputs = { auto = true }
 run = "bundle install"
-sources = ["Gemfile", "Gemfile.lock"]
+sources = [".ruby-version", "Gemfile", "Gemfile.lock"]
 
 [tasks.watch]
 depends = ["setup"]
