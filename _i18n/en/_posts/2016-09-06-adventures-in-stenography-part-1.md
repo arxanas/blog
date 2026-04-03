@@ -6,6 +6,7 @@ series:
   next: steno-adventures-part-2/
 tags:
   - c
+  - linguistics
   - stenography
 ---
 

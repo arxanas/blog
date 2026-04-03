@@ -4,6 +4,7 @@ title: "Patch terminology"
 permalink: patch-terminology/
 tags:
   - git
+  - linguistics
   - reprint
   - software-engineering
 ---

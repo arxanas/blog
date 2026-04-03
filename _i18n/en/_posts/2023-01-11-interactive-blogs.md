@@ -5,8 +5,8 @@ permalink: interactive-blogs/
 translations:
   pl: "/pl/interaktywne-blogi/"
 tags:
+  - linguistics
   - rant
-  - writing
 ---
 
 {% include toc.md %}

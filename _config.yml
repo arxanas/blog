@@ -35,24 +35,24 @@ languages: ["en", "pl"]
 exclude_from_localizations: ["assets", "css", "scripts"]
 
 related_posts:
-  # Steno:
-  - - steno-adventures-part-1/
+  # Linguistics:
+  - - interactive-blogs/
+    - language-learning-anecdotes/
+    - messenger-conversation-macros/
+    - my-steno-system/
+    - on-bullet-points/
+    - please-or-thank-you/
+    - please-or-thank-you/
     - steno-adventures-part-2/
     - steno-journal/
-    - my-steno-system/
-    - language-learning-anecdotes/
-
-  # Social:
-  - - dot-name-email-address/
-    - messenger-conversation-macros/
-    - mail-server/
-    - detect-recruiter-spam/
-    - detect-recruiter-spam-update-1/
+    - steno-adventures-part-1/
 
   # Career:
   - - detect-recruiter-spam/
     - detect-recruiter-spam-update-1/
+    - dot-name-email-address/
     - getting-a-job-in-pl/
+    - mail-server/
 
   # Deliberate practice:
   - - lan-adapter/

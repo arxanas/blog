@@ -5,6 +5,7 @@ permalink: dot-name-email-address/
 hn: https://news.ycombinator.com/item?id=12535428
 tags:
   - career
+  - linguistics
   - software-engineering
 ---
 

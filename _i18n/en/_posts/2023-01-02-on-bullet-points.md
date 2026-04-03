@@ -3,8 +3,8 @@ layout: post
 title: "On bullet points"
 permalink: on-bullet-points/
 tags:
+  - linguistics
   - rant
-  - writing
 ---
 
 {% include toc.md %}

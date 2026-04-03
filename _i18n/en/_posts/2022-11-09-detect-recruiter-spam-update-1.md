@@ -6,6 +6,7 @@ series:
   prev: detect-recruiter-spam/
 tags:
   - career
+  - linguistics
   - machine-learning
   - python
 ---

@@ -3,6 +3,7 @@ layout: post
 title: Analyzing all of my Messenger conversations to create conversational macros
 permalink: messenger-conversation-macros/
 tags:
+  - linguistics
   - python
   - stenography
 ---
