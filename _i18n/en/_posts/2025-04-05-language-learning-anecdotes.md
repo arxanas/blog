@@ -3,8 +3,8 @@ layout: post
 title: "Language-learning anecdotes"
 permalink: language-learning-anecdotes/
 tags:
-  - learning
   - linguistics
+  - learning
 ---
 
 <div class="publication-notes">
