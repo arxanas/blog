@@ -1,5 +1,9 @@
 source 'https://rubygems.org'
+gem 'base64'
+gem 'csv'
 gem 'jekyll'
+gem 'logger'
+gem 'ostruct'
 
 group :jekyll_plugins do
   gem 'jekyll-katex'
