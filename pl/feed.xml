@@ -7,8 +7,8 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/pl/</link>
     <atom:link href="https://blog.waleedkhan.name/pl/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 21 Jun 2026 00:36:26 +0000</pubDate>
-    <lastBuildDate>Sun, 21 Jun 2026 00:36:26 +0000</lastBuildDate>
+    <pubDate>Sun, 21 Jun 2026 19:02:31 +0000</pubDate>
+    <lastBuildDate>Sun, 21 Jun 2026 19:02:31 +0000</lastBuildDate>
     <generator>Jekyll v4.3.4</generator>
     
       <item>
@@ -563,7 +563,7 @@ note: used non-generic type `&amp;amp;&apos;static str` for generic parameter
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://bsky.app/profile/arxanas.bsky.social&quot;&gt;na Bluesky&lt;/a&gt;, &lt;a href=&quot;https://types.pl/@arxanas&quot;&gt;na Mastodon&lt;/a&gt; albo &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt;, albo subskrybuj &lt;a href=&quot;/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
@@ -689,7 +689,7 @@ var disqus_config = function () {
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://bsky.app/profile/arxanas.bsky.social&quot;&gt;na Bluesky&lt;/a&gt;, &lt;a href=&quot;https://types.pl/@arxanas&quot;&gt;na Mastodon&lt;/a&gt; albo &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt;, albo subskrybuj &lt;a href=&quot;/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
@@ -814,7 +814,7 @@ e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://bsky.app/profile/arxanas.bsky.social&quot;&gt;na Bluesky&lt;/a&gt;, &lt;a href=&quot;https://types.pl/@arxanas&quot;&gt;na Mastodon&lt;/a&gt; albo &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt;, albo subskrybuj &lt;a href=&quot;/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
@@ -945,7 +945,7 @@ var disqus_config = function () {
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://bsky.app/profile/arxanas.bsky.social&quot;&gt;na Bluesky&lt;/a&gt;, &lt;a href=&quot;https://types.pl/@arxanas&quot;&gt;na Mastodon&lt;/a&gt; albo &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt;, albo subskrybuj &lt;a href=&quot;/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
@@ -1212,7 +1212,7 @@ Benchmark 1: cargo &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt; &lt;span c
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://bsky.app/profile/arxanas.bsky.social&quot;&gt;na Bluesky&lt;/a&gt;, &lt;a href=&quot;https://types.pl/@arxanas&quot;&gt;na Mastodon&lt;/a&gt; albo &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt;, albo subskrybuj &lt;a href=&quot;/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
@@ -1362,7 +1362,7 @@ var disqus_config = function () {
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://bsky.app/profile/arxanas.bsky.social&quot;&gt;na Bluesky&lt;/a&gt;, &lt;a href=&quot;https://types.pl/@arxanas&quot;&gt;na Mastodon&lt;/a&gt; albo &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt;, albo subskrybuj &lt;a href=&quot;/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
@@ -1552,7 +1552,7 @@ var disqus_config = function () {
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://bsky.app/profile/arxanas.bsky.social&quot;&gt;na Bluesky&lt;/a&gt;, &lt;a href=&quot;https://types.pl/@arxanas&quot;&gt;na Mastodon&lt;/a&gt; albo &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt;, albo subskrybuj &lt;a href=&quot;/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
@@ -1763,7 +1763,7 @@ var disqus_config = function () {
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://bsky.app/profile/arxanas.bsky.social&quot;&gt;na Bluesky&lt;/a&gt;, &lt;a href=&quot;https://types.pl/@arxanas&quot;&gt;na Mastodon&lt;/a&gt; albo &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt;, albo subskrybuj &lt;a href=&quot;/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
@@ -2140,7 +2140,7 @@ th.rotate &gt; div &gt; span {
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt; albo subskrybuj &lt;a href=&quot;/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Chcesz zobaczyć więcej moich postów? Obserwuj mnie &lt;a href=&quot;https://bsky.app/profile/arxanas.bsky.social&quot;&gt;na Bluesky&lt;/a&gt;, &lt;a href=&quot;https://types.pl/@arxanas&quot;&gt;na Mastodon&lt;/a&gt; albo &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;na Twitterze&lt;/a&gt;, albo subskrybuj &lt;a href=&quot;/pl/feed.xml&quot;&gt;za pomocą RSS&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;komentarze&quot;&gt;Komentarze&lt;/h2&gt;
 
