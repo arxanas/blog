@@ -2,39 +2,44 @@
 
   <div class="wrapper">
 
-    <h2 class="footer-heading">{{ site.title }}</h2>
-    {% if site.lang == "pl" %}
-    <p class="rss-subscribe">subskrybuj <a href="{{ "/feed.xml" | prepend: site.baseurl }}">za pomocą RSS</a></p>
-    {% else %}
-    <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
-    {% endif %}
+    <div class="footer-header">
+      <div class="footer-header-col-1">
+        <h2 class="footer-heading">{{ site.title }}</h2>
+        {% if site.lang == "pl" %}
+        <p class="rss-subscribe">Subskrybuj <a href="{{ "/feed.xml" | prepend: site.baseurl }}">za pomocą RSS</a></p>
+        {% else %}
+        <p class="rss-subscribe">Subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
+        {% endif %}
+      </div>
+
+      <div class="footer-header-col-2">
+        <p>{{ site.translations[site.lang].description }}</p>
+      </div>
+    </div>
 
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">
-        <ul class="contact-list">
-          <li>{{ site.real_name }}</li>
-          <li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col footer-col-2">
+        <p class="contact-name">{{ site.real_name }}</p>
         <ul class="social-media-list">
-          {% if site.github_username %}
           <li>
-            {% include icon-github.html username=site.github_username %}
+            <a href="mailto:{{ site.email }}"><span class="icon icon--email">{% include icon-email.svg %}</span><span class="username">Email</span></a>
           </li>
-          {% endif %}
-
-          {% if site.twitter_username %}
           <li>
-            {% include icon-twitter.html username=site.twitter_username %}
+            <a href="{{ site.github_url }}"><span class="icon icon--github">{% include icon-github.svg %}</span><span class="username">GitHub</span></a>
           </li>
-          {% endif %}
+          <li>
+            <a href="{{ site.linkedin_url }}"><span class="icon icon--linkedin">{% include icon-linkedin.svg %}</span><span class="username">LinkedIn</span></a>
+          </li>
+          <li>
+            <a href="{{ site.bluesky_url }}"><span class="icon icon--bluesky">{% include icon-bluesky.svg %}</span><span class="username">Bluesky</span></a>
+          </li>
+          <li>
+            <a href="{{ site.mastodon_url }}"><span class="icon icon--mastodon">{% include icon-mastodon.svg %}</span><span class="username">Mastodon</span></a>
+          </li>
+          <li>
+            <a href="{{ site.twitter_url }}"><span class="icon icon--twitter">{% include icon-twitter.svg %}</span><span class="username">Twitter</span></a>
+          </li>
         </ul>
-      </div>
-
-      <div class="footer-col footer-col-3">
-        <p>{{ site.translations[site.lang].description }}</p>
       </div>
     </div>
 

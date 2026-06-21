@@ -1,9 +1,4 @@
-I'm Waleed Khan, a software engineer in the Seattle area who builds highly scalable developer tooling. I'm currently employed full-time to do so, and I am also working on developer tooling projects such as [git-branchless](https://github.com/arxanas/git-branchless). How to reach me:
-
-* Email me: [me@waleedkhan.name](mailto:me@waleedkhan.name)
-* Follow me on Twitter: [@arxanas](https://twitter.com/arxanas)
-* Follow me on Mastodon: [@arxanas@types.pl](https://types.pl/@arxanas)
-* Connect with me on [LinkedIn](https://www.linkedin.com/in/waleedkhan000/)
+I'm Waleed Khan, a software engineer in the Seattle area who builds highly scalable developer tooling. I'm currently employed full-time to do so, and I am also working on developer tooling projects such as [git-branchless](https://github.com/arxanas/git-branchless).
 
 On this blog, you'll find technical posts, typically around some of the following subjects:
 

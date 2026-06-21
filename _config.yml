@@ -14,8 +14,11 @@ description: |-
 real_name: Waleed Khan
 email: me@waleedkhan.name
 url: "https://blog.waleedkhan.name" # the base hostname & protocol for your site
-github_username: arxanas
-twitter_username: arxanas
+github_url: "https://github.com/arxanas"
+linkedin_url: "https://www.linkedin.com/in/waleedkhan000/"
+bluesky_url: "https://bsky.app/profile/arxanas.bsky.social"
+mastodon_url: "https://types.pl/@arxanas"
+twitter_url: "https://twitter.com/arxanas"
 google_analytics_id: 'UA-53066274-1'
 permalink: none
 
@@ -42,10 +45,9 @@ related_posts:
     - my-steno-system/
     - on-bullet-points/
     - please-or-thank-you/
-    - please-or-thank-you/
+    - steno-adventures-part-1/
     - steno-adventures-part-2/
     - steno-journal/
-    - steno-adventures-part-1/
 
   # Career:
   - - detect-recruiter-spam/
