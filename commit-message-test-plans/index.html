@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  
+    <title>Commit message test plans</title>
+  
+  <meta name="author" content="Waleed Khan">
+  <meta name="description" content="            Intended audience              Software engineers who already write test plans in commit messages or code review descriptions.        People work...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="https://blog.waleedkhan.name/commit-message-test-plans/">
+  <link rel="alternate" type="application/rss+xml" title="Steno & PL" href="https://blog.waleedkhan.name/feed.xml">
+  <script src="//instant.page/5.1.0" type="module" integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+  
+
+  <link rel="me" href="https://github.com/arxanas">
+  <link rel="me" href="https://twitter.com/arxanas">
+  <link rel="me" href="mailto:me@waleedkhan.name">
+
+  
+  
+
+  <!-- See https://indieweb.org/webmention.io -->
+  <link rel="webmention" href="https://webmention.io/blog.waleedkhan.name/webmention" />
+  <link rel="pingback" href="https://webmention.io/webmention?forward=https://blog.waleedkhan.name/webmention" />
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Steno & PL</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          <a class="page-link" href="/about/">About</a>
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Commit message test plans</h1>
+    <p class="post-meta"><time datetime="2026-05-23T00:00:00+00:00" itemprop="datePublished">May 23, 2026</time>
+    
+    </p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    
+    <div class="publication-notes">
+  <table>
+    <tr>
+      <td>Intended audience</td>
+      <td><ul>
+        <li>Software engineers who already write test plans in commit messages or code review descriptions.</li>
+        <li>People working with patch stacks or stacked diffs.</li>
+      </ul></td>
+    </tr>
+    <tr>
+      <td>Origin</td>
+      <td>Private correspondence re Julio Merino's post <a href="https://blogsystem5.substack.com/p/markdown-based-test-suite">A markdown-based test suite</a>.</td>
+    </tr>
+    <tr>
+      <td>Mood</td>
+      <td>Practical.</td>
+    </tr>
+  </table>
+</div>
+
+<ul id="markdown-toc">
+  <li><a href="#why" id="markdown-toc-why">Why</a></li>
+  <li><a href="#how" id="markdown-toc-how">How</a>    <ul>
+      <li><a href="#patterns" id="markdown-toc-patterns">Patterns</a></li>
+      <li><a href="#script" id="markdown-toc-script">Script</a></li>
+    </ul>
+  </li>
+  <li><a href="#related-posts" id="markdown-toc-related-posts">Related posts</a></li>
+  <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
+</ul>
+
+<p>Julio Merino recently published <a href="https://blogsystem5.substack.com/p/markdown-based-test-suite"><em>A markdown-based test suite</em></a>, about using Markdown itself as a lightweight test format.</p>
+
+<p>That reminded me of a related workflow I’ve been using for a while with <a href="https://facebookincubator.github.io/scrut/"><code class="language-plaintext highlighter-rouge">scrut</code></a>: I put executable test plans directly in commit messages.</p>
+
+<h2 id="why">Why</h2>
+
+<ul>
+  <li>Makes the commit message’s test plan executable instead of purely descriptive.
+    <ul>
+      <li>Great for test-driven development, to ensure that my validation plan actually detects the underlying issue.</li>
+      <li>Great for knowledge sharing and onboarding teammates.</li>
+    </ul>
+  </li>
+  <li>Supports re-validating entire <a href="https://www.stacking.dev/">commit stacks</a> via <a href="https://github.com/arxanas/git-branchless/wiki/Command:-git-test"><code class="language-plaintext highlighter-rouge">git test</code></a>.
+    <ul>
+      <li>Often useful when rebasing on top of upstream changes.</li>
+      <li>On failure, it makes it quick and easy to bisect the first broken commit.</li>
+    </ul>
+  </li>
+  <li>Supports ad-hoc and differential testing, where there is no tested correct output, and we just want to document changes.</li>
+</ul>
+
+<h2 id="how">How</h2>
+
+<p>Inside my commit messages, I add <code class="language-plaintext highlighter-rouge">scrut</code> code blocks with test commands to run. <a href="https://github.com/arxanas/git-branchless/commit/624edd2004015198edec6fbffbc92d3c4ce27aaf">Example</a>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fix(tests): fix tests on macOS with Git v2.37
+
+...
+
+Test Plan
+---------
+
+```scrut
+$ cargo nextest run --workspace --no-fail-fast -- 'submodule'
+```
+</code></pre></div></div>
+
+<p>I use a <a href="#script">small script called <code class="language-plaintext highlighter-rouge">git-test-message</code></a> to read the commit message and run the <code class="language-plaintext highlighter-rouge">scrut</code> tests in the repository working tree:</p>
+
+<p>For individual runs, I invoke it like this:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>git test-message
+<span class="go">🔎 Found 1 test document(s)
+
+Result: 1 document(s) with 1 testcase(s): 1 succeeded, 0 failed and 0 skipped
+</span></code></pre></div></div>
+
+<p>With <a href="https://github.com/arxanas/git-branchless/wiki/Command:-git-test"><code class="language-plaintext highlighter-rouge">git test</code></a>, I’ve configured it as my default test command, which runs it on the entire stack:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>git config <span class="s1">'branchless.test.alias.default'</span>
+<span class="go">git test-message @
+
+</span><span class="gp">$</span><span class="w"> </span>git <span class="nb">test </span>run
+<span class="go">✓ Passed (cached): 624edd2 fix(tests): fix tests on macOS with Git v2.37
+Ran command on 1 commit: git test-message @
+1 passed, 0 failed, 0 skipped
+</span></code></pre></div></div>
+
+<h3 id="patterns">Patterns</h3>
+
+<p>By default, <code class="language-plaintext highlighter-rouge">scrut</code> asserts that the command exits successfully and that <code class="language-plaintext highlighter-rouge">stdout</code> matches. For some tools, especially <code class="language-plaintext highlighter-rouge">bazel</code>, <code class="language-plaintext highlighter-rouge">stdout</code> is not interesting or is non-deterministic, so I often redirect it to <code class="language-plaintext highlighter-rouge">stderr</code> so that it’s not asserted, but is still logged on failure:</p>
+
+<pre><code class="language-scrut">$ bazel test //foo &gt;&amp;2
+</code></pre>
+
+<p>For ad-hoc validation, when there’s no test case to cover a specific situation, I often pipe to <code class="language-plaintext highlighter-rouge">grep</code> or use <code class="language-plaintext highlighter-rouge">scrut</code>’s <a href="https://facebookincubator.github.io/scrut/docs/tutorial/output-expectations/">output expectations</a>:</p>
+
+<pre><code class="language-scrut">$ bazel run //foo | grep bar
+some line with bar
+</code></pre>
+
+<p>For differential testing, I might record the new behavior, check out the previous commit, record the old behavior, and diff the two:</p>
+
+<pre><code class="language-scrut">$ bazel run //foo &gt;after &amp;&amp; git checkout HEAD~ &amp;&amp; bazel run //bar &gt;before &amp;&amp; diff before after
+...diff output here...
+[1]
+</code></pre>
+
+<p>The <code class="language-plaintext highlighter-rouge">[1]</code> means that exit code <code class="language-plaintext highlighter-rouge">1</code> is expected from <code class="language-plaintext highlighter-rouge">diff</code>.</p>
+
+<h3 id="script">Script</h3>
+
+<p>Here’s my <code class="language-plaintext highlighter-rouge">git-test-message</code> script:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="nb">set</span> <span class="nt">-euo</span> pipefail
+
+mise <span class="nb">exec</span> <span class="s1">'cargo:scrut'</span> <span class="nt">--</span> scrut <span class="nb">test</span> <span class="se">\</span>
+  <span class="nt">--work-directory</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">PWD</span><span class="k">}</span><span class="s2">"</span> <span class="se">\</span>
+  <span class="nt">--match-markdown</span><span class="o">=</span><span class="s1">'*'</span> <span class="se">\</span>
+  &lt;<span class="o">(</span>git show <span class="nt">--no-patch</span> <span class="nt">--format</span><span class="o">=</span><span class="s1">'%B'</span> <span class="s2">"</span><span class="k">${</span><span class="nv">1</span><span class="k">:-</span><span class="nv">HEAD</span><span class="k">}</span><span class="s2">"</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>Notes:</p>
+
+<ul>
+  <li>My script uses <a href="https://mise.jdx.dev/"><code class="language-plaintext highlighter-rouge">mise</code></a> to just-in-time provision the <code class="language-plaintext highlighter-rouge">scrut</code> binary.</li>
+  <li>By default, <code class="language-plaintext highlighter-rouge">scrut</code> works in a temporary directory. I oftentimes run commands that need th repo state, so I added <code class="language-plaintext highlighter-rouge">--work-directory=${PWD}</code>.</li>
+  <li>By default, <code class="language-plaintext highlighter-rouge">scrut</code> only runs on Markdown input files. I specified <code class="language-plaintext highlighter-rouge">--match-markdown='*'</code> to match the <a href="https://tldp.org/LDP/abs/html/process-sub.html">process substitution</a> filename (which usually ends up being a path like <code class="language-plaintext highlighter-rouge">/dev/fd/63</code>).</li>
+  <li><code class="language-plaintext highlighter-rouge">scrut</code> has features to auto-update the snapshot tests, but I haven’t integrated that (since they’d have to be written back to the Git commit message).</li>
+</ul>
+
+<h2 id="related-posts">Related posts</h2>
+
+<p>The following are hand-curated posts which you might find interesting.</p>
+
+<table class="related-posts">
+<thead>
+  <tr>
+    <th>Date</th>
+    <th></th>
+    <th>Title</th>
+  </tr>
+</thead>
+
+<tbody>
+
+
+  <tr>
+    <td>11&nbsp;Apr&nbsp;2023</td>
+    <td class="this-post">
+      
+      </td>
+    <td><a href="/formatting-a-commit-stack/">Quickly formatting a stack of commits</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>24&nbsp;Aug&nbsp;2023</td>
+    <td class="this-post">
+      
+      </td>
+    <td><a href="/writing-brittle-code/">Writing brittle code</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>01&nbsp;Sep&nbsp;2023</td>
+    <td class="this-post">
+      
+      </td>
+    <td><a href="/on-trivial-changes/">On trivial changes</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>30&nbsp;Dec&nbsp;2023</td>
+    <td class="this-post">
+      
+      </td>
+    <td><a href="/testing-tui-apps/">Testing terminal user interface apps</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>30&nbsp;Oct&nbsp;2025</td>
+    <td class="this-post">
+      
+      </td>
+    <td><a href="/what-if-sql-were-good/">Datalog DSL detects defective dependency declarations, defanging dodgy development discipline</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>23&nbsp;May&nbsp;2026</td>
+    <td class="this-post">
+      
+      (this&nbsp;post)
+      
+      </td>
+    <td><a href="/commit-message-test-plans/">Commit message test plans</a>
+    </td>
+  </tr>
+
+</tbody>
+</table>
+
+<p>Want to see more of my posts? Follow me <a href="https://twitter.com/arxanas">on Twitter</a> or subscribe <a href="/feed.xml">via RSS</a>.</p>
+
+<h2 id="comments">Comments</h2>
+
+<ul>
+
+
+
+</ul>
+
+<script type="text/javascript" src="/scripts/github-comment-links.js"></script>
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = "https://blog.waleedkhan.name/commit-message-test-plans/";
+    this.page.identifier = "commit-message-test-plans/";
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//waleedkhan-name.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Steno & PL</h2>
+    
+    <p class="rss-subscribe">subscribe <a href="/feed.xml">via RSS</a></p>
+    
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>Waleed Khan</li>
+          <li><a href="mailto:me@waleedkhan.name">me@waleedkhan.name</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/arxanas"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">arxanas</span></a>
+
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/arxanas"><span class="icon icon--twitter"><svg viewBox="0 0 16 16"><path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/></svg>
+</span><span class="username">arxanas</span></a>
+
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>This is a personal blog. Unless otherwise stated, the opinions expressed here are my own, and not those of my past or present employers.</p>
+      </div>
+    </div>
+
+  </div>
+
+  
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-53066274-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+</footer>
+
+
+  </body>
+
+</html>

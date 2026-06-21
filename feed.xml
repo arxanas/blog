@@ -7,9 +7,265 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 23 May 2026 22:55:36 +0000</pubDate>
-    <lastBuildDate>Sat, 23 May 2026 22:55:36 +0000</lastBuildDate>
+    <pubDate>Sun, 21 Jun 2026 00:36:24 +0000</pubDate>
+    <lastBuildDate>Sun, 21 Jun 2026 00:36:24 +0000</lastBuildDate>
     <generator>Jekyll v4.3.4</generator>
+    
+      <item>
+        <title>Commit message test plans</title>
+        <description>&lt;div class=&quot;publication-notes&quot;&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Intended audience&lt;/td&gt;
+      &lt;td&gt;&lt;ul&gt;
+        &lt;li&gt;Software engineers who already write test plans in commit messages or code review descriptions.&lt;/li&gt;
+        &lt;li&gt;People working with patch stacks or stacked diffs.&lt;/li&gt;
+      &lt;/ul&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Origin&lt;/td&gt;
+      &lt;td&gt;Private correspondence re Julio Merino&apos;s post &lt;a href=&quot;https://blogsystem5.substack.com/p/markdown-based-test-suite&quot;&gt;A markdown-based test suite&lt;/a&gt;.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Mood&lt;/td&gt;
+      &lt;td&gt;Practical.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+
+&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#why&quot; id=&quot;markdown-toc-why&quot;&gt;Why&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#how&quot; id=&quot;markdown-toc-how&quot;&gt;How&lt;/a&gt;    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#patterns&quot; id=&quot;markdown-toc-patterns&quot;&gt;Patterns&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#script&quot; id=&quot;markdown-toc-script&quot;&gt;Script&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#related-posts&quot; id=&quot;markdown-toc-related-posts&quot;&gt;Related posts&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Julio Merino recently published &lt;a href=&quot;https://blogsystem5.substack.com/p/markdown-based-test-suite&quot;&gt;&lt;em&gt;A markdown-based test suite&lt;/em&gt;&lt;/a&gt;, about using Markdown itself as a lightweight test format.&lt;/p&gt;
+
+&lt;p&gt;That reminded me of a related workflow I’ve been using for a while with &lt;a href=&quot;https://facebookincubator.github.io/scrut/&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scrut&lt;/code&gt;&lt;/a&gt;: I put executable test plans directly in commit messages.&lt;/p&gt;
+
+&lt;h2 id=&quot;why&quot;&gt;Why&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Makes the commit message’s test plan executable instead of purely descriptive.
+    &lt;ul&gt;
+      &lt;li&gt;Great for test-driven development, to ensure that my validation plan actually detects the underlying issue.&lt;/li&gt;
+      &lt;li&gt;Great for knowledge sharing and onboarding teammates.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Supports re-validating entire &lt;a href=&quot;https://www.stacking.dev/&quot;&gt;commit stacks&lt;/a&gt; via &lt;a href=&quot;https://github.com/arxanas/git-branchless/wiki/Command:-git-test&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git test&lt;/code&gt;&lt;/a&gt;.
+    &lt;ul&gt;
+      &lt;li&gt;Often useful when rebasing on top of upstream changes.&lt;/li&gt;
+      &lt;li&gt;On failure, it makes it quick and easy to bisect the first broken commit.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Supports ad-hoc and differential testing, where there is no tested correct output, and we just want to document changes.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;how&quot;&gt;How&lt;/h2&gt;
+
+&lt;p&gt;Inside my commit messages, I add &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scrut&lt;/code&gt; code blocks with test commands to run. &lt;a href=&quot;https://github.com/arxanas/git-branchless/commit/624edd2004015198edec6fbffbc92d3c4ce27aaf&quot;&gt;Example&lt;/a&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;fix(tests): fix tests on macOS with Git v2.37
+
+...
+
+Test Plan
+---------
+
+```scrut
+$ cargo nextest run --workspace --no-fail-fast -- &apos;submodule&apos;
+```
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;I use a &lt;a href=&quot;#script&quot;&gt;small script called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-test-message&lt;/code&gt;&lt;/a&gt; to read the commit message and run the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scrut&lt;/code&gt; tests in the repository working tree:&lt;/p&gt;
+
+&lt;p&gt;For individual runs, I invoke it like this:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;git test-message
+&lt;span class=&quot;go&quot;&gt;🔎 Found 1 test document(s)
+
+Result: 1 document(s) with 1 testcase(s): 1 succeeded, 0 failed and 0 skipped
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;With &lt;a href=&quot;https://github.com/arxanas/git-branchless/wiki/Command:-git-test&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git test&lt;/code&gt;&lt;/a&gt;, I’ve configured it as my default test command, which runs it on the entire stack:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;git config &lt;span class=&quot;s1&quot;&gt;&apos;branchless.test.alias.default&apos;&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;git test-message @
+
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;git &lt;span class=&quot;nb&quot;&gt;test &lt;/span&gt;run
+&lt;span class=&quot;go&quot;&gt;✓ Passed (cached): 624edd2 fix(tests): fix tests on macOS with Git v2.37
+Ran command on 1 commit: git test-message @
+1 passed, 0 failed, 0 skipped
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;patterns&quot;&gt;Patterns&lt;/h3&gt;
+
+&lt;p&gt;By default, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scrut&lt;/code&gt; asserts that the command exits successfully and that &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;stdout&lt;/code&gt; matches. For some tools, especially &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bazel&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;stdout&lt;/code&gt; is not interesting or is non-deterministic, so I often redirect it to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;stderr&lt;/code&gt; so that it’s not asserted, but is still logged on failure:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-scrut&quot;&gt;$ bazel test //foo &amp;gt;&amp;amp;2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;For ad-hoc validation, when there’s no test case to cover a specific situation, I often pipe to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;grep&lt;/code&gt; or use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scrut&lt;/code&gt;’s &lt;a href=&quot;https://facebookincubator.github.io/scrut/docs/tutorial/output-expectations/&quot;&gt;output expectations&lt;/a&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-scrut&quot;&gt;$ bazel run //foo | grep bar
+some line with bar
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;For differential testing, I might record the new behavior, check out the previous commit, record the old behavior, and diff the two:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-scrut&quot;&gt;$ bazel run //foo &amp;gt;after &amp;amp;&amp;amp; git checkout HEAD~ &amp;amp;&amp;amp; bazel run //bar &amp;gt;before &amp;amp;&amp;amp; diff before after
+...diff output here...
+[1]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;[1]&lt;/code&gt; means that exit code &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;1&lt;/code&gt; is expected from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;diff&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;script&quot;&gt;Script&lt;/h3&gt;
+
+&lt;p&gt;Here’s my &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git-test-message&lt;/code&gt; script:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-euo&lt;/span&gt; pipefail
+
+mise &lt;span class=&quot;nb&quot;&gt;exec&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;cargo:scrut&apos;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; scrut &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--work-directory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PWD&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--match-markdown&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&apos;*&apos;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &amp;lt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;git show &lt;span class=&quot;nt&quot;&gt;--no-patch&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--format&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&apos;%B&apos;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;:-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;HEAD&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Notes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;My script uses &lt;a href=&quot;https://mise.jdx.dev/&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;mise&lt;/code&gt;&lt;/a&gt; to just-in-time provision the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scrut&lt;/code&gt; binary.&lt;/li&gt;
+  &lt;li&gt;By default, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scrut&lt;/code&gt; works in a temporary directory. I oftentimes run commands that need th repo state, so I added &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--work-directory=${PWD}&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;By default, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scrut&lt;/code&gt; only runs on Markdown input files. I specified &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--match-markdown=&apos;*&apos;&lt;/code&gt; to match the &lt;a href=&quot;https://tldp.org/LDP/abs/html/process-sub.html&quot;&gt;process substitution&lt;/a&gt; filename (which usually ends up being a path like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/dev/fd/63&lt;/code&gt;).&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scrut&lt;/code&gt; has features to auto-update the snapshot tests, but I haven’t integrated that (since they’d have to be written back to the Git commit message).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
+
+&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
+
+&lt;table class=&quot;related-posts&quot;&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Date&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+
+  &lt;tr&gt;
+    &lt;td&gt;11&amp;nbsp;Apr&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/formatting-a-commit-stack/&quot;&gt;Quickly formatting a stack of commits&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;24&amp;nbsp;Aug&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/writing-brittle-code/&quot;&gt;Writing brittle code&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;01&amp;nbsp;Sep&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/on-trivial-changes/&quot;&gt;On trivial changes&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;30&amp;nbsp;Dec&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/testing-tui-apps/&quot;&gt;Testing terminal user interface apps&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;30&amp;nbsp;Oct&amp;nbsp;2025&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/what-if-sql-were-good/&quot;&gt;Datalog DSL detects defective dependency declarations, defanging dodgy development discipline&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;23&amp;nbsp;May&amp;nbsp;2026&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      (this&amp;nbsp;post)
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/commit-message-test-plans/&quot;&gt;Commit message test plans&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
+
+&lt;ul&gt;
+
+
+
+&lt;/ul&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_config = function () {
+    this.page.url = &quot;https://blog.waleedkhan.name/commit-message-test-plans/&quot;;
+    this.page.identifier = &quot;commit-message-test-plans/&quot;;
+};
+
+(function() { // DON&apos;T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement(&apos;script&apos;);
+    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
+    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+
+</description>
+        <pubDate>Sat, 23 May 2026 00:00:00 +0000</pubDate>
+        <link>https://blog.waleedkhan.name/commit-message-test-plans/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/commit-message-test-plans/</guid>
+        
+        <category>software-engineering</category>
+        
+        <category>software-verification</category>
+        
+        
+      </item>
     
       <item>
         <title>🙏: please or thank you?</title>
@@ -737,6 +993,15 @@ Static analysis, including control flow and data flow analysis.
   &lt;/tr&gt;
 
   &lt;tr&gt;
+    &lt;td&gt;11&amp;nbsp;Apr&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/formatting-a-commit-stack/&quot;&gt;Quickly formatting a stack of commits&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
     &lt;td&gt;17&amp;nbsp;Jun&amp;nbsp;2023&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
@@ -807,6 +1072,15 @@ Static analysis, including control flow and data flow analysis.
       
       &lt;/td&gt;
     &lt;td&gt;&lt;a href=&quot;/what-if-sql-were-good/&quot;&gt;Datalog DSL detects defective dependency declarations, defanging dodgy development discipline&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;23&amp;nbsp;May&amp;nbsp;2026&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/commit-message-test-plans/&quot;&gt;Commit message test plans&lt;/a&gt;
     &lt;/td&gt;
   &lt;/tr&gt;
 
@@ -3358,6 +3632,15 @@ var disqus_config = function () {
 
 
   &lt;tr&gt;
+    &lt;td&gt;11&amp;nbsp;Apr&amp;nbsp;2023&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/formatting-a-commit-stack/&quot;&gt;Quickly formatting a stack of commits&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
     &lt;td&gt;24&amp;nbsp;Aug&amp;nbsp;2023&lt;/td&gt;
     &lt;td class=&quot;this-post&quot;&gt;
       
@@ -3392,6 +3675,15 @@ var disqus_config = function () {
       
       &lt;/td&gt;
     &lt;td&gt;&lt;a href=&quot;/what-if-sql-were-good/&quot;&gt;Datalog DSL detects defective dependency declarations, defanging dodgy development discipline&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;23&amp;nbsp;May&amp;nbsp;2026&lt;/td&gt;
+    &lt;td class=&quot;this-post&quot;&gt;
+      
+      &lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/commit-message-test-plans/&quot;&gt;Commit message test plans&lt;/a&gt;
     &lt;/td&gt;
   &lt;/tr&gt;
 
@@ -3441,145 +3733,6 @@ var disqus_config = function () {
         <category>software-verification</category>
         
         <category>reprint</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>On trivial changes</title>
-        <description>&lt;div class=&quot;publication-notes&quot;&gt;
-  &lt;table&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Intended audience&lt;/td&gt;
-      &lt;td&gt;&lt;ul&gt;
-        &lt;li&gt;Software engineers.&lt;/li&gt;
-        &lt;li&gt;Anyone with checklists as part of their workflows or routines.&lt;/li&gt;
-      &lt;/ul&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Origin&lt;/td&gt;
-      &lt;td&gt;General software engineering experience.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Mood&lt;/td&gt;
-      &lt;td&gt;Amused.&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/table&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;series-and-toc&quot;&gt;
-
-  &lt;p class=&quot;toc-header&quot;&gt;Table of contents:&lt;/p&gt;
-
-&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#related-posts&quot; id=&quot;markdown-toc-related-posts&quot;&gt;Related posts&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;One day, perhaps three years into my career, I had a very small, one-line code change to make. I don’t remember exactly what it was, but I think it involved computing a value and interpolating it into a string. I considered committing it directly, but submitted it for code review despite how small of a change it was.&lt;/p&gt;
-
-&lt;p&gt;My reviewers pointed out three different bugs, which makes it perhaps the buggiest commit I’ve ever written (by density of bugs per lines of code). Since that day, I always submit code for review and I always wait for builds and tests to finish, even for changes which “obviously” don’t affect anything.&lt;/p&gt;
-
-&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
-
-&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
-
-&lt;table class=&quot;related-posts&quot;&gt;
-&lt;thead&gt;
-  &lt;tr&gt;
-    &lt;th&gt;Date&lt;/th&gt;
-    &lt;th&gt;&lt;/th&gt;
-    &lt;th&gt;Title&lt;/th&gt;
-  &lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-
-
-  &lt;tr&gt;
-    &lt;td&gt;24&amp;nbsp;Aug&amp;nbsp;2023&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/writing-brittle-code/&quot;&gt;Writing brittle code&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;01&amp;nbsp;Sep&amp;nbsp;2023&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      (this&amp;nbsp;post)
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/on-trivial-changes/&quot;&gt;On trivial changes&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;30&amp;nbsp;Dec&amp;nbsp;2023&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/testing-tui-apps/&quot;&gt;Testing terminal user interface apps&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;30&amp;nbsp;Oct&amp;nbsp;2025&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/what-if-sql-were-good/&quot;&gt;Datalog DSL detects defective dependency declarations, defanging dodgy development discipline&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Want to see more of my posts? Follow me &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;on Twitter&lt;/a&gt; or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
-
-&lt;ul&gt;
-
-
-
-&lt;/ul&gt;
-
-&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
-
-&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
-&lt;script&gt;
-
-/**
- *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
- *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
-var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/on-trivial-changes/&quot;;
-    this.page.identifier = &quot;on-trivial-changes/&quot;;
-};
-
-(function() { // DON&apos;T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement(&apos;script&apos;);
-    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
-    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
-    (d.head || d.body).appendChild(s);
-})();
-&lt;/script&gt;
-
-&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
-
-</description>
-        <pubDate>Fri, 01 Sep 2023 00:00:00 +0000</pubDate>
-        <link>https://blog.waleedkhan.name/on-trivial-changes/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/on-trivial-changes/</guid>
-        
-        <category>software-engineering</category>
-        
-        <category>software-verification</category>
         
         
       </item>
