@@ -35,9 +35,9 @@ The following are hand-curated posts which you might find interesting.
 </table>
 
 {% if site.lang == "pl" %}
-Chcesz zobaczyć więcej moich postów? Obserwuj mnie <a href="https://twitter.com/arxanas">na Twitterze</a> albo subskrybuj <a href="{{ "/feed.xml" | prepend: site.baseurl }}">za pomocą RSS</a>.
+Chcesz zobaczyć więcej moich postów? Obserwuj mnie <a href="{{ site.bluesky_url }}">na Bluesky</a>, <a href="{{ site.mastodon_url }}">na Mastodon</a> albo <a href="{{ site.twitter_url }}">na Twitterze</a>, albo subskrybuj <a href="{{ "/feed.xml" | prepend: site.baseurl }}">za pomocą RSS</a>.
 {% else %}
-Want to see more of my posts? Follow me <a href="https://twitter.com/arxanas">on Twitter</a> or subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a>.
+Want to see more of my posts? Follow me on <a href="{{ site.bluesky_url }}">Bluesky</a>, <a href="{{ site.mastodon_url }}">Mastodon</a>, or <a href="{{ site.twitter_url }}">Twitter</a>, or subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a>.
 {% endif %}
 
 {% if site.lang == "pl" %}
