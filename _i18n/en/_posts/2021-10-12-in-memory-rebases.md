@@ -6,6 +6,7 @@ tags:
   - git
   - rust
   - software-engineering
+hn: https://news.ycombinator.com/item?id=28899661
 lobsters: https://lobste.rs/s/tk8s2h/lightning_fast_rebases_with_git_move
 ---
 
