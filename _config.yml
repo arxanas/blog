@@ -83,6 +83,7 @@ related_posts:
     - bringing-revsets-to-git/
     - git-ui-features/
     - patch-terminology/
+    - commit-graph-data-structures/
 
   # Incremental computation:
   - - monotonicity/
