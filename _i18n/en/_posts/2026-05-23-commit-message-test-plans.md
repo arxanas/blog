@@ -5,6 +5,7 @@ permalink: commit-message-test-plans/
 tags:
   - software-engineering
   - software-verification
+lobsters: "https://lobste.rs/s/abl0xo/commit_message_test_plans"
 ---
 
 <div class="publication-notes">
