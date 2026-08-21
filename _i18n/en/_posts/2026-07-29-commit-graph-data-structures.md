@@ -37,6 +37,12 @@ tags:
 
 {% include toc.md %}
 
+**Update 2026-08-20**: Thanks to EngFlow and Uber for hosting the meetup and providing the below recording! You can see the rest of the talks and summaries in [*Four War Stories and a Demo: Seattle Build Meetup 2026*](https://blog.engflow.com/2026/08/18/four-war-stories-and-a-demo-seattle-build-meetup-2026--engflow/).
+
+<div class="iframe-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Qdi2HxPE9lg?si=mBCDjWAcCdY7vDsg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+
 ## Slides
 
 Unfortunately, I don't have a transcript or presentation notes.
