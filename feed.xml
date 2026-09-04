@@ -7,9 +7,49 @@ expressed here are my own, and not those of my past or present
 employers.</description>
     <link>https://blog.waleedkhan.name/</link>
     <atom:link href="https://blog.waleedkhan.name/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 21 Aug 2026 00:06:20 +0000</pubDate>
-    <lastBuildDate>Fri, 21 Aug 2026 00:06:20 +0000</lastBuildDate>
+    <pubDate>Fri, 04 Sep 2026 18:24:57 +0000</pubDate>
+    <lastBuildDate>Fri, 04 Sep 2026 18:24:57 +0000</lastBuildDate>
     <generator>Jekyll v4.3.4</generator>
+    
+      <item>
+        <title>Is having a &apos;.name&apos; email address a good idea? Update #1</title>
+        <description>
+&lt;div class=&quot;series-and-toc&quot;&gt;
+
+  &lt;p class=&quot;series-header&quot;&gt;Posts in series:&lt;/p&gt;
+
+  &lt;ol&gt;
+
+&lt;li&gt;&lt;a href=&quot;/dot-name-email-address/&quot;&gt;Is having a &apos;.name&apos; email address a good idea?&lt;/a&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;a href=&quot;/dot-name-email-address-update-1/&quot;&gt;Is having a &apos;.name&apos; email address a good idea? Update #1&lt;/a&gt;&lt;/li&gt;
+
+&lt;/ol&gt;
+
+  &lt;p class=&quot;toc-header&quot;&gt;Table of contents:&lt;/p&gt;
+
+&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#conclusion&quot; id=&quot;markdown-toc-conclusion&quot;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://neil.fraser.name/news/2026/09/03/&quot;&gt;Not anymore&lt;/a&gt;.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 04 Sep 2026 00:00:00 +0000</pubDate>
+        <link>https://blog.waleedkhan.name/dot-name-email-address-update-1/</link>
+        <guid isPermaLink="true">https://blog.waleedkhan.name/dot-name-email-address-update-1/</guid>
+        
+        <category>career</category>
+        
+        <category>linguistics</category>
+        
+        <category>software-engineering</category>
+        
+        
+      </item>
     
       <item>
         <title>Commit graph data structures</title>
@@ -3235,297 +3275,6 @@ var disqus_config = function () {
         <guid isPermaLink="true">https://blog.waleedkhan.name/incremental-watchman/</guid>
         
         <category>build-systems</category>
-        
-        <category>reprint</category>
-        
-        <category>software-engineering</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Patch terminology</title>
-        <description>&lt;div class=&quot;publication-notes&quot;&gt;
-  &lt;table&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Intended audience&lt;/td&gt;
-      &lt;td&gt;&lt;ul&gt;
-        &lt;li&gt;Developers of version control systems, specifically &lt;a href=&quot;https://github.com/martinvonz/jj&quot;&gt;jj&lt;/a&gt;.&lt;/li&gt;
-        &lt;li&gt;Those interested in the version control pedagogy.&lt;/li&gt;
-      &lt;/ul&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Origin&lt;/td&gt;
-      &lt;td&gt;&lt;ul&gt;
-        &lt;li&gt;Reprint of &lt;a href=&quot;https://docs.google.com/document/d/1qrv8I_IqRz8CdohZw6VcMssBEetoGmQj33vPz1_XlYI/edit?usp=sharing&quot;&gt;research originally published on Google Docs&lt;/a&gt;.&lt;/li&gt;
-        &lt;li&gt;Surveyed five participants from various &quot;big tech&quot; companies (&amp;gt;$1B valuation).&lt;/li&gt;
-      &lt;/ul&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Mood&lt;/td&gt;
-      &lt;td&gt;Investigative.&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/table&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;series-and-toc&quot;&gt;
-
-  &lt;p class=&quot;toc-header&quot;&gt;Table of contents:&lt;/p&gt;
-
-&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#methodology&quot; id=&quot;markdown-toc-methodology&quot;&gt;Methodology&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#results&quot; id=&quot;markdown-toc-results&quot;&gt;Results&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#remarks&quot; id=&quot;markdown-toc-remarks&quot;&gt;Remarks&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#conclusions&quot; id=&quot;markdown-toc-conclusions&quot;&gt;Conclusions&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#related-posts&quot; id=&quot;markdown-toc-related-posts&quot;&gt;Related posts&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#comments&quot; id=&quot;markdown-toc-comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;/div&gt;
-
-&lt;h2 id=&quot;methodology&quot;&gt;Methodology&lt;/h2&gt;
-
-&lt;p&gt;Q: I am doing research for a source control project, can you answer what the following nouns mean to you in the context of source control, if anything? (Ordered alphabetically)&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;a “change”&lt;/li&gt;
-  &lt;li&gt;a “commit”&lt;/li&gt;
-  &lt;li&gt;a “patch”&lt;/li&gt;
-  &lt;li&gt;a “revision”&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
-
-&lt;p&gt;P1 (Google, uses Piper + CLs):&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Change: a difference in code. What isn’t committed yet.&lt;/li&gt;
-  &lt;li&gt;Commit: a cl. Code that is ready to push and has a description along with it&lt;/li&gt;
-  &lt;li&gt;Patch: a commit number that that someone made that may or may not be pushed yet […] A change that’s not yours&lt;/li&gt;
-  &lt;li&gt;Revision: a change to a commit?&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;P2 (big tech, uses GitLab + MRs):&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Change: added/removed/updated files&lt;/li&gt;
-  &lt;li&gt;Commit: a group of related changes with a description&lt;/li&gt;
-  &lt;li&gt;Patch: a textual representation of changes between two versions&lt;/li&gt;
-  &lt;li&gt;Revision: a version of the repository, like the state of all files after a set of commits&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;P3 (Google, uses Fig + CLs):&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Change: A change to me is any difference in code. Uncommitted to pushed. I’ve heard people say I’ve pushed the change.&lt;/li&gt;
-  &lt;li&gt;Commit: A commit is a saved code diff with a description.&lt;/li&gt;
-  &lt;li&gt;Patch: A patch is a diff between any two commits how to turn commit a into into b.&lt;/li&gt;
-  &lt;li&gt;Revision: Revisions idk. I think at work they are snapshots of a code base so all changes at a point in time.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;P4 (Microsoft, uses GitHub + PRs):&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Change: the entire change I want to check into the codebase this can be multiple commits but it’s what I’m putting up for review&lt;/li&gt;
-  &lt;li&gt;Commit: a portion of my change&lt;/li&gt;
-  &lt;li&gt;Patch: a group of commits or a change I want to use on another repo/branch&lt;/li&gt;
-  &lt;li&gt;Revision: An id for a group of commits or a single commit&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;P5 (big tech, uses GitHub + PRs):&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Change: your update to source files in a repository&lt;/li&gt;
-  &lt;li&gt;Commit: description of change&lt;/li&gt;
-  &lt;li&gt;Patch: I don’t really use this but I would think a quick fix (image, imports, other small changes etc)&lt;/li&gt;
-  &lt;li&gt;Revision: some number or set of numbers corresponding to change&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;remarks&quot;&gt;Remarks&lt;/h2&gt;
-
-&lt;p&gt;Take-aways:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Change: People largely don’t think of a “change” as an physical object, rather just a diff or abstract object.
-    &lt;ul&gt;
-      &lt;li&gt;It can potentially range from uncommitted to committed to pushed (P1–P5).&lt;/li&gt;
-      &lt;li&gt;Unlike others, P4 thinks of it as a &lt;em&gt;larger&lt;/em&gt; unit than a commit (more like a “review”), probably due to the GitHub PR workflow.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Commit: Universally, commits are considered to have messages. However, the interpretation of a commit as a &lt;em&gt;snapshot&lt;/em&gt; vs &lt;em&gt;diff&lt;/em&gt; appears to be implicit (compare P2’s “commit” vs “revision”).&lt;/li&gt;
-  &lt;li&gt;Patch: Split between interpretations:
-    &lt;ul&gt;
-      &lt;li&gt;Either it represents a &lt;em&gt;diff&lt;/em&gt; between two versions of the code (P2, P3).&lt;/li&gt;
-      &lt;li&gt;Or it’s a higher-level interpretation of a patch as a &lt;em&gt;transmissible change&lt;/em&gt;. Particularly for getting a change from someone else (P1), but can also refer to a change that you want to use on a different branch (P4).&lt;/li&gt;
-      &lt;li&gt;P5 merely considers a “patch” to be a “small fix”, which is also a generally accepted meaning, although a little imprecise in terms of source control (refers to the &lt;em&gt;intention&lt;/em&gt; of the patch, rather than the mechanics of the patch itself).&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Revision: This is really interesting. The underlying mental models are very different, but the semantic implications end up aligning, more so than for the term “commit”!
-    &lt;ul&gt;
-      &lt;li&gt;P1: Not a specific source control term, just “the effect of revising”.&lt;/li&gt;
-      &lt;li&gt;P2, P3: Effect of “applying all commits”. This implies that they consider “commits” as &lt;em&gt;diffs&lt;/em&gt; and “revisions” as &lt;em&gt;snapshots&lt;/em&gt;.&lt;/li&gt;
-      &lt;li&gt;P4, P5, Some notions that it’s specifically the &lt;em&gt;identifier&lt;/em&gt; of a change/commit. It’s something that you can reference or send to others.&lt;/li&gt;
-      &lt;li&gt;Surprisingly to me, P2–P5 actually all essentially agree that “revision” means a &lt;em&gt;snapshot&lt;/em&gt; of the codebase. The mental models are quite different (“accumulation of diffs” vs “stable identifier”) but they refer to the same ultimate result: a specific state of the codebase (…or a way to refer to it — what’s in a name?). This is essentially the opposite of “commit”, where everyone &lt;em&gt;thinks&lt;/em&gt; that they agree on what they are, but they’re actually split — roughly evenly? — into &lt;em&gt;snapshot&lt;/em&gt; vs &lt;em&gt;diff&lt;/em&gt; mental models.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;conclusions&quot;&gt;Conclusions&lt;/h2&gt;
-
-&lt;p&gt;Conclusions for &lt;a href=&quot;https://github.com/martinvonz/jj&quot;&gt;jj&lt;/a&gt;:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;We already knew that “change” is a difficult term, syntactically speaking. It’s also now apparent that it’s semantically unclear. Only P4 thought of it as a “reviewable unit”, which would probably most closely match the jj interpretation. We should switch away from this term.&lt;/li&gt;
-  &lt;li&gt;People are largely settled on what “commits” are in the ways that we thought.
-    &lt;ul&gt;
-      &lt;li&gt;There are two main mental models, where participants appear to implicitly consider them to be either snapshots or diffs, as we know.&lt;/li&gt;
-      &lt;li&gt;They &lt;em&gt;have&lt;/em&gt; to have messages according to participants (unlike in jj, where a commit/change may not yet have a message).
-        &lt;ul&gt;
-          &lt;li&gt;It’s possible this is an artifact of the Git mental model, rather than fundamental. We don’t see a lot of confusion when we tell people “your commits can have empty messages”.&lt;/li&gt;
-          &lt;li&gt;I think the real implication is that the set of changes is packaged/finalized into &lt;em&gt;one unit&lt;/em&gt;, as opposed to “changes”, which might be in flux or not properly packaged into one unit for publishing/sharing.&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Half of respondents think that “patch” primarily refers to a &lt;em&gt;diff&lt;/em&gt;, while half think that it refers to a &lt;em&gt;transmissible change&lt;/em&gt;.
-    &lt;ul&gt;
-      &lt;li&gt;In my opinion, the “transmissible change” interpretation aligns most closely with jj changes at present. In particular, you put those up for review and people can download them.&lt;/li&gt;
-      &lt;li&gt;I also think the “diff” interpretation aligns with jj interpretation (as you can rebase patches around, and the semantic content of the patch doesn’t change); however, there is a &lt;a href=&quot;https://discord.com/channels/968932220549103686/1187096737639321742&quot;&gt;great deal of discussion on Discord&lt;/a&gt; suggesting that people think of “patches” as immutable, and this doesn’t match the jj semantics where you can rebase them around (IIUC).&lt;/li&gt;
-      &lt;li&gt;Overall, I think “patch” is still the best term we have as a replacement for jj “changes” (unless somebody can propose a better one), and it’s clear that we should move away from “change” as a term.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;“Revision” is much more semantically clear than I thought it was. This means that we can adopt/coopt the existing term and ascribe the specific “snapshot” meaning that we do today.
-    &lt;ul&gt;
-      &lt;li&gt;We already &lt;em&gt;do&lt;/em&gt; use “revision” in many places, most notably “revsets”. For consistency, we likely want to standardize “revision” instead of “commit” as a term.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;related-posts&quot;&gt;Related posts&lt;/h2&gt;
-
-&lt;p&gt;The following are hand-curated posts which you might find interesting.&lt;/p&gt;
-
-&lt;table class=&quot;related-posts&quot;&gt;
-&lt;thead&gt;
-  &lt;tr&gt;
-    &lt;th&gt;Date&lt;/th&gt;
-    &lt;th&gt;&lt;/th&gt;
-    &lt;th&gt;Title&lt;/th&gt;
-  &lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-
-
-  &lt;tr&gt;
-    &lt;td&gt;19&amp;nbsp;Jun&amp;nbsp;2021&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/git-undo/&quot;&gt;git undo: We can do better&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;12&amp;nbsp;Oct&amp;nbsp;2021&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/in-memory-rebases/&quot;&gt;Lightning-fast rebases with git-move&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;19&amp;nbsp;Oct&amp;nbsp;2022&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/build-aware-sparse-checkouts/&quot;&gt;Build-aware sparse checkouts&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;16&amp;nbsp;Nov&amp;nbsp;2022&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/bringing-revsets-to-git/&quot;&gt;Bringing revsets to Git&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;05&amp;nbsp;Jan&amp;nbsp;2023&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/git-ui-features/&quot;&gt;Where are my Git UI features from the future?&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;11&amp;nbsp;Jan&amp;nbsp;2024&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      (this&amp;nbsp;post)
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/patch-terminology/&quot;&gt;Patch terminology&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-  &lt;tr&gt;
-    &lt;td&gt;29&amp;nbsp;Jul&amp;nbsp;2026&lt;/td&gt;
-    &lt;td class=&quot;this-post&quot;&gt;
-      
-      &lt;/td&gt;
-    &lt;td&gt;&lt;a href=&quot;/commit-graph-data-structures/&quot;&gt;Commit graph data structures&lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Want to see more of my posts? Follow me on &lt;a href=&quot;https://bsky.app/profile/arxanas.bsky.social&quot;&gt;Bluesky&lt;/a&gt;, &lt;a href=&quot;https://types.pl/@arxanas&quot;&gt;Mastodon&lt;/a&gt;, or &lt;a href=&quot;https://twitter.com/arxanas&quot;&gt;Twitter&lt;/a&gt;, or subscribe &lt;a href=&quot;/feed.xml&quot;&gt;via RSS&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;comments&quot;&gt;Comments&lt;/h2&gt;
-
-&lt;ul&gt;
-
-
-
-&lt;/ul&gt;
-
-&lt;script type=&quot;text/javascript&quot; src=&quot;/scripts/github-comment-links.js&quot;&gt;&lt;/script&gt;
-
-&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
-&lt;script&gt;
-
-/**
- *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
- *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
-var disqus_config = function () {
-    this.page.url = &quot;https://blog.waleedkhan.name/patch-terminology/&quot;;
-    this.page.identifier = &quot;patch-terminology/&quot;;
-};
-
-(function() { // DON&apos;T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement(&apos;script&apos;);
-    s.src = &apos;//waleedkhan-name.disqus.com/embed.js&apos;;
-    s.setAttribute(&apos;data-timestamp&apos;, +new Date());
-    (d.head || d.body).appendChild(s);
-})();
-&lt;/script&gt;
-
-&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
-
-</description>
-        <pubDate>Thu, 11 Jan 2024 00:00:00 +0000</pubDate>
-        <link>https://blog.waleedkhan.name/patch-terminology/</link>
-        <guid isPermaLink="true">https://blog.waleedkhan.name/patch-terminology/</guid>
-        
-        <category>git</category>
-        
-        <category>linguistics</category>
         
         <category>reprint</category>
         
