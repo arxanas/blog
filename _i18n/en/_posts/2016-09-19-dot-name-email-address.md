@@ -3,6 +3,8 @@ layout: post
 title: "Is having a '.name' email address a good idea?"
 permalink: dot-name-email-address/
 hn: https://news.ycombinator.com/item?id=12535428
+series:
+  next: dot-name-email-address-update-1/
 tags:
   - career
   - linguistics
