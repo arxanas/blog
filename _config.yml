@@ -84,6 +84,7 @@ related_posts:
     - git-ui-features/
     - patch-terminology/
     - commit-graph-data-structures/
+    - send-packfiles-packing/
 
   # Incremental computation:
   - - monotonicity/
